@@ -54,7 +54,7 @@
   and larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
-- [ ] `004-intrinsic-collision-stress`: adversarially selected local collisions.
+- [x] `004-intrinsic-collision-stress`: adversarially selected local collisions.
 
 ## P1 - Run Discipline
 

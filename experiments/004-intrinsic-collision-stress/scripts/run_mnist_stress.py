@@ -38,6 +38,18 @@ def perturb_dataset(base: datasets.Dataset, condition: str, seed: int) -> datase
         idx = rng.choice(n, size=q, replace=False)
         y[idx] *= -1.0
         return datasets.Dataset(name=f"{base.name}_label_flip_{frac:g}", x=x, y=y)
+    if condition.startswith("advflip"):
+        frac = float(condition.replace("advflip", ""))
+        q = int(round(frac * n))
+        d2 = kernels.pairwise_sq_dists(x)
+        np.fill_diagonal(d2, np.inf)
+        nearest_opp = np.full(n, np.inf)
+        for i in range(n):
+            mask = y != y[i]
+            nearest_opp[i] = np.min(d2[i, mask])
+        idx = np.argsort(nearest_opp)[:q]
+        y[idx] *= -1.0
+        return datasets.Dataset(name=f"{base.name}_adversarial_label_flip_{frac:g}", x=x, y=y)
     if condition.startswith("duplicate"):
         frac = float(condition.replace("duplicate", ""))
         q = int(round(frac * n))
@@ -179,8 +191,8 @@ def write_result_md(results: list[dict], command: str, out: Path) -> None:
         "Main observations to check after each run:",
         "",
         "- Clean data should reduce train and test tail under feature learning.",
-        "- Heavy random label noise can let train tail collapse while clean test tail",
-        "  worsens, indicating memorization.",
+        "- Heavy random or adversarial label noise can let train tail collapse while",
+        "  clean test tail worsens, indicating memorization.",
         "- Exact opposite-label duplicates should cap train accuracy because a",
         "  deterministic classifier cannot satisfy both labels at identical inputs.",
         "",
@@ -241,7 +253,7 @@ def main() -> None:
         n_per_class=args.n_per_class,
         seed=args.seed,
     )
-    conditions = ["clean", "flip0.1", "flip0.3", "duplicate0.2"]
+    conditions = ["clean", "flip0.1", "flip0.3", "advflip0.1", "advflip0.3", "duplicate0.2"]
     regimes = ["frozen_random", "feature_learning"]
     results = []
     for condition_idx, condition in enumerate(conditions):
