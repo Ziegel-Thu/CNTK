@@ -181,6 +181,27 @@ Interpretation:
   comparison they were weaker, likely due to feature/kernel scale and
   regularization differences.
 
+## 009 - Tail to Training-Time Consequence
+
+- Result: `experiments/009-tail-training-time-consequence/result.md`
+- residual target: normalized residual `<= 0.1`
+- rows hitting target within grid: `27/36`
+- corr(`tail@10%`, log10 training time) = `0.596`
+- corr(kNN opposite ratio, log10 training time) = `0.398`
+- corr(graph Dirichlet, log10 training time) = `0.382`
+- corr(alignment, log10 training time) = `-0.193`
+- corr(`tail@10%`, source norm proxy) = `0.514`
+
+Interpretation:
+
+- Spectral tail now has an explicit static-kernel consequence: slower exact
+  gradient-flow residual decay.
+- Local mixing and graph energy are routes into high tail, but tail itself is
+  the cleaner consequence predictor because XOR-like global misalignment also
+  creates slow learning without local mixing.
+- Source norm moves in the expected direction here, but source-norm claims still
+  need same-kernel/regularization-controlled sweeps.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -209,6 +230,11 @@ Interpretation:
 7. Graph-diagnostic layer:
    local mixing can be measured as a kNN graph roughness/Dirichlet-energy
    statistic, giving a bridge from pointwise collisions to spectral tail.
+
+8. Consequence layer:
+   high spectral tail predicts slower static-kernel gradient-flow convergence;
+   local mixing matters because it often pushes labels into those slow spectral
+   directions.
 
 ## Next Best Experiments
 

@@ -67,6 +67,8 @@
   closed-form kernel ridge margin diagnostics on MNIST/CIFAR binary tasks.
 - [ ] `008-graph-energy-kernel-margin`: run same-kernel ridge/source-norm sweep
   before making source norm a headline consequence.
+- [x] `009-tail-training-time-consequence`: exact static-kernel gradient-flow
+  residual time and source-norm consequence audit.
 
 ## P1 - Run Discipline
 
@@ -87,7 +89,7 @@
   measurable finite-sample settings.
 - [ ] Derive sharper/non-vacuous finite-sample bounds or explain why the current
   disjoint-pair corollary is only a conservative sufficient obstruction.
-- [ ] Relate spectral tail to kernel gradient-flow time to reach a training loss.
+- [x] Relate spectral tail to kernel gradient-flow time to reach a training loss.
 - [x] Relate fixed-metric collision/mixing to kernel ridge margin empirically.
 - [ ] Relate fixed-metric collision/mixing to RKHS/source norm proxies in a
   controlled same-kernel sweep.

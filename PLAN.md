@@ -266,6 +266,27 @@ Expected outcome:
 - kernel ridge margin should decrease as tail increases;
 - source-norm proxies need same-kernel audits before being used as a headline.
 
+#### Experiment 009: tail to training-time consequence
+
+Folder: `experiments/009-tail-training-time-consequence/`
+
+Question:
+
+> Does high spectral label tail under a static kernel predict slower exact
+> kernel gradient-flow residual decay and larger source-norm proxies?
+
+Diagnostics:
+
+- exact residual curve `||exp(-tK/n)y||^2 / ||y||^2`;
+- time to residual threshold;
+- source norm proxy `sqrt(y^T(K + eps*nI)^-1y)`.
+
+Expected outcome:
+
+- tail should correlate positively with training time and source norm;
+- local mixing should affect training time mostly through tail, while XOR-like
+  global misalignment remains a separate obstruction.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -281,6 +302,7 @@ Expected outcome:
 11. Run `006` CIFAR multiclass schedule sweep.
 12. Run `007` margin-tail audit.
 13. Run `008` graph energy/kernel margin diagnostics.
+14. Run `009` tail-to-training-time consequence diagnostics.
 
 ## Decision Rules
 

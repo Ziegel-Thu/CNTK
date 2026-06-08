@@ -128,6 +128,16 @@
   - corr(kernel ridge margin median, test accuracy) = `0.958`;
   - source-norm proxy was weak in the mixed-kernel comparison (`-0.267` with
     margin), so it needs a controlled same-kernel sweep.
+- Ran `009-tail-training-time-consequence` on toy, MNIST, and CIFAR static
+  kernels:
+  - `27/36` rows hit normalized residual `<= 0.1` within the time grid;
+  - corr(`tail@10%`, log10 training time) = `0.596`;
+  - corr(kNN opposite ratio, log10 training time) = `0.398`;
+  - corr(graph Dirichlet, log10 training time) = `0.382`;
+  - corr(alignment, log10 training time) = `-0.193`;
+  - corr(`tail@10%`, source norm proxy) = `0.514`;
+  - interpretation: spectral tail is the cleaner consequence predictor, while
+    local mixing is one route to high tail rather than the whole story.
 - Push is not available until a remote is configured.
 
 ## Current Framing
