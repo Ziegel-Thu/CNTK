@@ -1,5 +1,7 @@
 # Experiment Index
 
+Compact result summaries live in `experiments/results.md`.
+
 ## Execution Status
 
 | ID | Name | Priority | Status | Main Question | Resource |

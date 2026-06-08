@@ -16,6 +16,7 @@ the label function into lower-complexity directions?
 
 - `src/` - shared reusable code.
 - `experiments/` - one folder per experiment, named `001-expname`.
+- `experiments/results.md` - compact index of completed result files.
 - `progress.md` - project-wide progress log.
 - `todo.md` - project-wide TODO list.
 - `paper/` - one folder per paper/draft, including downloaded arXiv source when available.
@@ -25,9 +26,34 @@ the label function into lower-complexity directions?
 - `scripts/` - project maintenance scripts.
 - `tests/` - tests for shared code in `src/`.
 
+## Setup
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+
+The shared-code smoke test does not download MNIST/CIFAR or overwrite experiment
+artifacts:
+
+```bash
+scripts/run_smoke_test.sh
+```
+
+Full experiment scripts download/cache MNIST and CIFAR-10 under `data/` when
+needed.
+
 ## Current Status
 
-The project has been formalized, with initial literature survey notes and four
-experiment plans. The current workspace is not yet a git repository, so the
-commit/push policy is documented but cannot be executed until git is initialized
-and a remote is configured.
+The project has a local git repository on `main`. No remote is configured yet,
+so push is unavailable.
+
+Completed experiment families:
+
+- `001`: static spectral-tail and local-mixing diagnostics.
+- `002`: feature-metric dynamics on toy, MNIST, and CIFAR.
+- `003`: fixed-representation sweep.
+- `004`: intrinsic/noisy collision stress tests.
+- `005`: multiclass obstruction diagnostics.
+- `006`: CIFAR multiclass schedule sweep.

@@ -70,9 +70,9 @@
 
 ## P1 - Engineering Hygiene
 
-- [ ] Add environment setup instructions once dependencies are chosen.
-- [ ] Add a small smoke test command that runs without downloading full datasets.
-- [ ] Add a result index linking each experiment result.
+- [x] Add environment setup instructions once dependencies are chosen.
+- [x] Add a small smoke test command that runs without downloading full datasets.
+- [x] Add a result index linking each experiment result.
 - [ ] Standardize artifact names: `metrics.json`, `figures/*.png`, `result.md`.
 
 ## P2 - Theory/Measurement Bridge

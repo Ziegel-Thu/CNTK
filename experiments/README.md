@@ -2,6 +2,9 @@
 
 Each experiment gets one folder named `NNN-expname`.
 
+See `results.md` for a compact index of completed result files and headline
+signals.
+
 Required lifecycle:
 
 1. Write `plan.md`.

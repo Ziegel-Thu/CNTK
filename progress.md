@@ -104,6 +104,11 @@
     narrower, but the signs stay aligned;
   - probe margin median correlates strongly with probe accuracy (`0.826`), so
     margin should be promoted in later dynamics runs.
+- Added engineering hygiene artifacts:
+  - `scripts/run_smoke_test.sh` for unit tests plus toy diagnostic sanity checks
+    without dataset downloads or experiment artifact writes;
+  - `experiments/results.md` as a compact completed-results index;
+  - updated `README.md` setup/status notes.
 - Push is not available until a remote is configured.
 
 ## Current Framing
