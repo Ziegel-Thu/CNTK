@@ -1,0 +1,999 @@
+{
+  "config": {
+    "n_per_class": 40,
+    "mlp_epochs": 80,
+    "cnn_epochs": 60,
+    "probe_epochs": 250,
+    "k_neighbors": 10,
+    "seed": 0,
+    "device": "cpu"
+  },
+  "results": [
+    {
+      "dataset": "mnist_all10",
+      "class_names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "representation": "raw_pixels",
+      "feature_dim": 784,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.7950000166893005,
+      "train": {
+        "tail_at_10pct": 0.42003767455876484,
+        "tail_auc": 0.2118598821436071,
+        "alignment": 0.41386868086002887,
+        "knn_disagreement_ratio": 0.35925,
+        "knn_same_label_ratio": 0.6407499999999999,
+        "local_label_entropy": 1.0485412785817523,
+        "local_label_entropy_normalized": 0.3156423765449702,
+        "nearest_other_mean": 1.0577670406024762,
+        "collision_rate": 0.045
+      },
+      "test": {
+        "tail_at_10pct": 0.4099075543342652,
+        "tail_auc": 0.1991522508568784,
+        "alignment": 0.4336727281322535,
+        "knn_disagreement_ratio": 0.363,
+        "knn_same_label_ratio": 0.637,
+        "local_label_entropy": 1.0043048906601886,
+        "local_label_entropy_normalized": 0.3023258968807517,
+        "nearest_other_mean": 1.0156001544034827,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "mnist_all10",
+      "class_names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "representation": "rff_512",
+      "feature_dim": 512,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.8075000047683716,
+      "train": {
+        "tail_at_10pct": 0.4694169711888716,
+        "tail_auc": 0.21667806744364548,
+        "alignment": 0.33753267012650356,
+        "knn_disagreement_ratio": 0.45175,
+        "knn_same_label_ratio": 0.54825,
+        "local_label_entropy": 1.2379090819298773,
+        "local_label_entropy_normalized": 0.3726477655657539,
+        "nearest_other_mean": 0.6550661036373537,
+        "collision_rate": 0.0275
+      },
+      "test": {
+        "tail_at_10pct": 0.4508998056979525,
+        "tail_auc": 0.20637741651454072,
+        "alignment": 0.3197770496952522,
+        "knn_disagreement_ratio": 0.455,
+        "knn_same_label_ratio": 0.5449999999999999,
+        "local_label_entropy": 1.2151597184109144,
+        "local_label_entropy_normalized": 0.3657995247642822,
+        "nearest_other_mean": 0.6496668128085348,
+        "collision_rate": 0.025
+      }
+    },
+    {
+      "dataset": "mnist_all10",
+      "class_names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "representation": "random_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.7275000214576721,
+      "train": {
+        "tail_at_10pct": 0.5179927607278643,
+        "tail_auc": 0.2546003748757953,
+        "alignment": 0.33571976765060296,
+        "knn_disagreement_ratio": 0.451,
+        "knn_same_label_ratio": 0.5489999999999999,
+        "local_label_entropy": 1.3397685070451297,
+        "local_label_entropy_normalized": 0.403310507866534,
+        "nearest_other_mean": 0.7527871646439804,
+        "collision_rate": 0.0425
+      },
+      "test": {
+        "tail_at_10pct": 0.4867301479214622,
+        "tail_auc": 0.24652937050153106,
+        "alignment": 0.3772621078771747,
+        "knn_disagreement_ratio": 0.4335,
+        "knn_same_label_ratio": 0.5665,
+        "local_label_entropy": 1.2000726057095683,
+        "local_label_entropy_normalized": 0.36125785129321397,
+        "nearest_other_mean": 0.7316971616932526,
+        "collision_rate": 0.04
+      }
+    },
+    {
+      "dataset": "mnist_all10",
+      "class_names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "representation": "trained_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.8299999833106995,
+      "train": {
+        "tail_at_10pct": 0.11239671580496613,
+        "tail_auc": 0.056346052144954306,
+        "alignment": 0.7265302593310295,
+        "knn_disagreement_ratio": 0.0085,
+        "knn_same_label_ratio": 0.9915,
+        "local_label_entropy": 0.028140940149441657,
+        "local_label_entropy_normalized": 0.008471267091166777,
+        "nearest_other_mean": 0.5273889484084464,
+        "collision_rate": 0.04
+      },
+      "test": {
+        "tail_at_10pct": 0.28212435179277173,
+        "tail_auc": 0.12835406568569582,
+        "alignment": 0.5670939738264131,
+        "knn_disagreement_ratio": 0.21875,
+        "knn_same_label_ratio": 0.78125,
+        "local_label_entropy": 0.5030871418316446,
+        "local_label_entropy_normalized": 0.15144432012418468,
+        "nearest_other_mean": 0.35361298290863824,
+        "collision_rate": 0.04
+      }
+    },
+    {
+      "dataset": "mnist_hard5",
+      "class_names": [
+        "3",
+        "4",
+        "5",
+        "8",
+        "9"
+      ],
+      "representation": "raw_pixels",
+      "feature_dim": 784,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.7200000286102295,
+      "train": {
+        "tail_at_10pct": 0.4071477683212219,
+        "tail_auc": 0.20074100968470798,
+        "alignment": 0.3405858071036328,
+        "knn_disagreement_ratio": 0.3985,
+        "knn_same_label_ratio": 0.6014999999999999,
+        "local_label_entropy": 1.1506949650418963,
+        "local_label_entropy_normalized": 0.49557734693662725,
+        "nearest_other_mean": 1.0948344342896654,
+        "collision_rate": 0.045
+      },
+      "test": {
+        "tail_at_10pct": 0.46519311713886813,
+        "tail_auc": 0.22296292020148223,
+        "alignment": 0.3059278108678402,
+        "knn_disagreement_ratio": 0.4395,
+        "knn_same_label_ratio": 0.5605,
+        "local_label_entropy": 1.268885009573224,
+        "local_label_entropy_normalized": 0.5464790285139206,
+        "nearest_other_mean": 1.0659821778784702,
+        "collision_rate": 0.045
+      }
+    },
+    {
+      "dataset": "mnist_hard5",
+      "class_names": [
+        "3",
+        "4",
+        "5",
+        "8",
+        "9"
+      ],
+      "representation": "rff_512",
+      "feature_dim": 512,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.800000011920929,
+      "train": {
+        "tail_at_10pct": 0.4842899503714121,
+        "tail_auc": 0.22369871097202906,
+        "alignment": 0.27955364444514913,
+        "knn_disagreement_ratio": 0.481,
+        "knn_same_label_ratio": 0.519,
+        "local_label_entropy": 1.3642752040196136,
+        "local_label_entropy_normalized": 0.5875613491320433,
+        "nearest_other_mean": 0.6909774961888282,
+        "collision_rate": 0.03
+      },
+      "test": {
+        "tail_at_10pct": 0.5364734298026175,
+        "tail_auc": 0.2416502168221858,
+        "alignment": 0.1985771176740417,
+        "knn_disagreement_ratio": 0.5035,
+        "knn_same_label_ratio": 0.49650000000000005,
+        "local_label_entropy": 1.3924224233412934,
+        "local_label_entropy_normalized": 0.5996836966688412,
+        "nearest_other_mean": 0.7314599377326388,
+        "collision_rate": 0.045
+      }
+    },
+    {
+      "dataset": "mnist_hard5",
+      "class_names": [
+        "3",
+        "4",
+        "5",
+        "8",
+        "9"
+      ],
+      "representation": "random_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.6349999904632568,
+      "train": {
+        "tail_at_10pct": 0.5429832377479971,
+        "tail_auc": 0.27003274118298604,
+        "alignment": 0.27262800522775527,
+        "knn_disagreement_ratio": 0.5235,
+        "knn_same_label_ratio": 0.47650000000000003,
+        "local_label_entropy": 1.46748321701729,
+        "local_label_entropy_normalized": 0.6320106209354766,
+        "nearest_other_mean": 0.8267654149815065,
+        "collision_rate": 0.045
+      },
+      "test": {
+        "tail_at_10pct": 0.6180651133255213,
+        "tail_auc": 0.28178625537993823,
+        "alignment": 0.2428159344357277,
+        "knn_disagreement_ratio": 0.531,
+        "knn_same_label_ratio": 0.469,
+        "local_label_entropy": 1.4929674306269305,
+        "local_label_entropy_normalized": 0.6429860743380836,
+        "nearest_other_mean": 0.8052389597261015,
+        "collision_rate": 0.045
+      }
+    },
+    {
+      "dataset": "mnist_hard5",
+      "class_names": [
+        "3",
+        "4",
+        "5",
+        "8",
+        "9"
+      ],
+      "representation": "trained_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.7699999809265137,
+      "train": {
+        "tail_at_10pct": 0.053713702263384566,
+        "tail_auc": 0.03217737632194842,
+        "alignment": 0.8602359998115701,
+        "knn_disagreement_ratio": 0.0,
+        "knn_same_label_ratio": 1.0,
+        "local_label_entropy": 0.0,
+        "local_label_entropy_normalized": 0.0,
+        "nearest_other_mean": 0.676057518243322,
+        "collision_rate": 0.03
+      },
+      "test": {
+        "tail_at_10pct": 0.32431702570966503,
+        "tail_auc": 0.14622418193843387,
+        "alignment": 0.5486481397274049,
+        "knn_disagreement_ratio": 0.277,
+        "knn_same_label_ratio": 0.723,
+        "local_label_entropy": 0.6175922205091114,
+        "local_label_entropy_normalized": 0.26598249182176814,
+        "nearest_other_mean": 0.3230247392278443,
+        "collision_rate": 0.04
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "raw_pixels",
+      "feature_dim": 3072,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.23749999701976776,
+      "train": {
+        "tail_at_10pct": 0.8133846808063333,
+        "tail_auc": 0.4470948411095,
+        "alignment": 0.10119762905537884,
+        "knn_disagreement_ratio": 0.814,
+        "knn_same_label_ratio": 0.18600000000000005,
+        "local_label_entropy": 2.1840571879829294,
+        "local_label_entropy_normalized": 0.6574667258283882,
+        "nearest_other_mean": 0.8988392100163238,
+        "collision_rate": 0.035
+      },
+      "test": {
+        "tail_at_10pct": 0.8161966771362944,
+        "tail_auc": 0.4489916610883592,
+        "alignment": 0.10644170972642604,
+        "knn_disagreement_ratio": 0.79925,
+        "knn_same_label_ratio": 0.20074999999999998,
+        "local_label_entropy": 2.0819148948810504,
+        "local_label_entropy_normalized": 0.6267188317788205,
+        "nearest_other_mean": 0.8913272657964632,
+        "collision_rate": 0.04
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "rff_512",
+      "feature_dim": 512,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.29499998688697815,
+      "train": {
+        "tail_at_10pct": 0.7995599424066875,
+        "tail_auc": 0.4362717261532618,
+        "alignment": 0.10551109057960276,
+        "knn_disagreement_ratio": 0.8215,
+        "knn_same_label_ratio": 0.1785,
+        "local_label_entropy": 2.1043049093662862,
+        "local_label_entropy_normalized": 0.6334588977422275,
+        "nearest_other_mean": 0.5757091450290187,
+        "collision_rate": 0.0325
+      },
+      "test": {
+        "tail_at_10pct": 0.8051354392290853,
+        "tail_auc": 0.438799988980191,
+        "alignment": 0.11407198063634791,
+        "knn_disagreement_ratio": 0.81875,
+        "knn_same_label_ratio": 0.18125000000000002,
+        "local_label_entropy": 1.971178984233113,
+        "local_label_entropy_normalized": 0.5933840010766249,
+        "nearest_other_mean": 0.5856056255526102,
+        "collision_rate": 0.0325
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "random_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.22499999403953552,
+      "train": {
+        "tail_at_10pct": 0.8182969983347534,
+        "tail_auc": 0.4400023672607162,
+        "alignment": 0.10718002590852092,
+        "knn_disagreement_ratio": 0.81775,
+        "knn_same_label_ratio": 0.18225000000000002,
+        "local_label_entropy": 2.2145527880676825,
+        "local_label_entropy_normalized": 0.6666468161896719,
+        "nearest_other_mean": 0.6794962058237517,
+        "collision_rate": 0.0375
+      },
+      "test": {
+        "tail_at_10pct": 0.8094183848948386,
+        "tail_auc": 0.43925150801892654,
+        "alignment": 0.11261054046048237,
+        "knn_disagreement_ratio": 0.81025,
+        "knn_same_label_ratio": 0.18974999999999997,
+        "local_label_entropy": 2.1772367662338006,
+        "local_label_entropy_normalized": 0.6554135742988214,
+        "nearest_other_mean": 0.6754717389309125,
+        "collision_rate": 0.035
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "trained_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.32749998569488525,
+      "train": {
+        "tail_at_10pct": 0.31840190791588363,
+        "tail_auc": 0.1640093680606723,
+        "alignment": 0.39204231531194045,
+        "knn_disagreement_ratio": 0.34525,
+        "knn_same_label_ratio": 0.6547499999999999,
+        "local_label_entropy": 1.0840534488941878,
+        "local_label_entropy_normalized": 0.3263326050201412,
+        "nearest_other_mean": 0.46714145500201987,
+        "collision_rate": 0.0425
+      },
+      "test": {
+        "tail_at_10pct": 0.7745600610987449,
+        "tail_auc": 0.41388688257392986,
+        "alignment": 0.14539609085084398,
+        "knn_disagreement_ratio": 0.79275,
+        "knn_same_label_ratio": 0.20725000000000005,
+        "local_label_entropy": 2.1057078129435753,
+        "local_label_entropy_normalized": 0.6338812138000158,
+        "nearest_other_mean": 0.37264237264891803,
+        "collision_rate": 0.04
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "random_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 0.9449999928474426,
+      "linear_probe_test_acc": 0.33500000834465027,
+      "train": {
+        "tail_at_10pct": 0.771179882209925,
+        "tail_auc": 0.42464746441658635,
+        "alignment": 0.05422881987599713,
+        "knn_disagreement_ratio": 0.82975,
+        "knn_same_label_ratio": 0.17025,
+        "local_label_entropy": 2.282313662239308,
+        "local_label_entropy_normalized": 0.687044871847744,
+        "nearest_other_mean": 0.10423563005891653,
+        "collision_rate": 0.045
+      },
+      "test": {
+        "tail_at_10pct": 0.7577395493305867,
+        "tail_auc": 0.4094254572651251,
+        "alignment": 0.06969802277618063,
+        "knn_disagreement_ratio": 0.81175,
+        "knn_same_label_ratio": 0.18825000000000003,
+        "local_label_entropy": 2.2536570121832455,
+        "local_label_entropy_normalized": 0.6784183606056232,
+        "nearest_other_mean": 0.10575526550683087,
+        "collision_rate": 0.045
+      }
+    },
+    {
+      "dataset": "cifar10_all10",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+      ],
+      "representation": "trained_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 0.6625000238418579,
+      "linear_probe_test_acc": 0.36250001192092896,
+      "train": {
+        "tail_at_10pct": 0.7089142942226119,
+        "tail_auc": 0.3810813978728521,
+        "alignment": 0.19309110400461474,
+        "knn_disagreement_ratio": 0.774,
+        "knn_same_label_ratio": 0.22599999999999998,
+        "local_label_entropy": 1.9811048920867367,
+        "local_label_entropy_normalized": 0.5963719970747623,
+        "nearest_other_mean": 0.09083840809284702,
+        "collision_rate": 0.0475
+      },
+      "test": {
+        "tail_at_10pct": 0.7272611008790939,
+        "tail_auc": 0.39990260587066545,
+        "alignment": 0.1898801206314564,
+        "knn_disagreement_ratio": 0.76625,
+        "knn_same_label_ratio": 0.23375,
+        "local_label_entropy": 2.0289087092215423,
+        "local_label_entropy_normalized": 0.6107623799395746,
+        "nearest_other_mean": 0.08974989653273596,
+        "collision_rate": 0.0475
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "raw_pixels",
+      "feature_dim": 3072,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.27916666865348816,
+      "train": {
+        "tail_at_10pct": 0.8274756693016199,
+        "tail_auc": 0.45107396993213184,
+        "alignment": 0.04799891359054315,
+        "knn_disagreement_ratio": 0.7958333333333333,
+        "knn_same_label_ratio": 0.20416666666666672,
+        "local_label_entropy": 2.038664141668241,
+        "local_label_entropy_normalized": 0.7886629462127562,
+        "nearest_other_mean": 0.9201984786497504,
+        "collision_rate": 0.0375
+      },
+      "test": {
+        "tail_at_10pct": 0.8214590277500113,
+        "tail_auc": 0.45721215113917446,
+        "alignment": 0.07145907255465864,
+        "knn_disagreement_ratio": 0.7658333333333334,
+        "knn_same_label_ratio": 0.23416666666666663,
+        "local_label_entropy": 1.9003426973024589,
+        "local_label_entropy_normalized": 0.735152907159117,
+        "nearest_other_mean": 0.9315780611864691,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "rff_512",
+      "feature_dim": 512,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.2750000059604645,
+      "train": {
+        "tail_at_10pct": 0.8317139107676293,
+        "tail_auc": 0.4467401033479124,
+        "alignment": 0.05603484843376687,
+        "knn_disagreement_ratio": 0.8016666666666666,
+        "knn_same_label_ratio": 0.19833333333333336,
+        "local_label_entropy": 1.961644505779465,
+        "local_label_entropy_normalized": 0.758867683857001,
+        "nearest_other_mean": 0.6000769270214659,
+        "collision_rate": 0.03333333333333333
+      },
+      "test": {
+        "tail_at_10pct": 0.838333588718017,
+        "tail_auc": 0.4414896924525967,
+        "alignment": 0.08590150985281407,
+        "knn_disagreement_ratio": 0.7991666666666667,
+        "knn_same_label_ratio": 0.2008333333333333,
+        "local_label_entropy": 1.9777326463866516,
+        "local_label_entropy_normalized": 0.7650914262140751,
+        "nearest_other_mean": 0.6040804416021653,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "random_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.28333333134651184,
+      "train": {
+        "tail_at_10pct": 0.8639849875959824,
+        "tail_auc": 0.47819629840348765,
+        "alignment": 0.05793782490001843,
+        "knn_disagreement_ratio": 0.8220833333333334,
+        "knn_same_label_ratio": 0.1779166666666666,
+        "local_label_entropy": 2.087434487879909,
+        "local_label_entropy_normalized": 0.8075298915545405,
+        "nearest_other_mean": 0.6806356138587647,
+        "collision_rate": 0.0375
+      },
+      "test": {
+        "tail_at_10pct": 0.842450517369636,
+        "tail_auc": 0.4512110373501985,
+        "alignment": 0.08899199381989607,
+        "knn_disagreement_ratio": 0.7808333333333334,
+        "knn_same_label_ratio": 0.21916666666666662,
+        "local_label_entropy": 1.969326625105332,
+        "local_label_entropy_normalized": 0.7618395332837234,
+        "nearest_other_mean": 0.6928523296248644,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "trained_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.32499998807907104,
+      "train": {
+        "tail_at_10pct": 0.22826571824726472,
+        "tail_auc": 0.11781195983542873,
+        "alignment": 0.5488301235754856,
+        "knn_disagreement_ratio": 0.17916666666666667,
+        "knn_same_label_ratio": 0.8208333333333333,
+        "local_label_entropy": 0.6263936586211478,
+        "local_label_entropy_normalized": 0.24232214527150617,
+        "nearest_other_mean": 0.5415523131915402,
+        "collision_rate": 0.041666666666666664
+      },
+      "test": {
+        "tail_at_10pct": 0.8102439702575795,
+        "tail_auc": 0.4311363214334086,
+        "alignment": 0.09085552460678874,
+        "knn_disagreement_ratio": 0.775,
+        "knn_same_label_ratio": 0.22499999999999998,
+        "local_label_entropy": 1.929658072776371,
+        "local_label_entropy_normalized": 0.7464936424563345,
+        "nearest_other_mean": 0.3949274821441277,
+        "collision_rate": 0.041666666666666664
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "random_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 0.9166666865348816,
+      "linear_probe_test_acc": 0.36250001192092896,
+      "train": {
+        "tail_at_10pct": 0.8054701532336033,
+        "tail_auc": 0.42584730387736075,
+        "alignment": 0.023032306047623973,
+        "knn_disagreement_ratio": 0.8133333333333334,
+        "knn_same_label_ratio": 0.18666666666666665,
+        "local_label_entropy": 2.1123765168104955,
+        "local_label_entropy_normalized": 0.8171787854644631,
+        "nearest_other_mean": 0.10588897746834366,
+        "collision_rate": 0.041666666666666664
+      },
+      "test": {
+        "tail_at_10pct": 0.7816287838628112,
+        "tail_auc": 0.4107105821596987,
+        "alignment": 0.05970158433391909,
+        "knn_disagreement_ratio": 0.77875,
+        "knn_same_label_ratio": 0.22124999999999995,
+        "local_label_entropy": 2.0170948623503024,
+        "local_label_entropy_normalized": 0.7803188099585858,
+        "nearest_other_mean": 0.10980162970402138,
+        "collision_rate": 0.04583333333333333
+      }
+    },
+    {
+      "dataset": "cifar10_animals6",
+      "class_names": [
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse"
+      ],
+      "representation": "trained_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 0.75,
+      "linear_probe_test_acc": 0.4583333432674408,
+      "train": {
+        "tail_at_10pct": 0.683978841440867,
+        "tail_auc": 0.3831518890045823,
+        "alignment": 0.1358175792219986,
+        "knn_disagreement_ratio": 0.7229166666666667,
+        "knn_same_label_ratio": 0.27708333333333335,
+        "local_label_entropy": 1.8654883435906546,
+        "local_label_entropy_normalized": 0.7216694025813598,
+        "nearest_other_mean": 0.11743881414201301,
+        "collision_rate": 0.041666666666666664
+      },
+      "test": {
+        "tail_at_10pct": 0.7500639093432996,
+        "tail_auc": 0.3955209732979083,
+        "alignment": 0.13944398993934498,
+        "knn_disagreement_ratio": 0.7470833333333333,
+        "knn_same_label_ratio": 0.2529166666666667,
+        "local_label_entropy": 1.858094096858345,
+        "local_label_entropy_normalized": 0.7188089174755811,
+        "nearest_other_mean": 0.11612792816485769,
+        "collision_rate": 0.041666666666666664
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "raw_pixels",
+      "feature_dim": 3072,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.4625000059604645,
+      "train": {
+        "tail_at_10pct": 0.7659569156712617,
+        "tail_auc": 0.38796064850473283,
+        "alignment": 0.14721880515489183,
+        "knn_disagreement_ratio": 0.623125,
+        "knn_same_label_ratio": 0.37687499999999996,
+        "local_label_entropy": 1.482895535291216,
+        "local_label_entropy_normalized": 0.741447767645608,
+        "nearest_other_mean": 0.9491119016541318,
+        "collision_rate": 0.03125
+      },
+      "test": {
+        "tail_at_10pct": 0.7767034070632861,
+        "tail_auc": 0.40731810302249877,
+        "alignment": 0.13097723574367698,
+        "knn_disagreement_ratio": 0.646875,
+        "knn_same_label_ratio": 0.353125,
+        "local_label_entropy": 1.49721588087675,
+        "local_label_entropy_normalized": 0.748607940438375,
+        "nearest_other_mean": 0.9249615709920539,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "rff_512",
+      "feature_dim": 512,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.48124998807907104,
+      "train": {
+        "tail_at_10pct": 0.759500761360268,
+        "tail_auc": 0.37224771997456296,
+        "alignment": 0.15515083478015657,
+        "knn_disagreement_ratio": 0.665625,
+        "knn_same_label_ratio": 0.334375,
+        "local_label_entropy": 1.5135364935233986,
+        "local_label_entropy_normalized": 0.7567682467616993,
+        "nearest_other_mean": 0.6133217662399799,
+        "collision_rate": 0.04375
+      },
+      "test": {
+        "tail_at_10pct": 0.7699212706911855,
+        "tail_auc": 0.3859983139602001,
+        "alignment": 0.13518778827081881,
+        "knn_disagreement_ratio": 0.64875,
+        "knn_same_label_ratio": 0.35124999999999995,
+        "local_label_entropy": 1.5352487313102028,
+        "local_label_entropy_normalized": 0.7676243656551014,
+        "nearest_other_mean": 0.6527444533889467,
+        "collision_rate": 0.03125
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "random_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.4625000059604645,
+      "train": {
+        "tail_at_10pct": 0.7526118290810908,
+        "tail_auc": 0.38150207746701226,
+        "alignment": 0.15395234941973227,
+        "knn_disagreement_ratio": 0.6325,
+        "knn_same_label_ratio": 0.36750000000000005,
+        "local_label_entropy": 1.5153286621213415,
+        "local_label_entropy_normalized": 0.7576643310606708,
+        "nearest_other_mean": 0.7025599866703525,
+        "collision_rate": 0.0375
+      },
+      "test": {
+        "tail_at_10pct": 0.8140820819486693,
+        "tail_auc": 0.4385470108155195,
+        "alignment": 0.11825256364784888,
+        "knn_disagreement_ratio": 0.678125,
+        "knn_same_label_ratio": 0.321875,
+        "local_label_entropy": 1.5271931583425944,
+        "local_label_entropy_normalized": 0.7635965791712972,
+        "nearest_other_mean": 0.6885950076812636,
+        "collision_rate": 0.0375
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "trained_mlp",
+      "feature_dim": 256,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.46875,
+      "train": {
+        "tail_at_10pct": 0.12828046745626698,
+        "tail_auc": 0.06953156292951022,
+        "alignment": 0.7322197649628291,
+        "knn_disagreement_ratio": 0.05,
+        "knn_same_label_ratio": 0.95,
+        "local_label_entropy": 0.17251665036554326,
+        "local_label_entropy_normalized": 0.08625832518277163,
+        "nearest_other_mean": 0.6206217181105184,
+        "collision_rate": 0.025
+      },
+      "test": {
+        "tail_at_10pct": 0.7400664050378771,
+        "tail_auc": 0.41902349559192914,
+        "alignment": 0.17443514571754692,
+        "knn_disagreement_ratio": 0.64875,
+        "knn_same_label_ratio": 0.35124999999999995,
+        "local_label_entropy": 1.4603585893645872,
+        "local_label_entropy_normalized": 0.7301792946822936,
+        "nearest_other_mean": 0.367750938977768,
+        "collision_rate": 0.04375
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "random_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 1.0,
+      "linear_probe_test_acc": 0.4937500059604645,
+      "train": {
+        "tail_at_10pct": 0.754780797866297,
+        "tail_auc": 0.36452906199908985,
+        "alignment": 0.12626974458938947,
+        "knn_disagreement_ratio": 0.66375,
+        "knn_same_label_ratio": 0.33625000000000005,
+        "local_label_entropy": 1.5630224602609937,
+        "local_label_entropy_normalized": 0.7815112301304968,
+        "nearest_other_mean": 0.10819691141247072,
+        "collision_rate": 0.04375
+      },
+      "test": {
+        "tail_at_10pct": 0.7701852354694875,
+        "tail_auc": 0.38300658029468015,
+        "alignment": 0.08181963211380339,
+        "knn_disagreement_ratio": 0.68625,
+        "knn_same_label_ratio": 0.31375,
+        "local_label_entropy": 1.621809957339033,
+        "local_label_entropy_normalized": 0.8109049786695165,
+        "nearest_other_mean": 0.10463371297478181,
+        "collision_rate": 0.04375
+      }
+    },
+    {
+      "dataset": "cifar10_vehicles4",
+      "class_names": [
+        "airplane",
+        "automobile",
+        "ship",
+        "truck"
+      ],
+      "representation": "trained_cnn",
+      "feature_dim": 128,
+      "linear_probe_train_acc": 0.8374999761581421,
+      "linear_probe_test_acc": 0.4437499940395355,
+      "train": {
+        "tail_at_10pct": 0.5805415674196679,
+        "tail_auc": 0.27184332695588637,
+        "alignment": 0.32386086634004463,
+        "knn_disagreement_ratio": 0.5475,
+        "knn_same_label_ratio": 0.4525,
+        "local_label_entropy": 1.3254924714953173,
+        "local_label_entropy_normalized": 0.6627462357476587,
+        "nearest_other_mean": 0.10268385914798712,
+        "collision_rate": 0.0375
+      },
+      "test": {
+        "tail_at_10pct": 0.7585523439314021,
+        "tail_auc": 0.3974511231893234,
+        "alignment": 0.15706308645100028,
+        "knn_disagreement_ratio": 0.670625,
+        "knn_same_label_ratio": 0.329375,
+        "local_label_entropy": 1.5602680996326608,
+        "local_label_entropy_normalized": 0.7801340498163304,
+        "nearest_other_mean": 0.08936570588695128,
+        "collision_rate": 0.05
+      }
+    }
+  ]
+}

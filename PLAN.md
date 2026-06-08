@@ -183,6 +183,29 @@ Expected outcome:
 - feature learning helps metric mismatch
 - feature learning memorizes or fails under true contradictory labels
 
+#### Experiment 005: multiclass obstruction diagnostics
+
+Folder: `experiments/005-multiclass-obstruction-diagnostics/`
+
+Question:
+
+> Do local mixing and spectral tail diagnostics remain predictive for multiclass
+> label subspaces, not only binary class pairs?
+
+Diagnostics:
+
+- centered one-hot label-subspace spectral tail;
+- kNN disagreement ratio;
+- normalized multiclass local label entropy;
+- multiclass linear-probe train/test accuracy.
+
+Expected outcome:
+
+- disagreement/entropy correlate positively with label-subspace tail;
+- label-subspace tail correlates negatively with linear-probe accuracy;
+- CIFAR multiclass small-model runs reveal weak-transfer regimes that need
+  stronger schedules or pretrained features.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -194,6 +217,7 @@ Expected outcome:
 7. Extend `002` to CIFAR only after MNIST dynamics are clean.
 8. Run `003` fixed representation sweep.
 9. Run `004` stress tests.
+10. Run `005` multiclass diagnostics.
 
 ## Decision Rules
 

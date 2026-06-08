@@ -301,6 +301,44 @@ def _binary_subset_from_arrays(
     return Dataset(name=name, x=out_x, y=out_y), mean, std
 
 
+def _multiclass_subset_from_arrays(
+    x: np.ndarray,
+    labels: np.ndarray,
+    class_ids: tuple[int, ...],
+    class_names: tuple[str, ...],
+    n_per_class: int,
+    seed: int,
+    name: str,
+    mean: np.ndarray | None = None,
+    std: np.ndarray | None = None,
+    image_shape: tuple[int, ...] | None = None,
+) -> tuple[Dataset, np.ndarray, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    xs = []
+    ys = []
+    for out_label, (cls, cls_name) in enumerate(zip(class_ids, class_names, strict=True)):
+        idx = np.flatnonzero(labels == cls)
+        if len(idx) < n_per_class:
+            raise ValueError(f"not enough samples for class {cls_name}: {len(idx)}")
+        idx = rng.choice(idx, size=n_per_class, replace=False)
+        xs.append(x[idx])
+        ys.append(np.full(n_per_class, out_label, dtype=np.int64))
+    out_x = np.concatenate(xs, axis=0)
+    out_y = np.concatenate(ys, axis=0)
+    perm = rng.permutation(len(out_y))
+    out_x = out_x[perm]
+    out_y = out_y[perm]
+
+    if mean is None:
+        mean = out_x.mean(axis=0, keepdims=True)
+    if std is None:
+        std = out_x.std(axis=0, keepdims=True) + 1e-12
+    out_x = (out_x - mean) / std
+    if image_shape is not None:
+        out_x = out_x.reshape((out_x.shape[0],) + image_shape)
+    return Dataset(name=name, x=out_x, y=out_y), mean, std
+
+
 def make_mnist_binary_train_test(
     root: str | Path,
     classes: tuple[int, int] = (3, 8),
@@ -374,3 +412,82 @@ def make_cifar10_binary_train_test(
         image_shape=image_shape,
     )
     return train, test
+
+
+def make_mnist_multiclass_train_test(
+    root: str | Path,
+    classes: tuple[int, ...] = tuple(range(10)),
+    n_per_class: int = 50,
+    seed: int = 0,
+    as_images: bool = False,
+) -> tuple[Dataset, Dataset, tuple[str, ...]]:
+    """MNIST multiclass train/test subsets using train-subset normalization."""
+    x_train, y_train = load_mnist(root, split="train")
+    x_test, y_test = load_mnist(root, split="test")
+    class_names = tuple(str(cls) for cls in classes)
+    image_shape = (1, 28, 28) if as_images else None
+    label = "all10" if tuple(classes) == tuple(range(10)) else "classes" + "-".join(class_names)
+    label = f"{label}_n{n_per_class}"
+    train, mean, std = _multiclass_subset_from_arrays(
+        x_train,
+        y_train,
+        class_ids=tuple(classes),
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed,
+        name=f"mnist_{label}_train",
+        image_shape=image_shape,
+    )
+    test, _, _ = _multiclass_subset_from_arrays(
+        x_test,
+        y_test,
+        class_ids=tuple(classes),
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed + 100,
+        name=f"mnist_{label}_test",
+        mean=mean,
+        std=std,
+        image_shape=image_shape,
+    )
+    return train, test, class_names
+
+
+def make_cifar10_multiclass_train_test(
+    root: str | Path,
+    classes: tuple[str | int, ...] = tuple(range(10)),
+    n_per_class: int = 50,
+    seed: int = 0,
+    as_images: bool = False,
+) -> tuple[Dataset, Dataset, tuple[str, ...]]:
+    """CIFAR-10 multiclass train/test subsets using train-subset normalization."""
+    x_train, y_train = load_cifar10(root, split="train")
+    x_test, y_test = load_cifar10(root, split="test")
+    class_ids = tuple(_cifar_class_id(cls) for cls in classes)
+    class_names = tuple(CIFAR10_LABELS[cls] for cls in class_ids)
+    image_shape = (3, 32, 32) if as_images else None
+    label = "all10" if class_ids == tuple(range(10)) else "classes-" + "-".join(class_names)
+    label = f"{label}_n{n_per_class}"
+    train, mean, std = _multiclass_subset_from_arrays(
+        x_train,
+        y_train,
+        class_ids=class_ids,
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed,
+        name=f"cifar10_{label}_train",
+        image_shape=image_shape,
+    )
+    test, _, _ = _multiclass_subset_from_arrays(
+        x_test,
+        y_test,
+        class_ids=class_ids,
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed + 100,
+        name=f"cifar10_{label}_test",
+        mean=mean,
+        std=std,
+        image_shape=image_shape,
+    )
+    return train, test, class_names

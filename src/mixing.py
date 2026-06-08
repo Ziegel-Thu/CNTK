@@ -19,6 +19,20 @@ class MixingSummary:
     rho: float
 
 
+@dataclass(frozen=True)
+class MulticlassMixingSummary:
+    nearest_other_mean: float
+    nearest_other_median: float
+    nearest_same_mean: float
+    knn_disagreement_ratio: float
+    knn_same_label_ratio: float
+    local_label_entropy: float
+    local_label_entropy_normalized: float
+    collision_count: int
+    collision_rate: float
+    rho: float
+
+
 def _offdiag_inf(d2: np.ndarray) -> np.ndarray:
     out = np.asarray(d2, dtype=np.float64).copy()
     np.fill_diagonal(out, np.inf)
@@ -62,6 +76,25 @@ def local_label_entropy(d2: np.ndarray, y: np.ndarray, k: int = 10) -> float:
     p = np.clip(p_opp, 1e-12, 1.0 - 1e-12)
     entropy = -(p * np.log2(p) + (1.0 - p) * np.log2(1.0 - p))
     return float(np.mean(entropy))
+
+
+def multiclass_local_label_entropy(d2: np.ndarray, y: np.ndarray, k: int = 10, normalize: bool = False) -> float:
+    """Average entropy of the empirical class distribution in each k-neighborhood."""
+    dist = _offdiag_inf(d2)
+    y = np.asarray(y).reshape(-1)
+    classes = np.unique(y)
+    k = max(1, min(k, len(y) - 1))
+    idx = np.argpartition(dist, kth=k - 1, axis=1)[:, :k]
+    entropies = []
+    for neigh in idx:
+        _, counts = np.unique(y[neigh], return_counts=True)
+        p = counts.astype(np.float64) / float(k)
+        p = np.clip(p, 1e-12, 1.0)
+        entropies.append(float(-np.sum(p * np.log2(p))))
+    entropy = float(np.mean(entropies))
+    if normalize and len(classes) > 1:
+        entropy = entropy / float(np.log2(len(classes)))
+    return entropy
 
 
 def greedy_disjoint_opposite_pairs(
@@ -113,6 +146,31 @@ def summarize(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantile: float = 
     )
 
 
+def summarize_multiclass(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantile: float = 0.10) -> MulticlassMixingSummary:
+    """Compute local-mixing diagnostics for multiclass labels."""
+    same, other = nearest_distances_by_label(d2, y)
+    finite_other = other[np.isfinite(other)]
+    if finite_other.size == 0:
+        rho = 0.0
+    else:
+        rho = float(np.quantile(finite_other, rho_quantile))
+    pairs = greedy_disjoint_opposite_pairs(d2, y, rho=rho)
+    n = len(np.asarray(y).reshape(-1))
+    disagreement = knn_opposite_ratio(d2, y, k=k)
+    return MulticlassMixingSummary(
+        nearest_other_mean=float(np.mean(finite_other)) if finite_other.size else float("inf"),
+        nearest_other_median=float(np.median(finite_other)) if finite_other.size else float("inf"),
+        nearest_same_mean=float(np.mean(same[np.isfinite(same)])),
+        knn_disagreement_ratio=disagreement,
+        knn_same_label_ratio=float(1.0 - disagreement),
+        local_label_entropy=multiclass_local_label_entropy(d2, y, k=k, normalize=False),
+        local_label_entropy_normalized=multiclass_local_label_entropy(d2, y, k=k, normalize=True),
+        collision_count=len(pairs),
+        collision_rate=float(len(pairs) / max(1, n)),
+        rho=rho,
+    )
+
+
 def disjoint_collision_tail_bound(
     n: int,
     q_rho: int,
@@ -140,6 +198,21 @@ def to_jsonable(summary: MixingSummary) -> dict[str, float | int]:
         "same_nn_mean": summary.same_nn_mean,
         "knn_opposite_ratio": summary.knn_opposite_ratio,
         "local_label_entropy": summary.local_label_entropy,
+        "collision_count": summary.collision_count,
+        "collision_rate": summary.collision_rate,
+        "rho": summary.rho,
+    }
+
+
+def multiclass_to_jsonable(summary: MulticlassMixingSummary) -> dict[str, float | int]:
+    return {
+        "nearest_other_mean": summary.nearest_other_mean,
+        "nearest_other_median": summary.nearest_other_median,
+        "nearest_same_mean": summary.nearest_same_mean,
+        "knn_disagreement_ratio": summary.knn_disagreement_ratio,
+        "knn_same_label_ratio": summary.knn_same_label_ratio,
+        "local_label_entropy": summary.local_label_entropy,
+        "local_label_entropy_normalized": summary.local_label_entropy_normalized,
         "collision_count": summary.collision_count,
         "collision_rate": summary.collision_rate,
         "rho": summary.rho,

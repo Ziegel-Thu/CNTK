@@ -55,6 +55,10 @@
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
 - [x] `004-intrinsic-collision-stress`: adversarially selected local collisions.
+- [x] `005-multiclass-obstruction-diagnostics`: MNIST/CIFAR multiclass
+  label-subspace tail, kNN disagreement, local entropy, and linear probes.
+- [ ] `005-multiclass-obstruction-diagnostics`: rerun CIFAR multiclass with
+  stronger CNN schedules and multiple seeds.
 
 ## P1 - Run Discipline
 
@@ -85,4 +89,5 @@
 
 - [ ] Empirical NTK for small networks/subsets if feature Gram results are strong.
 - [ ] Pretrained/self-supervised feature backbones for experiment `003`.
-- [ ] Multi-class versions of local mixing and spectral tail beyond binary tasks.
+- [x] Multi-class versions of local mixing and spectral tail beyond binary tasks.
+- [ ] Extend multiclass diagnostics to pretrained/self-supervised features.

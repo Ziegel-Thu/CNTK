@@ -8,6 +8,7 @@
 | 002 | feature-metric-dynamics | P1 | toy + MNIST + CIFAR MLP/CNN complete | Does feature learning reduce mixing/tail by changing `K_t`? | GPU preferred |
 | 003 | fixed-representation-sweep | P2 | quick sweep complete | Is this fixed-metric general, beyond CNTK? | GPU for feature extraction |
 | 004 | intrinsic-collision-stress | P2 | MNIST stress complete | What mixing is correctable vs intrinsic/noisy? | CPU/GPU |
+| 005 | multiclass-obstruction-diagnostics | P2 | MNIST/CIFAR multiclass complete | Do local mixing and spectral tail diagnostics extend beyond binary labels? | CPU/GPU |
 
 ## Standard Artifact Contract
 
@@ -38,3 +39,4 @@ Use these names:
 - `cntk-002-feature-dynamics`
 - `cntk-003-fixed-repr`
 - `cntk-004-collision-stress`
+- `cntk-005-multiclass`

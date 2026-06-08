@@ -80,6 +80,20 @@
     train-tail collapse, but clean test tail improves to `0.128`.
 - Added `findings.md` as a project-level synthesis of current experimental
   evidence, caveats, taxonomy, and next experiments.
+- Added shared multiclass diagnostics:
+  - MNIST/CIFAR multiclass train/test subset builders;
+  - centered one-hot label-subspace spectral tail/alignment;
+  - multiclass kNN disagreement and normalized local label entropy;
+  - multiclass MLP/CNN classifier heads.
+- Ran `005-multiclass-obstruction-diagnostics` in tmux:
+  - corr(test kNN disagreement, test multiclass `tail@10%`) = `0.960`;
+  - corr(test normalized local entropy, test multiclass `tail@10%`) = `0.911`;
+  - corr(test multiclass `tail@10%`, linear-probe test acc) = `-0.925`;
+  - MNIST trained MLP features transfer (`all10` tail `0.410 -> 0.282`,
+    `hard5` tail `0.465 -> 0.324`);
+  - CIFAR multiclass remains high-tail/high-entropy for short small-model CPU
+    runs, so the next scope-expansion run should use stronger schedules,
+    multiple seeds, or pretrained features.
 - Push is not available until a remote is configured.
 
 ## Current Framing

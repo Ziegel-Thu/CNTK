@@ -7,8 +7,8 @@ Date: 2026-06-08
 The project now has evidence for a broader fixed-metric obstruction story:
 
 ```text
-local opposite-label mixing under a fixed metric
-=> high spectral label tail
+local label mixing under a fixed metric
+=> high binary or multiclass spectral label tail
 => worse fixed-representation linear/kernel behavior
 => feature learning can lower tail/mixing when the structure is learnable
 => but noisy or contradictory labels create train/test gaps or irreducible train obstruction
@@ -104,11 +104,29 @@ Key observations:
   remains high, but clean test tail improves. This separates intrinsic
   contradiction from correctable metric mismatch.
 
+## 005 - Multiclass Diagnostics
+
+- Result: `experiments/005-multiclass-obstruction-diagnostics/result.md`
+- corr(test kNN disagreement, test multiclass `tail@10%`) = `0.960`
+- corr(test normalized local entropy, test multiclass `tail@10%`) = `0.911`
+- corr(test multiclass `tail@10%`, linear-probe test accuracy) = `-0.925`
+
+Interpretation:
+
+- The fixed-metric obstruction signal extends beyond binary pairs when labels
+  are represented as a centered one-hot subspace.
+- MNIST multiclass trained MLP features reduce test tail and improve/maintain
+  probe accuracy, which supports correctable metric mismatch.
+- CIFAR multiclass remains high-tail/high-entropy for short small-model runs.
+  Some trained-CNN results are not better than random-CNN probes, so the next
+  engineering question is stronger multiclass training, seeds, and pretrained
+  features rather than another binary pair.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
-   opposite labels are close in the fixed metric, pushing labels into spectral
-   tail directions.
+   different labels are close in the fixed metric, pushing binary labels or
+   centered one-hot label subspaces into spectral tail directions.
 
 2. Global/nonlinear misalignment obstruction:
    labels are high-tail even without local opposite-label mixing, as in XOR with
@@ -132,5 +150,6 @@ Key observations:
 - Add pretrained/self-supervised features to experiment 003.
 - Run CIFAR small-CNN dynamics with more seeds and slightly stronger training to
   separate architecture effects from sample noise.
-- Add multi-class versions of local mixing and spectral tail.
+- Rerun multiclass CIFAR diagnostics with stronger schedules, multiple seeds,
+  and pretrained/self-supervised features.
 - Add margin curves to all dynamics experiments, not only accuracy.
