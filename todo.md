@@ -30,7 +30,7 @@
 - [x] Implement `src/mixing.py`: opposite-label kNN, local label entropy,
   collision graph, graph Dirichlet energy.
 - [x] Implement `src/gradient_flow.py` from eigendecomposition.
-- [ ] Implement `src/models.py` for small MLP/CNN and feature hooks.
+- [x] Implement `src/models.py` for small MLP and feature hooks.
 - [x] Implement `src/plotting.py` with consistent file naming.
 - [x] Add tests for spectral and graph diagnostics on small synthetic matrices.
 
@@ -39,7 +39,11 @@
 - [x] `001-spectral-tail-diagnostics`: toy-only quick run.
 - [ ] `001-spectral-tail-diagnostics`: MNIST/CIFAR subset fixed-kernel diagnostics.
 - [ ] `001-spectral-tail-diagnostics`: theorem-bound audit for collision lower bounds.
-- [ ] `002-feature-metric-dynamics`: toy and MNIST run tracking `K_t`,
+- [x] `002-feature-metric-dynamics`: toy quick run tracking feature Gram,
+  `T_y^{K_t}(m)`, collisions, alignment, margin.
+- [ ] `002-feature-metric-dynamics`: replace lazy-ish control with stricter SGD
+  small-LR/wider lazy control.
+- [ ] `002-feature-metric-dynamics`: MNIST run tracking `K_t`,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
 - [ ] `002-feature-metric-dynamics`: CIFAR run after MNIST dynamics are clean.
 - [ ] `003-fixed-representation-sweep`: compare random features, frozen CNN,

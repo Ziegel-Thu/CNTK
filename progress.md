@@ -25,6 +25,15 @@
   - corr(`alignment`, `tail@10%`) = `-0.871`
   - found a useful caveat: XOR + linear kernel has high tail without local
     mixing, suggesting a second obstruction type (global/nonlinear misalignment).
+- Implemented `src/models.py` and `002-feature-metric-dynamics/scripts/run_toy.py`.
+- Ran `002-feature-metric-dynamics` toy quick run in tmux:
+  - on two moons, feature learning reduced `tail@10%` from `0.082` to `0.053`
+    and opposite-label kNN ratio from `0.044` to `0.028`;
+  - on synthetic opposite-label collision pairs, feature learning moved the
+    metric but did not reduce tail/mixing or improve accuracy, supporting the
+    intrinsic-ambiguity stress-test direction;
+  - lazy-ish control is not strict enough yet because feature Gram movement is
+    nontrivial.
 - Push is not available until a remote is configured.
 
 ## Current Framing
