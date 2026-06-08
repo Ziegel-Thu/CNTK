@@ -35,6 +35,12 @@
 - Re-ran `002-feature-metric-dynamics` with a stricter lazy control (wide MLP +
   SGD small LR): two-moons lazy feature movement dropped to `0.105`, while
   collision-pair lazy movement is near zero (`0.0002`).
+- Implemented custom MNIST/CIFAR-10 loaders without requiring `torchvision`.
+- Ran `001-spectral-tail-diagnostics` on MNIST and CIFAR binary subsets:
+  - combined image-subset corr(`opposite-kNN ratio`, `tail@10%`) = `0.991`;
+  - combined image-subset corr(`alignment`, `tail@10%`) = `-0.905`;
+  - CIFAR `cat vs dog` has the largest tail/mixing under raw-pixel kernels
+    (`tail@10%` up to `0.863`, opposite-kNN around `0.47`).
 - Push is not available until a remote is configured.
 
 ## Current Framing

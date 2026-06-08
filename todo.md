@@ -14,7 +14,7 @@
 ## P0 - Prior Art Survey
 
 - [x] Run first-pass web survey for close existing work.
-- [ ] Download arXiv TeX/source for priority papers into `paper/`.
+- [x] Download arXiv TeX/source for priority papers into `paper/`.
 - [ ] For each priority paper, add `README.md` and project-specific notes.
 - [ ] DeepResearch pass: ask for a focused novelty map around fixed metric
   obstruction, local label mixing, spectral label complexity, and feature
@@ -37,7 +37,7 @@
 ## P1 - Experiments
 
 - [x] `001-spectral-tail-diagnostics`: toy-only quick run.
-- [ ] `001-spectral-tail-diagnostics`: MNIST/CIFAR subset fixed-kernel diagnostics.
+- [x] `001-spectral-tail-diagnostics`: MNIST/CIFAR subset fixed-kernel diagnostics.
 - [ ] `001-spectral-tail-diagnostics`: theorem-bound audit for collision lower bounds.
 - [x] `002-feature-metric-dynamics`: toy quick run tracking feature Gram,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
