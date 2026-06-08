@@ -287,6 +287,26 @@ Expected outcome:
 - local mixing should affect training time mostly through tail, while XOR-like
   global misalignment remains a separate obstruction.
 
+#### Experiment 010: pretrained fixed representation sweep
+
+Folder: `experiments/010-pretrained-fixed-representation-sweep/`
+
+Question:
+
+> Does the fixed-representation obstruction story hold for real frozen
+> pretrained vision backbones?
+
+Representations:
+
+- raw pixels;
+- random ResNet18 frozen features;
+- ImageNet-pretrained ResNet18 frozen features.
+
+Expected outcome:
+
+- better frozen pretrained metrics should lower local mixing, graph energy, and
+  spectral tail, with improved kernel ridge margin/accuracy.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -303,6 +323,7 @@ Expected outcome:
 12. Run `007` margin-tail audit.
 13. Run `008` graph energy/kernel margin diagnostics.
 14. Run `009` tail-to-training-time consequence diagnostics.
+15. Run `010` pretrained fixed representation sweep.
 
 ## Decision Rules
 

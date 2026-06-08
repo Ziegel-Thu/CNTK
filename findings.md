@@ -202,6 +202,31 @@ Interpretation:
 - Source norm moves in the expected direction here, but source-norm claims still
   need same-kernel/regularization-controlled sweeps.
 
+## 010 - Pretrained Fixed Representation Sweep
+
+- Result: `experiments/010-pretrained-fixed-representation-sweep/result.md`
+- frozen backbone: ImageNet ResNet18 from `torchvision`
+- corr(test local mixing/disagreement, test `tail@10%`) = `0.729`
+- corr(test graph Dirichlet, test `tail@10%`) = `0.952`
+- corr(test `tail@10%`, kernel ridge test accuracy) = `-0.794`
+- corr(test `tail@10%`, kernel ridge test margin median) = `-0.848`
+
+Representative improvements from raw pixels to ImageNet ResNet18:
+
+- CIFAR all-10: tail `0.788 -> 0.450`, ridge acc `0.310 -> 0.765`.
+- CIFAR animals6: tail `0.826 -> 0.475`, ridge acc `0.308 -> 0.662`.
+- CIFAR vehicles4: tail `0.701 -> 0.353`, ridge acc `0.388 -> 0.838`.
+- CIFAR automobile/truck: tail `0.719 -> 0.261`, ridge acc `0.606 -> 0.906`.
+- CIFAR cat/dog: tail `0.900 -> 0.455`, ridge acc `0.575 -> 0.794`.
+
+Interpretation:
+
+- The project now has a real pretrained frozen-feature result, not only raw
+  pixels, small CNNs, or random features.
+- A better fixed metric lowers local mixing, graph energy, spectral tail, and
+  improves margin/accuracy without any feature learning on the CIFAR subsets.
+- This strongly supports the broader "fixed representation obstruction" framing.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -235,6 +260,10 @@ Interpretation:
    high spectral tail predicts slower static-kernel gradient-flow convergence;
    local mixing matters because it often pushes labels into those slow spectral
    directions.
+
+9. Fixed-pretrained-representation layer:
+   pretrained frozen features can remove much of the obstruction by supplying a
+   better metric before any task-specific training occurs.
 
 ## Next Best Experiments
 

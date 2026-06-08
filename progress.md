@@ -138,6 +138,16 @@
   - corr(`tail@10%`, source norm proxy) = `0.514`;
   - interpretation: spectral tail is the cleaner consequence predictor, while
     local mixing is one route to high tail rather than the whole story.
+- Installed `torchvision==0.22.1` in the user Python environment to match the
+  existing `torch==2.7.1` runtime and enable pretrained backbone experiments.
+- Ran `010-pretrained-fixed-representation-sweep` using frozen ImageNet
+  ResNet18 features on CIFAR binary and multiclass tasks:
+  - corr(test local mixing/disagreement, test `tail@10%`) = `0.729`;
+  - corr(test graph Dirichlet, test `tail@10%`) = `0.952`;
+  - corr(test `tail@10%`, kernel ridge test accuracy) = `-0.794`;
+  - corr(test `tail@10%`, kernel ridge test margin median) = `-0.848`;
+  - ImageNet ResNet18 improves every task family, e.g. CIFAR all-10 tail
+    `0.788 -> 0.450` and ridge acc `0.310 -> 0.765` vs raw pixels.
 - Push is not available until a remote is configured.
 
 ## Current Framing

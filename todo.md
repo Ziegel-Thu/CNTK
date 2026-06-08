@@ -50,8 +50,9 @@
   shows mostly memorization.
 - [x] `003-fixed-representation-sweep`: quick sweep over raw pixels, RFF,
   random/trained MLP, and random/trained small CNN features.
-- [ ] `003-fixed-representation-sweep`: add pretrained/self-supervised features
-  and larger fine-tuned backbones.
+- [x] `010-pretrained-fixed-representation-sweep`: add ImageNet-pretrained
+  frozen ResNet18 features on CIFAR binary/multiclass tasks.
+- [ ] Add self-supervised features and larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
 - [x] `004-intrinsic-collision-stress`: adversarially selected local collisions.
@@ -104,6 +105,8 @@
 ## P2 - Optional Extensions
 
 - [ ] Empirical NTK for small networks/subsets if feature Gram results are strong.
-- [ ] Pretrained/self-supervised feature backbones for experiment `003`.
+- [x] Pretrained supervised feature backbone sweep.
+- [ ] Self-supervised feature backbones.
 - [x] Multi-class versions of local mixing and spectral tail beyond binary tasks.
-- [ ] Extend multiclass diagnostics to pretrained/self-supervised features.
+- [x] Extend multiclass diagnostics to supervised ImageNet-pretrained features.
+- [ ] Extend multiclass diagnostics to self-supervised features.

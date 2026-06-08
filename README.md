@@ -57,3 +57,7 @@ Completed experiment families:
 - `004`: intrinsic/noisy collision stress tests.
 - `005`: multiclass obstruction diagnostics.
 - `006`: CIFAR multiclass schedule sweep.
+- `007`: margin-tail audit.
+- `008`: graph energy and kernel margin diagnostics.
+- `009`: tail-to-gradient-flow-time consequence audit.
+- `010`: pretrained fixed-representation sweep.

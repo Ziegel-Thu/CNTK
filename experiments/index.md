@@ -15,6 +15,7 @@ Compact result summaries live in `experiments/results.md`.
 | 007 | margin-tail-audit | P2 | existing-metrics audit complete | Is margin redundant with tail, or complementary? | CPU |
 | 008 | graph-energy-kernel-margin | P1 | binary MNIST/CIFAR complete | Do graph energy and kernel margin connect mixing to classifier consequences? | CPU |
 | 009 | tail-training-time-consequence | P1 | toy + MNIST/CIFAR static kernels complete | Does spectral tail predict kernel gradient-flow time/source norm? | CPU |
+| 010 | pretrained-fixed-representation-sweep | P1 | CIFAR ImageNet ResNet18 complete | Does the obstruction story hold for real pretrained frozen features? | CPU/GPU |
 
 ## Standard Artifact Contract
 
@@ -50,3 +51,4 @@ Use these names:
 - `cntk-007-margin-audit`
 - `cntk-008-graph-margin`
 - `cntk-009-tail-time`
+- `cntk-010-pretrained`
