@@ -43,7 +43,7 @@
   `T_y^{K_t}(m)`, collisions, alignment, margin.
 - [x] `002-feature-metric-dynamics`: replace lazy-ish control with stricter SGD
   small-LR/wider lazy control.
-- [ ] `002-feature-metric-dynamics`: MNIST run tracking `K_t`,
+- [x] `002-feature-metric-dynamics`: MNIST run tracking `K_t`,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
 - [ ] `002-feature-metric-dynamics`: CIFAR run after MNIST dynamics are clean.
 - [ ] `003-fixed-representation-sweep`: compare random features, frozen CNN,

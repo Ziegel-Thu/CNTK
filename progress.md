@@ -46,6 +46,13 @@
   - max formal bound / actual tail ratio is `0.182`;
   - conclusion: current theorem is a conservative sufficient obstruction check,
     while richer local-mixing diagnostics are better empirical predictors.
+- Ran `002-feature-metric-dynamics` on MNIST binary tasks with train/test
+  feature-Gram diagnostics:
+  - `3 vs 8`: feature learning reduces test `tail@10%` from `0.350` to `0.085`;
+  - `4 vs 9`: feature learning reduces test `tail@10%` from `0.402` to `0.142`;
+  - frozen features keep geometry fixed; strict lazy control has very small
+    feature movement (`0.014` and `0.006`);
+  - metric adaptation partially transfers to held-out MNIST subsets.
 - Push is not available until a remote is configured.
 
 ## Current Framing
