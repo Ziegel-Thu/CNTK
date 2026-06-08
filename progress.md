@@ -78,6 +78,8 @@
     clean accuracy/margin;
   - exact opposite-label duplicates cap train acc near `0.833` and prevent full
     train-tail collapse, but clean test tail improves to `0.128`.
+- Added `findings.md` as a project-level synthesis of current experimental
+  evidence, caveats, taxonomy, and next experiments.
 - Push is not available until a remote is configured.
 
 ## Current Framing

@@ -1,0 +1,136 @@
+# Current Findings
+
+Date: 2026-06-08
+
+## One-Line State
+
+The project now has evidence for a broader fixed-metric obstruction story:
+
+```text
+local opposite-label mixing under a fixed metric
+=> high spectral label tail
+=> worse fixed-representation linear/kernel behavior
+=> feature learning can lower tail/mixing when the structure is learnable
+=> but noisy or contradictory labels create train/test gaps or irreducible train obstruction
+```
+
+## 001 - Static Diagnostics
+
+Toy diagnostics:
+
+- Result: `experiments/001-spectral-tail-diagnostics/result.md`
+- corr(`opposite-kNN ratio`, `tail@10%`) = `0.926`
+- corr(`alignment`, `tail@10%`) = `-0.871`
+- Caveat: XOR with a linear kernel has high tail without local mixing, so local
+  mixing is one obstruction type, not the only fixed-metric obstruction.
+
+MNIST/CIFAR image subsets:
+
+- Result: `experiments/001-spectral-tail-diagnostics/result_image_subsets.md`
+- corr(`opposite-kNN ratio`, `tail@10%`) = `0.991`
+- corr(`alignment`, `tail@10%`) = `-0.905`
+- CIFAR `cat vs dog` is the highest-tail/highest-mixing case under raw-pixel
+  fixed kernels.
+
+Theorem-bound audit:
+
+- Result: `experiments/001-spectral-tail-diagnostics/result_bound_audit.md`
+- Formal disjoint-collision bound is nonzero in only `4/150` audited rows.
+- Max formal bound / actual tail ratio is `0.182`.
+- Conclusion: current theorem is a conservative sufficient obstruction check;
+  empirical opposite-kNN/local entropy diagnostics are stronger predictors.
+
+## 002 - Feature Metric Dynamics
+
+Toy:
+
+- Result: `experiments/002-feature-metric-dynamics/result.md`
+- Two moons: feature learning reduces tail/mixing and improves accuracy.
+- Synthetic opposite-label collision pairs: feature movement alone does not solve
+  intrinsic contradictions.
+
+MNIST:
+
+- Result: `experiments/002-feature-metric-dynamics/result_mnist.md`
+- `3 vs 8`: feature learning reduces test `tail@10%` from `0.350` to `0.085`.
+- `4 vs 9`: feature learning reduces test `tail@10%` from `0.402` to `0.142`.
+- Frozen features stay fixed; strict lazy control has tiny feature movement.
+- This is the cleanest evidence that metric adaptation transfers beyond train
+  samples.
+
+CIFAR raw-pixel MLP:
+
+- Result: `experiments/002-feature-metric-dynamics/result_cifar.md`
+- Train tail collapses, but test tail mostly does not improve.
+- `cat vs dog`: test tail remains `0.886 -> 0.881`.
+- Interpretation: raw MLP feature learning mostly memorizes CIFAR subsets.
+
+CIFAR small CNN:
+
+- Result: `experiments/002-feature-metric-dynamics/result_cifar_cnn.md`
+- `cat vs dog`: test tail improves slightly `0.861 -> 0.834`, test acc `0.604`.
+- `automobile vs truck`: test tail improves `0.751 -> 0.631`, test acc `0.729`.
+- Interpretation: CNN inductive bias improves transferable metric adaptation
+  relative to raw MLP.
+
+## 003 - Representation Sweep
+
+- Result: `experiments/003-fixed-representation-sweep/result.md`
+- corr(test opposite-kNN ratio, test `tail@10%`) = `0.988`
+- corr(test `tail@10%`, linear-probe test accuracy) = `-0.971`
+
+Interpretation:
+
+- The diagnostic generalizes beyond CNTK/kernels to fixed representation
+  families.
+- Good fixed representations tend to have lower test local mixing, lower test
+  spectral tail, and higher linear-probe test accuracy.
+- CIFAR remains high-tail/high-mixing for small fixed representations.
+
+## 004 - Stress Tests
+
+- Result: `experiments/004-intrinsic-collision-stress/result_mnist_stress.md`
+
+Key observations:
+
+- Clean feature learning: clean test tail drops to `0.085`, test acc `0.947`.
+- `10%` random flips: still partially transfers, test acc `0.933`.
+- `30%` random flips: train tail collapses but clean test tail worsens to
+  `0.288`, test acc `0.670`.
+- `30%` adversarial local flips: clean test tail improves to `0.169`, but clean
+  accuracy remains low at `0.663`; tail/mixing must be read with clean
+  accuracy/margin.
+- Exact opposite-label duplicates: train acc caps near `0.833`, train tail
+  remains high, but clean test tail improves. This separates intrinsic
+  contradiction from correctable metric mismatch.
+
+## Current Working Taxonomy
+
+1. Local collision obstruction:
+   opposite labels are close in the fixed metric, pushing labels into spectral
+   tail directions.
+
+2. Global/nonlinear misalignment obstruction:
+   labels are high-tail even without local opposite-label mixing, as in XOR with
+   linear features.
+
+3. Correctable metric mismatch:
+   feature learning lowers train and test tail/mixing and improves clean test
+   performance.
+
+4. Memorization:
+   train tail collapses but test tail/accuracy does not improve.
+
+5. Intrinsic contradiction:
+   deterministic models cannot fit identical inputs with opposite labels; train
+   accuracy/tail remain obstructed even if clean test structure improves.
+
+## Next Best Experiments
+
+- Add a sharper finite-sample bound or explicitly position the current theorem as
+  a conservative sufficient condition.
+- Add pretrained/self-supervised features to experiment 003.
+- Run CIFAR small-CNN dynamics with more seeds and slightly stronger training to
+  separate architecture effects from sample noise.
+- Add multi-class versions of local mixing and spectral tail.
+- Add margin curves to all dynamics experiments, not only accuracy.
