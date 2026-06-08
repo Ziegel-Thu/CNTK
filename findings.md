@@ -122,6 +122,28 @@ Interpretation:
   engineering question is stronger multiclass training, seeds, and pretrained
   features rather than another binary pair.
 
+## 006 - CIFAR Multiclass Schedule Sweep
+
+- Result: `experiments/006-cifar-multiclass-schedule-sweep/result.md`
+- `strong_minibatch` improves test tail and probe accuracy on all three CIFAR
+  multiclass task families relative to random CNN features:
+  - all-10: tail `0.772 -> 0.731`, probe acc `0.272 -> 0.392`;
+  - animals6: tail `0.826 -> 0.777`, probe acc `0.319 -> 0.373`;
+  - vehicles4: tail `0.755 -> 0.724`, probe acc `0.428 -> 0.497`.
+- Within-CIFAR correlations are weaker than the broad 005 sweep:
+  - corr(test disagreement, test multiclass `tail@10%`) = `0.500`;
+  - corr(test entropy, test multiclass `tail@10%`) = `0.613`;
+  - corr(test multiclass `tail@10%`, probe acc) = `-0.634`.
+- Probe margin median correlates strongly with probe accuracy (`0.826`), making
+  margin a useful companion diagnostic when tail ranges are narrow.
+
+Interpretation:
+
+- The weak CIFAR multiclass transfer in 005 was partly a schedule artifact:
+  stronger optimization improves both geometry and probe accuracy.
+- The improvement is still modest, so the next engineering step should be
+  larger/more-seed GPU runs or pretrained/self-supervised features.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -152,4 +174,5 @@ Interpretation:
   separate architecture effects from sample noise.
 - Rerun multiclass CIFAR diagnostics with stronger schedules, multiple seeds,
   and pretrained/self-supervised features.
-- Add margin curves to all dynamics experiments, not only accuracy.
+- Add margin curves to all dynamics experiments, not only accuracy; 006 suggests
+  margin is especially useful when tail differences are compressed.

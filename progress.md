@@ -94,6 +94,16 @@
   - CIFAR multiclass remains high-tail/high-entropy for short small-model CPU
     runs, so the next scope-expansion run should use stronger schedules,
     multiple seeds, or pretrained features.
+- Ran `006-cifar-multiclass-schedule-sweep` in tmux with two seeds on CIFAR
+  all-10, animals6, and vehicles4:
+  - `strong_minibatch` improves all-10 tail `0.772 -> 0.731` and probe acc
+    `0.272 -> 0.392` relative to random CNN features;
+  - animals6 tail improves `0.826 -> 0.777`, probe acc `0.319 -> 0.373`;
+  - vehicles4 tail improves `0.755 -> 0.724`, probe acc `0.428 -> 0.497`;
+  - within-CIFAR correlations are weaker than 005 because the tail range is
+    narrower, but the signs stay aligned;
+  - probe margin median correlates strongly with probe accuracy (`0.826`), so
+    margin should be promoted in later dynamics runs.
 - Push is not available until a remote is configured.
 
 ## Current Framing

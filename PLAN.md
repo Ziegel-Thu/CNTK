@@ -206,6 +206,29 @@ Expected outcome:
 - CIFAR multiclass small-model runs reveal weak-transfer regimes that need
   stronger schedules or pretrained features.
 
+#### Experiment 006: CIFAR multiclass schedule sweep
+
+Folder: `experiments/006-cifar-multiclass-schedule-sweep/`
+
+Question:
+
+> Are the weak CIFAR multiclass results from experiment `005` a real
+> architecture/metric limitation, or mostly a weak training-schedule artifact?
+
+Regimes:
+
+- random CNN features plus linear probe;
+- short full-batch CNN training;
+- stronger mini-batch CNN training with AdamW, cosine schedule, crop/flip
+  augmentation, and multiple seeds.
+
+Expected outcome:
+
+- stronger schedules should lower test label-subspace tail and improve probe
+  accuracy if weak transfer was partly an optimization artifact;
+- if tail improves without accuracy or margin improvement, treat it as a
+  diagnostic boundary and route to pretrained features.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -218,6 +241,7 @@ Expected outcome:
 8. Run `003` fixed representation sweep.
 9. Run `004` stress tests.
 10. Run `005` multiclass diagnostics.
+11. Run `006` CIFAR multiclass schedule sweep.
 
 ## Decision Rules
 

@@ -314,9 +314,11 @@ def _multiclass_subset_from_arrays(
     image_shape: tuple[int, ...] | None = None,
 ) -> tuple[Dataset, np.ndarray, np.ndarray]:
     rng = np.random.default_rng(seed)
+    if len(class_ids) != len(class_names):
+        raise ValueError("class_ids and class_names must have the same length")
     xs = []
     ys = []
-    for out_label, (cls, cls_name) in enumerate(zip(class_ids, class_names, strict=True)):
+    for out_label, (cls, cls_name) in enumerate(zip(class_ids, class_names)):
         idx = np.flatnonzero(labels == cls)
         if len(idx) < n_per_class:
             raise ValueError(f"not enough samples for class {cls_name}: {len(idx)}")

@@ -57,8 +57,10 @@
 - [x] `004-intrinsic-collision-stress`: adversarially selected local collisions.
 - [x] `005-multiclass-obstruction-diagnostics`: MNIST/CIFAR multiclass
   label-subspace tail, kNN disagreement, local entropy, and linear probes.
-- [ ] `005-multiclass-obstruction-diagnostics`: rerun CIFAR multiclass with
-  stronger CNN schedules and multiple seeds.
+- [x] `006-cifar-multiclass-schedule-sweep`: rerun CIFAR multiclass with
+  stronger CNN schedules and two seeds on CPU.
+- [ ] `006-cifar-multiclass-schedule-sweep`: rerun stronger schedules on GPU
+  with more seeds, larger subsets, and longer training.
 
 ## P1 - Run Discipline
 
@@ -81,6 +83,7 @@
   disjoint-pair corollary is only a conservative sufficient obstruction.
 - [ ] Relate spectral tail to kernel gradient-flow time to reach a training loss.
 - [ ] Relate fixed-metric collision/mixing to margin and RKHS norm proxies.
+- [ ] Promote margin curves to first-class diagnostics in feature-dynamics runs.
 - [ ] Separate metric mismatch from intrinsic label ambiguity.
 - [ ] Add fixed-metric obstruction taxonomy: local collision obstruction vs
   global/nonlinear spectral misalignment obstruction.
