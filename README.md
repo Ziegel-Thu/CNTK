@@ -61,3 +61,4 @@ Completed experiment families:
 - `008`: graph energy and kernel margin diagnostics.
 - `009`: tail-to-gradient-flow-time consequence audit.
 - `010`: pretrained fixed-representation sweep.
+- `011`: self-supervised fixed-representation sweep.

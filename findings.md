@@ -227,6 +227,30 @@ Interpretation:
   improves margin/accuracy without any feature learning on the CIFAR subsets.
 - This strongly supports the broader "fixed representation obstruction" framing.
 
+## 011 - Self-Supervised Fixed Representation Sweep
+
+- Result: `experiments/011-self-supervised-fixed-representation-sweep/result.md`
+- frozen backbone: DINO ViT-S/16 from `facebookresearch/dino`
+- corr(test local mixing/disagreement, test `tail@10%`) = `0.839`
+- corr(test graph Dirichlet, test `tail@10%`) = `0.990`
+- corr(test `tail@10%`, kernel ridge test accuracy) = `-0.947`
+- corr(test `tail@10%`, kernel ridge test margin median) = `-0.885`
+
+Representative improvements from raw pixels to DINO:
+
+- CIFAR all-10: tail `0.799 -> 0.432`, ridge acc `0.287 -> 0.807`.
+- CIFAR animals6: tail `0.825 -> 0.475`, ridge acc `0.317 -> 0.711`.
+- CIFAR vehicles4: tail `0.731 -> 0.228`, ridge acc `0.500 -> 0.917`.
+- CIFAR automobile/truck: tail `0.749 -> 0.244`, ridge acc `0.533 -> 0.950`.
+- CIFAR cat/dog: tail `0.780 -> 0.385`, ridge acc `0.550 -> 0.867`.
+
+Interpretation:
+
+- The fixed-representation scope now includes self-supervised frozen features.
+- DINO often improves over supervised ResNet18 in this run, suggesting the
+  diagnostic is representation-family agnostic: good frozen metrics reduce
+  local mixing, graph roughness, spectral tail, and improve margin/accuracy.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -264,6 +288,10 @@ Interpretation:
 9. Fixed-pretrained-representation layer:
    pretrained frozen features can remove much of the obstruction by supplying a
    better metric before any task-specific training occurs.
+
+10. Self-supervised-representation layer:
+    self-supervised frozen features follow the same obstruction diagnostics,
+    confirming that the framework is broader than supervised ImageNet features.
 
 ## Next Best Experiments
 

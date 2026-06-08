@@ -21,6 +21,7 @@ Date: 2026-06-08
 | 008 | `008-graph-energy-kernel-margin/result.md` | Graph diagnostics and kernel margin: corr(graph Dirichlet, tail) = `0.955`; corr(tail, kernel ridge margin) = `-0.964`. |
 | 009 | `009-tail-training-time-consequence/result.md` | Consequence audit: corr(tail, log training time) = `0.596`; corr(tail, source norm proxy) = `0.514`. |
 | 010 | `010-pretrained-fixed-representation-sweep/result.md` | Frozen ImageNet ResNet18 lowers CIFAR all-10 tail `0.788 -> 0.450` and raises ridge acc `0.310 -> 0.765` vs raw pixels. |
+| 011 | `011-self-supervised-fixed-representation-sweep/result.md` | DINO ViT-S/16 lowers CIFAR all-10 tail `0.799 -> 0.432` and raises ridge acc `0.287 -> 0.807` vs raw pixels. |
 
 ## Current Read
 
@@ -38,4 +39,4 @@ Date: 2026-06-08
 - Spectral tail now connects to exact static-kernel gradient-flow time; local
   mixing is best read as one cause of high tail, not the only one.
 - The fixed-representation claim now includes a real supervised pretrained
-  backbone; self-supervised backbones remain open.
+  backbone and a self-supervised DINO backbone.

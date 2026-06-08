@@ -307,6 +307,26 @@ Expected outcome:
 - better frozen pretrained metrics should lower local mixing, graph energy, and
   spectral tail, with improved kernel ridge margin/accuracy.
 
+#### Experiment 011: self-supervised fixed representation sweep
+
+Folder: `experiments/011-self-supervised-fixed-representation-sweep/`
+
+Question:
+
+> Does the fixed-representation obstruction story hold for self-supervised
+> frozen vision features?
+
+Representations:
+
+- raw pixels;
+- supervised ImageNet ResNet18 frozen features;
+- self-supervised DINO ViT-S/16 frozen features.
+
+Expected outcome:
+
+- self-supervised frozen features should fit the same diagnostic pattern:
+  lower local mixing/graph energy/tail and higher kernel ridge margin/accuracy.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -324,6 +344,7 @@ Expected outcome:
 13. Run `008` graph energy/kernel margin diagnostics.
 14. Run `009` tail-to-training-time consequence diagnostics.
 15. Run `010` pretrained fixed representation sweep.
+16. Run `011` self-supervised fixed representation sweep.
 
 ## Decision Rules
 

@@ -52,7 +52,9 @@
   random/trained MLP, and random/trained small CNN features.
 - [x] `010-pretrained-fixed-representation-sweep`: add ImageNet-pretrained
   frozen ResNet18 features on CIFAR binary/multiclass tasks.
-- [ ] Add self-supervised features and larger fine-tuned backbones.
+- [x] `011-self-supervised-fixed-representation-sweep`: add DINO ViT-S/16
+  frozen features on CIFAR binary/multiclass tasks.
+- [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
 - [x] `004-intrinsic-collision-stress`: adversarially selected local collisions.
@@ -106,7 +108,7 @@
 
 - [ ] Empirical NTK for small networks/subsets if feature Gram results are strong.
 - [x] Pretrained supervised feature backbone sweep.
-- [ ] Self-supervised feature backbones.
+- [x] Self-supervised feature backbone sweep.
 - [x] Multi-class versions of local mixing and spectral tail beyond binary tasks.
 - [x] Extend multiclass diagnostics to supervised ImageNet-pretrained features.
-- [ ] Extend multiclass diagnostics to self-supervised features.
+- [x] Extend multiclass diagnostics to self-supervised features.
