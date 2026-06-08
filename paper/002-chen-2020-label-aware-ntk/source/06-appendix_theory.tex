@@ -1,0 +1,859 @@
+%!TEX root = 00-main.tex
+\newpage
+\section{Technical Details} 
+\label{append:proofs}
+
+\subsection{A Example Validating Claim \ref{claim: limitations_of_label_agnostic_kernels}}\label{subappend:example_limit_of_label_agnostic_kernels}
+We first formally define the notion of a ``label system'':
+\begin{definition}[Label system]
+\label{def: label_system}
+Let $(X, Y)$ be a fresh sample from the data distribution. The label system is the function $\eta: \bbR^d \to [0, 1]$ defined by
+\[
+\eta(\rvx) = \bbP(Y = 1\ | \ X = \rvx).
+\]
+\end{definition}
+Let $\phi(\cdot)$ be the feature map corresponding to $K$, so that $K(\rvx, \rvx') = \la \phi(\rvx), \phi(\rvx') \ra$, where $\la\cdot, \cdot\ra$ is the inner product in the $\phi$-space. By our assumption, $\phi$ is also label-agnostic. 
+
+Suppose $\phi$ works well on the label system $\eta_1$. This means that a simple linear fit in the $\phi$ space suffices to achieve satisfactory accuracy. Geometrically, this translates to the existence of a hyperplane which can almost perfectly separate the two classes. In other words, we can find a normal vector $\rvtheta_1$\footnote{Here we implicitly assume this hyperplane crosses the origin. The construction without this assumption is similar.}, such that $\bbP_{\eta_1}\bigl(Y \cdot \la \rvtheta_1, \phi(X)\ra > 0\bigr) \approx 1$, where we use $\bbP_{\eta_1}$ to stress that $Y$ comes from the label system $\eta_1$. 
+
+Now, choose any vector $\rvtheta_2$ in the $\phi$ space, such that $\rvtheta_2$ is orthogonal to $\rvtheta_1$. We consider the following relabelling procedure, which produces another label system $\eta_2$:
+\begin{equation}
+	\label{eq: relabelling}
+	\eta_2(\rvx) = 
+	\begin{cases}
+		1 & \textnormal{ if } \langle \rvtheta_1, \phi(\rvx)\rangle \cdot \langle \rvtheta_2, \phi(\rvx)\rangle < 0\\
+		0 & \textnormal{ otherwise}.
+	\end{cases}
+\end{equation}
+Under $\eta_2$, the $\phi$-space is partitioned into four quadrants, which we label as $\RN{1}, \RN{2}, \RN{3}, \RN{4}$ counterclockwise. Then, any $\rvx$ in $\RN{1}$ and $\RN{3}$ is labelled as $-1$, and any $\rvx$ in $\RN{2}$ and $\RN{4}$ is labelled as $+1$. Obviously, there is no hyper-plane that can separate the $+1$ and $-1$ examples, meaning that $\phi$ can be arbitrarily bad under $\eta_2$, hence validating Claim. See Fig. \ref{fig:limitation_of_label_agnostic_kernel} for a pictorial illustration.
+
+\begin{figure}[t]
+		\centering
+		\scalebox{0.6}{
+		\includegraphics[width=\textwidth]{figures/limitation_of_label_agnostic_kernel.pdf}
+		}
+        \caption{Pictorial illustration of the example that validates Claim \ref{claim: limitations_of_label_agnostic_kernels}. The black ``$+$'' and ``$-$'' represent positive and negative examples according to the label system induced by $\rvtheta_1$, and the solid line represents the corresponding separating hyperplane. The dashed line represents the hyperplane whose normal vector is $\rvtheta_2$, which, along with the solid line, partition that $\phi$ space into four quadrants. The red ``$+$'' and ``$-$'' represents the positive and negative examples under the new label system.}
+		\label{fig:limitation_of_label_agnostic_kernel}
+\end{figure}
+
+\subsection{Exact integrability of the approximate \texorpdfstring{$\KK_t$}{K2t}} \label{subappend:proof_approx_nth_zero_init}
+In this subsection, we prove the following result:
+\begin{proposition}[Exact integrability of the approximate $\KK_t$]
+	\label{prop: approx_nth_zero_init}
+	Assume $\rvf_0 = \mathbf{0}_n$ \footnote{The formula for nonzero $\rvf_0$ can be obtained by similar but lengthier calculations. Since this is not the focus of this paper,  we omit the details.}, then the first three terms in RHS of \eqref{eq: approx_nth_full} is equal to
+	\begin{align*}
+		 & \KK_0(\rvx, \rvx') + \bigg\langle \KKK_0(\rvx, \rvx', \cdot), (\rmKK_0)^{-1}\bigg(\rmI_n - e^{-t \rmKK_0/n}\bigg) \rvy \bigg\rangle  \\
+		 & \qquad + \rvy^\top (\rmKK_0)^{-1}\bigg(\rmI_n - e^{-t \rmKK_0/n}\bigg) \KKKK_0(\rvx, \rvx', \cdot, \cdot) (\rmKK_0)^{-1} \rvy - \rvy^\top \rmP\rmQ(\rvx, \rvx')\rmP^\top \rvy,
+	\end{align*}
+	where
+	\begin{align*}
+		\bigg(\rmQ(\rvx, \rvx')\bigg)_{ij} = (1-e^{-t(\rmD_{ii} + \rmD_{jj})/n}) \times {\bigg(\rmP^\top \KKKK_0(\rvx, \rvx', \cdot, \cdot) \rmP \rmD^{-1}\bigg)_{ij}}\bigg/\bigg({\rmD_{ii} + \rmD_{jj}}\bigg)  ,
+	\end{align*}
+	and $\rmP \rmD \rmP^\top$ is the eigen-decomposition of $\rmKK_0$.
+\end{proposition}
+\begin{proof}
+For notational simplicity, we let $\rmH \equiv \rmKK_0$.
+We have
+\begin{align*}
+	\int_0^t \rvh_u - \rvy du & = \int_0^t e^{-u \rmH/n} \rvy du =  -n\rmH^{-1}\rvy + n\rmH^{-1}e^{-t\rmH/n}\rvy.
+\end{align*}
+Hence, the second term in the RHS of \eqref{eq: approx_nth_full} is
+\begin{align*}
+-\frac{1}{n} \int_{0}^t \bigg\langle \KKK_0, \rvh_u-\rvy \bigg\rangle du= \bigg\langle \KKK_0, \rmH^{-1}\bigg(\rmI_n - e^{-t\rmH/n}\bigg) \rvy \bigg\rangle.
+\end{align*}
+We now deal with the third term in the RHS of \eqref{eq: approx_nth_full}. We have
+\begin{align*}
+& \int_0^t \int_0^u (\rvh_u - \rvy)^\top \KKKK_0 (\rvh_v - \rvy) dvdu \\
+	& = \rvy^\top \int_0^t\int_0^u e^{-u\rmH/n}  \KKKK_0 e^{-v\rmH/n} \rvy dvdu\\
+	& = \rvy^\top \int_0^t e^{-u\rmH/n} \KKKK_0 (n\rmH^{-1} - n\rmH^{-1} e^{-u\rmH/n}) \rvy \\
+	& = n^2\rvy^\top \rmH^{-1} \bigg(\rmI_n - e^{-t\rmH/n} \bigg) \KKKK_0 \rmH^{-1} \rvy - n\rvy^\top \int_0^t e^{-u\rmH/n} \KKKK_0 \rmH^{-1}e^{-u\rmH/n} \rvy du.
+\end{align*}
+Let $\rmP \rmD \rmP^\top$ be an eigen-decomposition of $\rmH$. Then we have
+\begin{align*}
+	\int_0^t e^{-u\rmH/n} \KKKK_0 \rmH^{-1}e^{-u\rmH/n} du& = \int_0^t \rmP e^{-u\rmD/n} \underbrace{\rmP^\top \KKKK_0 \rmP \rmD^{-1}}_{:= \rmM} e^{-u\rmD/n} \rmP^\top du\\
+	& = \rmP \int_0^t e^{-t\rmD/n} \rmM e^{-\rmD/n} du \rmP^\top.
+\end{align*}
+Note that
+\[
+	\bigg(e^{-t\rmD/n} \rmM e^{-\rmD/n}\bigg)_{ij}  = \rmM_{ij} e^{-u(d_i+d_j)/n},
+\]
+here $d_i : = \rmD_{ii}$. Hence, 
+\[
+	\int_0^t \bigg(e^{-t\rmD/n} \rmM e^{-\rmD/n}\bigg)_{ij} du = \rmM_{ij} \cdot \bigg(\frac{n}{d_i + d_j} - \frac{n}{d_i + d_j} e^{-t(d_i+d_j)/n}\bigg) ,
+\]
+which yields
+\[
+	\int_0^t e^{-u\rmH/n} \KKKK_0 \rmH^{-1}e^{-u\rmH/n} du = n\rmP  \rmQ \rmP^\top.
+\]
+Putting the above equations together gives the desired result.
+\end{proof}
+
+\subsection{Proof of Lemma \ref{lemma: hoeffding_decomp}}\label{subappend:proof_hoeffding_decomp}
+Note that the finite variance assumption in the definition of $\gG_A$ is vacuous, because our label is binary. The rest of the proof is standard (see, e.g., Section 11.4 of \citealt{van2000asymptotic}).
+
+
+
+
+\subsection{Proof of Theorem \ref{thm: approx_nth_error}} \label{subappend:proof_approx_nth_error}
+
+\begin{assump}
+	\label{assump: justify_approx_error}
+	There exists a small constant $c>0$ such that $c < \|\rvx_i \|_2\leq c^{-1}$ for all $i\in[n]$. Moreover, there exists an integer $p\geq 4$ such that for any $1\leq r\leq 2p+1$, the following two things happen: 
+	\begin{enumerate}[itemsep=0mm]
+		\item the activation function has a bounded $r$-th derivative; 
+		\item there exists a constant $c_r>0$ such that for any distinct indices $1\leq \alpha_1, \alpha_2, \cdots, \alpha_r\leq n$, the smallest singular value of the data matrix $[\rvx_{\alpha_1}, \rvx_{\alpha_2}, \cdots, \rvx_{\alpha_r}]$ is at least $c_r$.
+	\end{enumerate}
+\end{assump}
+
+To prove Theorem \ref{thm: approx_nth_error}, we first collect some useful details into the following lemma.
+\begin{lemma}
+	\label{lemma: nth_estimate}
+	Under the assumptions of Theorem \ref{thm: approx_nth_error}, with high probability, for any $u\leq t$, we have
+	\begin{align*}
+		\| \KKK_u\|_\infty & = \tilde{O}\bigg(\frac{1+u}{m}\bigg), \ \ \ \| \KKKK_u\|_\infty = \tilde{O}\bigg(\frac{1}{m}\bigg), \ \ \ \| K_u^{(5)}\|_\infty = \tilde{O}\bigg(\frac{1+u}{m^2}\bigg), \\
+		\| \rvf_u -\rvh_u \|_2 & \lesssim \frac{u(1+u)\sqrt{n}}{{m}} \bigg(u \land \frac{n}{\lambda}\bigg), \ \ \ \|\rvf_u - \rvy \|_2 = O(\sqrt{n}).
+	\end{align*}
+\end{lemma}
+\begin{proof}
+	This is implied by Equations (C.12), (C.13), (C.16), and (C.28) in \cite{huang2019dynamics}.
+\end{proof}
+
+We are now ready to present the proof.
+\begin{proof}[Proof of Theorem \ref{thm: approx_nth_error}]
+	We have
+	\begin{align*}
+	& \KK_t(\rvx_\alpha, \rvx_\beta)\\
+	& = \KK_0(\rvx_\alpha, \rvx_\beta) - \frac{1}{n} \bigg\langle \KKK_0,\int_0^t \rvh_u - \rvy + \rvf_u - \rvh_u du  \bigg\rangle \\
+	& \ \ \ + \frac{1}{n^2} \int_0^t \int_0^u (\rvh_u - \rvy + \rvf_u - \rvh_u)^\top (\KKKK_0 + \KKKK_v - \KKKK_0) (\rvh_v - \rvy + \rvf_v - \rvh_v) dvdu\\
+	& = \KK_0(\rvx_\alpha, \rvx_\beta) - \frac{1}{n}  \bigg\langle \KKK_0,\int_0^t \rvh_u - \rvy du \bigg\rangle  + \frac{1}{n^2}  \int_0^t\int_0^u (\rvh_u - y)^\top \KKKK_0(\rvh_v-y) dvdu + \gE,
+	\end{align*}
+	where the error term $\gE$ is given by
+	\begin{align*}
+		\gE & = - \frac{1}{n}  \bigg\langle \KKK_0,\int_0^t \rvf_u - \rvh_u du  \bigg\rangle + \frac{1}{n^2}\int_0^t\int_0^u (\rvh_u-\rvy)^\top \KKKK_0(\rvf_v - \rvh_v) dvdu\\
+	& \qquad  + \frac{1}{n^2} \int_0^t\int_0^u (\rvh_u-\rvy)^\top (\KKKK_v - \KKKK_0)(\rvf_v - \rvy) dvdu \\
+	& \qquad + \frac{1}{n^2} \int_0^t\int_0^u (\rvf_u - \rvh_u)^\top \KKKK_v(\rvf_v - \rvy) dvdu.
+	\end{align*}
+	We label the four terms in the RHS above as $\RN{1}, \RN{2}, \RN{3}$, and $\RN{4}$. By lemma \ref{lemma: nth_estimate}, for the first term, w.h.p. we have
+	\begin{align*}
+		\RN{1} & \leq \frac{1}{n} \| \KKK_0(\rvx_\alpha,\rvx_\beta, \cdot)\|_2 \cdot \int_0^t  \| \rvf_u-\rvh_u\|_2 du \\ 
+		& \lesssim \frac{1}{{m}} \| \KKK_0\|_\infty \cdot \int_0^t u(1+u) \bigg(u\land \frac{n}{\lambda}\bigg) du\\
+		& \lesssim \frac{(\log m)^c}{m^2} \cdot \bigg((t^3 + t^4) \land  \frac{n (t^2 + t^3)}{\lambda}\bigg)\\
+		& \lesssim \frac{(\log m)^c \cdot t^2(1+t)}{m^2} \bigg(t \land \frac{n}{\lambda}\bigg).
+	\end{align*}
+	For the second term, we have
+	\begin{align*}
+		\RN{2} & \leq \frac{1}{n^2} \int_0^t \int_0^u \| \rvh_u - \rvy\|_2 \| \rvf_v -\rvh_v\|_2 \| \KKKK_0(\rvx_\alpha, \rvx_\beta, \cdot, \cdot)\| dvdu\\
+		& \lesssim\frac{1}{m} \int_0^t \int_0^u v(1+v) \bigg(v \land \frac{n}{\lambda}\bigg) \| \KKKK_0\|_\infty dvdu\\
+		& \lesssim \frac{(\log m)^c}{m^2} \int_0^t \int_0^u v(1+v) \bigg(v \land \frac{n}{\lambda}\bigg)  \\
+		& \lesssim \frac{(\log m)^c}{m^2} (t^4 +t^5) \land \frac{n (t^3 + t^4)}{\lambda}\\
+		& = \frac{(\log m)^c\cdot t^3(1+t)}{m^2} \bigg(t \land \frac{n}{\lambda}\bigg) .
+	\end{align*}
+	For the third term, we have
+	\begin{align*}
+		\RN{3} & \leq \frac{1}{n^2} \int_0^t \int_0^u \|\rvh_u - \rvy \|_2 \| \rvf_v-\rvy\|_2 \|\KKKK_v(\rvx_\alpha, \rvx_\beta, \cdot, \cdot) - \KKKK_0(\rvx_\alpha, \rvx_\beta, \cdot, \cdot) \|_2 dvdu.
+	\end{align*}
+	Note that 
+	\begin{align*}
+		\| \rvh_u -\rvy\|_2&  \leq \|\rvh_u -\rvf_u \|_2 + \| \rvf_u -\rvy\|_2 \lesssim \frac{u(1+u)\sqrt{n}}{m}\bigg(u \land \frac{n}{\lambda}\bigg) + \sqrt{n},\\
+		\| \rvf_v- \rvy\|_2 & \lesssim \sqrt{n},
+	\end{align*}	
+	and
+	\begin{align*}
+		& \|\KKKK_v(\rvx_\alpha, \rvx_\beta, \cdot, \cdot) - \KKKK_0(\rvx_\alpha, \rvx_\beta, \cdot, \cdot) \|_2\\	
+		& \leq n \max_{i, j\in[n]}|\KKKK_v(\rvx_\alpha, \rvx_\beta, \rvx_i, \rvx_j) - \KKKK_0(\rvx_\alpha, \rvx_\beta, \rvx_i, \rvx_j)|\\
+		& \leq n \int_0^v \max_{i, j\in[n]}| \dot{K}_w^{(4)}(\rvx_\alpha, \rvx_\beta, \rvx_i, \rvx_j)| dw\\
+		& = n\int_0^v \max_{i, j\in[n]} \frac{1}{n} \bigg|\sum_{k\in[n]} K^{(5)}_w(\rvx_\alpha, \rvx_\beta, \rvx_i, \rvx_j, \rvx_k) (f_w(\rvx_k) - \rvy_k)\bigg| dw\\
+		& \leq n \int_0^v \| K^{(5)}_w\|_\infty \frac{1}{\sqrt{n}}  \| \rvf_w - \rvy\|_2 dw\\
+		& \lesssim \frac{n(\log m)^c}{m^2}\int_0^v  (1+w) dw\\
+		& \lesssim \frac{n(\log m)^c\cdot (v+ v^2)}{m^2} .
+	\end{align*}
+	Hence, we can bound the third term by
+	\begin{align*}
+		\RN{3} & \lesssim \frac{(\log m)^c}{m^2} \int_0^t \int_0^u (v+v^2) \bigg(1 + \frac{u(1+u)(u \land n/\lambda)}{m}\bigg) dvdu\\
+		& \lesssim  \frac{(\log m)^c \cdot t^3(1+t)}{m^2} +  \frac{(\log m)^c \cdot t^4(1+t+t^2)}{m^3}  \bigg(t \land \frac{n}{\lambda}\bigg).
+	\end{align*}
+	Finally, we bound the fourth term by
+	\begin{align*}
+		\RN{4} & \leq \frac{1}{n^2} \int_0^t\int_0^u \| \rvf_u-\rvh_u\|_2 \|\rvf_v-\rvy \|_2 \| \KKKK_v(\rvx_\alpha,\rvx_\beta,\cdot,\cdot)\|_2 dvdu\\
+		& \lesssim \frac{(\log m)^c}{m^2}  \int_0^t\int_0^u u(1+u) \bigg(u\land \frac{n}{\lambda}\bigg) dvdu\\
+		& \lesssim \frac{(\log m)^c \cdot t^3(1+t)}{m^2} \bigg(t \land \frac{n}{\lambda}\bigg).
+	\end{align*}
+	Combining the above four bounds gives the desired bound on $\gE$. The bounds for the three terms in the RHS of \eqref{eq: approx_nth_full} are derived similarly, and we omit the details.
+\end{proof}
+
+
+
+\section{NTH-Related Calculations}\label{append:nth_calculations}
+
+\subsection{An Symbolic Program to Compute NTH}
+In this section, we develop a recursive program to symbolically compute $K^{(r)}_t$, the $r$-th order kernel in NTH. For simplicity, we consider neural nets without biases \footnote{The method developed in this section applies to neural nets with biases, but with lengthier calculations.}:
+\[
+f(\rvx, \rvtheta) = \WWW{L} \sigma\bigg(\WWW{L-1} \cdots \bigl(\WWW{2} \sigma(\WWW{1} \rvx ) \bigr) \bigg).
+\]
+
+We begin by noting that $K^{(2)}_t$ can be written as an inner product of two gradients. We will see that $K^{(3)}_t$ can be written as a quadratic form, and $K^{(4)}$ can be written as a cubic form, etc. 
+
+To this end, let us denote $\nabla f(\rvx, \rvtheta)$ to be the partial derivative of $f(\rvx, \rvtheta)$ w.r.t. $\rvtheta$. We sometimes drop the dependence on $t$ and write $f(\rvx_\alpha, \rvtheta_t) \equiv f_\alpha$ when there is no ambiguity. 
+
+We will regard $\rvtheta = \rmW  = \{\rmW ^{(\ell)}_{j k }: \ell\in[L], j\in[p_\ell], j \in [q_\ell]\}$ as a rank-$3$ tensor. 
+We write $\WWW{\ell}_{jk}\equiv \rmW _{\ell jk}$ when there is no ambiguity. 
+In our current notations, $\nabla f(\rvx, \rvtheta) = \{\bigl(\nabla f(\rvx, \rvtheta)\bigr)_{\ell j k}: \ell\in[L], j\in p_\ell, k\in q_\ell\}$ is also a rank-$3$ tensor. We begin by writing
+\begin{align*}
+	\KK_t(\rvx_\alpha, \rvx_\beta) & = \la \nabla f(\rvx_\alpha, \rvtheta_t) , \nabla f(\rvx_\beta, \rvtheta_t)\ra \\
+	& = \sum_{\ell\in[L]} \sum_{j\in[p_\ell]} \sum_{k\in[q_\ell]} \frac{\partial f(\rvx_\alpha, \rvtheta_t)}{\partial \WWW{\ell}_{j k}} \cdot \frac{\partial f(\rvx_\beta, \rvtheta_t)}{\partial \WWW{\ell}_{j k}} \\
+	& = (\nabla f_\alpha)^{\ell j k } (\nabla f_\beta)_{\ell j k},
+\end{align*}
+where in the last line we have used the \emph{Einstein notation} \footnote{That is, if an index appears twice, we take the sum over this index.}. Taking derivative w.r.t. $t$ gives
+\begin{align*}
+	\frac{d}{dt}\KK_t(\rvx_\alpha, \rvx_\beta) & =  (\frac{d}{dt} \nabla f_\alpha)^{\ell j k } (\nabla f_\beta)_{\ell j k} + (\nabla f_\alpha)^{\ell j k } (\frac{d}{dt} \nabla f_\beta)_{\ell j k}.
+\end{align*}
+We have
+\begin{align*}
+	 (\frac{d}{dt} \nabla f_\alpha)_{\ell j k } & = \frac{\partial (\nabla f_\alpha)_{\ell j k }}{\partial \rmW _{suv}}  \cdot \frac{d \rmW _{suv}}{dt} \\
+	 & = \frac{\partial (\nabla f_\alpha)_{\ell j k }}{\partial \rmW _{suv}}  \cdot % \frac{-L(\rvtheta_t)}{d W_{suv}} 
+	 {\frac{-d L(\rvtheta_t)}{d \rmW _{suv}}} \\
+	 & = \frac{\partial (\nabla f_\alpha)_{\ell j k }}{\partial \rmW _{suv}} \cdot \bigg(-\frac{1}{n} \sum_{\gamma\in[n]} (f_\gamma - \rvy_\gamma) \cdot (\nabla f_\gamma)_{suv} \bigg) \\
+	 & = -\frac{1}{n} \sum_{\gamma\in[n]} (f_\gamma- \rvy_\gamma) \cdot  \frac{\partial (\nabla f_\alpha)_{\ell j k }}{\partial \rmW _{suv}} \cdot (\nabla f_\gamma)_{suv} \\
+	 &{=} -\frac{1}{n} \sum_{\gamma\in[n]} (f_\gamma- \rvy_\gamma) \cdot (\nabla^2 f_\alpha)^{\ell j k}_{suv} \cdot (\nabla f_\gamma)_{suv},
+\end{align*}
+where we denote $\nabla^2 f$ to be the rank-$6$ tensor, whose $(\ell, j, k, s, u, v)$-th entry is given by 
+\[
+{\partial}(\nabla f)_{\ell j k } / \partial \rmW _{suv} = \frac{\partial^2 f}{\partial \rmW _{suv} \rmW _{\ell j k}}.
+\] 
+A similar computation gives
+\[
+	(\frac{d}{dt} \nabla f_\beta)_{\ell j k } = -\frac{1}{n} \sum_{\gamma\in[n]} (f_\gamma- \rvy_\gamma) \cdot (\nabla^2 f_\beta)^{\ell j k}_{suv} \cdot (\nabla f_\gamma)_{suv}.
+\]
+Hence, we arrive at
+\begin{align*}
+	& \KKK_t(\rvx_\alpha,\rvx_\beta,\rvx_\gamma) \nonumber\\
+	% \label{eq: K_3_general}
+	& = (\nabla^2 f_\alpha)^{\ell j k }_{s u v} (\nabla f_\beta)_{\ell j k } (\nabla f_\gamma)_{suv}  + (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k }_{s u v} (\nabla f_\gamma)_{s u v} \\
+	& = \sum_{\ell \in [L]} \sum_{j \in[p_\ell]} \sum_{k\in[q_\ell]} \sum_{s \in [L]} \sum_{u\in [p_s]} \sum_{v \in [q_s]} \frac{\partial f(\rvx_\beta, \rvtheta_t)}{\partial \rmW _{\ell j k }} \cdot \frac{\partial^2 f(\rvx_\alpha, \rvtheta_t)}{\partial \rmW _{\ell j k} \partial \rmW _{s u v}} \cdot \frac{\partial f(\rvx_\gamma, \rvtheta_t)}{ {\partial} \rmW _{suv}} \\
+	& \qquad + \frac{\partial f(\rvx_\alpha, \rvtheta_t)}{\partial \rmW _{\ell j k }} \cdot \frac{\partial^2 f(\rvx_\beta, \rvtheta_t)}{\partial \rmW _{\ell j k} \partial \rmW _{s u v}} \cdot \frac{\partial f(\rvx_\gamma, \rvtheta_t)}{{\partial} \rmW _{suv}} \nonumber.
+\end{align*}	
+
+Note that the above expression is a quadratic form:
+\[
+	\KKK_t(\rvx_\alpha,\rvx_\beta,\rvx_\gamma) = (\nabla f_{\beta})^\top (\nabla^2 f_\alpha) (\nabla f_\gamma) + (\nabla f_{\alpha})^\top (\nabla^2 f_\beta) (\nabla f_\gamma).
+\]
+
+We have already seen some patterns showing up. To obtain $\KKK_t$ from $\KK_t$, we simply conduct the following program:
+\begin{enumerate}[itemsep=0mm]
+	\item Start with $\KK_t = (\nabla f_\alpha)^{\ell j k } (\nabla f_\beta)_{\ell j k}$ in Einstein notation, which is a function of $r = 2$ gradients;
+	\item Introduce a new index $\gamma$ for data points, and a new set of indices $(s u v)$ for weights;
+	\item Replicate $\KK_t$ for $r=2$ times, and append $(\nabla f_\gamma)_{suv}$ to the end of each term: 
+	\[
+		(\nabla f_\alpha)^{\ell j k } (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv}  + (\nabla f_\alpha)^{\ell j k } (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} ;
+	\]
+	\item Choose a term from a total of $r=2$ terms in $\KK_t$, raise its gradient to one higher level, add the new indices $(suv)$ to this term, and do this operation in all possible ways:
+	\[
+		\KKK_t = (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv}  + (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}.
+	\]
+\end{enumerate}
+We now apply the above program to obtain $\KKKK_t$ from $\KKK_t$:
+\begin{enumerate}
+	\item Introduce a new index $\xi$ for data points, and a new set of indices $(abc)$;
+	\item Since $\KKK$ is a function of $r = 3$ gradients, we replicate $\KKK_t$ for $3$ times, and append $(\nabla f_\xi)_{abc}$ to the end of each term:
+	\begin{align*}
+		& (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc}  \\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}  (\nabla f_\xi)_{abc}\\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc}\\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}  (\nabla f_\xi)_{abc};
+	\end{align*}	
+	\item Raise a term's gradient (from the former $3$ terms) to a higher level, add the new indices, and do it in all possible ways:
+	\begin{align}
+		\KKKK_t = &   (\nabla^3 f_\alpha)^{\ell j k }_{suv, abc} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc}\nonumber \\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla^2 f_\beta)^{\ell j k}_{abc} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \nonumber\\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla^2 f_\gamma)^{suv}_{abc} (\nabla f_\xi)_{abc} \nonumber \\
+		& +  (\nabla^2 f_\alpha)^{\ell j k }_{abc} (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}  (\nabla f_\xi)_{abc} \nonumber\\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^3 f_\beta)^{\ell j k}_{s u v, abc} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \nonumber\\
+		\label{eq: K_4_general}
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla^2 f_\gamma)^{suv}_{abc}  (\nabla f_\xi)_{abc}.
+	\end{align}
+\end{enumerate}
+In the above program, we have regarded $\nabla^3 f$ as a rank-$9$ tensor, whose $(\ell, j, k, s, u, v, a, b, c)$-th entry is given by
+\[
+	\frac{\partial^3 f}{\partial \rmW _{abc} {\partial} \rmW _{suv} {\partial} \rmW _{\ell j k} }.
+\]
+
+The correctness of the above recursive symbolic program can be proved by straightforward induction, and we omit the details.
+
+\subsection{Explicit Expressions for NTH for Two-Layer Nets}
+Taking advantage of the recursive program, it's relatively easy to get explicit expressions for $K^{(r)}$ when $r$ is not too large. We focus on the following two-layer net
+\begin{equation}
+	% \label{eq: two_layer_net}
+	f(\rvx, \rvtheta) = \frac{1}{\sqrt{m}} \rva^\top \sigma(\rmW  \rvx).
+\end{equation}
+
+
+\begin{proposition}[Expression for $\KK_t, \KKK_t$ and $\KKKK_t$ in a two-layer net]
+\label{prop: K_2_K_3_two_layer_net}
+	For the two layer neural network $f(\rvx, \rvtheta) = \frac{1}{\sqrt{m}}\rva^\top \sigma(\rmW  \rvx)$, where $\rva\in \bbR^m, \rmW \in \bbR^{m\times d}$, and $\sigma$ an activation function, we have
+	\begingroup
+	\allowdisplaybreaks
+	\begin{align}
+		& \KK_t(\rvx_\alpha, \rvx_\beta) \nonumber\\
+		\label{eq: K_2_two_layer}	
+		&= \frac{1}{m} \rvx_\alpha^\top  \rvx_\beta \cdot \bigg\la \sigma'(\rmW  \rvx_\alpha)\odot \rva_t, \sigma'(\rmW  \rvx_\beta)\odot \rva_t  \bigg\ra + \frac{1}{m} \bigg\la \sigma(\rmW  \rvx_\alpha), \sigma(\rmW  \rvx_\beta) \bigg\ra ,\\
+		& \KKK_t(\rvx_\alpha, \rvx_\beta, \rvx_\gamma) \nonumber\\
+		& =\frac{1}{m\sqrt{m}} \rvx_\alpha^\top \rvx_\gamma \cdot  \rvx_\alpha^\top \rvx_\beta \cdot \bigg\la \rva_t \odot \rva_t\odot \rva_t , \sigma''(\rmW  \rvx_\alpha)\odot \sigma'(\rmW  \rvx_\beta)\odot \sigma'(\rmW  \rvx_\gamma) \bigg\ra \nonumber \\
+		& \qquad + \frac{1}{m\sqrt{m}}\rvx_\beta^\top\rvx_\gamma \cdot \rvx_\alpha^\top\rvx_\beta \cdot \bigg\la\rva_t \odot\rva_t\odot\rva_t , \sigma'(\rmW\rvx_\alpha)\odot \sigma''(\rmW\rvx_\beta) \odot \sigma'(\rmW\rvx_\gamma) \bigg\ra \nonumber \\
+		& \qquad + \frac{2}{m\sqrt{m}} \rvx_\alpha^\top\rvx_\beta \cdot \bigg\la\rva_t, \sigma'(\rmW\rvx_\alpha)\odot \sigma'(\rmW\rvx_\beta)\odot \sigma(\rmW\rvx_\gamma)\bigg\ra \nonumber\\ 
+		& \qquad + \frac{1}{m\sqrt{m}}\rvx_\alpha^\top\rvx_\gamma \cdot \bigg\la\rva_t, \sigma'(\rmW \rvx_\alpha)\odot \sigma(\rmW \rvx_\beta)\odot \sigma'(\rmW \rvx_\gamma) \bigg\ra \nonumber \\
+		\label{eq: K_3_two_layer}
+		& \qquad + \frac{1}{m\sqrt{m}}\rvx_\beta^\top\rvx_\gamma \cdot \bigg\la\rva_t, \sigma(\rmW \rvx_\alpha)\odot \sigma'(\rmW \rvx_\beta)\odot \sigma'(\rmW \rvx_\gamma) \bigg\ra ,\\
+		% KKKK
+		& \KKKK_t(\rvx_\alpha,\rvx_\beta,\rvx_\gamma,\rvx_\xi)\nonumber\\
+		& =  \frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot \rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\xi \cdot \bigg\la\rva_t^{\odot 4}, \sigma'''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW  \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \nonumber\\
+		& + \frac{1}{m^2}\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\beta^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi \cdot \bigg\la\rva_t^{\odot 4}, \sigma'(\rmW \rvx_\alpha) \odot \sigma'''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot (\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi +\rvx_\alpha^\top\rvx_\xi \cdot\rvx_\beta^\top\rvx_\gamma) \cdot \bigg\la\rva^{\odot 4}, \sigma''(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)\bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\gamma^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 4} , \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\alpha  \cdot\rvx_\gamma^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 4}, \sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \nonumber \\
+		& + \frac{3}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\gamma \cdot \bigg\la\rva^{\odot 2},  \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra \nonumber \\
+		& + \frac{3}{m^2}\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\beta^\top\rvx_\gamma \cdot \bigg\la\rva^{\odot 2},  \sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra \nonumber \\
+		& + \frac{2}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{2}{m^2}\rvx_\beta^\top\rvx_\alpha\cdot\rvx_\beta^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{2}{m^2}\rvx_\alpha^\top\rvx_\beta\cdot\rvx_\gamma^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma\cdot\rvx_\alpha^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma''(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\gamma^\top\rvx_\alpha\cdot\rvx_\gamma^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma\cdot\rvx_\beta^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\gamma^\top\rvx_\beta\cdot\rvx_\gamma^\top\rvx_\xi \cdot \bigg\la\rva^{\odot 2},\sigma(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{1}{m^2} (\rvx_\alpha^\top\rvx_\gamma\cdot\rvx_\beta^\top\rvx_\xi +\rvx_\alpha^\top\rvx_\xi\cdot\rvx_\beta^\top\rvx_\gamma) \cdot \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \nonumber \\
+		& + \frac{2}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot \bigg\la \mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra \nonumber \\
+		& + \frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot \bigg\la \mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra \nonumber \\
+		\label{eq: K_4_two_layer}	
+		& + \frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma \cdot \bigg\la \mathbf{1}_m, \sigma(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra , 
+	\end{align}
+	\endgroup
+	where we let $\rva^{\odot r}$ to be the vector whose $i$-th entry is $\rva_i^r$.
+\end{proposition}
+\begin{proof}
+	{\bf Computation of $\KK_t$.} We first compute $\KK_t(\rvx_\alpha,\rvx_\beta) = (\nabla f_\alpha)_{\ell j k } (\nabla f_\beta)_{\ell j k}$. We have
+	\begin{align*}
+		\frac{\partial f(\rvx , \rvtheta)}{\partial \rva } & =  \frac{1}{\sqrt{m}} \sigma(\rmW \rvx) \\
+		\frac{\partial f(\rvx , \rvtheta)}{\partial \rmW} & = \frac{1}{\sqrt{m}} \diag(\sigma'(\rmW \rvx)  \rva \rvx^\top = \frac{1}{\sqrt{m}} \bigg(\sigma'(\rmW \rvx \odot \rva )\bigg) x^\top.
+	\end{align*}
+	Then Equation \eqref{eq: K_2_two_layer} follows by trivial algebra. 
+
+	{\bf Computation of $\KKK_t$.} Now consider $\KKK_t$. We have
+	\begin{align*}
+		\KKK_t(\rvx_\alpha,\rvx_\beta,\rvx_\gamma) = (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv}  + (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}.
+	\end{align*}
+	For the $\ell = s = 2$ term, we have $(\nabla^2 f)^{2 j k}_{2 u v} = 0$, since $\partial f/ \partial \rva $ is constant in $\rva$. For the $\ell = s = 1$ term, we have
+	\begin{align*}
+		(\nabla^2 f)^{1 j k}_{1 u v} & = \frac{\partial^2 f(\rvx , \rvtheta)}{\partial \rmW_{uv} W_{jk}} \\
+		& = \frac{\partial }{\partial \rmW_{uv}} \frac{1}{\sqrt{m}} \sigma'(\rmW \rvx_j) \rva_j\rvx_k \\
+		& = \frac{1}{\sqrt{m}} \sigma''(\rmW \rvx_j) \delta_{ju}\rvx_v \rva_j\rvx_k,
+	\end{align*}
+	where $\delta_{ju}$ is the Kronecker delta function. Hence we have
+	\begin{align*}
+		(\nabla^2 f_\alpha)^{1 j k }_{1uv} (\nabla f_\beta)_{1 j k} (\nabla f_\gamma)_{1uv} & =  \frac{1}{m\sqrt{m}} \sigma''(\rmW \rvx_\alpha)_j \sigma'(\rmW \rvx_\beta)_j \sigma'(\rmW \rvx_\gamma)_j \rva_j^3\rvx_{\alpha, v}\rvx_{\gamma, v}\rvx_{\alpha, k}\rvx_{\beta, k} \\
+		& = \frac{1}{m\sqrt{m}}\rvx_\alpha^\top\rvx_\gamma \cdot \rvx_\alpha^\top\rvx_\beta \cdot \bigg\la \rva \odot  \rva\odot \rva , \sigma''(\rmW \rvx_\alpha)\odot \sigma'(\rmW \rvx_\beta)\odot \sigma'(\rmW \rvx_\gamma) \bigg\ra.
+	\end{align*}
+	A similar computation gives
+	\[
+		(\nabla f_\alpha)_{1 j k } (\nabla^2 f_\beta)^{1 j k}_{1uv} (\nabla f_\gamma)_{1uv}
+		= \frac{1}{m\sqrt{m}}\rvx_\beta^\top\rvx_\gamma \cdot \rvx_\alpha^\top\rvx_\beta \cdot \bigg\la \rva \odot  \rva\odot \rva  , \sigma'(\rmW \rvx_\alpha)\odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \bigg\ra.
+	\]
+	For the $\ell=1, s = 2$ term, note that $a$ is a vector (also a row matrix), so $u = 1$. This gives 
+	\begin{align*}
+		(\nabla^2 f_\alpha)^{1jk}_{21v} (\nabla f_\beta)_{1jk} (\nabla f_\gamma)_{21 v} & = \frac{\partial}{\partial \rva_v}\bigg(\frac{1}{\sqrt{m}} \sigma'(\rmW \rvx_\alpha)_j \rva_j\rvx_{\alpha, k}\bigg) \cdot \frac{1}{\sqrt{m}} \sigma'(\rmW \rvx_\beta)_j \rva_j\rvx_{\beta, k}  \cdot \frac{1}{\sqrt{m}} \sigma(\rmW \rvx_\gamma)_v \\
+		& = \frac{1}{m\sqrt{m}} \sigma'(\rmW \rvx_\alpha)_j \delta_{jv}\rvx_{\alpha, k} \cdot \sigma'(\rmW \rvx_\beta)_j \rva_j\rvx_{\beta, k} \cdot \sigma(\rmW \rvx_\gamma)_v \\
+		& = \frac{1}{m\sqrt{m}} \sigma'(\rmW \rvx_\alpha)_j \sigma'(\rmW \rvx_\beta)_j \sigma(\rmW \rvx_\gamma)_j \rva_j\rvx_{\alpha, k}\rvx_{\beta, k} \\
+		& = \frac{1}{m\sqrt{m}} \rvx_\alpha^\top\rvx_\beta \cdot \bigg\la a, \sigma'(\rmW \rvx_\alpha)\odot \sigma'(\rmW \rvx_\beta)\odot \sigma(\rmW \rvx_\gamma)\bigg\ra.
+	\end{align*}
+	By symmetry, the term $(\nabla f_\alpha)_{1jk} (\nabla^2 f_\beta)^{1jk}_{21v} (\nabla f_\gamma)_{21 v}$ is also equal to the above quantity. Finally, we calculate the $\ell = 2, s= 1$ term. Note that in this case, $j = 1$. Hence, we have
+	\begin{align*}
+		(\nabla^2 f_\alpha)^{21 k }_{1uv} (\nabla f_\beta)_{21 k} (\nabla f_\gamma)_{1uv}	& = \frac{\partial}{\partial \rmW_{uv}}\bigg( \frac{1}{\sqrt{m}} \sigma(\rmW \rvx_\alpha)_k\bigg)  \cdot \frac{1}{\sqrt{m}} \sigma(\rmW \rvx_\beta)_k  \cdot \frac{1}{\sqrt{m}} \sigma'(\rmW \rvx_\gamma)_u \rva_u\rvx_{\gamma, v}\\
+		& = \frac{1}{m\sqrt{m}} \sigma'(\rmW \rvx_\alpha)_k \delta_{uk}\rvx_{\alpha, v}  \cdot \sigma(\rmW \rvx_\beta)_k \cdot \sigma'(\rmW \rvx_\gamma)_u \rva_u\rvx_{\gamma, v} \\
+		& = \frac{1}{m\sqrt{m}} \sigma'(\rmW \rvx_\alpha)_k \sigma(\rmW \rvx_\beta)_k \sigma'(\rmW \rvx_\gamma)_k \rva_k\rvx_{\alpha, v}\rvx_{\gamma, v} \\
+		& = \frac{1}{m\sqrt{m}}\rvx_\alpha^\top\rvx_\gamma \cdot \bigg\la a, \sigma'(\rmW \rvx_\alpha)\odot \sigma(\rmW \rvx_\beta)\odot \sigma'(\rmW \rvx_\gamma) \bigg\ra.
+	\end{align*}
+	A similar computation gives
+	\[
+		(\nabla f_\alpha)_{21 k } (\nabla^2 f_\beta)^{21 k}_{1uv} (\nabla f_\gamma)_{1uv}= \frac{1}{m\sqrt{m}}\rvx_\beta^\top\rvx_\gamma \cdot \bigg\la a, \sigma(\rmW \rvx_\alpha)\odot \sigma'(\rmW \rvx_\beta)\odot \sigma'(\rmW \rvx_\gamma) \bigg\ra.	
+	\]
+	Combining above terms proves Equation \eqref{eq: K_3_two_layer}.
+
+	{\bf Computation of $\KKKK_4$.} Recall that
+	\begin{align*}
+		\KKKK_t = &   (\nabla^3 f_\alpha)^{\ell j k }_{suv, abc} (\nabla f_\beta)_{\ell j k} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc}\\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla^2 f_\beta)^{\ell j k}_{abc} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \\
+		& + (\nabla^2 f_\alpha)^{\ell j k }_{suv} (\nabla f_\beta)_{\ell j k} (\nabla^2 f_\gamma)^{suv}_{abc} (\nabla f_\xi)_{abc} \\
+		& +  (\nabla^2 f_\alpha)^{\ell j k }_{abc} (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla f_\gamma)_{suv}  (\nabla f_\xi)_{abc} \\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^3 f_\beta)^{\ell j k}_{s u v, abc} (\nabla f_\gamma)_{suv} (\nabla f_\xi)_{abc} \\
+		& +  (\nabla f_\alpha)_{\ell j k } (\nabla^2 f_\beta)^{\ell j k}_{s u v} (\nabla^2 f_\gamma)^{suv}_{abc}  (\nabla f_\xi)_{abc}.
+	\end{align*}
+	We denote the six terms above as $\RN{1}, \RN{2}, \RN{3}, \RN{4}, \RN{5}, \RN{6}$.
+	We first calculate some useful quantities. Recall that
+	\[
+		(\nabla f)_{21k} = \frac{1}{\sqrt{m}} \sigma(\rmW \rvx_k), \qquad (\nabla f)_{1jk} = \frac{1}{\sqrt{m}} \sigma'(\rmW  \rvx_j) \rva_j\rvx_k.
+	\]
+	In the calculation for $\KKK_t$, we have shown that
+	\begin{align*}
+		& (\nabla^2 f)^{2 1 k}_{2 1v}   = 0 \\
+		& (\nabla^2 f)^{2 1 k}_{1 u v} = (\nabla^2 f)^{1 u v}_{2 1 k} = \frac{1}{\sqrt{m}} \sigma'(\rmW  \rvx_k) \delta_{uk}\rvx_v \\
+		& (\nabla^2 f)^{1 j k}_{1 u v} =(\nabla^2 f)^{1 u v}_{1 j k } = \frac{1}{\sqrt{m}} \sigma''(\rmW  \rvx_j) \rva_j \delta_{ju}\rvx_k\rvx_v.
+	\end{align*}
+	For the third derivative, we note that the expression $(\nabla^3 f)^{\ell j k}_{suv, abc}$ is invariant to permutations of the three triplets $(\ell j k), (s u v), (a b c)$. Some algebra gives the following identities:
+	\begin{align*}
+		& (\nabla^3 f)^{2 1 k}_{2 1 v, 21 c} = (\nabla^3 f)^{2 1 k}_{2 1 v, 1 b c} = 0\\
+		& (\nabla^3 f)^{1 j k}_{1 u v, 2 1 c} =  \frac{1}{\sqrt{m}} \sigma''(\rmW  \rvx_j) \delta_{ju} \delta_{jc}\rvx_k\rvx_v \\
+		& (\nabla^3 f)^{1 j k}_{1 u v, 1 b c}= \frac{1}{\sqrt{m}} \sigma'''(\rmW  \rvx_j )\rva_j \delta_{bj}\delta_{ju}\rvx_k\rvx_v \rvx_c.
+	\end{align*}
+	We now calculate expression for $\KKKK_t$ based on different configurations of layer indices $(\ell, s, a) \in \{1, 2\}^{3}$. 
+	\begin{enumerate}[itemsep=0mm]
+		\item If $\ell = s = a = {2}$, or if $\ell = s = 2, a = 1$, then all six terms are zero. 
+		\item If $\ell = a = 2, s = 1$, then $\RN{1}=\RN{2}=\RN{4}=\RN{5} = 0$. The third term is
+		\begin{align*}
+			\RN{3} & = (\nabla^2 f_\alpha)^{21k}_{1uv} (\nabla f_\beta)_{21k} (\nabla^2 f_\gamma)^{1uv}_{21c} (\nabla f_\xi)_{21c} \\
+			& = \frac{1}{m^2} \sigma'(\rmW \rvx_\alpha)_{k} \delta_{uk}\rvx_{\alpha, v} \cdot \sigma(\rmW \rvx_\beta)_k \cdot \sigma'(\rmW \rvx_\gamma)_c \delta_{uc}\rvx_{\gamma, v} \cdot \sigma(\rmW \rvx_\xi)_c \\
+			& = \frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \bigg\la\mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		A similar calculation gives
+		\[
+			\RN{6} = \frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma \bigg\la\mathbf{1}_m, \sigma(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra.
+		\]
+		\item If $s = a = 2, \ell = 1$, then $\RN{1}=\RN{3}=\RN{5} = \RN{6} = 0$. And we have
+		\begin{align*}
+			\RN{2} & = (\nabla^2 f_\alpha )^{1jk}_{21 v} (\nabla^2 f_\beta)^{1jk}_{21c} (\nabla f_\gamma)_{21 v} (\nabla f_\xi)_{21c} \\
+			& = \frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \bigg\la\mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		A similar calculation shows that $\RN{4} = \RN{2}$.
+		\item If $\ell = s = 1, a = 2$, then we have
+		\begin{align*}
+			\RN{1} & = (\nabla^3 f_\alpha)^{1jk}_{1uv, 21 c} (\nabla f_\beta)_{1jk} (\nabla f_\gamma)_{1uv} (\nabla f_\xi)_{21 c} \\
+			& = \frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\beta \bigg\la\rva^{\odot 2} , \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		Meanwhile, we have
+		\begin{align*}
+			\RN{2} & = (\nabla^2 f_\alpha)^{1jk}_{1uv} (\nabla^2 f_\beta)^{1jk}_{21 c} (\nabla f_\gamma)_{1uv} (\nabla f_\xi)_{21c} \\
+			& = \frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\gamma \bigg\la\rva^{\odot 2} , \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra \\
+			& = \RN{1}.
+		\end{align*}
+		A similar calculation shows that $\RN{3} = \RN{2} = \RN{1}$. On the other hand, it's easy to check that
+		\[
+			\RN{4} = \RN{5} = \RN{6} = 
+			\frac{1}{m^2}\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\beta^\top\rvx_\gamma \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi) \bigg\ra.
+		\]
+		\item If $\ell = a = 1, s = 2$, then one can check that
+		\[
+			\RN{1} = \RN{4} = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra,
+		\]
+		and that
+		\[
+			\RN{2} = \RN{5} = 
+			\frac{1}{m^2}\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\beta^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra,
+		\]
+		On the other hand, we have
+		\[
+			\RN{3} = \RN{6}
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\gamma^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+		\]
+		\item If $s = a = 1, \ell = 2$, then we have
+		\begingroup
+		\allowdisplaybreaks
+		\begin{align*}
+			\RN{1} & = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma''(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\
+			\RN{2} & = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\ 
+			\RN{3} & = 
+			\frac{1}{m^2}\rvx_\gamma^\top\rvx_\alpha \cdot\rvx_\gamma^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\ 
+			\RN{4} & = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\xi \cdot\rvx_\beta^\top\rvx_\gamma \bigg\la\rva^{\odot 2} , \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\ 
+			\RN{5} & = 
+			\frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\ 
+			\RN{6} & = 
+			\frac{1}{m^2}\rvx_\gamma^\top\rvx_\beta \cdot\rvx_\gamma^\top\rvx_\xi \bigg\la\rva^{\odot 2} , \sigma(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		\endgroup
+		\item If $\ell = a = s = 1$, then we have
+		\begin{align*}
+			\RN{1} & = (\nabla^3 f_\alpha)^{1jk}_{1uv, 1bc} (\nabla f_\beta)_{1jk} (\nabla f_\gamma)_{1uv} (\nabla f_\xi)_{1bc} \\
+			& = \frac{1}{m^2} \sigma'''(\rmW \rvx_\alpha)_j \rva_j \delta_{bj} \delta_{ju}\rvx_{\alpha, c}\rvx_{\alpha, v}\rvx_{\alpha, k} \cdot \sigma'(\rmW \rvx_\beta)_j \rva_j\rvx_{\beta, k} \cdot \sigma'(\rmW \rvx_\gamma)_u \rva_u\rvx_{\gamma, v}  \cdot \sigma'(\rmW \rvx_\xi)_b \rva_b\rvx_{\xi, c} \\
+			& = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\xi \cdot\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\beta \bigg\la\rva^{\odot 4} , \sigma'''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		Meanwhile, we have
+		\begin{align*}
+			\RN{2} & = (\nabla^2 f_\alpha)^{1jk}_{1uv}  (\nabla^2 f_{\beta})^{1jk}_{1bc} (\nabla f_\gamma)_{1uv} (\nabla f_\xi)_{1bc} \\
+			& = \frac{1}{m^2} \sigma''(\rmW \rvx_\alpha)_j \rva_j \delta_{ju}\rvx_{\alpha, k}\rvx_{\alpha, v} \cdot \sigma''(\rmW \rvx_\beta)_j \rva_j \delta_{jb}\rvx_{\beta, k}\rvx_{\beta, c} \cdot \sigma'(\rmW \rvx_\gamma)_u \rva_u\rvx_{\gamma, v} \cdot \sigma'(\rmW \rvx_\xi)_b \rva_b\rvx_{\xi, c} \\
+			& = 	
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi \bigg\la\rva^{\odot 4} , \sigma''(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+		The other terms are calculated similarly:
+		\begin{align*}
+			\RN{3} & = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\gamma \cdot\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\gamma^\top\rvx_\xi \bigg\la\rva^{\odot 4} , \sigma''(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra\\
+			\RN{4} & = 
+			\frac{1}{m^2}\rvx_\alpha^\top\rvx_\beta \cdot\rvx_\alpha^\top\rvx_\xi \cdot\rvx_\beta^\top\rvx_\gamma \bigg\la\rva^{\odot 4} , \sigma''(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra\\ 
+			\RN{5} & =
+			\frac{1}{m^2}\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\beta^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\xi \bigg\la\rva^{\odot 4} , \sigma'(\rmW \rvx_\alpha) \odot \sigma'''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra\\ 
+			\RN{6} & = 
+			\frac{1}{m^2}\rvx_\beta^\top\rvx_\gamma \cdot\rvx_\beta^\top\rvx_\alpha \cdot\rvx_\gamma^\top\rvx_\xi \bigg\la\rva^{\odot 4} , \sigma'(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma''(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+		\end{align*}
+	\end{enumerate}
+	Putting the above terms together gives Equation \eqref{eq: K_4_two_layer}.
+\end{proof}
+
+\subsection{Expected Values w.r.t. Gaussian Initialization}
+
+We now consider the expected values of $K^{(r)}_t$ at initialization, where both $\rva_0$ and $\rmW_0$ have i.i.d. $\calN(0, 1)$ entries. We will focus the ReLU activation:
+\begin{equation}
+	\sigma(x ) = \max(0, x).
+\end{equation}
+Technically, $\sigma(\cdot)$ only has a subdifferential at zero, but since Gaussian initialization puts zero mass at this point, we can safely write $\sigma'(x ) = \mathbbm{1}\{x\geq 0\}$. Moreover, we have $\sigma''(x ) = \delta(x )$, where $\delta(\cdot)$ is the Dirac delta function, and $\sigma'''(x )= \delta'(x )$, where $\delta'(\cdot)$ is the distributional derivative of $\delta(\cdot)$. In this sense, many terms in $\KKKK_t$ are not well-defined, if we don't take expectation. For example, the following terms are not well-defined functions:
+\begin{align*}
+	& \bigg\la\rva_t^{\odot 4}, \sigma'''(\rmW\rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra \\
+	& \bigg\la\rva^{\odot 4}, \sigma''(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)\bigg\ra \\
+	&  \bigg\la\rva^{\odot 4}, \sigma''(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)\bigg\ra.
+\end{align*}
+So it is necessary to integrate over the Gaussian measure to actually make sense of the above expressions.
+
+On the other hand, the following expressions are well-defined functions:
+
+\begin{align*}
+		& \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \\
+		& \bigg\la \mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra, 
+\end{align*}
+because there is no expressions like $\delta(\cdot)$ and $\delta'(\cdot)$.
+
+We now calculate the expectation of $\KK_0, \KKK_0$ and $\KKKK_0$ under Gaussian initialization. First, let us note that $\bbE \KKK_0 = 0$. In fact, since the $r$-th moment of $\calN(0, 1)$ is zero for odd $r$, we have $\bbE K^{(r)} = 0$ for any odd $r$.
+
+\subsubsection{Expectation of the second-order kernel}
+\label{subsubsection:label-agnostic-kernel}
+For $\KK_0$, we need to calculate the following two quantities:
+\[
+	\bbE \bigg\la \sigma'(\rmW \rvx_\alpha)\odot\rva_t, \sigma'(\rmW \rvx_\beta)\odot\rva_t  \bigg\ra,  \qquad \bbE \bigg\la \sigma(\rmW \rvx_\alpha), \sigma(\rmW \rvx_\beta) \bigg\ra.
+\]
+For the first term, we have 
+\[
+	\bbE \bigg\la \sigma'(\rmW \rvx_\alpha)\odot\rva_t, \sigma'(\rmW \rvx_\beta)\odot\rva_t  \bigg\ra = m \bbE_{Z\sim\calN(0, I_d)} \bigg[\sigma'(\rvx_\alpha^\top Z)\sigma'(\rvx_\beta^\top Z) \bigg],
+\]
+whereas for the second term, we have
+\[
+	\bbE \bigg\la \sigma(\rmW \rvx_\alpha), \sigma(\rmW \rvx_\beta) \bigg\ra = m \bbE_{Z\sim\calN(0, I_d)} \bigg[\sigma(\rvx_\alpha^\top Z)\sigma(\rvx_\beta^\top Z)\bigg].
+\]
+The above quantities are calculated in many literature (see, e.g., \citealt{cho2010large,arora2019exact,bietti2019inductive}). Let $\Delta_{\alpha\beta}\in[0, \pi)$ be the angle between $x_\alpha$ and $x_\beta$. We have
+\begin{align*}
+	\bbE_{Z\sim\bbN(0, I_d)} \bigg[\sigma'(\rvx_\alpha^\top Z)\sigma'(\rvx_\beta^\top Z) \bigg] & = \frac{\pi - \Delta_{\alpha\beta}}{2\pi}\\
+	\bbE_{Z\sim\calN(0, I_d)} \bigg[\sigma(\rvx_\alpha^\top Z)\sigma(\rvx_\beta^\top Z)\bigg] & = \frac{\|x_\alpha\|_2\|x_\beta\|_2 }{2\pi} \cdot \bigg(\sin\Delta_{\alpha\beta} + (\pi-\Delta_{\alpha\beta})\cos\Delta_{\alpha\beta}\bigg).
+\end{align*}	
+Hence, we have
+\begin{equation*}
+	\label{eq: K_2_two_layer_expectation}
+	\bbE \KK_0(\rvx_\alpha,\rvx_\beta) =\rvx_\alpha^\top\rvx_\beta \cdot \frac{\pi - \Delta_{\alpha\beta}}{2\pi} +  \|x_\alpha \|_2 \|\rvx_\beta\|_2 \cdot \frac{\sin\Delta_{\alpha\beta} + (\pi - \Delta_{\alpha\beta})\cos\Delta_{\alpha\beta}}{2\pi}.
+\end{equation*}
+
+\subsubsection{Expectation of the fourth-order kernel}
+We now try to compute $\bbE \KKKK_0$. Inspecting Equation \eqref{eq: K_4_two_layer}, we notice that it suffices to calculate the expectation of the following quantities: 
+\begin{align*}
+	\RN{1}  &= \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra \\
+	\RN{2}  &= \bigg\la \mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra \\
+	\RN{3}  &=  \bigg\la\rva^{\odot 2}, \sigma''(\rmW \rvx_\alpha) \odot \sigma(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)\bigg\ra \\
+	\RN{4}  &= \bigg\la\rva^{\odot 4}, \sigma''(\rmW \rvx_\alpha) \odot \sigma''(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)\bigg\ra \\
+	\RN{5}  &= \bigg\la\rva^{\odot 4}, \sigma'''(\rmW\rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi) \bigg\ra.
+\end{align*}
+The rest of the terms can be calculated similarly.
+~\\
+
+{\bf The first term.} For the first term, we have
+\[
+	\bbE \bigg\la\rva^{\odot 2},\sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma'(\rmW \rvx_\gamma) \odot \sigma'(\rmW \rvx_\xi)   \bigg\ra = m \bbP \bigg(\rvx_\alpha^\top Z \geq 0,\rvx_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg),
+\]
+Note that this term only depends on the angles, so we can WLOG assume that all four vectors lies on the sphere. We reduce this $d$-dimensional integral to a four-dimensional one. For any orthogonal matrix $Q$, we have
+\[
+	\bbP \bigg(\rvx_\alpha^\top Z \geq 0,\rvx_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg) = \bbP \bigg((Q\rvx_\alpha)^\top Z \geq 0, (Q\rvx_\beta)^\top Z \geq 0, (Q\rvx_\gamma)^\top Z \geq 0, (Q\rvx_\xi)^\top Z \geq 0\bigg).
+\]
+We choose a $Q$ s.t $(Q\rvx_{\alpha})_i = 0$ for $i \geq 2$, $(Q\rvx_\beta)_i = 0$ for $i \geq 3$, $(Q\rvx_\gamma)_i  = 0$ for $i \geq 4$, and $(Q\rvx_\xi)_i = 0$ for $i \geq 5$. Moreover, we require $(Q\rvx_\alpha)_1 =1$. Those requirements specify a unique (up to flips in one direction) rotation matrix $Q$. In order the preserve the angles, we necessarily have
+\begin{align*}
+	& Q\rvx_\alpha  = 
+	\begin{pmatrix}
+	1 & 0 & 0 & 0 & 0 & \cdots & 0
+	\end{pmatrix}^\top \\
+	& (Q\rvx_\beta)^\top (Q\rvx_\alpha)   = \cos\Delta_{\alpha\beta}, \ \ \  \|Q\rvx_\beta \|_2 = 1 \\
+	& (Q\rvx_\gamma)^\top (Q\rvx_\alpha)  =  \cos\Delta_{\alpha\gamma} , \ \ \
+	(Q\rvx_\gamma)^\top (Q\rvx_\beta)  = \cos \Delta_{\beta \gamma}, \ \ \  \|Q\rvx_\gamma \|_2 = 1\\
+	& (Q\rvx_\xi)^\top (Q\rvx_\alpha)  = \cos \Delta_{\alpha\xi} , \ \ \ (Q\rvx_\xi)^\top (Q\rvx_\beta) = \cos \Delta_{\beta\xi} , \ \ \ (Q\rvx_\xi)^\top (Q\rvx_\gamma) = \cos \Delta_{\gamma\xi}, \ \ \ \| Q\rvx_\xi\|_2 = 1.
+\end{align*}
+Solving the above system of equations gives
+\begin{align*}
+	(Q\rvx_\beta) & = 
+	[\cos\Delta_{\alpha \beta} , \ \sin\Delta_{\alpha\beta} , \  0 , \  \cdots, \  0]^\top \\
+	(Q\rvx_\gamma) & = \bigg[
+	\cos\Delta_{\alpha\gamma}   ,  \
+	(\sin^{-1} \Delta_{\alpha\beta})\cdot ({\cos\Delta_{\beta\gamma} - \cos\Delta_{\alpha\beta}\cos\Delta_{\alpha\gamma}}), \ \sqrt{\sin^2\Delta_{\alpha\gamma} - (Q\rvx_\gamma)_2^2} , \ 0, \ \cdots, \ 0 )^\top \\
+	(Q\rvx_\xi) & = \bigg[
+	\cos\Delta_{\alpha\xi}, \
+	(\sin^{-1} \Delta_{\alpha\beta})\cdot ({\cos\Delta_{\beta\xi} - \cos\Delta_{\alpha\beta}\cos\Delta_{\alpha\xi}}) , \ \frac{\cos\Delta_{\gamma\xi} - (Q\rvx_\gamma)_2 (Q\rvx_\xi)_2}{(Q\rvx_\gamma)_3} , \\
+	& \qquad \qquad \qquad \qquad \qquad \qquad \qquad\qquad\qquad\qquad  \sqrt{\sin^2\Delta_{\alpha\xi} - (Q\rvx_\xi)_2^2 - (Q\rvx_\xi)_3^2}, \ 0, \ \cdots, \ 0
+	\bigg]^\top.
+\end{align*}
+Let $v_\alpha, v_\beta, v_\gamma, v_\xi$ be the vectors composed of the first four coordinates of $Q\rvx_\alpha, Q\rvx_\beta, Q\rvx_\gamma, Q\rvx_\xi$, respectively. Then we have
+\[
+	\bbP \bigg(\rvx_\alpha^\top Z \geq 0,\rvx_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg) = \bbP \bigg(v_\alpha^\top Z \geq 0, v_\beta^\top Z \geq 0, v_\gamma^\top Z \geq 0, v_\xi^\top Z \geq 0\bigg),
+\]
+where with a slight abuse of notation, the vector $Z\sim\calN(0, I_4)$ is now a four-dimensional standard Gaussian. Let
+\begin{equation}
+	\label{eq: supporting_vectors_in_four_dim}
+	V =  V_{\alpha, \beta, \gamma, \xi} = 
+	\begin{pmatrix}
+		v_\alpha^\top \\
+		v_\beta^\top \\
+		v_\gamma^\top \\
+		v_\xi
+	\end{pmatrix} \in \bbR^{4\times 4}.
+\end{equation}	
+Then the quantity of interest becomes $\bbP(VZ \in \calH)$, where $\calH$ is the positive orthant of $\bbR^4$. It's clear from the construction that $V$ is invertible, so we are interested in $\bbP(Z\in V^{-1}\calH)$. The set $V^{-1}\calH$ is the \emph{positive hull} made by the four columns of $V^{-1}$. Since the law of $Z$ is spherically symmetric, the measure of $V^{-1}H$ under the law of $Z$ is the fraction of the unit sphere $\bbS^3$  in this hull, which is equal to $\Omega/(2\pi^2)$, where $2\pi^2$ is the surface area of $\bbS^3$, and $\Omega$ is the \emph{solid angle} for the four column vectors of $V^{-1}$. The solid angle for $r$ vectors has analytical formulas if $r \leq 3$. For $r = 4$ and higher dimensional, there is a formula in terms of multivariate Taylor series (see, e.g., \citealt{aomoto1977analytic,ribando2006measuring}), but no closed-form formulas are known to the best of our knowledge. However, the probability we are interested in can be efficiently simulated by law of large numbers, because we have reduce the $d$-dimensional Gaussian integral to a four-dimensional one. 
+
+In summary, we have the following expression:
+\[
+	\bbE \RN{1} = m \bbP(V Z \succeq 0), \qquad Z\sim\calN(0, I_4).
+\]
+~\\
+
+{\bf The second term.} For the second term, we have
+\[
+	\bbE \bigg\la \mathbf{1}_m, \sigma'(\rmW \rvx_\alpha) \odot \sigma'(\rmW \rvx_\beta) \odot \sigma(\rmW \rvx_\gamma) \odot \sigma(\rmW \rvx_\xi)  \bigg\ra  = m \bbE \bigg[x_\gamma^\top Z\cdot\rvx_\xi^\top Z\cdot \mathbbm{1}\bigg\{x_\alpha^\top Z \geq 0,\rvx_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg\}\bigg].
+\]
+Similarly, we have
+\begin{align*}
+	& \bbE_{Z\sim\calN(0, I_d)} \bigg[x_\gamma^\top Z\cdot\rvx_\xi^\top Z\cdot \mathbbm{1}\bigg\{x_\alpha^\top Z \geq 0,\rvx_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg\}\bigg] \\
+	& =  \|\rvx_\gamma\|_2 \|\rvx_\xi \|_2\cdot \bbE_{Z\sim\calN(0, I_4)} \bigg[v_\gamma^\top Z \cdot v_\xi^\top Z \cdot \mathbbm{1}\{V_{\alpha, \beta, \gamma, \xi}Z \in \calH\}\bigg],
+\end{align*}	
+which gives the following expression:
+\[
+	\bbE \RN{2} = m \|\rvx_\gamma\|_2 \|\rvx_\xi \|_2\cdot \bbE \bigg[v_\gamma^\top Z \cdot v_\xi^\top Z \cdot \mathbbm{1}\{V_{\alpha, \beta, \gamma, \xi}Z \succeq 0\}\bigg] \qquad Z\sim\calN(0, I_4).
+\]
+~\\
+
+{\bf The third term.} For this term, we have
+\[
+	\bbE \RN{3} = 3m \bbE \bigg[\delta(\rvx_\alpha^\top Z)\cdot\rvx_\beta^\top Z \cdot \mathbbm{1}\bigg\{x_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0\bigg\}\bigg].
+\]
+Using the same rotation trick, we have
+\[
+	\RN{3} = 3m \bbE\bigg[ \delta(\|x_\alpha\|_2 v_\alpha^\top Z ) \cdot \|x_\beta \|_2 v_\beta^\top Z \cdot \mathbbm{1}\bigg\{ v_\beta^\top Z \geq 0, v_\gamma^\top Z \geq 0, v_\xi^\top Z \geq 0  \bigg\} \bigg] ,\qquad Z\sim\calN(0, I_4).
+\]
+Since $v_\alpha = (1, 0, 0, 0)^\top$, we have
+\begin{align*}
+	& \bbE \bigg[\delta(\|x_\alpha \|_2 Z_1) \cdot v_\beta^\top Z \cdot \mathbbm{1}\bigg\{ v_\beta^\top Z\geq 0, v_\gamma^\top Z \geq 0, v_\xi^\top Z \geq 0\bigg\}\bigg] \\
+	& = \bbE_{Z_2, Z_3, Z_4} \bigg[ \int_{-\infty}^\infty dz_1 \frac{1}{\sqrt{2\pi}} e^{-z_1^2/2} \delta(\|x_\alpha \|_2 z_1) h(z_1, Z_2, Z_3, Z_4) \bigg] \\
+	& = \bbE_{Z_2, Z_3, Z_4} \bigg[ \frac{1}{\|\rvx_\alpha\|_2\sqrt{2\pi}} h(0, Z_2, Z_3, Z_4) \bigg] \\
+	& = \frac{1}{\|x_\alpha\|_2\sqrt{2\pi}} \bbE\bigg[ v_{\beta, -1}^\top Z_{-1}\cdot \mathbbm{1}\bigg\{ v_{\beta, -1}^\top Z_{-1} \geq 0, v_{\gamma, -1}^\top Z_{-1}\geq 0, v_{\xi, -1}^\top Z_{-1}\geq 0 \bigg\}\bigg],
+\end{align*}
+where we let $h(Z_1, Z_2, Z_3, Z_4) =  v_\beta^\top Z \cdot \mathbbm{1}\bigg\{ v_\beta^\top Z\geq 0, v_\gamma^\top Z \geq 0, v_\xi^\top Z \geq 0\bigg\}$, and in the second equality, we used the fact that, for $c\neq 0$,
+\[
+	\int_{-\infty}^{\infty} f(\rvx )\delta(cx) dx = \int_{-\infty}^\infty \frac{1}{c} f(\frac{cx}{c}) \delta(cx) d cx = \frac{1}{c} \int_{\sgn(u)\cdot (-\infty)}^{\sgn(u)\cdot (+ \infty)} f(\frac{u}{c})\delta(u) du  = \frac{1}{|c|} \int_{-\infty}^\infty f(\frac{u}{c}) \delta(u) du = \frac{f(0)}{|c|}.
+\]
+Note that the above computation isn't too messy, because we rotate $Z$ to align with $x_\alpha$, and the delta function appears only at the $\alpha$ location. Other terms in $\KKKK_t$ with similar structures as $\RN{3}$ should be handled similarly (i.e., rotate $Z$ to align with the axis where the delta function appears).
+
+In summary, we have
+\[
+	\bbE \RN{3} = \frac{3m}{  \sqrt{2\pi}} \cdot \frac{\|x_\beta\|_2}{\|x_\alpha \|_2} \cdot \bbE\bigg[ v_{\beta, -1}^\top Z_{-1} \cdot \mathbbm{1}\bigg\{ v_{\beta, -1}^\top Z_{-1} \geq 0, v_{\gamma, -1}^\top Z_{-1}\geq 0, v_{\xi, -1}^\top Z_{-1}\geq 0 \bigg\}\bigg].
+\]
+
+~\\
+
+{\bf The fourth term.} We have
+\allowdisplaybreaks
+\begingroup
+\begin{align*}
+	\bbE \RN{4} & = 3m  \bbE\bigg[\delta(\rvx_\alpha^\top Z) \delta(\rvx_\beta^\top Z)\mathbbm{1}\bigg\{\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0 \bigg\}\bigg] \\
+	& = 3m \bbE \bigg[\delta(\|x_\alpha \|_2\cdot Z_1)\cdot \delta\bigl(\|x_\beta \|_2 \cdot (v_{\beta, 1} Z_1 + v_{\beta, 2} Z_2)\bigr) \cdot \mathbbm{1}\bigg\{\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0 \bigg\}\bigg] \\
+	& = 3m \bbE_{Z_3, Z_4} \bigg[\int_{-\infty}^\infty dz_2 \frac{1}{\sqrt{2\pi}}e^{-z_2^2/2} \int_{-\infty}^\infty dz_1 \frac{1}{\sqrt{2\pi}}e^{-z_1^2/2} \cdot \delta(\|\rvx_\alpha\|_2 z_1)\cdot \delta\bigl(\|x_\beta \|_2 \cdot (v_{\beta, 1} z_1 + v_{\beta, 2} z_2)\bigr) \\
+	& \qquad \cdot \mathbbm{1}\bigg\{ v_{\gamma, 1} z_1 + v_{\gamma, 2} z_2 + v_{\gamma, 3} Z_3 + v_{\gamma, 4} Z_4\geq 0, v_{\xi, 1} z_1 + v_{\xi, 2} z_2 + v_{\xi, 3} Z_3 + v_{\xi, 4} Z_4\geq 0 \bigg\} \bigg]  \\
+	& = \frac{3m}{\|x_\alpha\|_2\cdot 2\pi} \cdot \bbE_{Z_3, Z_4}  \bigg[\int_{-\infty}^\infty dz_2 e^{-z_2^2/2} \cdot \delta(\|x_\beta\|_2 v_{\beta, 2} z_2) \\
+	& \qquad \cdot  \mathbbm{1}\bigg\{  v_{\gamma, 2} z_2 + v_{\gamma, 3} Z_3 + v_{\gamma, 4} Z_4\geq 0,  v_{\xi, 2} z_2 + v_{\xi, 3} Z_3 + v_{\xi, 4} Z_4\geq 0 \bigg\} \bigg] \\
+	& = \frac{3m}{2\pi \|x_\alpha \|_2\|x_\beta\|_2|v_{\beta, 2}|}  \bbP(v_{\gamma, 3}Z_3 + v_{\gamma, 4}Z_4 \geq 0, v_{\xi, 3}Z_3 + v_{\xi, 4} Z_4 \geq 0).
+\end{align*}	
+\endgroup
+The probability in the RHS can be calculated explicitly. By spherical symmetry of Gaussian, we have
+\[
+	\bbP(v_{\gamma, 3}Z_3 + v_{\gamma, 4}Z_4 \geq 0, v_{\xi, 3}Z_3 + v_{\xi, 4} Z_4 \geq 0) = \frac{\pi - \angle(v_{\gamma, 3:4}, v_{\xi, 3:4})}{2\pi},
+\]
+where $\angle(v_{\gamma, 3:4}, v_{\xi, 3:4}) = \arccos(\frac{v_{\gamma, 3:4}^\top v_{\xi, 3:4}}{\|v_{\gamma, 3:4} \|_2\|v_{\xi, 3:4}\|_2})\in [0, \pi)$ is the angle between the two vectors $(v_{\gamma , 3}, v_{\gamma, 4}), (v_{\xi, 3}, v_{\xi ,4})$. Hence, we arrive at
+\[
+	\bbE \RN{4} =  \frac{3m [\pi - \angle(v_{\gamma, 3:4}, v_{\xi, 3:4})]}{4\pi^2 \|x_\alpha \|_2\|x_\beta\|_2|v_{\beta, 2}|}.
+\]
+~\\
+
+{\bf The fifth term.} We have 
+\begin{align*}
+	\bbE \RN{5} & = 3m \bbE \bigg[\delta'(\rvx_\alpha^\top Z)\cdot \mathbbm{1}\bigg\{x_\beta^\top Z \geq 0,\rvx_\gamma^\top Z \geq 0,\rvx_\xi^\top Z \geq 0 \bigg\}\bigg] \\
+	& = 3m \bbE \bigg[\delta'(\|x_\alpha\|_2 Z_1) \cdot \mathbbm{1}\bigg\{v_\beta^\top Z \geq 0, v_\gamma^\top Z \geq 0, v_\xi^\top Z \geq 0\bigg\}\bigg] \\
+	& =  \frac{3m}{\sqrt{2\pi}} \bbE_{Z_2, Z_3, Z_4} \bigg[\int_{-\infty}^{\infty} dz_1   \cdot \delta'(\|\rvx_\alpha\|_2 z_1) \cdot e^{-z_1^2/2} \\
+	& \qquad \cdot \sigma'(v_{\beta, 1}z_1 + v_{\beta, -1}^\top Z_{-1})\sigma'(v_{\gamma, 1}z_1 + v_{\gamma, -1}^\top Z_{-1})\sigma'(v_{\xi, 1}z_1 + v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{3m}{\|x_\alpha \|_2\sqrt{2\pi}} \bbE_{Z_1, Z_2, Z_3} \bigg[ \int_{-\infty}^\infty du \cdot \delta'(u) \cdot e^{-{u^2}/{2\|x_\alpha\|_2^2}}\\
+	& \qquad \cdot \sigma'\bigg(\frac{v_{\beta, 1}u}{\|x_\alpha\|_2} + v_{\beta, -1}^\top Z_{-1}\bigg)\sigma'\bigg(\frac{v_{\gamma, 1}u}{\|x_\alpha\|_2} + v_{\gamma, -1}^\top Z_{-1}\bigg)\sigma'\bigg(\frac{v_{\xi, 1}u}{\|x_\alpha\|_2} + v_{\xi, -1}^\top Z_{-1}\bigg)\bigg] \\
+	& = -\frac{3m}{\|x_\alpha \|_2\sqrt{2\pi}}\bbE_{Z_2, Z_3, Z_4} \bigg\{\frac{d}{du}\bigg[ e^{-{u^2}/{2\|x_\alpha\|_2^2}} \\
+	& \qquad \cdot\sigma'\bigg(\frac{v_{\beta, 1}u}{\|x_\alpha\|_2} + v_{\beta, -1}^\top Z_{-1}\bigg)\sigma'\bigg(\frac{v_{\gamma, 1}u}{\|x_\alpha\|_2} + v_{\gamma, -1}^\top Z_{-1}\bigg)\sigma'\bigg(\frac{v_{\xi, 1}u}{\|x_\alpha\|_2} + v_{\xi, -1}^\top Z_{-1}\bigg)\bigg]\bigg|_{u=0}\bigg\},
+\end{align*}
+where the last equality is by integration by part (which essentially defines $\delta(\cdot)$).
+With some algebra, one can see that the derivative term in the RHS is equal to (with $u = 0$)
+\begin{align*}
+	& \frac{v_{\beta, 1}}{\|x_\alpha\|_2}\cdot \delta(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1}) \\
+	& \qquad + \frac{v_{\gamma, 1}}{\|x_\alpha\|_2}\cdot \sigma'(v_{\beta, -1}^\top Z_{-1})  \delta(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1})  \\
+	& \qquad + \frac{v_{\xi, 1}}{\|x_\alpha\|_2}\cdot \sigma'(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \delta(v_{\xi, -1}^\top Z_{-1}),
+\end{align*}
+For the first term in the above display, we have
+\begin{align*}
+	& \bbE \bigg[\delta(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{1}{|v_{\beta, 2}|\sqrt{2\pi}} \bbE_{Z_3, Z_4}  \bigg[\sigma'(v_{\gamma, 3:4}^\top Z_{3:4}) \sigma'(v_{\xi, 3:4}^\top Z_{3:4})\bigg] \\
+	& = \frac{\pi - \angle(v_{\gamma, 3:4}, v_{\xi, 3:4})}{2\pi\sqrt{2\pi} \cdot |v_{\beta, 2}|}.
+\end{align*}
+Meanwhile, we have
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \delta(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \bbE_{Z_4} \bigg[ \frac{1}{2\pi}\iint_{\bbR^2} e^{-(z_2^2+z_3^2)/2} \delta(v_{\gamma, 2}z_2 + v_{\gamma, 3}z_3) \sigma'(v_{\beta, 2}z_2)\sigma'(v_{\xi, 2}z_2 + v_{\xi, 3}z_3 + v_{\xi, 4} Z_4)\bigg].
+\end{align*}
+Using the following change of variables:
+\[
+	u = v_{\gamma, 2} z_2 + v_{\gamma, 3} z_3, \qquad w = z_2,
+\]
+so that
+\[
+	z_2 = w, \qquad z_3 = \frac{u - v_{\gamma, 2}w}{v_{\gamma, 3}},
+\]
+we have
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \delta(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{1}{2\pi}\bbE_{Z_4} \bigg[ \iint_{\bbR^2} \frac{1}{|v_{\gamma, 3}|} \exp\{-\frac{-(w^2 + (v_{\gamma, 2} w/ v_{\gamma, 3})^2)}{2}\} \delta(u) \sigma'(v_{\beta, 2} w) \sigma'(v_{\xi, 2}w + v_{\xi, 3}\frac{u-v_{\gamma, 2}w}{v_{\gamma, 3}} + v_{\xi, 4}Z_4)\bigg] \\
+	&  = \frac{1}{2\pi|v_{\gamma, 3}|} \bbE_{Z_4} \int_{-\infty}^{\infty} dw \exp\{-\frac{w^2}{2}\cdot (1+ (v_{\gamma, 2}/v_{\gamma, 3})^2)\} \sigma'(v_{\beta, 2} w) \sigma'\bigg((v_{\xi, 2} - \frac{v_{\xi, 3}v_{\gamma, 2}}{v_{\gamma, 3}}) w + v_{\xi, 4} Z_4\bigg) \\
+	& = \frac{1}{\sqrt{2\pi}\cdot |v_{\gamma, 3}|}\bbE_{Z_4, W} \bigg[\sigma'(v_{\beta, 2} w)\sigma'\bigg((v_{\xi, 2} - \frac{v_{\xi, 3}v_{\gamma, 2}}{v_{\gamma, 3}}) w + v_{\xi, 4} Z_4\bigg)\bigg],
+\end{align*}
+where $W\sim\calN(0, \frac{1}{1 + v_{\gamma,2}^2/v_{\gamma, 3}^2})$. By rescaling, for $(X, Y)\sim\calN(0, I_2)$, we have
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \delta(v_{\gamma, -1}^\top z_{-1}) \sigma'(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{1}{\sqrt{2\pi} |v_{\gamma, 3}|} \bbE_{X, Y} \bigg[ \sigma'\bigg(\frac{v_{\beta, 2}}{\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2}}\cdot X\bigg)\sigma'\bigg( \frac{v_{\xi, 2}v_{\gamma, 3} - v_{\xi, 3}v_{\gamma, 2}}{v_{\gamma, 3}\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2}} X + v_{\xi, 4} Y \bigg)\bigg] \\
+	& = \frac{1}{2\pi\sqrt{2\pi}|v_{\gamma, 3}|}  \cdot \bigg[\pi - \angle\bigg((\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2} , 0), (\frac{v_{\xi, 2}v_{\gamma, 3} - v_{\xi, 3}v_{\gamma, 2}}{v_{\gamma, 3}\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2}}, v_{\xi, 4})  \bigg)\bigg].
+\end{align*}
+Now let us consider
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \delta(v_{\xi, -1}^\top Z_{-1})\bigg]	 \\
+	& = \frac{1}{2\pi\sqrt{2\pi}} \int_{\bbR^3} e^{-(z_2^2 + z_3^2 + z_4^2)/2} \delta(v_{\xi, 2}z_2 + v_{\xi, 3}z_3 + v_{\xi, 4} z_4) \sigma'(v_{\beta, 2}z_2) \sigma'(v_{\gamma, 2}z_2 + v_{\gamma, 3} z_3) dz_2d z_3 dz_4.
+\end{align*}
+We use the following change of variables:
+\[
+	x = v_{\xi, 2} z_2 + v_{\xi, 3} z_3 + v_{\xi, 4}, \ \ \ y = z_3, \ \ \ z = z_4,
+\]
+so that
+\[
+	z_2 = \frac{x - v_{\xi, 3} y - v_{\xi, 4} z}{v_{\xi, 2}},  \ \ \ z_3 = y, \ \ \ z_4 = z.
+\]
+Then we have
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \delta(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{1}{2\pi\sqrt{2\pi} |v_{\xi, 2}|} \int_{\bbR^3} \exp\{-\frac{(\rvx  - v_{\xi, 3} y - v_{\xi, 4} z)^2/v_{\xi, 2}^2 + y^2 + z^2}{2}\} \cdot  \sigma'\bigg(\frac{v_{\beta, 2} (\rvx  - v_{\xi, 3} y - v_{\xi, 4}z)}{v_{\xi, 2}}\bigg) \\
+	& \qquad \cdot \sigma'\bigg(\frac{v_{\gamma , 2} (\rvx  - v_{\xi, 3}y - v_{\xi, 4} z)}{v_{\xi, 2}}\bigg) \delta(\rvx ) dxdydz,
+\end{align*}
+where $1/|v_{\xi, 2}|$ is the Jacobian term when we do change of variables. Let us define $\Sigma_\xi$ via
+\[
+	\Sigma_\xi^{-1} =  
+	\begin{pmatrix}
+		1 + v_{\xi, 3}^2/v_{\xi, 2}^2 & v_{\xi, 3} v_{\xi, 4} / v_{\xi, 2} \\
+		v_{\xi, 3} v_{\xi, 4} / v_{\xi, 2} & 1 + v_{\xi, 4}^2 / v_{\xi, 2}^2
+	\end{pmatrix}.
+\]
+Integrating $x$ out, we get
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \delta(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{\det(\Sigma_\xi)^{1/2}}{\sqrt{2\pi} |v_{\xi, 2}|} \frac{\det(\Sigma_\xi)^{-1/2}}{2\pi} \int_{\bbR^3} \exp\bigg\{-(y, z) \Sigma_\xi^{-1} (y, z)^\top/2\bigg\} \sigma'\bigg(-\frac{v_{\beta, 2} (v_{\xi, 3} y + v_{\xi, 4} z)}{v_{\xi, 2}}\bigg) \\
+	& \qquad \cdot \sigma'\bigg((v_{\gamma, 3} - \frac{v_{\gamma, 2} v_{\xi, 3}}{v_{\xi, 2}} ) y - \frac{v_{\gamma, 2} v_{\xi, 4}}{v_{\xi, 2}}z\bigg) dydz \\
+	& = \frac{\det(\Sigma_\xi)^{1/2}}{\sqrt{2\pi} |v_{\xi, 2}|} \bbE \bigg[\sigma'\bigg(-\frac{v_{\beta, 2} (v_{\xi, 3} Y + v_{\xi, 4} Z)}{v_{\xi, 2}}\bigg) \cdot \sigma'\bigg((v_{\gamma, 3} - \frac{v_{\gamma, 2} v_{\xi, 3}}{v_{\xi, 2}} ) Y - \frac{v_{\gamma, 2} v_{\xi, 4}}{v_{\xi, 2}}Z\bigg)\bigg],
+\end{align*}
+where $(Y, Z)\sim \calN(0, \Sigma_\xi)$. Note that for another independent vector $(\tilde Y, \tilde Z)\sim \calN(0, I_2)$, we have
+\[
+	(Y, Z) =_d \Sigma_\xi^{1/2} (\tilde Y, \tilde Z).
+\]
+Hence, we have
+\begin{align*}
+	& \bbE \bigg[\sigma'(v_{\beta, -1}^\top Z_{-1})  \sigma'(v_{\gamma, -1}^\top z_{-1}) \delta(v_{\xi, -1}^\top Z_{-1})\bigg] \\
+	& = \frac{\det(\Sigma_\xi)^{1/2}}{\sqrt{2\pi} |v_{\xi, 2}|} \bbE \bigg[\sigma'\bigg(-\frac{v_{\beta, 2}}{v_{\xi, 2}} \cdot (v_{\xi, 3}, v_{\xi, 4}) \cdot \Sigma_\xi^{1/2}\cdot (\tilde Y, \tilde Z)^\top \bigg) \cdot \sigma'\bigg((v_{\gamma, 3} - \frac{v_{\gamma, 2} v_{\xi, 3}}{v_{\xi, 2}} ,   - \frac{v_{\gamma, 2} v_{\xi, 4}}{v_{\xi, 2}} ) \cdot \Sigma_\xi^{1/2} (\tilde Y, \tilde Z)^\top\bigg)\bigg] \\
+	& = \frac{\det(\Sigma_\xi)^{1/2}}{2\pi\sqrt{2\pi} |v_{\xi, 2}|} \cdot \bigg[\pi - \angle\bigg( -\frac{v_{\beta, 2}}{v_{\xi, 2}} \cdot  \Sigma_\xi^{1/2} \cdot 
+	\begin{pmatrix}
+		v_{\xi, 3} \\
+		v_{\xi, 4}
+	\end{pmatrix}, 
+	\Sigma_{\xi}^{1/2}\cdot
+	\begin{pmatrix}
+		v_{\gamma, 3} - \frac{v_{\gamma, 2} v_{\xi, 3}}{v_{\xi, 2}}\\
+		- \frac{v_{\gamma, 2} v_{\xi, 4}}{v_{\xi, 2}}
+	\end{pmatrix}
+	\bigg)
+	\bigg].
+\end{align*}
+
+In summary, we get
+\begin{align*}
+	\bbE \RN{5} & = \frac{-3m}{\|x_\alpha \|_2^2 \sqrt{2\pi}} \cdot \bigg\{ v_{\beta, 1} \cdot T_1 + v_{\gamma, 1} \cdot T_2 + v_{\xi, 1} T_3 \bigg\},
+\end{align*}
+where 
+\begin{align*}
+	T_1 & = \frac{\pi - \angle(v_{\gamma, 3:4}, v_{\xi, 3:4})}{2\pi\sqrt{2\pi} \cdot |v_{\beta, 2}|} \\
+	T_2 & = \frac{1}{2\pi\sqrt{2\pi}|v_{\gamma, 3}|}  \cdot \bigg[\pi - \angle\bigg(
+	\begin{pmatrix}
+		\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2} \\
+		0
+	\end{pmatrix},
+	\begin{pmatrix}
+		\frac{v_{\xi, 2}v_{\gamma, 3} - v_{\xi, 3}v_{\gamma, 2}}{v_{\gamma, 3}\sqrt{1+ v_{\gamma, 2}^2 / v_{\gamma, 3}^2}} \\
+		 v_{\xi, 4}
+	\end{pmatrix} \bigg)\bigg] \\
+	T_3 & = \frac{\det(\Sigma_\xi)^{1/2}}{2\pi\sqrt{2\pi} |v_{\xi, 2}|} \cdot \bigg[\pi - \angle\bigg( -\frac{v_{\beta, 2}}{v_{\xi, 2}} \cdot  \Sigma_\xi^{1/2} \cdot 
+	\begin{pmatrix}
+		v_{\xi, 3} \\
+		v_{\xi, 4}
+	\end{pmatrix}, 
+	\Sigma_{\xi}^{1/2}\cdot
+	\begin{pmatrix}
+		v_{\gamma, 3} - \frac{v_{\gamma, 2} v_{\xi, 3}}{v_{\xi, 2}}\\
+		- \frac{v_{\gamma, 2} v_{\xi, 4}}{v_{\xi, 2}}
+	\end{pmatrix}
+	\bigg)
+	\bigg],
+\end{align*}	
+where
+\[
+	\Sigma_\xi =\begin{pmatrix}
+		1 + v_{\xi, 3}^2/v_{\xi, 2}^2 & v_{\xi, 3} v_{\xi, 4} / v_{\xi, 2} \\
+		v_{\xi, 3} v_{\xi, 4} / v_{\xi, 2} & 1 + v_{\xi, 4}^2 / v_{\xi, 2}^2
+	\end{pmatrix}^{-1}. 
+\]
+
+
+\section{Connections and Differences to Previous Works on Label-Aware Kernels}\label{append:connections}
+We discuss the relation between our proposed kernels and two lines of research on label-aware kernels, namely the Kernel Target Alignment (KTA) and the Information Bottleneck (IB) principle. 
+
+{\bf Connections to KTA.} Recall that our higher-order regression based kernel is 
+\begin{equation*}
+	K^{(\textnormal{HR})}(\rvx, \rvx') :  = \bbE_\init K^{(2)}_0(\rvx, \rvx') + \lambda \gZ(\rvx, \rvx', S), 
+\end{equation*}
+where $\gZ(\rvx, \rvx', S)$ is an estimator of $(\textnormal{label of }\rvx) \times (\textnormal{label of }\rvx')$. From a high-level, this can be regarded as a specific way to to align with the ``optimal'' kernel $\rvy \rvy^\top$, because 
+\[
+    \la\rmK^{(\textnormal{HR})}, \rvy\rvy^\top\ra = \la\bbE_\init [\rmK^{(2)}_0] , \rvy\rvy^\top\ra + \lambda \la \boldsymbol{\calZ}, \rvy\rvy^\top\ra,
+\]
+and the term $\la \boldsymbol{\calZ}, \rvy\rvy^\top\ra$ is close to one as $\boldsymbol{\calZ}$ estimates $\rvy\rvy^\top$ by construction.
+
+{\bf Relations to IB.} Consider the following the model fitting process: $Y\to X \to T \to \hat Y$. That is: 1) The nature generates a label $Y \in \{\pm 1\}$, e.g., a cat; 2) Given the label $Y$, the nature further generates a ``raw'' feature $X$, e.g., an image of a cat; 3) We try to find a feature map which maps $X$ to $T$; 4) We use $T$ to generate a prediction $\hat Y$. 
+
+The IB principle gives a way to justify ``what kind of $T$ is optimal''. More explicitly, it poses the following optimization problem:
+\[
+	\min_{\substack{p_{T|X}\\ p_{Y|T}\\ p_T}} I(p_X; p_T) - \beta I(p_T; p_Y),
+\]
+where we let $p_{A|B}$ to be the conditional density of $A$ conditional on $B$. Then the ``optimal'' feature $T$ is a randomized map which sends a specific realization $X = \rvx$ to a random feature $T \sim p_{T|X=\rvx}$. 
+
+Note that in the IB formulation, the optimal feature $T$ \emph{has no explicit dependence on $Y$} --- it only depends on $Y$ through $X$. This is in sharp contrast to our formulation, where we allow the feature to have explicit dependence on $Y$.
+
+To further illustrate this point, it has been shown that any optimal solution to the IB optimization problem must satisfy the following set of \emph{self-consistent equations} \citep{tishby2000information}:
+\begin{align*}
+	p_{T|X}(t|x)& = \frac{p_T(t)}{Z(x; \beta)} \exp\bigg\{ -\beta D_{KL}(p_{Y|X} \| p_{Y|T})\bigg\}\\
+	p(t) & = \int p_{T|X}(t | x) p_X(x) dx \\
+	p_{Y|T}(y|t) & = \int p_{Y|X}(y|x) p_{X|T}(x|t) dx.
+\end{align*}
+Note that the distribution of the optimal feature $T$ only has dependence on $x$, and has no explicit dependence on $Y$, because $Y$ is marginalized in the KL divergence term.

@@ -1,0 +1,150 @@
+\section{Experiments}
+\label{sec:experiments}
+
+
+\subsection{Experimental Settings}
+\label{subsec:settings}
+%{\bf Data.}
+%For simplicity, we only consider clustering  binary data. For each pair of classes, we treat the 1000 unlabeled examples as primary examples and choose another 1000 examples from other super classes as auxiliary examples.
+%If there are more subclasses within one binary category, data is sampled evenly for each subclass.
+% As for the primary examples, there are $500$ examples for each class. If there are two classes in the auxiliary examples, there are $500$ examples for each class. If there is only one class in the auxiliary examples, we have $1000$ examples for that class. 
+%We use a two-layer feedforward neural networks (FNN) as the NN model by default. 
+
+We evaluate the performance of Algorithm \ref{algo:clustering} on MNIST \citep{lecun1998mnist} and CIFAR-10 \citep{krizhevsky2009learning}. For the MNIST dataset, we choose the $6$ pairs of digits that are the most difficult for the binary $K$-means clustering. Likewise, $6$ pairs of classes are selected from CIFAR-10. For each pair (e.g., 5 and 8), we construct the primary data set by randomly sampling a total of 1000 examples equally from the two classes in the pair. The auxiliary dataset consists of 1000 examples that are randomly drawn from one or two different classes (in the case of two classes, evenly distribute the 1000 examples across the two classes). 
+
+
+Our experiments consider two-layer feedforward neural networks (FNN, which is also used in Figure~\ref{fig:simulations}), CNN \citep{krizhevsky2012imagenet}, and ResNet \citep{he2016deep}. We use $40960$ neurons with the ReLU activation function for two-layer FNN and details of the other architectures can be found in Appendix~\ref{sec:disc-some-terms}.  We consider two types of loss functions, the $\ell_2$ loss and the cross-entropy loss $\mathcal{L}(f,y)=-y\log(f)$. Note that neural networks with the cross-entropy loss have an extra sigmoid layer on top of all layers. We run Algorithm \ref{algo:clustering} in one epoch. For comparison, linear neural networks (with the identity activation function) with the same architectures of their nonlinear counterparts are used as baseline models. Here, the use of linear neural networks instead of linear regression is to prevent possible influence of over-parameterization on our experimental results\footnote{In fact, our experiments show that the two
+  models exhibit very similar behaviors.}. We also consider $K$-means and principal component analysis (PCA) followed by $K$-means as simple baselines.
+
+%%There are corresponding linear baselines for each clustering method with different loss functions. 
+
+\begin{table}[t]
+\centering
+\scalebox{1.0}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Primary Examples & 5 vs 8 & 4 vs 9 & 7 vs 9 & 5 vs 9 & 3 vs 5 & 3 vs 8 \\ \hline
+Auxiliary Examples &3,\;9 &5,\;7 &4,\;5 &4,\;8 & 8,\;9& 5\\ \hline \hline
+$K$-means & 50.4& 54.5 &55.5 &56.3 & 69.0& 76.5\\ \hline
+PCA + $K$-means & 50.4& 54.5 &55.7& 56.5& 70.7 & 76.4\\ \hline
+$\ell_2$-relative(linear)& 51.0& 54.6&51.3 &58.8 & 58.3& 58.7\\ \hline
+$\ell_2$-kernelized (linear) &50.1 &55.5 & 55.5&56.3 &69.3 &76.1 \\ \hline
+BCE-relative (linear) &50.1 &50.0 & 50.2&50.6 &51.4 & 50.1\\ \hline
+BCE-kernelized (linear) & 50.7& 56.7& 62.3& 55.2   & 53.9& 51.6\\ \hline \hline
+$\ell_2$-relative (ours)& {\bf 75.9} & 55.6&62.5 & {\bf 89.3} &50.3 &74.7 \\ \hline
+$\ell_2$-kernelized (ours)&71.0 &{\bf 63.8} &{\bf 64.6} &67.8 & {\bf 71.5}& {\bf 78.8}\\ \hline
+BCE-relative (ours) &50.2 & 50.5&51.9 &55.7 & 53.7& 50.2\\ \hline
+BCE-kernelized (ours) & 52.1& 59.3&64.5 &58.2 & 52.5&51.8 \\ \hline
+\end{tabular}}
+\caption{Classification accuracy of Algorithm~\ref{algo:clustering} and other methods on the MNIST dataset. BCE stands for the binary cross-entropy loss. We use $K$-means for relative similarity based clustering algorithms, and kernel $K$-means for kernelized similarity based clustering algorithms. For example, BCE-kernelized (linear) denotes the setting that uses the BCE loss, kernelized similarity and the linear activation function. The highest accuracy score in each study is in boldface.}
+\label{table:results-MNIST}
+\end{table}
+
+\begin{table}[t]
+\centering
+\scalebox{0.9}{
+%\begin{tabular}{
+%|c|
+%>{\centering\arraybackslash}m{13mm}|
+%>{\centering\arraybackslash}m{13mm}|
+%>{\centering\arraybackslash}m{13mm}|
+%>{\centering\arraybackslash}m{13mm}|
+%>{\centering\arraybackslash}m{13mm}|
+%>{\centering\arraybackslash}m{13mm}|
+%}
+%\begin{tabular}{|c|>{\centering\arraybackslash}p{13mm}|>{\centering\arraybackslash}p{12mm}|>{\centering\arraybackslash}p{12mm}|>{\centering\arraybackslash}p{14mm}|>{\centering\arraybackslash}p{12mm}|>{\centering\arraybackslash}p{13mm}|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Primary Examples & {\small Car vs Cat} & {\small Car vs Horse} & {\small Cat vs Bird} & {\small Dog vs Deer} & {\small Car vs Bird }& {\small Deer vs Frog} \\ \hline
+Auxiliary Examples & {\small Bird} & {\small Cat, Bird} & {\small Car} & {\small Frog} & {\small Cat} & {\small Dog} \\ \hline \hline
+$K$-means & 50.3& 50.9 &51.1 &51.6 &51.8 & 52.4 \\ \hline
+PCA + $K$-means & 50.6& 51.0&51.1 &51.6 &51.7 & 52.4\\ \hline
+$\ell_2$-relative (linear)&50.0 & 56.8 &55.2 &50.6 &56.3 & 52.5\\ \hline
+$\ell_2$-kernelized (linear) &50.4 & 50.7& 51.1&51.3 &51.9 & 52.8\\ \hline
+BCE-relative (linear) &50.4 &50.9 &50.2 &50.6 &55.3 & 50.2\\ \hline 
+BCE-kernelized (linear) & 55.7& 58.1&52.0 &50.5 &55.8 & 53.0\\ \hline \hline
+$\ell_2$-relative (ours)&53.7 & 50.2& {\bf 58.4}& {\bf 54.2} & {\bf 63.0} & {\bf 53.5}\\ \hline
+$\ell_2$-kernelized (ours)& 52.1&50.5 &53.6 &52.7 &50.5 &53.0 \\ \hline
+BCE-relative (ours)& 51.1& 53.5&50.7 &51.1 &55.6 & 50.3\\ \hline
+BCE-kernelized (ours)& {\bf 58.4}& {\bf 59.7}& 56.6&51.2 &55.0 & 51.8\\ \hline
+\end{tabular}}
+\caption{Classification accuracy of Algorithm \ref{algo:clustering} and other methods on the CIFAR-10 dataset.}
+\label{table:results-CIFAR-10}
+\end{table}
+
+
+\subsection{Results}
+\label{subsec:results}
+{\bf Comparison between relative and kernelized similarities.} Table \ref{table:results-MNIST} and Table \ref{table:results-CIFAR-10} display the results on MNIST and CIFAR-10, respectively. The relative similarity based method with the $\ell_2$ loss performs best on CIFAR-10, while the kernelized similarity based method with the $\ell_2$ loss outperforms the other methods on MNIST. Overall, our methods outperform both linear and simple baseline models. These results demonstrate the effectiveness of Algorithm~\ref{algo:clustering} and confirm our hypothesis of local elasticity in neural nets as well.
+
+% There are some interesting phenomena. First, the kernelized similarity based method is more suitable for the cross-entropy loss and the relative similarity based method is more suitable with $\ell_2$ loss. Second, the relative similarity based method with $\ell_2$ loss is the best method for CIFAR-10, while the kernelized similarity based method with $\ell_2$ loss is the best method for MNIST. Third, the best methods for MNIST and CIFAR-10 outperform both linear baselines and simple baselines. 
+{\bf Comparison between architectures.} The results of Algorithm~\ref{algo:clustering} with the aforementioned three types of neural networks, namely FNN, CNN, and ResNet on MNIST are presented in Table~\ref{table:architectures}. The results show that CNN in conjunction with the kernelized similarity has high classification accuracy. In contrast, the simple three-layer ResNet seems to not capture local elasticity. 
+
+To further evaluate the effectiveness of the local elasticity based Algorithm~\ref{algo:clustering}, we compare this clustering algorithm using CNN with two types of feature extraction approaches: autoencoder\footnote{We use the autoencoder in \url{https://github.com/L1aoXingyu/pytorch-beginner/blob/master/08-AutoEncoder/conv_autoencoder.py}.} and pre-trained ResNet-152 \citep{he2016deep}. An autoencoder reconstructs the input data in order to learn its hidden representation. ResNet-152 is pre-trained on ImageNet \citep{deng2009imagenet} and can be used to extract features of images. The performance of those models on MNIST\footnote{Here, the comparison between our methods and ResNet-152 on CIFAR-10 is not fair since ResNet-152 is trained using samples from the same classes as CIFAR-10.} are shown in Table \ref{table:others}. Overall, autoencoder yields worst results. Although ResNet-152 performs quite well in general, yet our methods outperform it in some cases. It is an interesting
+direction to combine the strength of our algorithm and ResNet-152 in classification tasks that are very different from ImageNet. Moreover, unlike ResNet-152, our methods do not require a large number of examples for pre-training\footnote{As a remark, here we do not compare with other clustering methods that are based on neural networks, such as DEC \citep{xie2016unsupervised}. We can replace $K$-means by other clustering algorithms to possibly improve the performance in some situations.}.
+\begin{table}[t]
+\centering
+\scalebox{1.0}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Primary Examples & 5 vs 8 & 4 vs 9 & 7 vs 9 & 5 vs 9 & 3 vs 5 & 3 vs 8 \\ \hline
+Auxiliary Examples &3,\;9 &5,\;7 &4,\;5 &4,\;8 & 8,\;9& 5\\ \hline \hline
+%$K$-means & 50.4& 54.5 &55.5 &56.3 & 69.0& 76.5\\ \hline
+%PCA + $K$-means & 50.4& 54.3 &55.7& 56.5& 70.7 & 76.4\\ \hline
+$\ell_2$-relative (FNN)& {\bf 75.9} & 55.6&62.5 & 89.3 &50.3 &74.7 \\ \hline
+$\ell_2$-kernelized (FNN) &71.0 & 63.8 & 64.6 &67.8 & 71.5& 78.8\\ \hline
+$\ell_2$-relative (CNN) &54.2 & 53.7&89.1 &50.1 &50.1 & 83.0\\ \hline
+$\ell_2$-kernelized (CNN)& 64.1& {\bf 69.5} & {\bf 91.3} & {\bf 97.6} & {\bf 75.3} & {\bf 87.4} \\ \hline
+$\ell_2$-relative (ResNet) &50.7 &55.0 &55.5 & 78.3&52.3 &52.3 \\ \hline
+$\ell_2$-kernelized (ResNet)& 50.2&60.4 &54.8 &76.3 &66.9 &68.8 \\ \hline
+\end{tabular}}
+\caption{Comparison of different architectures for the local elasticity based clustering algorithm. We only consider the $\ell_2$ loss on MNIST here for the sake of simplicity. 
+% We use $K$-means for relative similarity based algorithms and kernel $K$-means for kernelized similarity based algorithms.
+}
+\label{table:architectures}
+\end{table}
+\begin{table}[t]
+\centering
+\scalebox{1.0}{
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Primary Examples & 5 vs 8 & 4 vs 9 & 7 vs 9 & 5 vs 9 & 3 vs 5 & 3 vs 8 \\ \hline
+Auxiliary Examples &3,\;9 &5,\;7 &4,\;5 &4,\;8 & 8,\;9& 5 \\ \hline \hline
+%$K$-means & 50.4& 54.5 &55.5 &56.3 & 69.0& 76.5\\ \hline
+%PCA + $K$-means & 50.4& 54.5 &55.7& 56.5& 70.7 & 76.4\\ \hline
+AutoEncoder &50.9  & 54.0 &61.8&70.0 & 64.3& 67.1 \\ \hline
+ResNet-152 & {\bf 85.2} & {\bf 94.2} & {\bf 93.1}& 82.0&65.8 & {\bf 96.0} \\ \hline \hline
+% ResNet-152 + PCA + $K$-means & {\bf 85.2} & {\bf 94.2} &93.0 &82.0 &65.8 & {\bf 96.0} \\ \hline
+$\ell_2$-relative (ours) &54.2 & 53.7&89.1 &50.1 &50.1 & 83.0\\ \hline
+$\ell_2$-kernelized (ours)& 64.1& 69.5 &  91.3 & {\bf 97.6} & {\bf 75.3} & 87.4 \\ \hline
+\end{tabular}}
+\caption{Comparison with other feature extraction methods. For simplicity, we only consider CNN with $\ell_2$ loss on MNIST.
+% We use $K$-means for relative similarity based algorithms and kernel $K$-means for kernelized similarity based algorithms. 
+The features from autoencoder and ResNet-152 are clustered by $K$-means.}
+\label{table:others}
+\end{table}
+To better appreciate local elasticity and Algorithm~\ref{algo:clustering}, we study the effect of parameter initialization, auxiliary examples and normalized kernelized similarity in Appendix \ref{sec:disc-some-terms}. More discussions on the expected relative change, activation patterns, and activation functions can also be found in Appendix \ref{sec:disc-some-terms}.
+%ResNet-152 + $K$-means is similar to ResNet-152 + PCA + $K$-means.
+
+% As for the deep autoencoder, our methods significantly outperform them.
+%%{\bf Parameter Initialization.} As discussed in Section \ref{sec:local-elast-based}, parameter initialization is important for local elasticity based clustering methods. We find that the optimal setting always outperforms the random setting. It supports the intuition that we can learn detailed features of primary examples to better distinguish them from auxiliary examples. More details can be found in Appendix \ref{subsec:random-vs-optimal}.
+
+%%{\bf auxiliary Examples.} 
+% Another important aspect of our methods is the choice of auxiliary examples. 
+%%In general, we can choose those samples that are similar to primary examples as auxiliary examples, so they can help neural nets better learn primary examples. We analyze the primary examples pair $5$ and $8$ in MNIST with $6$ different settings of auxiliary examples. We find that the choice of auxiliary examples are crucial. For example, in our case $9$ is close to $5$ and $3$ is close to $8$ based on $K$-means clustering results, so that we can choose $9$ and $3$ as auxiliary examples for models to better distinguish $5$ and $8$. More details can be found in Appendix \ref{subsec:auxiliary-examples}.
+%Show an example here and list different auxiliary examples. We use batch size 50 for all experiments, except 5-8-3-3 on BCE loss because it overfits at some points where we cannot get the elastic kernel and elastic similarity results, we simply use the batch size 500 for it.\\
+
+%%{\bf Normalized Kernelized Similarity.} As shown in Section \ref{subsec:kernel}, the normalized kernelized similarity can achieve more stable local elasticity. We compare clustering algorithms based on kernelized similarity and normalized kernelized similarity in MNIST. We find that the performance of the normalized kernelized similarity based methods is slightly better than that of kernelized similarity based methods with the $\ell_2$ loss, although this conclusion no longer holds true with cross-entropy loss. More details can be found in Appendix \ref{subsec:normalized-kernel}.
+%%\subsection{Local Elasticity Analysis}
+
+%%{\bf Expected Relative Change Analysis.} We compute the average relative change of two-layer neural nets and linear neural networks fitting the torus function. The average relative change of two-layer neural nets and linear neural networks are $0.44$ and $0.68$, indicating that SGD updates of two-layer neural nets are more local than that of two-layer linear neural networks. These findings further support our local elasticity theory of neural nets.
+
+%%{\bf Activation Analysis.} The key difference between our methods and linear baselines is nonlinear activation. We analyze the relations between the patterns of ReLU activation function of two-layer neural nets and corresponding Euclidean distances. For each input $\mbf{x}$, we use $\mbf{a}$ to denote the binary activation pattern of each neuron. The similarity between binary activation patterns is computed from the cosine similarity function. We find that the activation similarity is linearly dependent on the Euclidean distance, meaning that closer points in the Euclidean space will have more similar activation patterns. More details can be found in Appendix \ref{subsec:activation}. 
+%The activation analysis for two-layer neural nets on the torus function are shown in Figure \ref{fig:activation}. 
+
+%%{\bf Activation Function Analysis.} We experiment on another standard activation function, sigmoid, to see its local elasticity. We find that sigmoid can also provide neural nets with the local elasticity. More details can be found in Appendix \ref{subsec:sigmoid}.
+%The results are shown in Figure \ref{fig:sigmoid}.
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

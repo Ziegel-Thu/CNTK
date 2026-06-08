@@ -1,0 +1,129 @@
+\allowdisplaybreaks
+
+\subsection{Derivation of the second moment matrix}\label{app:deriv-2nd-moment}
+
+In the random design, we have $y_i = f^*(\bm x_i) +\varepsilon_i$ and $\bm x_i \sim N(0, \bm I_d)$ where $\varepsilon_i$ are i.i.d. sub-Gaussian noise random variables with zero mean and variance $\sigma_\varepsilon^2$. This way $\bm \varsigma = \sum_{i=1}^n y_i\bm x_i$ is random, the random vector $\bm z = \bm w + \frac{\mu_1\eta}{n\sqrt m}a\bm \varsigma$ has mean $0$ and covariance 
+\[
+    \mathbb E[\bm z \bm z^\top] = \mathbb E[\bm w \bm w^\top] + \frac{\mu_1^2 \eta^2}{n^2m}\mathbb E[a^2 \bm \varsigma \bm \varsigma^\top]\, .
+\]
+Since $a \sim \mathcal N(0, \frac{1}{m})$ independently, we have 
+\[
+    \mathbb E[a^2 \bm \varsigma \bm \varsigma^\top] = \frac{1}{m}\mathbb E[\bm \varsigma \bm \varsigma^\top] = \frac{1}{m}\Big\{ n\mathbb E[y^2 \bm x \bm x^\top] + n(n-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top] \Big\}\, .
+\]
+Using that $y = f^*(\bm x) + \varepsilon$ we have
+\[
+    \mathbb E[y^2 \bm x \bm x^\top] = \mathbb E[f^*(\bm x)^2 \bm x \bm x^\top] + \sigma_{\varepsilon}^2 \bm I_d\, .
+\]
+
+Thus,
+\[
+    \mathbb E[a^2 \bm \varsigma \bm \varsigma^\top] = \frac{1}{m}\Big(n \Big \{\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \sigma_{\varepsilon}^2\bm I_d\Big\}+ n(n-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top]\Big )\, .
+\]
+Hence, the covariance of $\bm z$ is given by the second moment matrix
+\begin{align*}
+    \mathbb E[\bm z \bm z^\top] &= \mathbb E_{(\bm w, \bm x, a, \varepsilon)}\left[\left(\bm w + \frac{\mu_1\eta}{n \sqrt{m}}a \bm \varsigma\right) \left(\bm w + \frac{\mu_1\eta}{n \sqrt{m}}a \bm \varsigma\right)^\top\right]\\
+    &= \frac{1}{d} \bm I_d + \frac{\mu_1^2\eta^2}{n^2 m^2}\Big(n \Big \{\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \sigma_{\varepsilon}^2\bm I_d\Big\}+ n(n-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top]\Big )\\
+    &= \frac{1}{d} \bm I_d + \frac{\mu_1^2\eta^2}{n m^2}\Big(\Big \{\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \sigma_{\varepsilon}^2\bm I_d\Big\}+ (n-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top]\Big )\, .
+\end{align*}
+Finally, using $n = \alpha d$ and $m = \beta d$, we can rewrite this as
+\begin{align*}
+    &= \frac{1}{d} \bm I_d + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^3}\Big(\Big \{\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \sigma_{\varepsilon}^2\bm I_d\Big\}+ (\alpha d-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top]\Big )\\
+    &= \frac{1}{d} \left(\bm I_d + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^2}\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^2}\sigma_{\varepsilon}^2\bm I_d + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^2}(\alpha d-1)\mathbb E[y\bm x] \mathbb E[y \bm x^\top] \right)\\
+    &= \frac{1}{d} \left(\bm I_d + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^2}\mathbb E[f^*(\bm x)^2 \bm x \bm x^\top]  + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d^2}\sigma_{\varepsilon}^2\bm I_d + \frac{\mu_1^2\eta^2}{\alpha \beta^2 d}\left(\alpha -\frac{1}{d}\right)\mathbb E[y\bm x] \mathbb E[y \bm x^\top] \right)\\
+    &= \frac{1}{d} \left(\bm I_d + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\mathbb E[f^*(\bm x)^2 \bm x\bm x^\top] + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\sigma_\varepsilon^2 \bm I_d  + \frac{\eta^2\lambda_{\alpha, \beta}}{d}\Big(\alpha - \frac{1}{d}\Big)\mathbb E[f^*(\bm x)\bm x]\mathbb E[f^*(\bm x)\bm x^\top]\right)\, ,
+\end{align*}
+where $\lambda_{\alpha, \beta} := \frac{\mu_1^2}{\alpha \beta^2}$ and $\alpha, \beta$ are the same constants as defined in \cref{eq:joint_limit}. By using Stein's Lemma the last term simplifies to
+\[
+    \mathbb E[f^*(\bm x)\bm x]\mathbb E[f^*(\bm x)\bm x^\top] = \mathbb E[g'(\langle \bm w^*, \bm x\rangle)]^2\bm w^* (\bm w^*)^\top = \mu_1^2\bm w^* (\bm w^*)^\top\, .
+\]
+
+We can further rewrite the second term by letting $h(\boldsymbol{x}) = f^*(\boldsymbol{x})^2\boldsymbol{x} \in \mathbb{R}^d$ such that $J_h \in \mathbb{R}^{d \times d}$, and applying Stein's Lemma:
+\begin{align*}
+    \mathbb{E}[f^*(\boldsymbol{x})^2\boldsymbol{x}\boldsymbol{x}^\top] &= \mathbb{E}[h(\boldsymbol{x})\boldsymbol{x}^\top] \\
+        &= \mathbb{E}[J_h(\boldsymbol{x})] = \mathbb{E}[J_{\{f^*(\boldsymbol{x})^2\boldsymbol{x}\}}] \\
+        &= \mathbb{E}[\boldsymbol{x}(\nabla f^*(\boldsymbol{x})^2)^\top] + \mathbb{E}[f^*(\boldsymbol{x})^2]\boldsymbol{I}_d \\
+        &= 2\mathbb{E}[g(\langle\boldsymbol{w}^*,\boldsymbol{x}\rangle)g'(\langle\boldsymbol{w}^*,\boldsymbol{x}\rangle)\boldsymbol{x}](\boldsymbol{w}^*)^\top + \mathbb{E}[f^*(\boldsymbol{x})^2]\boldsymbol{I}_d.
+\end{align*}
+In particular, if $g$ is smooth enough, we can apply the same idea to obtain 
+\begin{align*}
+    \mathbb E[f^*(\bm x)^2 \bm x\bm x^\top] &= 2\mathbb E[\nabla f^*(\bm x) \nabla f^*(\bm x)^\top] + 2\mathbb E[f^*(\bm x) \bm H_{f^*}(\bm x)] + \mathbb E[f^*(\bm x)^2]\bm I_d\\
+    &= 2\{\mathbb E[g'(\langle \bm w^*,\bm x\rangle)^2]+ \mathbb E[g(\langle \bm w^*,\bm x\rangle)g''(\langle \bm w^*,\bm x\rangle)]\}\bm w^*(\bm w^*)^\top + \mathbb E[f^*(\bm x)^2]\bm I_d\\
+    &\coloneqq 2 s \bm w^*(\bm w^*)^\top + \mathbb E[f^*(\bm x)^2]\bm I_d\,,
+\end{align*}
+where $\bm H_{f^*}$ is the Hessian matrix of $f^*$. Remarkably in this case we have an isotropic term dependent on $\mathbb E[f(\bm x)^2]$, but also an explicit projection onto the one dimensional space created by the target weights $\bm w^*$. Note that even when $g$ is not twice differentiable, the fact that $g$ is Lipschitz and bounded implies $g$ has weak derivatives in the sense of distribution; thus the quantity above is well-defined regardless of the existence of the classical derivatives of $g$.
+
+As a conclusion, the second moment matrix can be written as
+\begin{align*}
+    \mathbb E[\bm z\bm z^\top] &= \frac{1}{d} \left(\bm I_d + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2} \Big\{2 s \bm w^*(\bm w^*)^\top + \mathbb E[f^*(\bm x)^2]\bm I_d\Big\} + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\sigma_\varepsilon^2 \bm I_d  + \frac{\eta^2\lambda_{\alpha, \beta}}{d}\Big(\alpha - \frac{1}{d}\Big) \mu_1^2\bm w^* (\bm w^*)^\top\right)\\
+    &= \frac{1}{d} \left(\bm I_d + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2} \mathbb E[f^*(\bm x)^2]\bm I_d + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\sigma_\varepsilon^2 \bm I_d  + \frac{\eta^2\lambda_{\alpha, \beta}}{d}\Big(\alpha - \frac{1}{d} + \frac{2s}{\mu_1^2d}\Big) \mu_1^2\bm w^* (\bm w^*)^\top\right)\\
+    &=\frac{1}{d}\left(\bm I_d + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\mathbb E[f^*(\bm x)^2]\bm I_d  +\frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\sigma_\varepsilon^2 \bm I_d + \frac{\eta^2}{d}\frac{\mu_1^4}{\alpha \beta^2}\Big(\alpha - \frac{1}{d} + \frac{2s}{\mu_1^2d}\Big) \bm w^* (\bm w^*)^\top\right)\, . 
+\end{align*}
+
+\subsection{Characterization of the coefficient $s$ in the new covariance matrix}\label{app:spike-coef}
+
+Remember that, for $h(t) := [g(t)]^2$, we have
+\[
+    s = \mathbb E[g'(\langle \bm w^*,\bm x\rangle)^2]+ \mathbb E[g(\langle \bm w^*,\bm x\rangle)g''(\langle \bm w^*,\bm x\rangle)] = \frac{1}{2}\mathbb E[h''(\langle \bm w^*, \bm x\rangle)]\, .
+\]
+To characterize the behavior of $s$, considering that $\|\bm w^*\| = 1$ without loss of generality, we write $ Z:= \langle \bm w^*, \bm x\rangle \sim \mathcal N(0, 1)$ and note that for the standard Gaussian measure the following identity holds
+\[
+    \mathbb E_Z[h''(Z)] = \mathbb E_Z[(Z^2 - 1) h(Z)] = \mathbb E_Z[(Z^2 - 1) g(Z)^2]\, .
+\]
+We have
+\[
+    \mathbb E_Z[(Z^2 - 1) g(Z)^2] = \mathbb E_Z[Z^2g(Z)^2] - \mathbb E_Z[g(Z)^2] = \text{Cov}(Z^2, g(Z)^2)\, .
+\]
+Also note that $g$ is bounded, therefore
+\[
+    \mathbb E_Z[(Z^2 - 1) g(Z)^2] \leq M^2_g\mathbb E[|Z^2 - 1|] \leq C_g\, ,
+\]
+where $C_g$ depends exclusively on $M_g$ and not on the dimension $d$.
+
+Since $g(Z)^2$ is always non-negative, the sign of $s$ depends entirely on the $(Z^2 - 1)$ weighting factor: if $Z \in (-1, 1)$, then $(Z^2 - 1)$ is negative; if $|Z| > 1$, then $(Z^2 - 1)$ is positive. Therefore, $s$ will be negative if  $g(Z)^2$ concentrates most of its mass inside the interval $(-1, 1)$ and decays to zero before the positive regions ($|Z| > 1$) can outweigh it. In other words, $s < 0$ when the link function $g$ is highly localized or ``bump-like" near the origin.
+
+To illustrate the behavior of $s$ across different link functions, we discuss some concrete examples.
+\paragraph{Cases when $s < 0$:} To guarantee a negative $s$, we need functions that heavily prioritize the interval $(-1, 1)$ and ignore the tails.
+
+{\bf Indicator function:} Let $g(t) = 1$ if $|t| < 1$, and $0$ elsewhere. This choice makes $g(t)^2$ be exactly $1$ entirely inside the region where $(Z^2 - 1)$ is negative, and it evaluates to $0$ everywhere $(Z^2 - 1)$ is positive. We have $s = \frac{1}{2}\mathbb{E}[(Z^2 - 1)g(Z)^2] = \frac{1}{2}\int_{-1}^{1} (t^2 - 1) \frac{1}{\sqrt{2\pi}} e^{-t^2/2} \mathrm d t$. Because the integrand is strictly negative everywhere in this domain, $s$ must be negative.
+
+{\bf Gaussian bump:} Let $g(t) = \exp(-t^2/2)$. This is a very a localized function. It smoothly peaks at the origin and decays rapidly, heavily weighting the "negative zone" and suppressing the "positive zone. For this case we have $g(t)^2 = \exp(-t^2)$ and evaluating the quantity gives $s = \frac{1}{2}\mathbb{E}[(Z^2 - 1)\exp(-Z^2)]$. This is equivalent to taking the integral of $(t^2 - 1)$ against a tighter Gaussian density $\mathcal{N}(0, 1/3)$. Since the variance is $\frac{1}{3}$, the integral evaluates to something proportional to $(\frac{1}{3} - 1) = -\frac{2}{3}$, yielding a strictly negative $s$.
+
+\paragraph{Cases when $s > 0$:}
+To guarantee a positive $s$, we need monotonic functions, or functions that deliberately target the extreme tails of the distribution.
+
+{\bf Identity function:} Let $g(t) = t$. This is the simplest possible case. We have $h(t) = t^2$ and taking the second derivative $h''(t) = 2$. Using the definition $s = \frac{1}{2}\mathbb{E}[h''(Z)]$, we get $s = \frac{1}{2} \mathbb{E}[2] = 1 > 0$.
+
+{\bf Indicator function of the complement:} Let $g(t) = 1$ if $|t| > 1$, and $0$ elsewhere. This function completely zeroes out the region where $(Z^2 - 1)$ is negative. Computing $s = \frac{1}{2}\mathbb{E}[(Z^2 - 1)g(Z)^2] = \int_{1}^{\infty} (t^2 - 1) \frac{1}{\sqrt{2\pi}} e^{-t^2/2} \mathrm d t$. Because $(t^2 - 1)$ is strictly positive for all $t > 1$, the integral is definitively positive.
+
+{\bf Quadratic function:} Let $g(t) = t^2$. Polynomials naturally place massive weight on the tails where numbers grow large, easily overpowering the center. If we compute the quantities necessary $h(t) = t^4$, so $h''(t) = 12 t^2$. Evaluating $s = \frac{1}{2}\mathbb{E}[12Z^2] = 6\mathbb{E}[Z^2] = 6 > 0$. 
+
+
+%\subsection{Second moment matrix when $g$ is the ReLU}\label{app:2nd-moment-relu}
+
+{\bf ReLU function:} Here we consider the case that $g$ is the ReLU activation, i.e. $g(t) = \max(0,t)$.
+%As an example, we can compute what this matrix would look like if $g$ is the ReLU activation, i.e. $g(t) = \max(0,t)$. Again, we show all the calculations considering the effect of $\|\bm w^*\|$.
+Let
+\[
+    Z = \langle \bm w^*, \bm x\rangle \sim \mathcal N(0, \|\bm w^*\|^2)
+\]
+then 
+\[
+    \mathbb E[g(\langle \bm w^*, \bm x\rangle) g''(\langle \bm w^*, \bm x\rangle)] = \mathbb E[g(Z) g''(Z)]
+\]
+and the second derivative must be interpreted distributionally. Since $g$ is continuous and $g(0) = 0$, the multiplication of the Dirac distribution by $g$ is well-defined and
+\[
+    gg'' = g \delta_0 = g(0) \delta_0 = 0.
+\]
+
+Therefore,
+\[
+    \mathbb E[g(Z) g''(Z)] = 0.
+\]
+Moreover $g'(t) = \bm 1_{\{t \geq 0\}}$, so by the symmetry of the centered Gaussian 
+\[
+    \mathbb E[g'(Z)^2] = \mathbb P(Z \geq 0) = \frac{1}{2}\, .
+\]
+In the end, combining both results into the definition of $s$ we get
+\[
+    s = \mathbb E[g'(Z)^2] + \mathbb E[g(Z)g''(Z)] = \frac{1}{2}\,.
+\]

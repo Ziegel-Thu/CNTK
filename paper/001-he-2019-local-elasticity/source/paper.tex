@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage{iclr2020_conference,times}
+%\usepackage[round]{natbib}
+%\usepackage[colorlinks=true,allcolors=blue,urlcolor={black}]{hyperref}
+\usepackage{url}
+%%\usepackage[top=1.15in, bottom=1.3in, left=1.25in, right=1.25in]{geometry}
+
+%%\usepackage{refcheck}
+
+% \documentclass{article} % For LaTeX2e
+% \usepackage{iclr2020_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+%\input{math_commands.tex}
+\input{math_commands.tex}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{array}
+\usepackage{graphicx}
+%\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{wrapfig}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\usepackage{bm}
+
+\graphicspath{{Figures/}}
+
+
+% \usepackage{theorem}
+% \newtheorem{theorem}{Theorem}
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{proposition}[theorem]{Proposition}
+% \newtheorem{claim}[theorem]{Claim}
+
+% %\theoremstyle{definition}
+% \newtheorem{definition}[theorem]{Definition}
+% %\theoremstyle{remark}
+% \newtheorem{remark}[theorem]{Remark}
+% %\theoremstyle{assumption}
+% \newtheorem{assumption}[theorem]{Assumption}
+% %\theoremstyle{definition}
+% \newtheorem{example}[theorem]{Example}
+
+%\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\bw}{\mbf{w}}
+\newcommand{\bx}{\mbf{x}}
+\newcommand{\Sr}{S_{\mathrm{rel}}}
+\newcommand{\Sk}{S_{\mathrm{ker}}}
+\newcommand{\bSk}{\overline{S}_{\mathrm{ker}}}
+\newcommand{\Sy}{S_{\mathrm{symm}}}
+\newcommand{\ntk}{\mathrm{NTK}}
+\renewcommand{\gamma}{\eta}
+
+\iclrfinalcopy
+
+\title{The Local Elasticity of Neural Networks}
+%\title{The Local Elasticity of Neural Networks: One Phenomenon, Two Algorithms, and Three Implications}
+% redundant
+%% implications and applications read weird.
+
+%\title{The Local Elasticity of Neural Networks, with Application to Unsupervised Classification}
+%%Effect: Explaining the Unreasonable Effectiveness of Deep Neural Networks}
+%% it this really semi-supervised learning?
+
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+%\author{Hangfeng He\thanks{Department of Computer and Information Science, University of Pennsylvania. \texttt{hangfeng@seas.upenn.edu}.} \and Weijie J.~Su\thanks{Department of Statistics, the Wharton School, University of Pennsylvania. \texttt{suw@wharton.upenn.edu}.}}
+%\date{}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+%%\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\mbf}[1]{\bm{#1}}
+% \newcommand{\weijie}[1]{\textcolor{red}{[WJ: #1]}}
+% \newcommand{\hangfeng}[1]{\textcolor{blue}{[HF: #1]}}
+% \newcommand{\hangfengchange}[1]{\textcolor{blue}{#1}}
+
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+
+
+
+\author{Hangfeng He \& Weijie J.~Su \\
+University of Pennsylvania \\
+Philadelphia, PA\\
+\texttt{hangfeng@seas.upenn.edu, suw@wharton.upenn.edu}
+}
+
+\iffalse
+{\centering
+\vspace*{-0.7cm}
+\noindent\textsuperscript{$\ast$}Department of Computer and Information Science, University of Pennsylvania 
+% %\texttt{hangfeng@seas.upenn.edu}
+% \\[0.5em]
+\noindent\textsuperscript{$\dagger$}Department of Statistics, the Wharton School, University of Pennsylvania \texttt{hangfeng@seas.upenn.edu, suw@wharton.upenn.edu}
+\par\bigskip
+\date{October 14, 2019}\par\medskip
+}
+\fi
+
+\maketitle
+
+\begin{abstract}
+%Deep neural networks (DNNs) have great success in many machine learning applications, but the reasons for the unreasonable effectiveness are still unclear, which blocks the design and usage of DNNs. Recent progresses in theory illustrates the convergence of over-parameterized networks and connect the DNNs with kernels in the infinite width limit. However, these progresses are based on the assumption of a wide enough layer, which is not the case of practice. In this paper, we instead propose a new intuitive geometric interpretation, \textit{the elastic effect},to explain the effectiveness of those practical DNNs. Based on the elastic effect of DNNs, two clustering algorithms are developed and demonstrated the efficiency in thorough experiments, which further supporting the elastic effect interpretation. Finally, we provide a self-contained justification of the strong ability of DNNs on the meomorization, generalization, robustness and large scale and the trick of data normalization and batch normalization.
+
+%% call it phenomenon instead of hypothesis?
+
+This paper presents a phenomenon in neural networks that we refer to as \textit{local elasticity}. Roughly speaking, a classifier is said to be locally elastic if its prediction at a feature vector $\bx'$ is \textit{not} significantly perturbed, after the classifier is updated via stochastic gradient descent at a (labeled) feature vector $\bx$ that is \textit{dissimilar} to $\bx'$ in a certain sense. This phenomenon is shown to persist for neural networks with nonlinear activation functions through extensive simulations on real-life and synthetic datasets, whereas this is not observed in linear classifiers. In addition, we offer a geometric interpretation of local elasticity using the neural tangent kernel \citep{jacot2018neural}. Building on top of local elasticity, we obtain pairwise similarity measures between feature vectors, which can be used for clustering in conjunction with $K$-means. The effectiveness of the clustering algorithm on the MNIST and CIFAR-10 datasets in turn corroborates the hypothesis of local elasticity of neural networks on real-life data. Finally, we discuss some implications of local elasticity to shed light on several intriguing aspects of deep neural networks.
+
+%\weijie{Hangfeng, I did Google search and found that feature vectors are commonly used to denote $x$.}
+%%, offers insights into the memorization and generalization of neural nets and sheds light on some techniques such as batch normalization. We conclude the paper by making possible connections between local elasticity and optimization, approximation, generalization, and robustness of neural nets.
+
+%%  we obtain clustering algorithms that rest on certain similarity measures of feature vectors. 
+\end{abstract}
+
+
+
+\input{introduction.tex}
+\input{theoretical.tex}
+\input{algorithm.tex}
+\input{experiments.tex}
+\input{conclusion.tex}
+
+\subsection*{Acknowledgements}
+We would like to thank Yu Bai, Zhun Deng, Simon Du, Jiaoyang Huang, Song Mei, Andrea Montanari, Yuandong Tian, and Qinqing Zheng for stimulating discussions. This work was supported in part by NSF via CAREER DMS-1847415 and CCF-1763314, and the Wharton Dean's Research Fund. 
+
+%% at an early stage of this work
+
+\bibliography{iclr2020_conference}
+\bibliographystyle{iclr2020_conference}
+
+\clearpage
+\appendix
+\input{appendixA}
+%\input{appendixB}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

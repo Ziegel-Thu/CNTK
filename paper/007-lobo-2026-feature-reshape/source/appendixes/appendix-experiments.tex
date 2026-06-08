@@ -1,0 +1,72 @@
+\label{app:experimental_details}
+
+In this section, we provide comprehensive details regarding the experimental setup, hyperparameter configurations, and the mathematical framework used for the results presented in the main text.
+
+For all experiments, we always consider the matrix $\bm \Gamma = A \bm I_d + B \bm w^* (\bm w^*)^\top$, where we set the artificial scaling $A = 1.2$ and choose multiple values for $B$ to observe of its influence. Denoting by $N$ the number of training samples, we sample the input data matrix $\bm {Z} \in \mathbb{R}^{N \times d}$, where each row $\bm {z}_i$ is drawn independently from a standard multivariate Gaussian distribution $\bm {z}_i \sim \mathcal{N}(0, \bm {I}_d)$.
+
+
+\subsection{Different models}
+Throughout the experiments we consider three different models detailed as follows:
+\begin{enumerate}[leftmargin=*,topsep=0.5mm, itemsep=0.mm]
+    \item \textbf{Base ReLU Kernel ($k_0$):} The standard ReLU activation kernel with closed form given by the arc-cosine kernel
+    \[
+        k_0(\bm x, \bm x') = \frac{\|\bm x\|\|\bm x'\|}{2\pi d}\left[\gamma(\pi -\arccos (\gamma)) + \sqrt{1 - \gamma^2}\right]\, ,
+    \]
+    with $\gamma = \frac{\langle \bm x, \bm x'\rangle}{\|\bm x\| \|\bm x'\|}$.
+    \item \textbf{ReLU Kernel ($k_1$):} The kernel from \cref{eq:relu-k1} \[
+        k_1(\bm x, \bm x') = \frac{\sqrt{(\bm x^\top \bm \Gamma \bm x)(\bm x'^\top \bm \Gamma \bm x')}}{2\pi d}\left[\gamma_{\bm \Gamma}(\pi -\arccos (\gamma_{\bm \Gamma})) +\sqrt{1 - \gamma_{\bm \Gamma}^2}\right]\,,
+    \]
+    with $\gamma_{\bm \Gamma} \coloneqq \frac{\bm x^\top \bm \Gamma \bm x'}{\sqrt{(\bm x^\top \bm \Gamma \bm x)(\bm x'^\top \bm \Gamma \bm x')}}$.
+    \item \textbf{ReLU MLP:} A two-layer Multi-Layer Perceptron (MLP) with hidden layer width of $400$ and linear output layer. 
+\end{enumerate}
+\paragraph{Kernels:}
+For $i \in \{0, 1\}$, we calculate the kernel matrix $\bm K_i(\bm Z) \in \mathbb R^{N\times N}$ whose entries correspond to
+\[ 
+    [\bm K_i(\bm Z)]_{k,l} = k_i(\bm z_k, \bm z_l)\, .
+\]
+
+\paragraph{ReLU NN:}
+The ReLU neural network was trained using the Adam optimizer (\texttt{torch.optim.Adam}) with the following parameters:
+\begin{itemize}[leftmargin=*,topsep=0.5mm, itemsep=0.mm]
+    \item \textbf{First layer dimension:} $400$
+    \item \textbf{Output layer dimension:} $1$
+    \item \textbf{Epochs:} 1
+    \item \textbf{Batch size:} 64
+    \item \textbf{Loss Function:} Mean Squared Error (\texttt{torch.nn.MSELoss})
+\end{itemize}
+
+\subsection{Metrics and Significance}
+All experiments were executed over 10 independent trials. Shaded regions in figures indicate the variance across these trials. For every experiment routine implemented, we set random seeds to ensure reproducibility across all sources of randomness (e.g. data sampling, NN initialization, K-Fold validation, etc.).
+
+\subsection{Alignment experiment}
+For the results in \cref{fig-f} we set the seed $54643$. For the alignment analysis, we vary the dimension $d \in \{50, 100, 200, 400, 800, 1600, 3200\}$, and we also vary the magnitude of $B \in \{5d^{3/10}, 5d^{5/10}, 5d^{7/10}, 5d^{9/10}\}$ obtaining four different kernels. The alignment reported is calculated as $\langle \bm {v}_i^{\text{top}}, Y_2(\bm {Z}) \rangle$, where $\bm {v}_i^{\text{top}}$ is the lead eigenvector of the kernel matrix $\bm {K}_i(\bm {Z})$ for $i \in \{0, 1\}$ and $Y_2$ is the normalized version of the function
+\[
+    \hat{Y}_2(\bm \omega, \bm w^*) = \langle \bm \omega, \bm w^*\rangle^2 - \frac{1}{d}\, ,
+\]
+where $\bm \omega = \frac{\bm z}{\|\bm z\|}$.
+
+\subsection{Generalization performance}
+For the results in \cref{fig-t} we set the seed $558812$. For the learning performance analysis, we work on the fixed dimension $d=300$ and vary the number of training samples $N \in \{50, 100, 200, 400, 800, 1600, 3200\}$ and again we build three different kernels $A = 1.2$ with $B \in \{5d^{3/10}, 5d^{5/10}, 5d^{7/10}, 5d^{9/10}\}$. All models are trying to learn the target function $g(t) = 2t^2 + 3t + 4\sin(2t)$.
+
+We use Kernel Ridge Regression (KRR) with $k_0$ and $k_1$ to obtain the solutions $\hat{\bm a}_i = (\bm K_i + \lambda \bm I_N)^{-1} \bm y$, with regularization parameter $\lambda$. The regularization is chosen through $5$-fold cross-validation, for each sample size $N$, from a logarithmic grid $\{10^{-3}, 10^{-2}, \dots, 10^3\}$  with random state $38182$.
+
+We sample a test set $\tilde{\bm Z}$, from the same distribution as $\bm Z$, consisting of $M = 600$ independent samples. Given the test samples, for $i \in \{0, 1\}$, we construct the test kernel matrices $\bm K_i(\tilde{\bm Z}, \bm Z) \in \mathbb R^{M\times N}$ whose entries are given by
+\[ 
+    [\bm K_i(\tilde{\bm Z}, \bm Z)]_{k,l} = k_i(\tilde{\bm z}_k, \bm z_l)\, ,
+\]
+where $\tilde{\bm z}_k$ is the $k$-th sample from $\tilde{\bm Z}$ and $\bm z_l$ is the $l$-th sample from $\bm Z$. Then, we construct the predictor
+\[
+    \hat{f}_i(\bm z) = \sum_{j=1}^N (\hat{\bm a}_i)_j k_i(\bm z, \tilde{\bm z}_j)\, ,
+\]
+for each $i \in \{0, 1\}$. Lastly, given the \texttt{torch.nn.Linear} and \texttt{torch.nn.ReLU} implementations from \texttt{PyTorch}, we implement the predictor $\hat{f}_{\text{NN}} =  \text{Linear}_{2}(\text{ReLU}(\text{Linear}_{1}(\boldsymbol{z})))$. The network was trained with learning rate obtained through $5$-fold cross validation from a logarithmic grid $\{10^{-3}, 10^{-2}, 10^{-1}, 10^0\}$, for every sample size $N$, with random state $123114$.
+
+To obtain the metric from the figure, we calculate the Test Mean Squared Error by computing
+\[
+  \frac{1}{M} \sum_{i=1}^{M} \Big(y_i - \hat{f}_{p}(\tilde{\bm z}_i)\Big)^2
+\]
+for all $\hat{f}_{p} \in \{\hat{f}_{0}, \hat{f}_{1}, \hat{f}_{\text{NN}})$.
+
+\subsection{Implementation, Software Stack and Hardware}
+The experimental framework was implemented in \texttt{Python} (v3.10.12). We use \texttt{PyTorch} (v.2.11.0) \citep{Adam2019Pytorch}, such that layers and activation are out-of-the-box calls to the methods \texttt{torch.nn.Linear} and \texttt{torch.nn.ReLU}, specifying only the input, first layer, and output sizes. We utilized the \texttt{NumPy} (v.1.26.4) \citep{Harris2020numpy} and \texttt{SciPy} (v.1.15.3) \citep{2020SciPy} libraries for numerical linear algebra operations, specifically for the eigendecomposition (\texttt{scipy.linalg.eigh}) of the kernel matrices, and for the KRR implementation (\texttt{numpy.linalg.solve}). Lastly, for KFold validation we used \texttt{sklearn}'s (v.1.4.1.post1) \texttt{model\_selection.KFold} object \citep{2011Sklearn}.
+
+All experiments were conducted on a laptop with a 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz processor, 8GB of RAM 3200 MHz and a single NVIDIA RTX 3060 Laptop GPU, and should be reproducible, even with a CPU, in less than an hour.

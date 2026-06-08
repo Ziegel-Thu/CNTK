@@ -1,0 +1,282 @@
+\allowdisplaybreaks
+\subsection{Characteristic-function comparison for activation products}\label{lemma:activ-prod}
+\begin{lemma}
+    Let $\sigma: \mathbb{R} \to \mathbb{R}$ be an $L$-Lipschitz function, and define $F(u, v) = \sigma(u)\sigma(v)$. Let $\mu$ and $\nu$ be probability measures on $\mathbb{R}^2$ with characteristic functions $\phi_\mu$ and $\phi_\nu$ such that $|\phi_\mu(\xi) - \phi_\nu(\xi)| \le \delta |\xi|^2 e^{-\xi^\top \Sigma\xi}$ for a positive semidefinite matrix $\Sigma$ such that $\Trarg{\Sigma} \leq C$. Furthermore, assume that $\mu$ and $\nu$ satisfy $P(|x| > R) \le C_0 e^{-\alpha R}$ for some $\alpha > 0$. Then
+    \[
+        \left| \int F(x) d\mu(x) - \int F(x) d\nu(x) \right| = \mathcal{O}\left(\delta \log^3(1/\delta)\right)
+    \]
+\end{lemma}
+
+\begin{proof}
+    First, we note that because $\sigma$ is $L$-Lipschitz, its growth is at most linear: $|\sigma(x)| \le |\sigma(0)| + L|x|$. Consequently, the product $F(u,v)$ has at most quadratic growth
+    \[
+        |F(u,v)| \le (|\sigma(0)| + L|u|)(|\sigma(0)| + L|v|) \le C_1(1 + |x|^2)
+    \]
+    Let $\eta: \mathbb{R}^2 \to \mathbb{R}$ be a smooth ($C^\infty$) function such that $0 \le \eta(x) \le 1$ for all $x$, $\eta(x) = 1$ for all $|x| \le 1$ and $\eta(x) = 0$ for all $|x| \ge 2$.
+    
+    Because $\eta(x)$ is constant (either $1$ or $0$) outside the region where $1 < |x| < 2$, its gradient $\nabla \eta(x)$ is exactly zero everywhere except inside that closed, compact set. As a continuous function inside a compact set, and given this property of the gradient, there exists some absolute, finite constant $C$ such that
+    \[
+        |\nabla \eta(x)| \le C \quad \text{for all } x \in \mathbb{R}^2
+    \]
+    Now, we define the specific cutoff function $\chi_R(x)$ by
+    \[
+        \chi_R(x) = \eta\left(\frac{x}{R}\right)\, .
+    \]
+    That makes $\chi_R$ smooth and $\chi_R(x) = 1$ if $|x|\leq R$, $\chi_R(x) = 0$ if $|x| > 2R$, otherwise $1 \leq \chi_R(x) \leq 0$ when $R < |x| < 2R$.
+    
+    By the Chain Rule, we have
+    \[
+        \nabla \chi_R(x) = \nabla \left[ \eta\left(\frac{x}{R}\right) \right] = \frac{1}{R} (\nabla \eta)\left(\frac{x}{R}\right)
+    \]
+    and therefore 
+    \[
+        |\nabla \chi_R(x)| = \left| \frac{1}{R} (\nabla \eta)\left(\frac{x}{R}\right) \right| = \frac{1}{R} \left| (\nabla \eta)\left(\frac{x}{R}\right) \right| \leq \frac{C}{R}.
+    \]
+    
+    Using that $\chi_R(x)$ supported on $B_{2R}$ with $|\nabla \chi_R| \le \frac{C}{R}$, we define $F_R(x) = F(x)\chi_R(x)$. We split the integral into the truncated core and the tail
+    \[
+        \int F(x) d\mu(x) = \int F(x) \chi_R(x) d\mu(x) + \int_{|x| > R} F(x)(1 - \chi_R(x)) d\mu(x)
+    \]
+    Using the quadratic growth bound $|F(x)| \le C_1(1 + |x|^2)$ and the sub-exponential tail of $\mu$, the tail error evaluates to
+    \[
+        \int_{|x| > R} F(x)(1 - \chi_R(x)) d\mu(x)\le \int_{|x|>R} C_1(1 + |x|^2) d\mu(x) \le C_2 R^2 e^{-\alpha R}
+    \]
+    The total error is bounded by the core difference plus the tail errors
+    \[
+        \left| \int F(x) d\mu(x) - \int F(x) d\nu(x) \right| \le \left| \int F(x)\chi_R(x) d\mu(x) - \int F(x)\chi_R(x) d\nu(x) \right| + 2C_2 R^2 e^{-\alpha R}\, .
+    \]
+    
+    On the core term, if we let $F_R(x) \coloneqq F (x) \chi_R(x)$, we use Parseval's identity to obtain
+    \[
+        \int F(x)\chi_R(x) d\mu(x) - \int F(x)\chi_R(x) d\nu(x)  = \frac{1}{(2\pi)^2} \int_{\mathbb{R}^2} \widehat{F_R}(\xi) (\phi_\mu(-\xi) - \phi_\nu(-\xi)) d\xi\, .
+    \]
+    Next, we look at the distributional gradient $\nabla F_R$ which can be written as
+    \[
+        \nabla F_R = \chi_R \nabla F + F \nabla \chi_R\, ,
+    \]
+    and we will bound the $L^\infty$ norm of both terms on the support ball $B_{2R}$. 
+    
+    The gradient is given by $\nabla F = (\sigma'(u)\sigma(v), \sigma(u)\sigma'(v))$. Since $\sigma$ is $L$-Lipschitz, $|\sigma'| \le L$ almost everywhere. Also, on the ball of radius $2R$, the activation function is bounded by $|\sigma(u)| \leq C_{\sigma}R$ for some absolute constant $C_{\sigma} > 0$. Therefore, $|\nabla F| = \mathcal{O}(R)$. Furthermore, $|F|$ grows quadratically, and since $|\nabla \chi_R| \leq \frac{C}{R}$, their product is $\mathcal{O}(R)$. Thus, the maximum value of the gradient is bounded by $\|\nabla F_R\|_{L^\infty} \le C_3 R$.
+    
+    If the symbol $\mathcal{F}$ denotes the Fourier transform operator, by the properties of the Fourier transform, we have that
+    \[
+        \mathcal{F}\{\nabla F_R\} = i\xi \widehat{F_R}(\xi)\,.
+    \]
+    Next, the maximum absolute value of any Fourier transform is always bounded by 
+    \[
+        |\mathcal{F}\{\nabla F_R\}| \leq \|\nabla F_R\|_{L^1}
+    \]
+    and the $L^1$ norm is bounded by the $L^\infty$ norm times the area of the support ball, which is $\pi(2R)^2$, thus
+    \[
+        \|\nabla F_R\|_{L^1} \leq \|\nabla F_R\|_{L^\infty}\pi (2R)^2 \leq (C_3 R) \pi (2R)^2 = C_4 R^3\, .
+    \]
+    Combining these facts together we get
+    \[
+        |\mathcal{F}\{\nabla F_R\}| =|\xi| |\widehat{F_R}(\xi)| \le \|\nabla F_R\|_{L^1} \le C_4 R^3\,
+    \]
+    and finally arrive at
+    \[
+        |\widehat{F_R}(\xi)| \le \frac{C_4 R^3}{|\xi|}\, .
+    \]
+
+    Substituting this new bound and the anisotropic characteristic function estimate into the Parseval integral gives
+    \[
+        \left| \int F(x)\chi_R(x)d\mu(x) - \int F(x)\chi_R(x)d\nu(x) \right| \le \frac1{(2\pi)^2} \int_{\mathbb R^2} \left( \frac{C_4R^3}{|\xi|} \right) \left( \delta |\xi|^2 e^{-\frac12\xi^\top\Sigma\xi} \right)d\xi .
+    \]
+    
+    Canceling one power of $|\xi|$ yields
+    \[
+        \left| \int F(x)\chi_R(x)d\mu(x) - \int F(x)\chi_R(x)d\nu(x) \right| \le C_5\delta R^3 \int_{\mathbb R^2} |\xi| e^{-\frac12\xi^\top\Sigma\xi}d\xi .
+    \]
+    
+    Now diagonalize the covariance matrix:
+    \[
+        \Sigma = Q^\top \begin{pmatrix} \lambda_1 &0\\ 0&\lambda_2 \end{pmatrix} Q,
+    \]
+    with orthogonal $Q$, and perform the rotation $v=Q\xi$. Since orthogonal transformations preserve Lebesgue measure and Euclidean norm,
+    \[
+        \int_{\mathbb R^2}|\xi| e^{-\frac12\xi^\top\Sigma\xi} d\xi = \int_{\mathbb R^2} |v| e^{-\frac12(\lambda_1v_1^2+\lambda_2v_2^2)} dv .
+    \]
+    
+    Because $\Sigma$ is positive semidefinite and
+    \[
+        \operatorname{Tr}(\Sigma) \le C,
+    \]
+    the Gaussian factor provides exponential decay in every nondegenerate direction. Even when one eigenvalue degenerates, the integral remains effectively one-dimensional in the degenerate direction and therefore finite. Consequently,
+    \[
+        \int_{\mathbb R^2} |v| e^{-\frac12(\lambda_1v_1^2+\lambda_2v_2^2)} dv \le C' ,
+    \]
+    for some absolute constant $C' > 0$
+    
+    Therefore,
+    \[
+        \left| \int F(x)\chi_R(x)d\mu(x) - \int F(x)\chi_R(x)d\nu(x) \right| \le C_6\delta R^3 .
+    \]
+
+    Thus, the total bound as a function of the truncation radius $R$ is
+    \[
+        \left| \int F(x) d\mu(x) - \int F(x) d\nu(x)\right| \le C_6 \delta R^3 + 2C_2 R^2 e^{-\alpha R}\, .
+    \]
+    We balance the terms by setting the tail decay equal to the $\delta$ parameter
+    \[
+        e^{-\alpha R} = \delta \implies R = \frac{1}{\alpha} \log(1/\delta)\, .
+    \]
+    
+    Plugging this $R$ back into the total bound we obtain the result
+    \[
+        \left| \int F d\mu - \int F d\nu \right| \le C_6 \delta \left( \frac{1}{\alpha} \log(1/\delta) \right)^3 + 2C_2 \delta \left( \frac{1}{\alpha} \log(1/\delta) \right)^2 = \mathcal{O}\left( \delta \log^3(1/\delta) \right)\, .
+    \]
+\end{proof}
+
+\subsection{Closed form of the infinite sums}
+\begin{lemma}\label{lemma:ith-inf-series}
+    Consider a point $y \in (-\infty, 1/2)$, then for a fixed $i \geq 0$, we have the following identity
+    \[
+        \sum_{k=i}^\infty \binom{2k}{2i}\frac{(2k-2i-1)!!}{k!} y^{k} = \frac{y^i}{i!}(1-2y)^{-(i+1/2)}.
+    \]
+\end{lemma}
+\begin{proof}
+
+    First, we check
+    \[
+        C_{i,k} := \binom{2k}{2i}\frac{(2k-2i-1)!!}{k!}.
+    \]
+    We note that $2k-2i-1$ is necessarily odd, thus we can write
+    \[
+        (2k-2i-1)!! = \frac{(2k-2i)!}{2^{k-i}(k-i)!},
+    \]
+    and if we expand the binomial coefficient we have
+    \[
+        \binom{2k}{2i} = \frac{2k!}{2i!(2k-2i)!}.
+    \]
+    Therefore
+    \[
+        C_{i,k} = \frac{(2k-2i)!}{2^{k-i}(k-i)!}\frac{2k!}{2i!(2k-2i)!}\frac{1}{k!} = \frac{1}{2^{k-i}(k-i)!}\frac{2k!}{2i!}\frac{1}{k!}.
+    \]
+
+    Now, we use the identity $2n! = 2^n(2n-1)!!$ to obtain
+    \[
+        C_{i,k} = \frac{2^kk!(2k-1)!!}{2^ii!(2i-1)!!}\frac{1}{2^{k-i}(k-i)!}\frac{1}{k!} = \frac{(2k-1)!!}{i!(k-i)!(2i-1)!!},
+    \]
+    so our goal will be to prove that
+    \begin{equation}\label{eq:ith-inf-sum}
+        \frac{y^i}{i!}(1-2y)^{-(i+1/2)} = \sum_{k=i}^\infty \frac{(2k-1)!!}{i!(k-i)!(2i-1)!!} y^{k}         
+    \end{equation}
+
+    Next, we study the function
+    \[
+        (1-2y)^{-(i+1/2)}.
+    \]
+
+    Consider the Maclaurin series of the function
+    \[
+        (1+x)^r = \sum \binom{r}{n} x^r,
+    \]
+    which is defined for all $|x|<1$ and real number $r.$
+    
+    If we let $x = -2y$ and $r = -(i+1/2)$ we have
+    \begin{align*}
+        \binom{-(i+1/2)}{n} &= \frac{-(i+1/2)-(i+3/2)\dots-(i+ n - 1/2)}{n!} \\
+        &= (-1)^k\frac{[(2i+1)(2i+3)\dots (2i+2n-1)]}{2^n n!} \\
+        &= (-1)^k\frac{(2i+2n-1)!!}{2^n n!(2i-1)!!}.
+    \end{align*}
+    And substituting everything back
+    \begin{align*}
+        (1-2y)^{-(i+1/2)} &= \sum_{n = 0}^\infty (-1)^n\frac{(2i+2n-1)!!}{2^n n!(2i-1)!!} (-2y)^n\\
+        &= \sum_{n=0}^\infty (-1)^{2n}\frac{(2i+2n-1)!!}{2^n n!(2i-1)!!} 2^n y^n\\
+        &=\sum_{n=0}^\infty \frac{(2i+2n-1)!!}{n!(2i-1)!!}y^n.
+    \end{align*}
+
+    Multiplying the expansion by $\frac{y^i}{i!}$ we get
+    \[
+       \frac{y^i}{i!}(1-2y)^{-(i+1/2)}  = \sum_{n=0}^\infty \frac{(2i+2n-1)!!}{i!n!(2i-1)!!}y^{n+i},
+    \]
+    and if we let $k = n+i$, rearranging the indexes leads to
+    \[
+       \frac{y^i}{i!}(1-2y)^{-(i+1/2)}  = \sum_{k=i}^\infty \frac{(2k-1)!!}{i!(k-i)!(2i-1)!!}y^k,
+    \]
+    which is exactly the expression from Equation \ref{eq:ith-inf-sum}.
+\end{proof}
+
+\subsection{Concentration for Gaussian integrals}
+\begin{lemma}\label{lemma:integral-concentration-1}
+    Consider a fixed $\bm x \in \mathbb R^d$. Let $\bm x' \sim \mathcal N(0, \bm I_d)$ and define the set
+    \[
+        \mathcal A_{\epsilon} = \left\{\bm x' \in \mathbb R^d: \left|\theta_{\bm x, \bm x'} - \frac{\pi}{2}\right|< \epsilon \right\}, \epsilon \in \left(0, \frac{\pi}{2}\right).
+    \]
+
+    Then 
+    \[
+        \rho_{\mathcal X}(\mathcal A^c_{\epsilon}) < 3e^{-c_0d\epsilon^2},
+    \]
+    and consequently, for any function $g \in L^2(\rho_{\mathcal X})$, we have
+    \[
+        \left|\int_{\mathcal A^c_{\epsilon}} \frac{(\pi - \theta_{\bm x, \bm x'})}{\pi}g(\bm x')\mathrm d\rho_{\mathcal X}(\bm x')\right| \leq \sqrt {3} e^{-c_1d\epsilon^2/2}\|g\|_{L^2(\rho_{\mathcal X})},
+    \]
+    and
+    \[
+        \left|\int_{\mathcal A^c_{\epsilon}} \frac{\sin \theta_{\bm x, \bm x'}}{2\pi}g(\bm x')\mathrm d\rho_{\mathcal X}(\bm x')\right| \leq \sqrt {3} e^{-c_2d\epsilon^2/2}\|g\|_{L^2(\rho_{\mathcal X})}.
+    \]
+    where $c_0, c_1, c_2 >0$ are absolute constants.
+\end{lemma}
+\begin{proof}
+    If we consider the set
+    \[
+        \mathcal{A}_{\epsilon} = \left\{\left|\theta_{\bm x, \bm x'}-\frac{\pi}{2}\right| < \epsilon\right\},
+    \] 
+    for a fixed $\bm x$ we define
+    \[
+        \cos \theta_{\bm x, \bm x'} = \frac{\langle \bm x, \bm x'\rangle}{\|\bm x\| \|\bm x'\|} \coloneqq \frac{Z}{\sqrt{Z^2 +\|\bm y_{\perp}\|^2}}
+    \]
+    where $\bm y_{\perp}$ is a $(d-1)$ dimensional vector orthogonal to $\bm x$. We define the bad event
+    \[
+        \mathcal A^c_{\epsilon} = \left \{ \left| \theta_{\bm x, \bm x'} - \frac{\pi}{2} \right| > \epsilon \right \} = \Big\{|\cos \theta_{\bm x, \bm x'}| > \sin \epsilon\Big\}.
+    \]
+
+    Next we note that
+    \[
+        |\cos \theta_{\bm x, \bm x'}| = \frac{|Z|}{\sqrt{Z^2 +\|\bm y_{\perp}\|^2}} \leq \frac{|Z|}{\|\bm y_{\perp}\|}
+    \]
+    thus
+    \[
+        \mathbb P(\mathcal A_{\epsilon}^c) \leq \mathbb P\left( \frac{|Z|}{\|\bm y_{\perp}\|} \geq \sin \epsilon\right)\, .
+    \]
+    Splitting the event according to $\|\bm y_{\perp}\|^2 \geq \frac{d-1}{2}$ we have
+    \[
+        \mathbb P(\mathcal A_{\epsilon}^c) \leq \mathbb P\left( |Z| \geq \sin \epsilon \sqrt{\frac{d-1}{2}}\right) + \mathbb P\left( \|\bm y_{\perp}\|^2 < \frac{d-1}{2}\right).
+    \]
+
+    Using the standard Gaussian tail bound and the lower-tail concentration bound for the chi-squared distribution, there exists an absolute constant $c > 0$ such that
+    \[
+        \mathbb P(|Z| > t) \leq 2e^{-t^2/2}\, , \quad  \mathbb P\left( \|\bm y_{\perp}\|^2 < \frac{d-1}{2}\right) \leq e^{-c(d-1)}
+    \]
+    and we have
+    \[
+        \mathbb P(\mathcal A_{\epsilon}^c) \leq 2e^{-\sin(\epsilon)^2(d-1)/4} + e^{-c(d-1)}\, .
+    \]
+    Using the bound 
+    \[
+        \sin(\epsilon) \ge \frac{2}{\pi}\epsilon, \quad \forall \epsilon \in [0, \pi/2],
+    \]
+    and assuming without loss of generality that $\epsilon > 0$ is chosen such that $c > \frac{\epsilon^2}{\pi}$ we can write
+    \[
+        \mathbb P(\mathcal A_{\epsilon}^c) \leq 3e^{-c_0d\epsilon^2}
+    \]
+    for some absolute constant $c_0 > 0$.
+
+    Given this, we study the integral
+    \[
+        \int_{\mathcal{A}^c_{\epsilon}} \frac{(\pi - \theta_{\bm x, \bm x'})}{\pi} g(\bm x') \mathrm d\rho_{\mathcal X}(\bm x')\, .
+    \]
+
+    Noting that $\theta_{\bm x, \bm x'} \in [0, \pi]$, we have $\left| \frac{\pi - \theta_{\boldsymbol{x},\boldsymbol{x}'}}{\pi} \right| \le 1$ and by the Cauchy-Schwarz inequality we can bound the integral over $\mathcal{A}^c$:
+    \[
+        \left| \int_{\mathcal{A}^c_{\epsilon}} \frac{(\pi - \theta_{\bm x, \bm x'})}{\pi} g(\bm x') \mathrm d\rho_{\mathcal X}(\bm x') \right| \leq \sqrt{\rho_{\mathcal X}(\mathcal{A}^c_{\epsilon})}. \sqrt{\int |g(\bm x')|^2 \mathrm d \rho_{\mathcal X}} \leq \sqrt 3 e^{-c_1d\epsilon^2/2}\|g\|_{L^2(\rho_{\mathcal X})}.
+    \]
+
+    Lastly, the result for 
+    \[
+        \left|\int_{\mathcal A^c_{\epsilon}} \frac{\sin \theta_{\bm x, \bm x'}}{2\pi}g(\bm x')\mathrm d\rho_{\mathcal X}(\bm x')\right|
+    \]
+    follows from the fact that $|\sin \theta| \leq 1$ and the same argument under the concentration of the measure.
+\end{proof}

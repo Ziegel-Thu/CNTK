@@ -1,0 +1,242 @@
+\begin{thebibliography}{39}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anthony and Bartlett(2009)]{anthony2009neural}
+Martin Anthony and Peter~L Bartlett.
+\newblock \emph{Neural network learning: Theoretical foundations}.
+\newblock cambridge university press, 2009.
+
+\bibitem[Bach(2017)]{bach2017breaking}
+Francis Bach.
+\newblock Breaking the curse of dimensionality with convex neural networks.
+\newblock \emph{Journal of Machine Learning Research}, 18\penalty0
+  (19):\penalty0 1--53, 2017.
+
+\bibitem[Barron et~al.(2008)Barron, Cohen, Dahmen, DeVore,
+  et~al.]{barron2008approximation}
+Andrew~R Barron, Albert Cohen, Wolfgang Dahmen, Ronald~A DeVore, et~al.
+\newblock Approximation and learning by greedy algorithms.
+\newblock \emph{The annals of statistics}, 36\penalty0 (1):\penalty0 64--94,
+  2008.
+
+\bibitem[Belkin et~al.(2018{\natexlab{a}})Belkin, Hsu, Ma, and
+  Mandal]{belkin2018reconciling}
+Mikhail Belkin, Daniel Hsu, Siyuan Ma, and Soumik Mandal.
+\newblock Reconciling modern machine learning and the bias-variance trade-off.
+\newblock \emph{arXiv preprint arXiv:1812.11118}, 2018{\natexlab{a}}.
+
+\bibitem[Belkin et~al.(2018{\natexlab{b}})Belkin, Ma, and
+  Mandal]{belkin2018understand}
+Mikhail Belkin, Siyuan Ma, and Soumik Mandal.
+\newblock To understand deep learning we need to understand kernel learning.
+\newblock \emph{arXiv preprint arXiv:1802.01396}, 2018{\natexlab{b}}.
+
+\bibitem[Bengio et~al.(2006)Bengio, Roux, Vincent, Delalleau, and
+  Marcotte]{bengio2006convex}
+Yoshua Bengio, Nicolas~L Roux, Pascal Vincent, Olivier Delalleau, and Patrice
+  Marcotte.
+\newblock Convex neural networks.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  123--130, 2006.
+
+\bibitem[Casselman(2014)]{casselman2014essays}
+Bill Casselman.
+\newblock Essays in analysis.
+\newblock 2014.
+
+\bibitem[Chizat and Bach(2018)]{chizat2018note}
+Lenaic Chizat and Francis Bach.
+\newblock A note on lazy training in supervised differentiable programming.
+\newblock \emph{arXiv preprint arXiv:1812.07956}, 2018.
+
+\bibitem[Cho and Saul(2009)]{cho2009kernel}
+Youngmin Cho and Lawrence~K Saul.
+\newblock Kernel methods for deep learning.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  342--350, 2009.
+
+\bibitem[Cybenko(1989)]{cybenko1989approximation}
+George Cybenko.
+\newblock Approximation by superpositions of a sigmoidal function.
+\newblock \emph{Mathematics of control, signals and systems}, 2\penalty0
+  (4):\penalty0 303--314, 1989.
+
+\bibitem[Daniely et~al.(2016)Daniely, Frostig, and Singer]{daniely2016toward}
+Amit Daniely, Roy Frostig, and Yoram Singer.
+\newblock Toward deeper understanding of neural networks: The power of
+  initialization and a dual view on expressivity.
+\newblock In \emph{Advances In Neural Information Processing Systems}, pages
+  2253--2261, 2016.
+
+\bibitem[Du et~al.(2018)Du, Zhai, Poczos, and Singh]{du2018gradient}
+Simon~S Du, Xiyu Zhai, Barnabas Poczos, and Aarti Singh.
+\newblock Gradient descent provably optimizes over-parameterized neural
+  networks.
+\newblock \emph{arXiv preprint arXiv:1810.02054}, 2018.
+
+\bibitem[Farrell et~al.(2018)Farrell, Liang, and Misra]{farrell2018deep}
+Max~H Farrell, Tengyuan Liang, and Sanjog Misra.
+\newblock Deep neural networks for estimation and inference: Application to
+  causal effects and other semiparametric estimands.
+\newblock \emph{arXiv preprint arXiv:1809.09953}, 2018.
+
+\bibitem[Geman and Hwang(1982)]{geman1982nonparametric}
+Stuart Geman and Chii-Ruey Hwang.
+\newblock Nonparametric maximum likelihood estimation by the method of sieves.
+\newblock \emph{The Annals of Statistics}, pages 401--414, 1982.
+
+\bibitem[Ghorbani et~al.(2019)Ghorbani, Mei, Misiakiewicz, and
+  Montanari]{ghorbani2019linearized}
+Behrooz Ghorbani, Song Mei, Theodor Misiakiewicz, and Andrea Montanari.
+\newblock Linearized two-layers neural networks in high dimension.
+\newblock \emph{arXiv preprint arXiv:1904.12191}, 2019.
+
+\bibitem[Hastie et~al.(2019)Hastie, Montanari, Rosset, and
+  Tibshirani]{hastie2019surprises}
+Trevor Hastie, Andrea Montanari, Saharon Rosset, and Ryan~J Tibshirani.
+\newblock Surprises in high-dimensional ridgeless least squares interpolation.
+\newblock \emph{arXiv preprint arXiv:1903.08560}, 2019.
+
+\bibitem[Hornik et~al.(1989)Hornik, Stinchcombe, and
+  White]{hornik1989multilayer}
+Kurt Hornik, Maxwell Stinchcombe, and Halbert White.
+\newblock Multilayer feedforward networks are universal approximators.
+\newblock \emph{Neural networks}, 2\penalty0 (5):\penalty0 359--366, 1989.
+
+\bibitem[Huang et~al.(2008)Huang, Cheang, and Barron]{huang2008risk}
+Cong Huang, Gerald~HL Cheang, and Andrew~R Barron.
+\newblock \emph{Risk of penalized least squares, greedy selection and
+  l1-penalization for flexible function libraries}.
+\newblock PhD thesis, Yale University, 2008.
+
+\bibitem[Jacot et~al.(2018)Jacot, Gabriel, and Hongler]{jacot2018neural}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock Neural tangent kernel: Convergence and generalization in neural
+  networks.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  8571--8580, 2018.
+
+\bibitem[Jones(1992)]{jones1992simple}
+Lee~K Jones.
+\newblock A simple lemma on greedy approximation in hilbert space and
+  convergence rates for projection pursuit regression and neural network
+  training.
+\newblock \emph{The annals of Statistics}, 20\penalty0 (1):\penalty0 608--613,
+  1992.
+
+\bibitem[Jordan et~al.(1998)Jordan, Kinderlehrer, and
+  Otto]{jordan1998variational}
+Richard Jordan, David Kinderlehrer, and Felix Otto.
+\newblock The variational formulation of the fokker--planck equation.
+\newblock \emph{SIAM journal on mathematical analysis}, 29\penalty0
+  (1):\penalty0 1--17, 1998.
+
+\bibitem[Koehler and Risteski(2018)]{koehler2018representational}
+Frederic Koehler and Andrej Risteski.
+\newblock Representational power of relu networks and polynomial kernels:
+  Beyond worst-case analysis.
+\newblock \emph{arXiv preprint arXiv:1805.11405}, 2018.
+
+\bibitem[Liang and Rakhlin(2018)]{liang2018just}
+Tengyuan Liang and Alexander Rakhlin.
+\newblock Just interpolate: Kernel" ridgeless" regression can generalize.
+\newblock \emph{The Annals of Statistics, to appear}, 2018.
+
+\bibitem[Ma et~al.(2017)Ma, Bassily, and Belkin]{ma2017power}
+Siyuan Ma, Raef Bassily, and Mikhail Belkin.
+\newblock The power of interpolation: Understanding the effectiveness of sgd in
+  modern over-parametrized learning.
+\newblock \emph{arXiv preprint arXiv:1712.06559}, 2017.
+
+\bibitem[Maennel et~al.(2018)Maennel, Bousquet, and Gelly]{maennel2018gradient}
+Hartmut Maennel, Olivier Bousquet, and Sylvain Gelly.
+\newblock Gradient descent quantizes relu network features.
+\newblock \emph{arXiv preprint arXiv:1803.08367}, 2018.
+
+\bibitem[Mei et~al.(2018)Mei, Montanari, and Nguyen]{mei2018mean}
+Song Mei, Andrea Montanari, and Phan-Minh Nguyen.
+\newblock A mean field view of the landscape of two-layers neural networks.
+\newblock \emph{arXiv preprint arXiv:1804.06561}, 2018.
+
+\bibitem[Niyogi and Girosi(1996)]{niyogi1996relationship}
+Partha Niyogi and Federico Girosi.
+\newblock On the relationship between generalization error, hypothesis
+  complexity, and sample complexity for radial basis functions.
+\newblock \emph{Neural Computation}, 8\penalty0 (4):\penalty0 819--842, 1996.
+
+\bibitem[Park and Sandberg(1991)]{park1991universal}
+Jooyoung Park and Irwin~W Sandberg.
+\newblock Universal approximation using radial-basis-function networks.
+\newblock \emph{Neural computation}, 3\penalty0 (2):\penalty0 246--257, 1991.
+
+\bibitem[Poggio et~al.(2017)Poggio, Mhaskar, Rosasco, Miranda, and
+  Liao]{poggio2017and}
+Tomaso Poggio, Hrushikesh Mhaskar, Lorenzo Rosasco, Brando Miranda, and Qianli
+  Liao.
+\newblock Why and when can deep-but not shallow-networks avoid the curse of
+  dimensionality: a review.
+\newblock \emph{International Journal of Automation and Computing}, 14\penalty0
+  (5):\penalty0 503--519, 2017.
+
+\bibitem[Rahimi and Recht(2008)]{rahimi2008random}
+Ali Rahimi and Benjamin Recht.
+\newblock Random features for large-scale kernel machines.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  1177--1184, 2008.
+
+\bibitem[Rahimi and Recht(2009)]{rahimi2009weighted}
+Ali Rahimi and Benjamin Recht.
+\newblock Weighted sums of random kitchen sinks: Replacing minimization with
+  randomization in learning.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  1313--1320, 2009.
+
+\bibitem[Rakhlin and Zhai(2018)]{rakhlin2018consistency}
+Alexander Rakhlin and Xiyu Zhai.
+\newblock Consistency of interpolation with laplace kernels is a
+  high-dimensional phenomenon.
+\newblock \emph{arXiv preprint arXiv:1812.11167}, 2018.
+
+\bibitem[Rotskoff and Vanden-Eijnden(2018)]{rotskoff2018neural}
+Grant~M Rotskoff and Eric Vanden-Eijnden.
+\newblock Neural networks as interacting particle systems: Asymptotic convexity
+  of the loss landscape and universal scaling of the approximation error.
+\newblock \emph{arXiv preprint arXiv:1805.00915}, 2018.
+
+\bibitem[Rudi and Rosasco(2017)]{rudi2017generalization}
+Alessandro Rudi and Lorenzo Rosasco.
+\newblock Generalization properties of learning with random features.
+\newblock In \emph{Advances in Neural Information Processing Systems}, pages
+  3215--3225, 2017.
+
+\bibitem[Sirignano and Spiliopoulos(2019)]{sirignano2019mean}
+Justin Sirignano and Konstantinos Spiliopoulos.
+\newblock Mean field analysis of neural networks: A central limit theorem.
+\newblock \emph{Stochastic Processes and their Applications}, 2019.
+
+\bibitem[Stone(1980)]{stone1980optimal}
+Charles~J Stone.
+\newblock Optimal rates of convergence for nonparametric estimators.
+\newblock \emph{The annals of Statistics}, pages 1348--1360, 1980.
+
+\bibitem[Vapnik(1998)]{vapnik1998statistical}
+Vladimir Vapnik.
+\newblock \emph{Statistical learning theory. 1998}, volume~3.
+\newblock Wiley, New York, 1998.
+
+\bibitem[Wahba(1990)]{wahba1990spline}
+Grace Wahba.
+\newblock \emph{Spline models for observational data}, volume~59.
+\newblock Siam, 1990.
+
+\bibitem[Zhang et~al.(2016)Zhang, Bengio, Hardt, Recht, and
+  Vinyals]{zhang2016understanding}
+Chiyuan Zhang, Samy Bengio, Moritz Hardt, Benjamin Recht, and Oriol Vinyals.
+\newblock Understanding deep learning requires rethinking generalization.
+\newblock \emph{arXiv preprint arXiv:1611.03530}, 2016.
+
+\end{thebibliography}

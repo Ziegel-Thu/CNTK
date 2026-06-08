@@ -1,0 +1,52 @@
+%!TEX root = 00-main.tex
+\section{Experimental Details and Additional Results}
+\label{sec:experimental-details}
+\subsection{Details on Figure \ref{fig:le-cat-dog} and \ref{fig:le-chair-bench}}
+\label{subsec:different-labeling-systems}
+To experiment with different label systems, we use the MS COCO object detection dataset \citep{lin2014microsoft} because there can be various objects in the same image. In this experiment, we consider $50$ images with both cats and chairs, $50$ images with both cats and benches, $50$ images with both dogs and chairs, and $50$ images with both dogs and benches. An image with cats and chairs will include neither dogs nor benches, and similar for other cases. Therefore, in total, there are $100$ images with cats, $100$ images with dogs, $100$ images with chairs and $100$ images with benches. 
+
+We then consider the same two-layer neural network as in Sec.~\ref{subsec:local-elasticity} and plot the relative ratio (Eq. \eqref{eq: relative_ratio}) for $\KK_t$ as $t$ increases, which gives Fig.~\ref{fig:le-cat-dog} and Fig.~\ref{fig:le-chair-bench}.
+
+%Note that for the image with two classes will not include the other two classes. For example, an image with cats and chairs will not include either dogs or benches. 
+
+%As shown in Fig.~\ref{fig:le-cat-dog} and Fig.~\ref{fig:le-chair-bench}, we can see that the relative ratio of the intra-class local elasticity (normalized kernelized similarity) increases in the training procedure for both cat-dog classification and chair-bench classification. The results indicate that label information plays an important role in the local elasiticiy of NNs.
+
+\subsection{The Architecture of CNN}
+\label{subsec:CNN-architecture}
+The architecture of the CNN used in Sec. \ref{subsec:kernel-regression} is as follows: there are seven convolutional layers with kernel size $3$ and padding number $1$, followed by a fully-connected layer. The output channels of each convolutional layer are: $16k$, $16k$, $16k$, $32k$, $32k$, $64k$, and $64k$, where by default $k=1$. But we increase $k$ to $16$, $8$, $4$ to get better CNN performance for multi-class classification with $2000$, $5000$, and $10000$ training examples in Table \ref{table:multiple-kernel-regression}. The strides for each convolutional layer is $1$ except the fourth and the last, which are $2$. 
+
+
+\subsection{Details on \lantk-HR}\label{subsec:details-of-Z}
+{\bf The hyper-parameter $\lambda$.} Based on our experiments, the test accuracy is usually a concave function of $\lambda$. So we simply choose the best value among $\{0.001, 0.01, 0.1, 1.0\}$.
+%(Note that we adjust $\lambda$ with the ratio between the mean of the absolute value of label-agnostic component and that of label-aware component. For example, $\lambda=0.001\times ratio$ if we choose $0.001$.) and usually work quite well. 
+
+{\bf Choice of $\boldsymbol{\gZ(\rvx, \rvx', S)}$.} Our first choice of $\gZ$ is based on a kernel regression. Specifically, for \lantk-KR-V1, we consider 
+\[
+\gZ(\rvx, \rvx', S) = \sum_{i,j} \rvy_i\rvy_j \psi(\bbE_\init \rmK_0^{(2)}(\rvx, \rvx'), \bbE_\init \rmK_0^{(2)}(\rvx_i, \rvx_j)),
+\]
+and for \lantk-KR-V2, we consider 
+\[
+\gZ(\rvx, \rvx', S) = \sum_{i,j} ((\E_\init\rmKK_0)^{-1}\rvy)_i((\E_\init\rmKK_0)^{-1}\rvy)_j \psi(\bbE_\init \rmK_0^{(2)}(\rvx, \rvx'), \bbE_\init \rmK_0^{(2)}(\rvx_i, \rvx_j)),
+\]
+where 
+\[
+\psi(\phi_{ab}, \phi_{ij}) = \frac{B - (\phi_{ab} - \phi_{ij})^2}{n^2B - \sum_{s,t}(\phi_{ab} - \phi_{st})^2}
+\] 
+is a normalized similarity measure (smaller $(\phi_{ab} - \phi_{ij})^2$ indicates larger similarity) and $B$ is a constant which is set to be the largest $(\phi_{max} - \phi_{min})^2$ in the training data. Note that the change from $\rvy$ to $(\E_\init\rmKK_0)^{-1}\rvy$ in CNTK-V2 is inspired from the second term in $K^{(\textnormal{NTH})}(\rvx, \rvx')$. 
+
+Our second choice of $\gZ$ is based on a linear regression with Fast-Johnson-Lindenstrauss-Transform (FJLT) \citep{ailon2009fast} and some hand-engineered features. FJLT is used to reduce the computational cost because there are $O(10^8)$ examples in the pairwise dataset\footnote{Our implementation is based on \url{https://github.com/michaelmathen/FJLT} and \url{https://github.com/dingluo/fwht}.}. And the hand-engineered features are as follows:
+\begin{enumerate}
+    \item For \lantk-FJLT-V1, we use the following features: $\bbE_\init\KK_0(\rvx, \rvx')$ (the label-agnostic kernel), $\cos\left<\rvx, \rvx'\right>$ (cos of the angle), $\rvx^T\rvx'$ (the inner product), $||\rvx||_2||\rvx'||_2$(the product of $L_2$ norms), $||\rvx - \rvx'||_2^2$ (Euclidean distance), $|\rvx - \rvx'|_1^1$($L_1$ distance), $\left<\rvx, \rvx'\right>$ (the angle between two vectors), $\sin\left<\rvx, \rvx'\right>$ (sin of the angle), $RBF(\rvx, \rvx')$ (RBF distance between two vectors), $\rho(\rvx, \rvx')$ (the Pearson correlation coefficient between two vectors). 
+    \item For \lantk-FJLT-V2, in addition to the ten features used in \lantk-FJLT-V2, we also include the same $10$ features based on the top five principle components from principal component analysis (PCA).
+\end{enumerate}
+
+%we consider a linear regression from $\phi(\rvx_i, \rvx_j)$ to $\rvy_i\rvy_j$, where $\phi(\rvx_i, \rvx_j)$ denotes the pairwise features. As discussed in Sec.~\ref{subsec:higher-order-regression}, we consider some features that are not covered by the label-agnostic kernel, and the specific $10$ features can be found in Appx. \ref{subsec:pairwise-features}. CNTK-FJLT-V1 directly use these features and CNTK-FJLT-V2 also incorporate the same $10$ features based on the top five principle components from principal component analysis (PCA). FJLT\footnote{Our implementation is based on \url{https://github.com/michaelmathen/FJLT} and \url{https://github.com/dingluo/fwht}.} is used to reduce the computational cost because there are $O(10^8)$ examples.
+
+%\subsection{Pairwise Features for CNTK-FJLT}
+%\label{subsec:pairwise-features}
+%We use $10$ types of pairwise features for CNTK-FJLT-V1 and CNTK-FJLT-V2 as follows: $\bbE_\init\KK_0(\rvx, \rvx')$ (the label-agnostic kernel), $\cos\left<\rvx, \rvx'\right>$ (cos of the angle), $\rvx^T\rvx'$ (the inner product), $||\rvx - \rvx'||_2^2$ (Euclidean distance), $|\rvx - \rvx'|_1^1$($L_1$ distance), $\left<\rvx, \rvx'\right>$ (the angle between two vectors), $\sin\left<\rvx, \rvx'\right>$ (sin of the angle), $RBF(\rvx, \rvx')$ (RBF distance between two vectors), $\rho(\rvx, \rvx')$ (the Pearson correlation coefficient between two vectors). 
+
+\subsection{Details on Training}
+\label{subsec:experimental-settings}
+We use the Adam optimizer \citep{kingma2014adam} with learning rates $3e^{-4}$ for $300$ epochs for the CNN in Sec.~\ref{subsec:kernel-regression} and for $500$ epochs for the 2-layer neural network in Sec.~\ref{subsec:local-elasticity}. For simplicity, we use the parameter with best test performance during the whole training trajectory. 
+%Note that the performance of NNs serves as the upper bound of our models, so we choose not to tune a lot of hyper parameters to save time.

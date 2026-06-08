@@ -1,0 +1,234 @@
+\begin{thebibliography}{34}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Advani and Saxe(2017)]{advani2017high}
+Madhu~S Advani and Andrew~M Saxe.
+\newblock High-dimensional dynamics of generalization error in neural networks.
+\newblock \emph{arXiv preprint arXiv:1710.03667}, 2017.
+
+\bibitem[Allen-Zhu et~al.(2018)Allen-Zhu, Li, and Song]{Allen-Zhu2018}
+Zeyuan Allen-Zhu, Yuanzhi Li, and Zhao Song.
+\newblock A convergence theory for deep learning via over-parameterization.
+\newblock \emph{arXiv preprint arXiv:1811.03962}, 2018.
+
+\bibitem[Arora et~al.(2019)Arora, Du, Hu, Li, Salakhutdinov, and
+  Wang]{arora2019exact}
+Sanjeev Arora, Simon~S Du, Wei Hu, Zhiyuan Li, Ruslan Salakhutdinov, and
+  Ruosong Wang.
+\newblock On exact computation with an infinitely wide neural net.
+\newblock \emph{arXiv preprint arXiv:1904.11955}, 2019.
+
+\bibitem[Baity-Jesi et~al.(2018)Baity-Jesi, Sagun, Geiger, Spigler, Arous,
+  Cammarota, LeCun, Wyart, and Biroli]{Baity18}
+Marco Baity-Jesi, Levent Sagun, Mario Geiger, Stefano Spigler, Gerard~Ben
+  Arous, Chiara Cammarota, Yann LeCun, Matthieu Wyart, and Giulio Biroli.
+\newblock Comparing dynamics: Deep neural networks versus glassy systems.
+\newblock In Jennifer Dy and Andreas Krause, editors, \emph{Proceedings of the
+  35th International Conference on Machine Learning}, volume~80 of
+  \emph{Proceedings of Machine Learning Research}, pages 314--323,
+  Stockholmsmässan, Stockholm Sweden, 10--15 Jul 2018. PMLR.
+\newblock URL \url{http://proceedings.mlr.press/v80/baity-jesi18a.html}.
+
+\bibitem[Bansal et~al.(2018)Bansal, Advani, Cox, and Saxe]{bansal2018minnorm}
+Yamini Bansal, Madhu Advani, David~D Cox, and Andrew~M Saxe.
+\newblock Minnorm training: an algorithm for training overcomplete deep neural
+  networks.
+\newblock \emph{arXiv preprint arXiv:1806.00730}, 2018.
+
+\bibitem[Chizat and Bach(2018)]{chizat2018}
+L\'{e}na\"{\i}c Chizat and Francis Bach.
+\newblock {On the Global Convergence of Gradient Descent for Over-parameterized
+  Models using Optimal Transport}.
+\newblock In \emph{Advances in Neural Information Processing Systems 31}, pages
+  3040--3050. Curran Associates, Inc., 2018.
+
+\bibitem[Chizat and Bach(2019)]{chizat19}
+Lenaic Chizat and Francis Bach.
+\newblock {A Note on Lazy Training in Supervised Differentiable Programming}.
+\newblock working paper or preprint, February 2019.
+\newblock URL \url{https://hal.inria.fr/hal-01945578}.
+
+\bibitem[Chizat et~al.(2019)Chizat, Oyallon, and Bach]{chizat:hal-01945578}
+Lenaic Chizat, Edouard Oyallon, and Francis Bach.
+\newblock {On Lazy Training in Differentiable Programming}.
+\newblock In \emph{{NeurIPS 2019 - 33rd Conference on Neural Information
+  Processing Systems}}, Vancouver, Canada, December 2019.
+\newblock URL \url{https://hal.inria.fr/hal-01945578}.
+
+\bibitem[de~G.~Matthews et~al.(2018)de~G.~Matthews, Hron, Rowland, Turner, and
+  Ghahramani]{matthews2018gaussian}
+Alexander~G. de~G.~Matthews, Jiri Hron, Mark Rowland, Richard~E. Turner, and
+  Zoubin Ghahramani.
+\newblock Gaussian process behaviour in wide deep neural networks.
+\newblock In \emph{International Conference on Learning Representations}, 2018.
+\newblock URL \url{https://openreview.net/forum?id=H1-nGgWC-}.
+
+\bibitem[Du et~al.(2019)Du, Zhai, Poczos, and Singh]{Du2019}
+Simon~S. Du, Xiyu Zhai, Barnabas Poczos, and Aarti Singh.
+\newblock Gradient descent provably optimizes over-parameterized neural
+  networks.
+\newblock In \emph{International Conference on Learning Representations}, 2019.
+\newblock URL \url{https://openreview.net/forum?id=S1eK3i09YQ}.
+
+\bibitem[Dyer and Gur-Ari(2019)]{Dyer19}
+Ethan Dyer and Guy Gur-Ari.
+\newblock Asymptotics of wide networks from feynman diagrams.
+\newblock \emph{arXiv preprint arXiv:1909.11304}, 2019.
+
+\bibitem[Geiger et~al.(2018)Geiger, Spigler, d'Ascoli, Sagun, Baity-Jesi,
+  Biroli, and Wyart]{Geiger18}
+Mario Geiger, Stefano Spigler, {St{\'e}phane} d'Ascoli, Levent Sagun, Marco
+  Baity-Jesi, Giulio Biroli, and Matthieu Wyart.
+\newblock The jamming transition as a paradigm to understand the loss landscape
+  of deep neural networks.
+\newblock \emph{arXiv preprint arXiv:1809.09349}, 2018.
+
+\bibitem[Geiger et~al.(2019)Geiger, Jacot, Spigler, Gabriel, Sagun, d'Ascoli,
+  Biroli, Hongler, and Wyart]{geiger2019scaling}
+Mario Geiger, Arthur Jacot, Stefano Spigler, Franck Gabriel, Levent Sagun,
+  St{\'e}phane d'Ascoli, Giulio Biroli, Cl{\'e}ment Hongler, and Matthieu
+  Wyart.
+\newblock Scaling description of generalization with number of parameters in
+  deep learning.
+\newblock \emph{arXiv preprint arXiv:1901.01608}, 2019.
+
+\bibitem[Jacot et~al.(2018)Jacot, Gabriel, and Hongler]{jacot2018neural}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock Neural tangent kernel: Convergence and generalization in neural
+  networks.
+\newblock In \emph{Proceedings of the 32Nd International Conference on Neural
+  Information Processing Systems}, NIPS'18, pages 8580--8589, USA, 2018. Curran
+  Associates Inc.
+\newblock URL \url{http://dl.acm.org/citation.cfm?id=3327757.3327948}.
+
+\bibitem[Jacot et~al.(2019)Jacot, Gabriel, and Hongler]{jacot2019hessian}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock The asymptotic spectrum of the hessian of dnn throughout training.
+\newblock \emph{arXiv preprint arXiv:1910.02875}, 2019.
+
+\bibitem[Kingma and Ba(2015)]{Kingma14}
+Diederik~P Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock \emph{International Conference on Learning Representations}, 2015.
+
+\bibitem[Lee et~al.(2018)Lee, Bahri, Novak, Schoenholz, Pennington, and
+  Sohl-Dickstein]{Lee2017}
+Jae~Hoon Lee, Yasaman Bahri, Roman Novak, Samuel~S. Schoenholz, Jeffrey
+  Pennington, and Jascha Sohl-Dickstein.
+\newblock Deep neural networks as gaussian processes.
+\newblock \emph{ICLR}, 2018.
+
+\bibitem[Lee et~al.(2019)Lee, Xiao, Schoenholz, Bahri, Sohl-Dickstein, and
+  Pennington]{lee2019wide}
+Jaehoon Lee, Lechao Xiao, Samuel~S Schoenholz, Yasaman Bahri, Jascha
+  Sohl-Dickstein, and Jeffrey Pennington.
+\newblock Wide neural networks of any depth evolve as linear models under
+  gradient descent.
+\newblock \emph{arXiv preprint arXiv:1902.06720}, 2019.
+
+\bibitem[Mei et~al.(2018)Mei, Montanari, and Nguyen]{mei2018mean}
+Song Mei, Andrea Montanari, and Phan-Minh Nguyen.
+\newblock A mean field view of the landscape of two-layers neural networks.
+\newblock \emph{arXiv preprint arXiv:1804.06561}, 2018.
+
+\bibitem[Mei et~al.(2019)Mei, Misiakiewicz, and Montanari]{mei2019mean}
+Song Mei, Theodor Misiakiewicz, and Andrea Montanari.
+\newblock Mean-field theory of two-layers neural networks: dimension-free
+  bounds and kernel limit.
+\newblock \emph{arXiv preprint arXiv:1902.06015}, 2019.
+
+\bibitem[Neal et~al.(2019)Neal, Mittal, Baratin, Tantia, Scicluna,
+  Lacoste-Julien, and Mitliagkas]{neal2018modern}
+Brady Neal, Sarthak Mittal, Aristide Baratin, Vinayak Tantia, Matthew Scicluna,
+  Simon Lacoste-Julien, and Ioannis Mitliagkas.
+\newblock A modern take on the bias-variance tradeoff in neural networks.
+\newblock 2019.
+\newblock URL \url{https://openreview.net/forum?id=HkgmzhC5F7}.
+
+\bibitem[Neal(1996)]{Neal1996}
+Radford~M. Neal.
+\newblock \emph{Bayesian Learning for Neural Networks}.
+\newblock Springer-Verlag New York, Inc., Secaucus, NJ, USA, 1996.
+\newblock ISBN 0387947248.
+
+\bibitem[Neyshabur et~al.(2017)Neyshabur, Tomioka, Salakhutdinov, and
+  Srebro]{neyshabur2017geometry}
+Behnam Neyshabur, Ryota Tomioka, Ruslan Salakhutdinov, and Nathan Srebro.
+\newblock Geometry of optimization and implicit regularization in deep
+  learning.
+\newblock \emph{arXiv preprint arXiv:1705.03071}, 2017.
+
+\bibitem[Nguyen(2019)]{nguyen2019mean}
+Phan-Minh Nguyen.
+\newblock Mean field limit of the learning dynamics of multilayer neural
+  networks.
+\newblock \emph{arXiv preprint arXiv:1902.02880}, 2019.
+
+\bibitem[Novak et~al.(2019)Novak, Xiao, Bahri, Lee, Yang, Abolafia, Pennington,
+  and Sohl-dickstein]{novak2018bayesian}
+Roman Novak, Lechao Xiao, Yasaman Bahri, Jaehoon Lee, Greg Yang, Daniel~A.
+  Abolafia, Jeffrey Pennington, and Jascha Sohl-dickstein.
+\newblock Bayesian deep convolutional networks with many channels are gaussian
+  processes.
+\newblock In \emph{International Conference on Learning Representations}, 2019.
+\newblock URL \url{https://openreview.net/forum?id=B1g30j0qF7}.
+
+\bibitem[Paccolat et~al.(2020)Paccolat, Petrini, Geiger, Tyloo, and
+  Wyart]{paccolat2020geometric}
+Jonas Paccolat, Leonardo Petrini, Mario Geiger, Kevin Tyloo, and Matthieu
+  Wyart.
+\newblock Geometric compression of invariant manifolds in neural nets, 2020.
+
+\bibitem[Park et~al.(2019)Park, Sohl-Dickstein, Le, and Smith]{park2019effect}
+Daniel~S Park, Jascha Sohl-Dickstein, Quoc~V Le, and Samuel~L Smith.
+\newblock The effect of network width on stochastic gradient descent and
+  generalization: an empirical study.
+\newblock \emph{arXiv preprint arXiv:1905.03776}, 2019.
+
+\bibitem[Rotskoff and Vanden-Eijnden(2018)]{rotskoff2018neural}
+Grant~M Rotskoff and Eric Vanden-Eijnden.
+\newblock Neural networks as interacting particle systems: Asymptotic convexity
+  of the loss landscape and universal scaling of the approximation error.
+\newblock \emph{arXiv preprint arXiv:1805.00915}, 2018.
+
+\bibitem[Sirignano and Spiliopoulos(2018)]{sirignano2018mean}
+Justin Sirignano and Konstantinos Spiliopoulos.
+\newblock Mean field analysis of neural networks.
+\newblock \emph{arXiv preprint arXiv:1805.01053}, 2018.
+
+\bibitem[Spigler et~al.(2018)Spigler, Geiger, d'Ascoli, Sagun, Biroli, and
+  Wyart]{Spigler18}
+Stefano Spigler, Mario Geiger, St{\'e}phane d'Ascoli, Levent Sagun, Giulio
+  Biroli, and Matthieu Wyart.
+\newblock A jamming transition from under-to over-parametrization affects loss
+  landscape and generalization.
+\newblock \emph{arXiv preprint arXiv:1810.09665}, 2018.
+
+\bibitem[Williams(1997)]{williams1997computing}
+Christopher~KI Williams.
+\newblock Computing with infinite networks.
+\newblock In \emph{Advances in neural information processing systems}, pages
+  295--301, 1997.
+
+\bibitem[Xiao et~al.(2017)Xiao, Rasul, and Vollgraf]{xiao2017/online}
+Han Xiao, Kashif Rasul, and Roland Vollgraf.
+\newblock Fashion-mnist: a novel image dataset for benchmarking machine
+  learning algorithms, 2017.
+
+\bibitem[Yang(2019)]{yang2019scaling}
+Greg Yang.
+\newblock Scaling limits of wide neural networks with weight sharing: Gaussian
+  process behavior, gradient independence, and neural tangent kernel
+  derivation.
+\newblock \emph{arXiv preprint arXiv:1902.04760}, 2019.
+
+\bibitem[Zagoruyko and Komodakis(2016)]{Zagoruyko2016WRN}
+Sergey Zagoruyko and Nikos Komodakis.
+\newblock Wide residual networks.
+\newblock In \emph{BMVC}, 2016.
+
+\end{thebibliography}

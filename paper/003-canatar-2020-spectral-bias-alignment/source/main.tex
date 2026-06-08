@@ -1,0 +1,1041 @@
+\documentclass[11pt]{article}
+\usepackage{lineno}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,bm}
+\usepackage{amssymb}
+\usepackage{amsthm,amsfonts}
+\usepackage{booktabs}
+\usepackage{nicefrac,microtype}
+\usepackage{tikz}
+\usepackage{cancel}
+\usepackage{wasysym}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{commath}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{physics}
+\usepackage{braket}
+\usepackage{hyperref,url}
+\usepackage{pdfpages}
+\usepackage{subfigure}
+\usepackage[skins,breakable]{tcolorbox}
+\usepackage{dcolumn}
+
+\usepackage{pdfpages}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Useful Definitions %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{mydef}{Definition}
+\newtheorem{prop}{Proposition}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\def\st{{\rm s.t.}}
+\def\proj{{\rm proj}}
+\def\diag{{\rm diag}}
+
+\def\bPsi{\mathbf{\Psi}}
+\def\bPhi{\mathbf{\Phi}}
+\def\bChi{\mathbf{\chi}}
+\def\bSigma{{\bm \Sigma}}
+\def\bGamma{{\bm \Gamma}}
+\def\bLambda{{\bm \Lambda}}
+\def\bLambda{{\bf{H}}}
+\def\bLambda{{\bm \Lambda}}
+\def\veps{\varepsilon}
+\def\balpha{{\bm \alpha}}
+\def\bmu{{\bm \mu}}
+\def\bomega{{\bm \omega}}
+\def\bepsilon{{\bm \epsilon}}
+\def\bxi{{\bm \xi}}
+\def\bchi{{\bm \chi}}
+
+
+\def\1{{\bf 1}}
+
+\def\a{{\mathbf a}}
+\def\b{{\mathbf b}}
+\def\e{{\bf e}}
+\def\q{{\bf q}}
+\def\w{{\mathbf w}}
+\def\x{{\mathbf x}}
+\def\y{{\mathbf y}}
+
+\def\A{{\bf A}}
+\def\C{{\bf C}}
+\def\D{{\bf D}}
+\def\G{{\bf G}}
+\def\H{\mathcal{H}}
+\def\I{{\bf I}}
+\def\J{{\bf J}}
+\def\K{{\mathbf K}}
+\def\R{\mathbb{R}}
+\def\T{\bf{T}}
+\def\W{{\mathbf W}}
+\def\X{{\mathbf X}}
+\def\Y{{\mathbf Y}}
+%%%%%%%%%%%%%%
+
+\usepackage{titling}
+\thanksmarkseries{arabic}
+
+\usepackage[symbol]{footmisc}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Spectral Bias and Task-Model Alignment Explain Generalization in Kernel Regression and Infinitely Wide Neural Networks}
+\author{
+  Abdulkadir Canatar $^{1,2}$ %
+  \and
+  Blake Bordelon $^{2,3}$%
+  \and
+  Cengiz Pehlevan $^{2,3,*}$}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\renewcommand*{\thefootnote}{\arabic{footnote}}
+\footnotetext[1]{Department of Physics, Harvard University, Cambridge, MA 02138, USA.}
+\footnotetext[2]{Center for Brain Science, Harvard University, Cambridge, MA 02138, USA.}
+\footnotetext[3]{John A. Paulson  School  of  Engineering  and  Applied  Sciences, Harvard University, Cambridge, MA 02138, USA.}
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Corresponding Author, E-mail: cpehlevan@seas.harvard.edu}
+
+\renewcommand{\figurename}{Fig.}
+% \renewcommand{\thefigure}{\textbf{\arabic{figure}}}
+\renewcommand{\figref}[2][]{{{\figurename\,\ref{#2}#1}}}
+
+%TC:ignore
+\begin{abstract}
+A theoretical understanding of generalization remains an open problem for many machine learning models, including deep networks where overparameterization leads to better performance, contradicting the conventional wisdom from classical statistics. Here, we investigate generalization error for kernel regression, which, besides being a popular machine learning method, also describes certain infinitely overparameterized neural networks. We use techniques from statistical mechanics to derive an analytical expression for generalization error applicable to any kernel and data distribution. We present applications of our theory to real and synthetic datasets, and for many kernels including those that arise from training deep networks in the infinite-width limit. We elucidate an inductive bias of kernel regression to explain data with simple functions, characterize whether a kernel is compatible with a learning task, and show that more data may impair generalization when noisy or not expressible by the kernel, leading to non-monotonic learning curves with possibly many peaks. 
+\end{abstract}
+%TC:endignore
+
+
+\newpage
+
+\section*{Introduction}
+
+Learning machines aim to find statistical patterns in data that generalize to previously unseen samples \cite{hastie2009elements}. How well they perform in doing so depends on factors such as the size and the nature of the training data set, the complexity of the learning task, and the inductive bias of the learning machine. Identifying precisely how these factors contribute to the generalization performance has been a theoretical challenge. In particular, a definitive theory should be able to predict generalization performance on real data. Existing theories fall short of this goal, often providing impractical bounds and inaccurate estimates \cite{zhang2016understanding,belkin2019reconciling}. 
+
+The need for a new theory of generalization is exacerbated by recent developments in deep learning \cite{lecun2015deep}.
+Experience in the field suggests that larger models perform better \cite{nakkiran2019deep,kaplan2020scaling,lepikhin2020gshard}, encouraging training of larger and larger networks with state-of-the-art architectures reaching hundreds of billions of parameters \cite{lepikhin2020gshard}. These networks work in an overparameterized regime \cite{belkin2019reconciling,nakkiran2019deep} with much more parameters than training samples, and are highly expressive to a level that they can even fit random noise \cite{zhang2016understanding}. Yet, they generalize well, contradicting the conventional wisdom from classical statistical learning theory \cite{hastie2009elements,belkin2019reconciling,Vapnik1998} according to which  overparameterization should lead to overfitting and  worse generalization. It must be that overparameterized networks have inductive biases that suit the learning task. Therefore, it is crucial for a theory of generalization to elucidate such biases.
+
+While addressing the full complexity of deep learning is as of now beyond the reach of theoretical study, a tractable, yet practically-relevant limit was established by recent work pointing to a correspondence between training deep networks and performing regression with various rotation invariant kernels. In the limit where the width of a network is taken to infinity (network is thus overparameterized), neural network training with a certain random initialization scheme can be described by ridgeless kernel regression with the Neural Network Gaussian Process kernel (NNGPK) if only the last layer is trained \cite{neal1996bayesian,cho2009kernel,matthews2018gaussian,lee2017deep}, or the Neural Tangent Kernel (NTK) if all the layers are trained  \cite{jacot2018neural}. Consequently, studying the inductive biases of kernels arising from the infinite-width limit should give insight to the success of overparameterized neural networks. Indeed, key generalization phenomena in deep learning also occur in kernel methods, and it has been argued that understanding generalization in kernel methods is necessary for understanding generalization in deep learning \cite{belkin2018understand}.
+
+Motivated by these connections to deep networks and also by its wide use, in this paper, we present a theory of generalization in kernel regression \cite{wahba1990spline,evgeniou2000regularization,shawe2004kernel,mohri2018foundations,jacot2020kernel}. Our theory is generally applicable to any kernel and contains the infinite-width limit of deep networks as a special case. Most importantly, our theory is applicable to real datasets.
+
+We describe typical generalization performance of kernel regression shedding light onto practical uses of the algorithm, in contrast to the worst case bounds of statistical learning theory \cite{Vapnik1998,mohri2018foundations,cucker2002best,caponnetto2007optimal,liang2018just}. In the past, statistical mechanics provided a useful theoretical framework for such typical-case analyses for various algorithms \cite{gardner1988space,Hertz_1989, krogh, sompolinsky1992examples,optimalperceptron,statmechofrule,sollich1999learning,Malzahn_Opper,engel2001statistical,bahri2019statistical}. Here, using the replica method of statistical mechanics \cite{mezard1987spin}, we derive an analytical expression for the typical generalization error of kernel regression as a function of 1) the number of training samples, 2) the eigenvalues and eigenfunctions of the kernel, which define the inductive bias of kernel regression, and 3) the alignment of the target function with the kernel's eigenfunctions, which provides a notion of how compatible the kernel is for the task. We test our theory on various real datasets and kernels. Our analytical generalization error predictions fit experiments remarkably well.
+
+
+Our theory sheds light onto the various generalization phenomena. We elucidate a strong inductive bias: as the size of the training set grows, kernel regression fits successively higher spectral modes of the target function, where the spectrum is defined by solving an eigenfunction problem \cite{bordelon2020spectrum, jacot2020implicit,jacot2020kernel, liang_isometry}. Consequently, our theory can predict which kernels or neural architectures are well suited to a given task by studying the alignment of top kernel eigenfunctions with the target function for the task. Target functions that place most power in the top kernel eigenfunctions can be estimated accurately at small sample sizes, leading to good generalization. Finally, when the data labels are noisy or the target function has components not expressible by the kernel, we observe that generalization error can exhibit non-monotonic behavior as a function of the number of samples, contrary to the common intuition that more data should lead to smaller error. This non-monotonic behavior is reminiscent of the recently described ``double-descent'' phenomenon \cite{belkin2019reconciling,nakkiran2019deep,loog2020brief,montanari2019generalization}, where generalization error is non-monotonic as a function of model complexity in many modern machine learning models.  We show that the non-monotonicity can be mitigated by increasing the implicit or explicit regularization.
+
+To understand these phenomena better, we present a detailed analytical study of the application of our theory to rotation invariant kernels, motivated by their wide use and relevance for deep learning. Besides NNGPK and NTK, this class includes many other popular kernels such as the Gaussian, Exponential and Matern kernels \cite{genton2001classes,RasmussenWilliams}. When the data generating distribution is also spherically symmetric, our theory is amenable to further analytical treatment. Our analyses provide a mechanistic understanding of the inductive bias of kernel regression and the possible non-monotonic behavior of learning curves.
+
+\section*{Results}
+\subsection*{Generalization Error of Kernel Regression from Statistical Mechanics}
+
+Kernel regression is a supervised learning problem where one estimates a function from a number of observations. For our setup, let $\mathcal{D} = \{\mathbf{x}^\mu, y^\mu\}_{\mu=1}^P$ be a sample of $P$ observations drawn from a probability distribution on $\mathcal{X} \times \mathbb{R}$, and $\mathcal X \subseteq \mathbb{R}^D$. The inputs $\x^{\mu}$ are drawn from a distribution $p(\x)$, and the labels $y^\mu$ are assumed to be generated by a noisy target $ y^\mu = \bar f(\mathbf{x}^\mu) + \epsilon^\mu$, where $\bar f$ is square integrable with respect to $p(\x)$, and $\epsilon^\mu$ represents zero-mean additive noise with covariance $\left< \epsilon^\mu \epsilon^\nu \right> = \delta_{\mu \nu} \sigma^2$. The kernel regression problem is
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{eq:regression}
+    f^* = \argmin_{f \in \mathcal{H}} \frac{1}{2\lambda } \sum_{i=1}^P ( f(\mathbf{x}^\mu) - y^\mu)^2 + \frac{1}{2}\left< f,f \right>_{\mathcal{H}},
+\end{equation}\end{linenomath*}
+%TC:endignore	
+where $\lambda$ is the ``ridge'' parameter, $\mathcal{H}$ is a Reproducing Kernel Hilbert Space (RKHS) uniquely determined by its reproducing kernel $K(\mathbf{x},\mathbf{x}')$ and the input distribution $p(\x)$ \cite{scholkopf2002learning},  and  $\left< \cdot, \cdot \right>_{\mathcal{H}}$ is the RKHS inner product. The Hilbert norm penalty controls the complexity of $f$. The $\lambda\to 0$ limit is referred to as the kernel interpolation limit, where the dataset is exactly fit: $f^* = \argmin_{f \in \mathcal{H}} \left< f,f \right>_{\mathcal{H}},\,{\rm s.t.}\, f(\mathbf{x}^\mu) = y^\mu, \mu = 1,\ldots P$. We emphasize that in our setting the target function does not have to be in the RKHS. 
+
+Our goal is to calculate generalization error, i.e. mean squared error between the estimator, $f^*$, and the ground-truth (target) $\bar f(\mathbf{x})$ averaged over the data distribution and datasets:
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{eq:genError}
+    E_g = \left< \int d\x \, p(\x)\,\big(f^*(\x) - \bar f(\mathbf{x})\big)^2 \right>_\mathcal{D}.
+\end{equation}\end{linenomath*}
+%TC:endignore
+$E_g$ measures, on average, how well the function learned agrees with the target on previously unseen (and seen) data sampled from the same distribution. 
+
+This problem can be analyzed using the replica method from statistical physics of disordered systems \cite{mezard1987spin}, treating the training set as a quenched disorder. Our calculation is outlined in Methods and further detailed in the Supplementary Information. Here we present our main results.
+
+Our results rely on the Mercer decomposition of the kernel in terms of orthogonal eigenfunctions $\{\phi_\rho\}$, 
+%
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{eq:eigenvalue}
+    \int  d \mathbf{x}'\,p(\mathbf{x}') K(\mathbf{x}, \mathbf{x}') \phi_\rho(\mathbf{x}')  = \eta_\rho \phi_\rho(\mathbf{x}), \qquad \rho = 1,\ldots, N,
+\end{equation}\end{linenomath*}
+%TC:endignore
+which form a complete basis for the RKHS, and eigenvalues $\{\eta_\rho\}$. $N$ is typically infinite. For ease of presentation, we assume that all eigenvalues are strictly greater than zero. In Supplementary Note 1 and 2, we fully address the case with zero eigenvalues. Working with the orthogonal basis set $\psi_\rho(\mathbf{x}) \equiv \sqrt{\eta_\rho} \phi_\rho(\mathbf{x})$,
+ also called a feature map, we introduce coefficients $\{\overline{w}_\rho\}$ and $\{w_\rho^*\}$ that represent the target and learned functions respectively $\bar f(\mathbf{x}) = \sum_\rho \overline{w}_\rho \psi_\rho(\mathbf{x})$, and $f^*(\mathbf{x}) = \sum_\rho w_\rho^* \psi_\rho(\mathbf{x})$.
+    
+With this setup, we calculate the generalization error of kernel regression for any kernel and data distribution to be (Methods and Supplementary Note 2):    %
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{eq:finitePgenErr}
+\begin{gathered}
+    E_g = \frac{1}{1-\gamma}\sum_{\rho}\frac{\eta_\rho }{\big(\kappa+P\eta_\rho\big)^2}\big(\kappa^2\bar w_\rho^2+\tilde{\sigma}^2 P\eta_\rho\big), \\
+    \kappa = \lambda  + \sum_\rho \frac{\kappa\eta_\rho}{\kappa+{P}\eta_\rho},\quad
+    \gamma = \sum_\rho \frac{P\eta_\rho^2}{(\kappa+P\eta_\rho)^2}.
+\end{gathered}
+\end{equation}\end{linenomath*}
+%TC:endignore
+We note that the generalization error is the sum of a $\sigma$-independent term and a $\sigma$-dependent term, the latter of which fully captures the effect of noise on generalization error.
+
+Formally, this equation describes the typical behavior of kernel regression in a thermodynamic limit that involves taking $P$ to infinity. In this limit, variations in kernel regression's performance due to the differences in how the training set is formed, which is assumed to be a stochastic process, become negligible. The precise nature of the limit depends on the kernel and the data distribution. In this work, we consider two different analytically solvable cases and identify natural scalings of $N$ and $D$ with $P$, which in turn govern how the kernel eigenvalues $\eta_\rho$ scale inversely with $P$. We further give the infinite-$P$ limits of Eq. \eqref{eq:finitePgenErr} explicitly for these cases. In practice, however, we find that our generalization error formula describes average learning curves very well for finite $P$ for even as low as a few samples. We observe that the variance in learning curves due to stochastic sampling of the training set is significant for low $P$, but decays with increasing $P$ as expected. 
+
+
+We will demonstrate various generalization phenomena that arises from Eq. \eqref{eq:finitePgenErr} through simulations and analytical study. One immediate observation is the \textit{spectral bias}: faster rates of convergence of the error along eigenfunctions corresponding to higher eigenvalues in the noise free ($\sigma^2 = 0$) limit. The generalization error can be decomposed into a sum of modal errors $ E_g = \sum_\rho \eta_\rho \overline{w}_{\rho}^2 E_\rho$, where each normalized mode error $E_\rho$ represents the contribution of the mode error due to estimation of the coefficient for eigenfunction $\psi_\rho$ (Methods). The normalized mode errors are ordered according to their eigenvalues (Methods)
+%TC:ignore
+\begin{linenomath*}\begin{equation}
+    \eta_\rho > \eta_{\rho'} \implies E_{\rho} < E_{\rho'},
+\end{equation}\end{linenomath*}
+%TC:endignore
+which implies that modes $\rho$ with large eigenvalues $\eta_\rho$ are learned more rapidly as $P$ increases than modes with small eigenvalues. 
+
+An important implication of this result is that target functions acting on the same data distribution with higher \textit{cumulative power distributions} $C(\rho)$, defined as the proportion of target power in the first $\rho$ modes
+%TC:ignore
+\begin{linenomath*}
+\begin{equation}\label{eq:Ck}
+    C(\rho) = \frac{\sum_{\rho' \leq \rho} \eta_{\rho'} \overline{w}_{\rho'}^2}{\sum_{\rho'} \eta_{\rho'} \overline{w}_{\rho'}^2},
+\end{equation}
+\end{linenomath*}
+%TC:endignore
+for all $k\geq 1$ will have lower generalization error normalized by total target power, $E_g(P)/E_g(0)$, for all $P$ (Methods). Therefore, $C(\rho)$ provides a measure of the compatibility between the kernel and the target, which we name {\it task-model alignment}. 
+
+We further note that the target function enters normalized generalization error only through combinations $C(\rho)-C(\rho-1) = \eta_{\rho} \overline{w}_{\rho}^2/\sum_{\rho} \eta_\rho \overline{w}_\rho^2$. Hence, the kernel eigenvalues, the cumulative power distribution, and the noise parameter completely specify the normalized generalization error. Spectral bias, task-model alignment and noise explain generalization in kernel regression.
+
+
+Generalization error can exhibit non-monotonicity which can be understood through the bias and variance decomposition \cite{montanari2019generalization,dascoli2020double,dascoli2020triple}, $E_g = B+V$, where  $B = \int d\x\, p(\x) \left(\left<f^*(\x) \right>_{\mathcal{D}} - \bar f(\x) \right)^2$ and $V = \left<\int d\x \, p(\x) \left(f^*(\x) - \left<f^*(\x) \right>_{\mathcal{D}} \right)^2 \right>_{\mathcal D}$. We found that the average estimator is given by 
+ $\braket{f^*(\x;P)}_\mathcal{D}= \sum_\rho \frac{P\eta_\rho}{P\eta_\rho + \kappa}\bar w_\rho \psi_\rho(\x)$, which
+ monotonically approaches the target function as $P$ increases, giving rise to a monotonically decreasing bias (Supplementary Note 2). However, the variance term arising from the variance of the estimator over possible sampled datasets $\mathcal{D}$ is potentially non-monotonic as the dataset size increases. Therefore, the total generalization error can exhibit local maxima.
+
+
+\subsection*{Applications to Real Datasets}
+
+Next, we evaluate our theory on realistic datasets and show that it predicts kernel regression learning curves with remarkable accuracy. We further elucidate various heuristic generalization principles.
+
+To apply our theory, we numerically solve the eigenvalue problem Eq. \eqref{eq:eigenvalue} on the dataset (Methods) and obtain the necessary eigenvalues and eigenfunctions. When solved on a finite dataset, Eq. \eqref{eq:eigenvalue} is an uncentered kernel PCA problem (Methods).
+We use these eigenfunctions (or eigenvectors for finite data) to express our target function, and the resulting coefficients and kernel eigenvalues to evaluate the generalization error.
+
+%TC:ignore
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 1]{Figure1_BinaryTask_MNIST.pdf}
+    \caption{\textbf{Effect of task-model alignment on the generalization of kernel regression.} \textbf{a, b.} Projections of digits from MNIST along the top two (uncentered) kernel principal components of 2-layer NTK for 0s vs. 1s and 8s vs. 9s, respectively. \textbf{c.} Learning curves for both tasks. The theoretical learning curves (Eq. \eqref{eq:finitePgenErr}, dashed lines) show strong agreement with experiment (dots). \textbf{d.} The kernel eigenspectra for the respective datasets. \textbf{e.} The cumulative power distributions $C(\rho)$. Error bars show the standard deviation over $50$ trials.}\label{fig:easy_vs_hard_visualization}
+\end{figure}
+%TC:endignore
+
+In our first experiment, we test our theory using a 2-layer NTK \cite{cho2009kernel,jacot2018neural} on two different tasks: discriminating between 0s and 1s, and between 8s and 9s from MNIST dataset \cite{MNIST}. We formulate each of these tasks as a kernel regression problem by considering a vector target function which takes in digits and outputs one-hot labels. Our kernel regression theory can be applied separately to each element of the target function vector (Methods), and a generalization error can be calculated by adding the error due to each vector component.
+
+We can visualize the complexity of the two tasks by plotting the projection of the data along the top two kernel principal components (\figref{fig:easy_vs_hard_visualization}a,b). The projection for 0-1 digits appears highly separable compared to 8-9s, and thus simpler to learn to discriminate. %Our theory also predicts that they should be learned more rapidly. 
+Indeed, the generalization error for the 0-1 discrimination task falls more rapidly than the error for the 8-9 task (\figref{fig:easy_vs_hard_visualization}c). Our theory is in remarkable agreement with experiments. Why is 0-1 discrimination easier for this kernel? \figref{fig:easy_vs_hard_visualization}d shows that the eigenvalues of the NTK evaluated on the data are very similar for both datasets. To quantify the compatibility of the kernel with the tasks, we measure the cumulative power distribution $C(\rho)$. Even though in this case the data distributions are different, $C(\rho)$ is still informative. \figref{fig:easy_vs_hard_visualization}e illustrates that $C(\rho)$ rises more rapidly for the easier 0-1 task and more slowly for the 8-9 task, providing a heuristic explanation of why it requires a greater number of samples to learn.  
+
+We next test our theory for Gaussian RBF kernel on the MNIST \cite{MNIST} and CIFAR \cite{CIFAR} datasets. \figref{fig:DoubleDescent_MNISTCIFAR}a shows excellent agreement between our theory and experiments for both. \figref{fig:DoubleDescent_MNISTCIFAR}b shows that the eigenvalues of the Gaussian RBF kernel evaluated on data are similar for MNIST and CIFAR-10. The cumulative powers $C(\rho)$ (\figref{fig:DoubleDescent_MNISTCIFAR}c), however, are very different. Placing more power in the first few modes makes learning faster. When the labels have nonzero noise $\sigma^2>0$ (\figref{fig:DoubleDescent_MNISTCIFAR}d,e), generalization error is non-monotonic with a peak, a feature that has been named ``double-descent%\footnote{We will make a distinction between curves with a single decreasing region and two decreasing regions, and call only the latter one double-descent.}
+'' \cite{belkin2019reconciling,loog2020brief}. By decomposing $E_g$ into the bias and the variance of the estimator, we see that the non-monotonicity is caused solely by the variance (\figref{fig:DoubleDescent_MNISTCIFAR}d,e). Similar observations about variance were made in different contexts before \cite{montanari2019generalization, dascoli2020double,nakkiran2020optimal}.
+
+%TC:ignore
+\begin{figure}
+    \centering
+    \includegraphics[scale = 1]{Figure2_MNIST_CIFAR_RBF_BiasVariance.pdf}
+    \caption{\textbf{Gaussian RBF kernel regression on MNIST and CIFAR-10 datasets.} Kernel is $K(\mathbf{x},\mathbf{x}')=e^{-\frac{1}{2 D \omega^2} ||x-x'||^2}$  with kernel bandwidth $\omega = 0.1$, ridge parameter $\lambda = 0.01$ and $D$ being the size of images. \textbf{a.} Generalization error $E_g(p)$ when $\sigma^2=0$: Solid lines are theory (Eq. \eqref{eq:finitePgenErr}), dots are experiments. \textbf{b.} Kernel eigenvalues and \textbf{c.} cumulative powers $C(\rho)$ for MNIST and CIFAR-10. \textbf{d, e.} Generalization error when $\sigma^2=0.5$ with its bias-variance decomposition for MNIST and CIFAR-10 datasets, respectively. Solid lines are theory, markers are experiments. Error bars represent standard deviation over $160$ trials. Bias and variance are obtained by calculating the mean and variance of the estimator over $150$ trials, respectively.} \label{fig:DoubleDescent_MNISTCIFAR}
+\end{figure}
+%TC:endignore
+
+
+These experiments and discussion in the previous section provide illustrations of the three main heuristics about how dataset, kernel, target function, and noise interact to produce generalization in kernel regression:
+\begin{enumerate}
+    \item \textit{Spectral Bias}: Kernel eigenfunctions $\phi_\rho$ with large eigenvalues $\eta_\rho$ can be estimated with kernel regression using a smaller number of samples. 
+    \item \textit{Task-Model Alignment}: Target functions with most of their power in top kernel eigenfunctions can be estimated efficiently and are compatible with the chosen kernel. We introduce cumulative power distribution, $C(\rho)$, as defined in Eq. \eqref{eq:Ck}, as a measure off this alignment. %Equivalently, for a fixed task, kernels with top eigenfunctions that align with the task will provide the best generalization performance.
+    \item \textit{Non-monotonicity}: Generalization error may be non-monotonic with dataset size in the presence of noise (as in \figref{fig:DoubleDescent_MNISTCIFAR}), or when the target function is not expressible by the kernel (not in the RKHS). We provide a discussion of and examples for the latter kind in Supplementary Note 3 and 4. We show that modes of the target function corresponding to zero eigenvalues of the kernel act effectively as noise on the learning problem.
+\end{enumerate}
+
+To explore these phenomena further and understand their causes, we study several simplified models where the kernel eigenvalue problem and generalization error equations can be solved analytically. 
+
+
+%\section{Learning Curves in Analytically Solvable Models}\label{sec:solvable}
+
+
+\subsection*{Double-Descent Phase Transition in a Band-Limited RKHS} 
+
+An explicitly solvable and instructive case is the white band-limited RKHS with $N$ equal nonzero eigenvalues, a special case of which is linear regression. Later, we will observe that the mathematical description of rotation invariant kernels on isotropic distributions reduces to this simple model in each learning stage.
+
+In this model, the kernel eigenvalues are equal $\eta_\rho = \frac{1}{N}$ for a finite number of modes $\rho=1,...,N$ and truncate thereafter: $\eta_\rho = 0$ for $\rho>N$. Similarly, the target power $\overline {w}_\rho^2$ truncates after $N$ modes and satisfies the normalization condition $\sum_{\rho=1}^N \overline{w}_\rho^2 = N$. In Supplementary Note 3, we relax these constraints and discuss their implications. Linear regression (or linear perceptron) with isotropic data is a special case when $D=N$, $\phi_{\rho}(\mathbf{x}) = x_{\rho}$, and $\braket{x_{\rho} x_{\rho'}}_{\x\sim p(\x)} = \delta_{\rho\rho'}$ \cite{krogh}.
+
+We study this model in the thermodynamic limit. We find that the natural scaling is to take $P \to \infty$ and $N \to \infty$ with  $\alpha = P/N \sim \mathcal{O}(1)$, and $D \sim O(1)$ (or $D=N\sim\mathcal{O}(P)$ in the linear regression case), leading to the generalization error:
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{Egband}
+\begin{gathered}
+E_g(\alpha,\lambda,\sigma^2) = \frac{\kappa_\lambda(\alpha)^2+\sigma^2\alpha}{(\kappa_\lambda(\alpha)+\alpha)^2 - \alpha}, \\ 
+\kappa_\lambda(\alpha)  = \frac{1}{2} \left[(1+{\lambda}-\alpha) + \sqrt{(1+\lambda-\alpha)^2 + 4\lambda \alpha} \right].
+\end{gathered}
+\end{equation}\end{linenomath*}
+%TC:endignore
+Note that the result is independent of the teacher weights as long as they are properly normalized. The function $\kappa_\lambda(\alpha)$ appears in many contexts relevant to random matrix theory, as it is related to the resolvent, or Stieltjes transform, of a random Wishart matrix \cite{bai_silverstein, Advani_Ganguli_optimal} (Supplementary Note 3). This simple model shows interesting behavior, elucidating the role of regularization and under- vs. over-parameterization in learning machines. 
+
+
+%TC:ignore
+\begin{figure}
+    \centering
+    \includegraphics[scale = 1]{Figure3_WhiteBandLimited.pdf}
+    \caption{\textbf{Learning curves and double-descent phase diagram for kernels with white band-limited spectra.} We simulated $N=800$ dimensional uncorrelated Gaussian features $\bm\phi(\x) = \x \sim \mathcal{N}(0,\I)$ and estimated a linear function $\bar{f}(\x) = \bm\beta^\top \x$ with $||\bm\beta||^2 = N$. Error bars describe the standard deviation over $15$ trials. Solid lines are theory (Eq. \eqref{Egband}), dots are experiments. \textbf{a.} When $\lambda = 0$ and $\sigma^2=0$, $E_g$ linearly decreases with $\alpha$ and when $\sigma^2> 0$ it diverges as $\alpha \to 1$. \textbf{b.} When $\sigma^2=0$, explicit regularization $\lambda$ always leads to slower decay in $E_g$. \textbf{c.} For nonzero noise $\sigma^2>0$, there is an optimal regularization $\lambda^* = \sigma^2$ which gives the best generalization performance. \textbf{d.} Double-descent phase diagram where the colored squares correspond to the curves with same color in panel \textbf{c}. Optimal regularization ($\lambda^* = \sigma^2$) curve is shown in yellow dashed line which does not intersect the double-descent region above the curve defined by $g(\lambda)$ (Eq. \eqref{eq:phase_boundary_white}).}
+    \label{fig:white}
+\end{figure}
+%TC:endignore
+
+
+First we consider the interpolation limit ($\lambda = 0$, \figref{fig:white}a).  The generalization error simplifies to $E_g = (1-\alpha) \Theta(1-\alpha) + \frac{\sigma^2}{1-\alpha} \left[ \alpha \Theta(1-\alpha) -  \Theta(\alpha-1) \right]$. There is a first order phase transition at $\alpha_c = 1$, when the number of samples $P$ is equal to the number of non-zero modes $N$ and therefore to the number of parameters, $\lbrace \bar w_{\rho}\rbrace$, that define the target function. The phase transition is signaled by the non-analytic behavior of $E_g$ and verifiable by computing the first-derivative of free energy (Supplementary Note 3). When $\sigma = 0$, $E_g$ linearly falls with more data and at the critical point generalization error goes to zero. With noise present, the behavior at the critical point changes drastically, and there is a singular peak in the generalization error due to the noise term of the generalization error (\figref{fig:white}a). At this point the kernel machine is (over-)fitting exactly all data points, including noise. Then, as number of samples increase beyond the number of parameters ($\alpha > 1$), the machine is able to average over noise and the generalization error falls with asymptotic behavior $E_g \sim \sigma^2/\alpha$.  Our results are consistent with those previously obtained for the linear perceptron with a noisy target \cite{krogh,sollich1994finite}, which is a special case of kernel regression with a white band-limited spectrum.
+
+When $\lambda > 0$ and $\sigma = 0$, $E_g$ decreases monotonically with $\alpha$ and is asymptotic to $E_g \sim {{\lambda}^2}/{\alpha^2}$ (\figref{fig:white}b). A sharp change at $\alpha =1$ is visible for small $\lambda$, reminiscent of the phase transition at $\lambda = 0$. When $\sigma > 0$ is sufficiently large compared to $\lambda$, non-monotonicity is again present, giving maximum generalization error at $\alpha \approx 1 + \lambda$ (\figref{fig:white}c), with an asymptotic fall $E_g \sim \frac{\sigma^2}{\alpha}$.
+
+We find that $E_g(\alpha)$ is  non-monotonic when the noise level in target satisfies the following inequality (\figref{fig:white}d and Supplementary Note 3):
+%TC:ignore
+\begin{linenomath*}\begin{align}\label{eq:phase_boundary_white}
+	\sigma^2 > \begin{cases} 
+    g(\lambda) & \lambda< 1 \\
+    2\lambda+1 & \lambda\geq 1
+   \end{cases},
+\end{align}\end{linenomath*}
+%TC:endignore
+where $g(\lambda) = 3\lambda\big[3\lambda+2-2\sqrt{1+\lambda}\sqrt{9\lambda+1}\cos\theta(\lambda)\big]$, and $ \theta(\lambda) = \frac{1}{3}\left(\pi+\tan^{-1}\frac{8\sqrt{\lambda}}{9\lambda(3\lambda+2)-1}\right)$. Although there is no strict phase transition (in the sense of non-analytic free energy) except at $\lambda=0$, Eq. \eqref{eq:phase_boundary_white} defines a phase boundary separating the monotonic and non-monotonic learning curve regions for a given regularization parameter and noise. For a given $\lambda$, double-descent occurs for sufficiently high $\sigma^2$.  In the non-monotonic region, there is a single local maximum when $\sigma^2 > 2\lambda + 1$, otherwise a local minima followed by a local maxima (we call only this kind of peak as the double-descent peak).
+
+Based on this explicit formula, one could choose a large enough $\lambda$ to mitigate the peak to avoid overfitting for a given noise level (\figref{fig:white}d). However, larger $\lambda$ may imply slower learning (See \figref{fig:white}b and Supplementary Note 3) requiring more training samples to achieve the same generalization error. By inspecting the derivative $\frac{\partial E_g}{\partial \lambda}=0$, we find that $\lambda^* = \sigma^2$ (yellow dashed line in \figref{fig:white}d) is the optimal choice for ridge parameter, minimizing $E_g(\alpha)$ for a given $\sigma^2$ at all $\alpha$ (\figref{fig:white}c). For $\lambda > \lambda^*$ the noise-free error term increases from the optimum whereas $\lambda<\lambda^*$ gives a larger noise term. Our result agrees with a similar observation regarding the existence of an optimal ridge parameter in linear regression \cite{nakkiran2020optimal}.
+
+
+Further insight to the phase transition can be gained by looking at the bias and the variance of the estimator \cite{montanari2019generalization,dascoli2020double,dascoli2020triple}. The average estimator learned by kernel regression linearly approaches the target function as $\alpha \to 1$ (Supplementary Note 2): $\left< f^*(\x) \right>_{\mathcal{D}} = \min\{\alpha,1\} \bar f(\x)$ (\figref{fig:bias_variance_estimator}a),
+which indicates that the bias ($B$) and variance ($V$) contributions to generalization error have the forms
+$B = \max\{0,1-\alpha\}^2$, $ V = \alpha(1-\alpha) \Theta(1-\alpha) + \frac{\sigma^2}{1-\alpha} \left[ \alpha \Theta(1-\alpha) -  \Theta(\alpha-1) \right]$.
+%
+In the absence of noise, $\sigma = 0$, variance is initially low at small $\alpha$, reaches its maximum at $\alpha = 1/2$ and then decreases as $\alpha \to 1$ as the learned function concentrates around $\bar f$ (\figref{fig:bias_variance_estimator}b). When there is noise, the phase transition at $\alpha = 1$ arises from the divergence in the variance $V$ of the learned estimator (\figref{fig:bias_variance_estimator}c).
+
+%TC:ignore
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 1]{Figure4_bias_variance_predictor.pdf}
+    \caption{\textbf{Bias-variance decomposition of generalization error.} \textbf{a.}  Average estimator for kernel regression with $K(x,x') = \sum_{k=1}^N \cos(k(x-x'))$ on target function $\bar f(x) = e^{4(\cos x -1 )}$ with mean subtracted for different values of $\alpha = P/N$ when $\lambda = \sigma^2=0$. Estimator linearly approaches to the target function and estimates it perfectly when $\alpha = 1$. Dashed lines are theory. \textbf{b.} With the same setting in \figref{fig:white}, when $\lambda = 0$ and $\sigma^2=0$, the bias is a monotonically decreasing function of $\alpha$ while variance has a peak at $\alpha = 1/2$ yet it does not diverge. \textbf{c.} When $\lambda = 0$ and $\sigma^2=0.2$, we observe that the divergence of $E_g$ is only due to the diverging variance of the estimator. In \textbf{b.} and \textbf{c.}, solid lines are theory, dots are experiments. Error bars represent the standard deviation over $15$ trials.}
+    \label{fig:bias_variance_estimator}
+\end{figure}
+%TC:endignore
+
+
+\subsection*{Multiple Learning Episodes and Descents: Rotation Invariant Kernels and Measures}\label{Spherical} 
+
+Next, we study kernel regression on high dimensional spheres focusing on rotation invariant kernels, which satisfy $K(\mathbf{O} \mathbf{x},\mathbf{O} \mathbf{x}') = K(\mathbf{x},\mathbf{x}')$, 
+where $\mathbf{O}$ is an arbitrary orthogonal matrix. This broad class of kernels includes widely used radial basis function kernels $K(\mathbf{x},\mathbf{x}') = K(||\mathbf{x}-\mathbf{x}'||)$ (Gaussian, Laplace, Matern, rational quadratic, thin plate splines, etc) and dot product kernels $K(\mathbf{x},\mathbf{x}') = K(\mathbf{x} \cdot \mathbf{x}')$ (polynomial kernels, NNGPK and NTK) \cite{ cho2009kernel,genton2001classes,RasmussenWilliams}. 
+
+When the data distribution is spherically isotropic $p(\mathbf{x}) = p(||\mathbf{x}||)$, we can separate Mercer eigenfunctions for rotation invariant kernels into radial and angular parts. The spherical parts depend on the radial distances of the data points $||\x||$, whereas the angular components admit a decomposition in terms of spherical harmonics of the unit vectors $Y_{km}(\hat x)$, where $k$ is the degree and $m$ is the order of the harmonic \cite{dai2013spherical}. A review of the basic properties of spherical harmonics are provided in the Supplementary Note 6. Utilizing this spherical symmetry, we obtain the following Mercer decomposition $K(\mathbf{x},\mathbf{x}') = \sum_{z k m} \eta_{z,k} R_{z,k}(||\mathbf{x}||) R_{z,k}(||\mathbf{x}'||) Y_{km}(\mathbf{\hat{x}}) Y_{km}(\mathbf{\hat{x}'})$.	
+Since the eigenvalues are independent of the spherical harmonic order $m$, the minimal degeneracy of the RKHS spectrum is the number of degree $k$ harmonics: in the limit $D \to \infty$ given by $\sim {D^k}/{k!}$ \cite{bietti2019inductive,yang2020finegrained}. However, the degeneracy can be even larger if there are different $(z,k)$ indices with the same eigenvalue. 
+For notational convenience, we denote degenerate eigenvalues as $\eta_{K}$ ($K\in \mathbb{Z}^+$) and corresponding eigenfunctions as $\phi_{K,\rho}$ where $\rho \in \mathbb{Z}^+$ indexes the degenerate indices. After finding the eigenvalues of a kernel on the basis $\phi_{K,\rho}$, one can evaluate  Eq. \eqref{eq:finitePgenErr} to predict the generalization error of the kernel machine.
+
+We focus on the case where the degeneracy of $\eta_{K}$ is $N(D,K) \sim \mathcal{O}_D(D^K)$.  Correspondingly, for finite kernel power $\left< K(\mathbf{x},\mathbf{x}) \right>_{\mathbf{x} \sim p(\mathbf{x})}$ , the eigenvalues must scale with dimension like $\eta_{K} \sim \mathcal{O}_D(D^{-K})$ \cite{cohen2019learning,bordelon2020spectrum}. Examples include the widely-used Gaussian kernel and dot product kernels such as NTK, which we discuss below and in Supplementary Note 4.  
+
+
+This scaling from the degeneracy allows us to consider multiple $P, D \to \infty$ limits leading to different learning stages. We consider a separate limit for each degenerate eigenvalue $L$ while keeping $\alpha \equiv P/N(D,L)$ finite. With this setting, we evaluate Eq. \eqref{eq:finitePgenErr} with definitions $
+    \bar\eta_K \equiv N(D,K)\eta_K$,  $\bar w_{K}^2 \equiv \frac{1}{N(D,K)}\sum_\rho \bar w_{K,\rho}^2$,
+to obtain the generalization error in learning stage $L$:
+%
+%TC:ignore
+\begin{linenomath*}\begin{equation}\label{eq:asympGenErr}
+\begin{gathered}
+E^{(L)}_g(\alpha)=\bar\eta_{L}\bar w_{L}^2 \frac{\tilde \kappa^2+\tilde\sigma_{L}^2\alpha}{(\tilde \kappa + \alpha)^2-\alpha}+\sum_{K>L}\bar\eta_{K}\bar w_{K}^2,\\
+	\tilde \kappa(\alpha) = \frac{1}{2}(1+\tilde\lambda_{L}-\alpha)+\frac{1}{2}\sqrt{(\alpha+1+\tilde\lambda_{L})^2-4\alpha},\\
+	\tilde \sigma_{L}^2 \equiv \frac {\sigma^2+E^{(L)}_g(\infty)}{\bar\eta_{L}\bar w_{L}^2},\quad \tilde\lambda_{L} \equiv  \frac{\lambda+\sum_{K>L}\bar\eta_{K}}{\bar\eta_{L}}.
+\end{gathered}
+\end{equation}\end{linenomath*}
+%TC:endignore	
+%
+Several observations can be made:
+\begin{enumerate}[noitemsep,topsep=0pt,leftmargin=*]
+\item We note that $E_g^{(L)}(0) = \bar\eta_L\bar w_{L}^2 + \sum_{K> L}\bar\eta_{K}\bar w_{K}^2 = \bar\eta_L\bar w_{L}^2+E^{(L)}_g(\infty)$.
+In the learning stage $L$, generalization error due to all target modes with $K<L$ has already decayed to zero. As $\alpha \to \infty$, $K=L$ modes of the target function are learned, leaving $K>L$ modes. This illustrates an inductive bias towards learning target function modes corresponding to higher kernel eigenvalues.
+\item  $E_g^{(L)}(\alpha)-E^{(L)}_g(\infty)$ reduces, up to a constant $\bar\eta_{L}\bar w_{L}^2$, to the generalization error in the band limited case,  Eq. \eqref{Egband}, with the identification of an \textit{effective noise parameter},  $\tilde \sigma_L$, and an \textit{effective ridge parameter}, $\tilde\lambda_{L}$. Inspection of $\tilde \sigma_L$ reveals that target modes with $K>L$ ($E^{(L)}_g(\infty)$) act as noise in the current stage. Inspection of $\tilde\lambda_{L}$ reveals that kernel eigenvalues with $K>L$ act as a regularizer in the current stage. The role of the number of eigenvalues in the white band limited case, $N$, is played here by the degeneracy $N(D,L)$.
+\item Asymptotically, first term in $E_g^{(L)}(\alpha)$ is monotonically decreasing with $\alpha^{-2}$, while the second term shows non-monotonic behavior having a maximum at $\alpha = 1+\tilde\lambda_{L}$. Similar to the white band-limited case, generalization error diverges due to variance explosion at $\alpha = 1+\tilde\lambda_{L}$ when $\tilde\lambda_{L} = 0$ (a band-limited spectrum is possible) implying again a first order phase transition.  Non-monotonicity caused by the noise term implies a possible peak in the generalization error in each learning stage. A phase diagram can be drawn, where phase boundaries are again defined by Eq. \eqref{eq:phase_boundary_white} evaluated with the effective ridge and noise parameters, \figref{fig:dot_prod_phase}a.
+
+\item Similar to the white band limited case,  optimal regularization happens when
+%TC:ignore
+\begin{linenomath*}\begin{equation}
+    \tilde\lambda_{L}=\tilde \sigma_L^2,
+\end{equation}\end{linenomath*}
+%TC:endignore
+minimizing $E_g^{(L)}(\alpha)$ for a given $\tilde \sigma_L$ for all $\alpha$. This result extends the previous findings on linear regression \cite{nakkiran2020optimal} to the large class of rotation invariant kernels.
+\item When all stages are considered, it is possible to observe learning curves with \textit{multiple descents} with at most one peak per stage. The presence and size of the descent peak depends on the level of noise in the data and the effective regularization as shown in Eq. \eqref{eq:phase_boundary_white} and Eq. \eqref{eq:asympGenErr}. Similar observations of multiple peaks in the learning curves were made in \cite{liang_isometry} in the context of ridgeless regression on polynomial kernels.
+\end{enumerate}
+
+
+As an example of the effect of kernel spectrum on double-descent, consider a power law $\bar\eta_K = K^{-s}$ where $s\geq 1$. Then $\tilde\lambda_L=L^s\big(\zeta(s,L )+\lambda\big)-1 \approx \frac{L}{s-1}+\lambda L^s,\;\;(L\gg 1)$, where $\zeta(s,L)$ is Hurwitz-Zeta function. In the ridgeless $\lambda = 0$ case, faster decaying spectra (higher $s$, smaller $\tilde\lambda_L$) are more prone to double-descent than the slower ones (\figref{fig:dot_prod_phase}a). Furthermore, we also observe that higher modes (higher $L$, higher $\tilde\lambda_L$) are more immune to overfitting, signaled by non-monotonicity, than the lower modes.
+
+
+%%%%%%%%%%%
+%TC:ignore
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{Figure5_RBF_Gen_std.pdf}    \caption{\textbf{Gaussian RBF kernel regression on high-dimensional spherical data.} \textbf{a.} Phase diagram for non-monotonic learning curves obtained from the theory by counting the zeros of $\frac{\partial E_g}{\partial \alpha}$. Colored squares and colored circles correspond to curves in panel \textbf{c} and \textbf{d}, respectively. \textbf{b.} Kernel regression with Gaussian RBF $K(\mathbf{x},\mathbf{x}')=e^{-\frac{1}{2 D \omega^2} ||x-x'||^2}$ with $\omega = 3$, $D = 100$ and noise-free labels. Target is $\bar f(\x) = \sum_{k,m}\bar w_{km}\sqrt{\eta_{km}}Y_{km}(\x)$ with random and centered weights $\bar w_{km}$ such that $\braket{\bar w_{km}^2} = \eta_{km}$ (Supplementary Note 5). Dashed lines represent the locations of $N(D,1)$ and $N(D,2)$, showing different learning stages. \textbf{c, d.} Generalization error for Gaussian RBF kernel for various kernel widths $\omega$ corresponding to specific $\tilde\lambda_L$'s and noise variances $\tilde\sigma_L$ pointed in the phase diagram in $D = 100$. Solid lines - theory (Eq. \eqref{eq:finitePgenErr}). Larger regularization suppresses the descent peaks, which occur at $P^* \sim  N(D,L)$ shown by the vertical dashed lines. \textbf{c.} Varying $\tilde\lambda_L$ with fixed the $\tilde\sigma_L$. \textbf{d.} vice versa. For fixed noise, we observe an optimal $\tilde\lambda_1$ for up to $P/N(D,1)\sim 10$ after which the next learning stage starts. Error bars indicate standard deviation over $300$ trials for \textbf{b} and $100$ trials for \textbf{c, d}.}\label{fig:dot_prod_phase}
+\end{figure}
+%TC:endignore
+
+
+
+We apply our theory to Gaussian RBF regression on synthetic data in \figref{fig:dot_prod_phase} where \figref{fig:dot_prod_phase}b demonstrates a perfect agreement with theory and experiment on Gaussian RBF with synthetic data when no label noise is present. The vertical dashed lines represent the locations where $P = N(D,1)$ and $P = N(D,2)$, respectively. \figref{fig:dot_prod_phase}c shows the regression experiment with the parameters $(\tilde\sigma_1^2,\tilde\lambda_1)$ indicated by colored squares on the phase diagram (\figref{fig:dot_prod_phase}a). When the parameters chosen on the yellow dashed line in \figref{fig:dot_prod_phase}a, corresponding to the optimal regularization for fixed effective noise, the lowest generalization error is achieved in the first learning episode without a double-descent. Finally, \figref{fig:dot_prod_phase}d shows the theory and experiment curves with the parameters $(\tilde\sigma_1^2,\tilde\lambda_1)$ shown by the colored circles in \figref{fig:dot_prod_phase}a. As expected, for fixed effective regularization, increasing noise hurts generalization. For further experiments see
+Supplementary Note 4.
+
+	
+\subsection*{Dot Product Kernels, NTK and Wide Neural Networks} 
+
+Our theory allows the study of generalization error for trained and wide feedforward neural networks by exploiting a correspondence with kernel regression. When weights in each layer are initialized from a Gaussian distribution $\mathcal{N}(0,\sigma^2_W)$ and the size of hidden layers tend to infinity, the function $f(\mathbf{x},\bm{\theta})$ learned by training the network parameters $\bm{\theta}$ with gradient descent on a squared loss to zero training error is equivalent to the function obtained from ridgeless ($\lambda=0$) kernel regression with the NTK: $ \mathbf{K}_{NTK} (\mathbf{x}_i, \mathbf{x}_j) =  \nabla_{\bm{\theta}} f(\mathbf{x}_i, \bm{\theta}_0) \cdot \nabla_{\bm{\theta}} f(\mathbf{x}_j, \bm{\theta}_0)$ \cite{jacot2018neural}. For fully connected neural networks, the NTK is a dot product kernel $K_{NTK}(\mathbf{x}, \mathbf{x}') = K_{NTK}(\mathbf{x}\cdot  \mathbf{x}')$ \cite{jacot2018neural,bordelon2020spectrum}. For such kernels and spherically symmetric data distributions $p(\mathbf{x})=p(\Vert\mathbf{x}\Vert)$, kernel eigenfunctions do not have a radial part, and consequently the eigenvalues are free of a $z$-index. Therefore, $k$-th eigenvalue has degeneracy of the degree $k$ spherical harmonics, $\mathcal{O}_D(D^k)$, ($K,L\to k,l$ and $\rho \to m$) \cite{bordelon2020spectrum}, allowing recourse to the same scaling we used to analyze rotation invariant kernels in the previous section. The learning curves for infinitely wide neural network will thus have the same form in  Eq. \eqref{eq:asympGenErr}, evaluated with NTK eigenvalues and with $\lambda = 0$.
+
+In \figref{fig:neural_network_exp}a, we compare the prediction of our theoretical expression for $E_g$, Eq. \eqref{eq:finitePgenErr}, to NTK regression and neural network training. The match to NTK training is excellent. We can describe neural network training up to a certain $P$ after which the correspondence to NTK regression breaks down due to the network's finite-width. For large $P$, the neural network operates in under-parameterized regime where the network initialization variance due to finite number of parameters starts contributing to the generalization error \cite{belkin2019reconciling, montanari2019generalization, montanari2019surprises, dascoli2020double}. A detailed discussion of these topics is provided in Supplementary Note 4.
+	
+Neural networks are thought to generalize well because of implicit regularization \cite{zhang2016understanding,bietti2019inductive,yang2020finegrained}. This can be addressed with our formalism. For spherical data, we see that the implicit regularization of a neural network for each mode $l$ is given by $\tilde\lambda_l = \frac{\sum_{k>l}\bar\eta_k}{\bar\eta_l}$. As an example, we calculate the spectrum of NTK for rectifier activations, and observe that the spectrum whitens with increasing depth \cite{yang2020finegrained}, corresponding to larger $\tilde\lambda_{l}$ and therefore more regularization for small learning stages $l$ (\figref{fig:neural_network_exp}b). The trend for small degree harmonics $l$ is especially relevant since, as we have shown, approximately $D^l$ samples are required to learn degree $l$ harmonics. In this small $l$ regime, we see that deep networks exhibit much higher effective regularization compared to shallow ones due to slower decay of eigenvalues.
+%TC:ignore
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=1]{Figure6_NeuralNetwork.pdf}
+    \caption{\textbf{Comparison of our theory with finite width neural network experiments.} \textbf{a.} 2-layer NTK regression and corresponding neural network training using NeuralTangents package \cite{neuraltangents2020} with 50000 hidden units for $D = 25$ with varying noise levels chosen according to $g(\lambda)$. Target function is a single degree mode $\bar f(\x) = c_k Q^{(D-1)}_k(\bm{\beta}\cdot\x)$, where $c_k$ is a constant, $\bm{\beta}$ is a random vector, and $Q_k^{(D-1)}$ is the $k$-th Gegenbauer polynomial (see Supplementary Note 5 and 6). Here we picked $k=1$ (linear target). Solid lines are the theory predicted learning curves (Eq. \eqref{eq:finitePgenErr}), dots represent NTK regression and $\times$ represents $E_g$ after neural network training. Correspondence between NN training and NTK regression breaks down at large sample sizes $P$ since the network operates in under-parameterized regime and finite-size effects become dominating in $E_g$. Error bars represent standard deviation of $15$ averages for kernel regression and $5$ averages for neural network experiments. \textbf{b.} $\tilde\lambda_l$ dependence to mode $l$ across various layer NTKs. The weight and bias variances for the neural network are chosen to be $\sigma^2_W = 1$ and $\sigma^2_b = 0$, respectively.}
+    \label{fig:neural_network_exp}
+\end{figure}
+%TC:endignore
+
+
+\section*{Discussion} 
+
+
+We studied generalization in kernel regression using statistical mechanics and the replica method \cite{mezard1987spin}. We derived an analytical expression for the generalization error, Eq. \eqref{eq:finitePgenErr}, valid for any kernel and any dataset. We showed that our expression explains generalization on real datasets, and provided a detailed analysis of its application to band-limited kernels with white spectra and the widely used class of rotation invariant kernels \cite{genton2001classes,RasmussenWilliams} operating on spherical data. For the latter case, we defined an effective regularization and an effective noise which govern the generalization behavior, including non-monotonicity of learning curves. It will be interesting to see if analogues of these concepts can be defined for real datasets. Our results are directly applicable to infinite-width limit of neural networks that admit a kernel description (including feedforward, convolutional and recurrent neural networks) \cite{jacot2018neural, neuraltangents2020, alemohammad2020recurrent, arora2019exact, yang2019tensor1, yang2020tensor2}, and explain their inductive bias towards simple functions \cite{neyshabur_inductivebias, lee2019wide, jacot2020implicit, chizat2020implicit, bietti2019inductive, ghorbani_twolayer, soudry_implicitbias}. We also note a closely related recent study  \cite{jacot2020kernel}, which we discuss further in Supplementary Discussion, that utilizes random matrix theory to study generalization in kernel regression.
+
+
+One goal of our present work is to provide a framework that incorporates structural information about the data distribution into a realistic prediction of generalization performance that holds for real data and any kernel.  Indeed, a recent study suggested that structure in data allows kernel methods to outperform pessimistic generalization expectations based on the high ambient dimension \cite{spigler2020asymptotic}. In a different setting, authors of \cite{liao2020random} calculate test error of random Fourier features model using random matrix theory techniques without strong assumptions on data distribution and obtain excellent agreement on real datasets. Overall, our results demonstrate how data and inductive biases of a model interact to shape generalization behavior, and in particular the importance of the compatibility of a learning task with the model for sample-efficient learning. Our findings elucidate three heuristic principles for generalization in kernel regression. 
+
+First is the spectral bias. The eigendecomposition of the kernel provides a natural ordering of functions which are easiest to estimate. Decomposing generalization error into modal errors, we found that errors in spectral modes with large eigenvalues decrease more rapidly with increasing sample size than modes with small eigenvalues, also observed in \cite{bordelon2020spectrum}, illustrating a preference to fit certain functions over others.
+Our findings are consistent with other experimental results and analytical ones which derive error bounds on test risk to elucidate the spectral or frequency bias of NTK and NNGP \cite{cao2019understanding,rahaman2018spectral,luo2019frequencybias,valleprez2020generalization}.
+
+
+Consequently, how a given task decomposes in the eigenbasis, a heuristic that we name task-model alignment, determines the number of samples required to achieve good performance: tasks with most of their power in top eigenmodes can be learned in a sample efficient manner. We introduced cumulative power distribution as a metric for task-model alignment and proved that target functions with higher cumulative power distributions will have lower normalized generalization error for all $P$ under the same kernel and data distribution. A related notion of kernel compatibility with target was defined in \cite{cristianini2002kerneltarget,cortes2012algorithms}, which we discuss in detail in Supplementary Discussion.
+
+The third phenomenon we explore is how non-monotonicity can appear in the learning curves when either labels are noisy, or the target function has modes that is not expressible with the kernel. Non-monotonicity is caused by the variance term in the bias-variance decomposition of the generalization error. In the analytically tractable models we considered, this is related to a phase transition appearing in separate learning stages for the rotation invariant kernels. Non-monotonicity can be mitigated with explicit or implicit regularization \cite{montanari2019generalization,dascoli2020double,nakkiran2019moredata}. We showed the existence of an optimal regularizer, independent of sample size, for our theoretical settings. When applied to linear regression, our optimal regularizer matches that previously given by \cite{nakkiran2020optimal}.
+
+
+Non-monotonicity in generalization error gathered a lot of interest recently. Many studies pointed to absence of overfitting in overparameterized machine learning models, signaled by a peak and a subsequent descent in generalization error as the model complexity, or the number of parameters, increases, and the model transitions from an underparameterized to overparameterized (interpolating) regime \cite{belkin2019reconciling,nakkiran2019deep,jacot2020implicit,montanari2019surprises,montanari2019generalization,dascoli2020double,dascoli2020triple,spigler2019jamming,mezard2020generalisation, liao2020random}. Multiple peaks are also possible in this context \cite{adlam2020neural}. Our work provides an explanation for the lack of overfitting in overparameterized models by elucidating strong inductive biases of kernel regression, valid even in the interpolation limit, which includes infinitely overparameterized limits of neural networks. Sample-wise non-monotonicity has also been observed previously in many models \cite{nakkiran2019deep,krogh,Hertz_1989, montanari2019surprises,nakkiran2019moredata}, including ones that show multiple peaks \cite{nakkiran2020optimal,dascoli2020triple,liang_isometry,chen2020multipledesign}. A closely related study obtained an upper bound for test risk in ridgeless regression which shows non-monotonic behavior with increasing sample size whenever $P\sim \mathcal{O}(D^L)$, consistent with our results on rotation invariant kernels and isotropic data. 
+
+An interesting comparison can be made between the multiple peaks we observed in our analytically solvable models and the multiple peaks observed in random features models \cite{dascoli2020triple,adlam2020neural}. In these models, one of the peaks (termed ``nonlinear'' in \cite{dascoli2020triple}) happens when the number of samples reaches the number of features, and thus the number of parameters of the model, crossing the interpolation threshold. While the peak we observed in the white band limited case with nonlinear features also happens at the interpolation threshold ($P=N$), the mechanisms causing double descent are different. In random features models, this peak is due to variance in the initialization of the random feature vectors. In our example, such variance does not exist. The peak is due to overfitting the noisy labels and disappears when there is no noise. The peaks observed for the rotationally invariant case has a more subtle connection. In each learning stage, peaks occur when number of samples reach the degeneracy of eigenfunctions in that stage. While kernel regression is non-parametric, one can think of this again as crossing an interpolation threshold defined by the dimensionality of the feature space in the large-$D$ limit. Like the white band limited case, these peaks are due to overfitting noise.
+
+
+
+While our theory is remarkably successful in its predictions, it has limitations. First, the theory requires eigendecomposition of the kernel on the full dataset which is computationally costly. 
+Second, its applicability to state-of-the-art neural networks is limited by the kernel regime of networks, which does not capture many interesting and useful deep learning phenomena \cite{fort2020deep,chizat2020implicit}.  Third, our theory uses a Gaussian approximation \cite{Dietrich_Sompolinsky} and a replica symmetric ans\"atz \cite{mezard1987spin}. While these assumptions were validated by the remarkable fit to experiments, it will be interesting to see if their relaxations reveal new insights.
+
+
+%Study of kernel alignment was explored in recent work, where the alignment of kernel and target labels allowed estimates of generalization error for varying sample sizes \cite{jacot2020kernel}.
+
+
+%TC:ignore
+\section*{Methods}\label{Methods}
+
+\subsection*{Statistical Mechanics Formulation}
+
+With the setting described in the main text, kernel regression problem reduces to minimization of the energy function
+\begin{linenomath*}\begin{equation}\label{eq:energy_fn}
+     H(\w) \equiv \frac{1}{2\lambda} \sum_{\mu=1}^P\left(\sum_{\rho=1}^N(\bar w_{\rho}-w_{\rho})\psi_{\rho}(\x^\mu)+\epsilon^\mu\right)^2 + \frac{1}{2}\Vert\w\Vert^2_2.
+\end{equation}\end{linenomath*}
+%
+The quantity of interest is the generalization error in equation Eq. \eqref{eq:genError}, which in matrix notation is
+\begin{linenomath*}\begin{equation}
+    E_g =  \left<(\w^*-\bar\w)^\top\bLambda(\w^*-\bar\w)\right>_{\mathcal{D}},
+\end{equation}\end{linenomath*}
+where $\bLambda_{\rho\gamma} = \eta_\rho\delta_{\rho\gamma}$ represents a diagonal matrix with entries given by the RKHS eigenvalues $\eta_\rho$.
+
+In order to calculate the generalization error, we introduce a Gibbs distribution $p_G(\w)\equiv \frac{1}{Z}e^{-\beta H(\w)}
+$ with the energy function in Eq. \eqref{eq:energy_fn}. In the $\beta \to \infty$ limit, this Gibbs measure is dominated by the solution to the kernel regression problem. We utilize this fact to calculate the generalization error for kernel regression. This can be done by introducing a source term with strength $J$ to the partition function,
+\begin{linenomath*}\begin{equation}
+     Z(J) = \int d\w e^{-\beta H(\w,\mathcal{D})+{J \beta P} (\w-\bar\w)^\top\bLambda(\w-\bar\w)} \ , \ E_g(\mathcal{D}) = \left.\lim_{\beta\to \infty}\frac{1}{\beta P} \frac{d}{d J}\ln Z(J)\right |_{J=0},
+\end{equation}\end{linenomath*}
+where we recognize the free energy $\beta F \equiv -\ln Z(J)$ is the relevant quantity to compute generalization error for a given dataset, $E_g(\mathcal{D})$. In Supplementary Note 2, we introduce other source terms to calculate training error, average estimator and its variance.
+
+The free energy depends on the sampled dataset $\mathcal{D}$, which can be thought of as a quenched disorder of the system. Experience from the study of physics of disordered systems suggests that the free energy concentrates around its mean (is self-averaging) for large $P$ \cite{mezard1987spin}. Therefore, we calculate the typical behavior of the system by performing the average free energy over all possible datasets: $\beta  F = \beta \left< F  \right >_{\mathcal D}= -  \braket{\ln Z(J)}_{\mathcal{D}}$ in the $P\to\infty$ limit. 
+
+All calculations are detailed in Supplementary Note 1 and 2. Here we provide a summary. To perform averages over the quenched disorder, we resort to the replica trick \cite{spinGlassReview} using $\braket{\log Z(J)}_{\mathcal{D}} = \lim_{n\to 0}\frac{1}{n}(\braket{Z(J)^n}_{\mathcal{D}}-1)$.
+A key step is a Gaussian approximation to the average over the dataset in the feature space \cite{sompolinsky1999statistical}, which exploits the orthogonality of the feature vectors with respect to the input distribution $p(\x)$. These averages are expressed in terms of order parameters defining the mean and the covariance of the Gaussian. The calculation proceeds by a replica symmetric ansatz \cite{mezard1987spin},
+evaluating the saddle point equations and taking the $\beta\to\infty$ limit. 
+
+\subsection*{Modal errors}
+
+The generalization error can be written as a sum of modal errors arising from the estimation of the coefficient for eigenfunction $\psi_\rho$:
+\begin{linenomath*}\begin{equation} 
+E_g = \sum_\rho \eta_\rho \overline{w}_\rho^2 E_\rho,
+\end{equation}\end{linenomath*}
+where
+\begin{linenomath*}\begin{equation}
+E_\rho = \frac{1}{\overline{w}_\rho^2} \left< ( {w}^*_\rho - \overline{w}_\rho)^2 \right>_{\mathcal D} = \frac{1}{1-\gamma} \frac{\kappa^2 }{(\kappa+P\eta_\rho)^2} .
+\end{equation}\end{linenomath*}
+%
+We now provide a proof that the mode error equation implies that the logarithmic derivatives of mode errors have the same ordering as the kernel eigenvalues when $\sigma=0$. Assuming that $\eta_\rho > \eta_{\rho'}$, and noting that $ \kappa'(P) = - \frac{\kappa \gamma}{P(1 + \gamma)} < 0$ since $\kappa, \gamma, P > 0$, we have
+%
+\begin{linenomath*}\begin{equation}
+    \frac{d}{dP} \log \left( \frac{E_\rho}{E_{\rho'}} \right)  = - 2 \left[ \frac{\kappa'(P) + \eta_\rho}{\kappa+P\eta_\rho} - \frac{\kappa'(P) + \eta_{\rho'}}{\kappa + P\eta_{\rho'}} \right] <0.
+\end{equation}\end{linenomath*} 
+Thus, we arrive at the conclusion
+\begin{linenomath*}\begin{equation}
+    \frac{d}{dP} \log E_\rho  < \frac{d}{dP} \log E_{\rho'} \quad \implies \quad 
+    \frac{1}{E_\rho} \frac{dE_\rho}{dP} < \frac{1}{E_{\rho'}} \frac{d E_{\rho'}}{dP}.
+\end{equation}\end{linenomath*}
+%
+Let $u_{\rho,\rho'}(P) = \log\left( \frac{E_\rho}{E_{\rho'}} \right)$. The above derivation demonstrates that $\frac{d}{dP} u_{\rho,\rho'}(P) < 0$ for all $P$. Since $u_{\rho,\rho'}(0) = 0$,  this implies that $u_{\rho,\rho'}(P) < 0$ or equivalently $E_\rho < E_{\rho'}$ for all $P$. This result indicates that the mode errors have the opposite ordering of eigenvalues, summarizing the phenomenon of \textit{spectral bias} for kernel regression: the generalization error falls faster for the eigenmodes with larger eigenvalues. If the target function has norm $T = \left<\bar f(\x)^2\right>=\sum_{\rho} \eta_{\rho} \overline{w}_{\rho}^2$ then the generalization error is a convex combination of $\{ T E_\rho(P) \}_{\rho=1}^{\infty}$. The quantities $T E_\rho(P)$ maintain the same ordering as the normalized mode errors $E_\rho$ for all $P$, and we see that re-allocations of target function power that strictly increase the cumulative power distribution $C(\rho) = \frac{1}{T} \sum_{\rho' \leq \rho} \eta_{\rho'} \overline{w}_{\rho'}^2 $ curve must cause a reduction in generalization error. We emphasize that, for a fixed set of kernel eigenvalues, strictly higher $C(\rho)$ yields better generalization but provide a caveat: for a fixed target function, comparison of different kernels requires knowledge of both the change in the spectrum $\eta_\rho$ as well as changes in the $C(\rho)$ curve.
+
+\subsection*{Diagonalizing the kernel on real datasets}
+
+Calculation of $E_g$ requires two inputs: kernel eigenvalues $\eta_\rho$ and teacher weights $\bar w_\rho$, both calculated using the underlying data distribution. For a dataset with a finitely many samples, we assume a discrete uniform distribution over data $p(\mathbf{x}) = \frac{1}{M} \sum_{i=1}^{M} \delta(\mathbf{x}-\mathbf{x}_i)$ with $M$ being the size of the whole dataset (train+test).  Then, the corresponding eigenvalue problem reads:
+\begin{linenomath*}\begin{equation}\label{eq:KPCA}
+    \eta_k \phi_k(\x') = \int p(\x) K(\x,\x') \phi_k(\x) d\x = \frac{1}{M} \sum_{i=1}^M K(\x_i,\x') \phi_k(\x_i).
+\end{equation}\end{linenomath*}
+Given a kernel $K(\x,\x')$, one can evaluate the $M\times M$ kernel Gram matrix $\K_{ij} = K(\x_i,\x_j)$ and solve for the eigenvalues $\bLambda_{kl}=\eta_{k}\delta_{kl}$ and eigenfunctions $\bPhi_{ki} = \phi_k(\x_i)$ of $\K = N\bPhi\bLambda\bPhi^\top$. Note that both data indices and eigen-indices take values $i,k = 1,...,M$. For a target function with multiple classes $\bar f(\x):\mathbb{R}^D\to\mathbb{R}^C$, we denote the one-hot encoded labels $\Y = [\y_1,...,\y_C]\in\mathbb{R}^{M\times C}$ and obtain the teacher weights for each class with $\bar\w_c = \frac{1}{M} \mathbf{\Lambda}^{-1/2} \mathbf\Phi^\top \mathbf y_c $. For solving kernel regression, each of the $C$ one-hot output channels can be treated as an individual target function $f_{t,c}(\x)$ where $f_{t,c}(\x^\mu) = y_c^\mu$ for one-hot labels $y^\mu_c$. The weights $\overline{\w}_c$ obtained above allows the expansion of each teacher channel in the kernel's eigenbasis $f_{t,c}(\x) = \sum_{k=1}^M \overline{w}_{c,k} \sqrt{\eta_k} \phi_k(\x)$.  The total generalization error for the entire task is simply $E_g = \sum_{c=1}^C \left< (f_c^*(\x) - f_{t,c}(\x))^2 \right>_{\x,\mathcal{D}}$ where $f_c^*$ is the kernel regression solution for output channel $c$. Note that, with the choice of one-hot labels, the total target power is normalized to $1$. After computing learning curves for each channel $c$, which requires plugging in $\{(\eta_k,\overline{w}_{c,k}^2)\}_{k=1}^M$ into our theory, the learning curves for each channel are simply summed to arrive at the final generalization error.
+
+In other cases, when we do not generally possess a priori knowledge about $p(\x)$, the underlying data distribution, solving the kernel eigenvalue problem in Eq. \eqref{eq:eigenvalue} appears intractable. However, when we are provided with a large number of samples from the dataset, we may approximate the kernel eigenvalue problem by using a Monte-Carlo estimate of the data density i.e. $p(\mathbf{x}) \approx \frac{1}{M} \sum_{i=1}^{M} \delta(\mathbf{x}-\mathbf{x}_i)$ with $M$ being the size of the dataset. Then Eq. \eqref{eq:KPCA} approximates the eigenvalues and eigenvectors where one obtains the exact eigenvalues when the number of samples is large, $M\to\infty$ \cite{RasmussenWilliams}.
+
+
+\section*{Data Availability}
+
+All data generated and/or analyzed in this study, along with the analysis code, are available in the Github repository  \cite{codeanddata2021canatar}, \href{https://github.com/Pehlevan-Group/kernel-generalization}{https://github.com/Pehlevan-Group/kernel-generalization}.
+
+\section*{Code Availability}
+
+All code used to perform numerical experiments, analyze data and generate figures are available in the Github repository \cite{codeanddata2021canatar}, \href{https://github.com/Pehlevan-Group/kernel-generalization}{https://github.com/Pehlevan-Group/kernel-generalization}.
+
+% \bibliographystyle{unsrt} 
+% \bibliography{bibliography}
+
+
+\begin{thebibliography}{10}
+
+\bibitem{hastie2009elements}
+Trevor Hastie, Robert Tibshirani, and Jerome Friedman.
+\newblock {\em The elements of statistical learning: data mining, inference,
+  and prediction}.
+\newblock Springer Science \& Business Media, 2009.
+
+\bibitem{zhang2016understanding}
+C~Zhang, S~Bengio, M~Hardt, B~Recht, and O~Vinyals.
+\newblock Understanding deep learning requires rethinking generalization.
+\newblock In {\em 5th Int. Conf. on Learning Representations (ICLR 2017)},
+  2016.
+
+\bibitem{belkin2019reconciling}
+Mikhail Belkin, Daniel Hsu, Siyuan Ma, and Soumik Mandal.
+\newblock Reconciling modern machine-learning practice and the classical
+  bias--variance trade-off.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  116(32):15849--15854, 2019.
+
+\bibitem{lecun2015deep}
+Yann LeCun, Yoshua Bengio, and Geoffrey Hinton.
+\newblock Deep learning.
+\newblock {\em Nature}, 521(7553):436--444, 2015.
+
+\bibitem{nakkiran2019deep}
+Preetum Nakkiran, Gal Kaplun, Yamini Bansal, Tristan Yang, Boaz Barak, and Ilya
+  Sutskever.
+\newblock Deep double descent: Where bigger models and more data hurt.
+\newblock In {\em International Conference on Learning Representations}, 2019.
+
+\bibitem{kaplan2020scaling}
+Jared Kaplan, Sam McCandlish, Tom Henighan, Tom~B Brown, Benjamin Chess, Rewon
+  Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei.
+\newblock Scaling laws for neural language models.
+\newblock {\em arXiv preprint arXiv:2001.08361}, 2020.
+
+\bibitem{lepikhin2020gshard}
+Dmitry Lepikhin, HyoukJoong Lee, Yuanzhong Xu, Dehao Chen, Orhan Firat, Yanping
+  Huang, Maxim Krikun, Noam Shazeer, and Zhifeng Chen.
+\newblock {\{}GS{\}}hard: Scaling giant models with conditional computation and
+  automatic sharding.
+\newblock In {\em International Conference on Learning Representations}, 2021.
+
+\bibitem{Vapnik1998}
+Vladimir~N. Vapnik.
+\newblock {\em Statistical Learning Theory}.
+\newblock Wiley-Interscience, 1998.
+
+\bibitem{neal1996bayesian}
+Radford~M Neal.
+\newblock Bayesian learning for neural networks.
+\newblock {\em Lecture Notes in Statistics}, 1996.
+
+\bibitem{cho2009kernel}
+Youngmin Cho and Lawrence~K Saul.
+\newblock Kernel methods for deep learning.
+\newblock In {\em Advances in neural information processing systems}, pages
+  342--350, 2009.
+
+\bibitem{matthews2018gaussian}
+Alexander G de~G Matthews, Jiri Hron, Mark Rowland, Richard~E Turner, and
+  Zoubin Ghahramani.
+\newblock Gaussian process behaviour in wide deep neural networks.
+\newblock In {\em International Conference on Learning Representations}, 2018.
+
+\bibitem{lee2017deep}
+Jaehoon Lee, Yasaman Bahri, Roman Novak, Samuel~S Schoenholz, Jeffrey
+  Pennington, and Jascha Sohl-Dickstein.
+\newblock Deep neural networks as gaussian processes.
+\newblock In {\em International Conference on Learning Representations}, 2018.
+
+\bibitem{jacot2018neural}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock Neural tangent kernel: Convergence and generalization in neural
+  networks.
+\newblock In {\em Advances in neural information processing systems}, pages
+  8571--8580, 2018.
+
+\bibitem{belkin2018understand}
+Mikhail Belkin, Siyuan Ma, and Soumik Mandal.
+\newblock To understand deep learning we need to understand kernel learning.
+\newblock In {\em International Conference on Machine Learning}, pages
+  541--549, 2018.
+
+\bibitem{wahba1990spline}
+Grace Wahba.
+\newblock {\em Spline models for observational data}.
+\newblock SIAM, 1990.
+
+\bibitem{evgeniou2000regularization}
+Theodoros Evgeniou, Massimiliano Pontil, and Tomaso Poggio.
+\newblock Regularization networks and support vector machines.
+\newblock {\em Advances in computational mathematics}, 13(1):1, 2000.
+
+\bibitem{shawe2004kernel}
+John Shawe-Taylor, Nello Cristianini, et~al.
+\newblock {\em Kernel methods for pattern analysis}.
+\newblock Cambridge university press, 2004.
+
+\bibitem{mohri2018foundations}
+Mehryar Mohri, Afshin Rostamizadeh, and Ameet Talwalkar.
+\newblock {\em Foundations of machine learning}.
+\newblock MIT Press, 2018.
+
+\bibitem{jacot2020kernel}
+Arthur Jacot, Berfin Simsek, Francesco Spadaro, Clement Hongler, and Franck
+  Gabriel.
+\newblock Kernel alignment risk estimator: Risk prediction from training data.
+\newblock In H.~Larochelle, M.~Ranzato, R.~Hadsell, M.~F. Balcan, and H.~Lin,
+  editors, {\em Advances in Neural Information Processing Systems}, volume~33,
+  pages 15568--15578. Curran Associates, Inc., 2020.
+
+\bibitem{cucker2002best}
+Felipe Cucker and Steve Smale.
+\newblock Best choices for regularization parameters in learning theory: on the
+  bias-variance problem.
+\newblock {\em Foundations of computational Mathematics}, 2(4):413--428, 2002.
+
+\bibitem{caponnetto2007optimal}
+Andrea Caponnetto and Ernesto De~Vito.
+\newblock Optimal rates for the regularized least-squares algorithm.
+\newblock {\em Foundations of Computational Mathematics}, 7(3):331--368, 2007.
+
+\bibitem{liang2018just}
+Tengyuan Liang and Alexander Rakhlin.
+\newblock Just interpolate: Kernel “ridgeless” regression can generalize.
+\newblock {\em Ann. Statist.}, 48(3):1329--1347, 06 2020.
+
+\bibitem{gardner1988space}
+Elizabeth Gardner.
+\newblock The space of interactions in neural network models.
+\newblock {\em Journal of physics A: Mathematical and general}, 21(1):257,
+  1988.
+
+\bibitem{Hertz_1989}
+J~A Hertz, A~Krogh, and G~I Thorbergsson.
+\newblock Phase transitions in simple learning.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  22(12):2133--2150, Jun 1989.
+
+\bibitem{krogh}
+A~Krogh and J.~Hertz.
+\newblock Generalization in a linear perceptron in the presence of noise.
+\newblock {\em Journal of Physics A: Mathematical and General}, 25:1135, 01
+  1999.
+
+\bibitem{sompolinsky1992examples}
+H.~S. Seung, H.~Sompolinsky, and N.~Tishby.
+\newblock Statistical mechanics of learning from examples.
+\newblock {\em Phys. Rev. A}, 45:6056--6091, Apr 1992.
+
+\bibitem{optimalperceptron}
+M~Opper, W~Kinzel, J~Kleinz, and R~Nehl.
+\newblock On the ability of the optimal perceptron to generalise.
+\newblock {\em Journal of Physics A: Mathematical and General},
+  23(11):L581--L586, jun 1990.
+
+\bibitem{statmechofrule}
+Timothy L.~H. Watkin, Albrecht Rau, and Michael Biehl.
+\newblock The statistical mechanics of learning a rule.
+\newblock {\em Rev. Mod. Phys.}, 65:499--556, Apr 1993.
+
+\bibitem{sollich1999learning}
+Peter Sollich.
+\newblock Learning curves for gaussian processes.
+\newblock {\em Advances in neural information processing systems}, pages
+  344--350, 1999.
+
+\bibitem{Malzahn_Opper}
+D\"{o}rthe Malzahn and Manfred Opper.
+\newblock Learning curves for gaussian processes regression: A framework for
+  good approximations.
+\newblock In T.~K. Leen, T.~G. Dietterich, and V.~Tresp, editors, {\em Advances
+  in Neural Information Processing Systems 13}, pages 273--279. MIT Press,
+  2001.
+
+\bibitem{engel2001statistical}
+Andreas Engel and Christian Van~den Broeck.
+\newblock {\em Statistical mechanics of learning}.
+\newblock Cambridge University Press, 2001.
+
+\bibitem{bahri2019statistical}
+Yasaman Bahri, Jonathan Kadmon, Jeffrey Pennington, Sam Schoenholz, Jascha
+  Sohl-Dickstein, and Surya Ganguli.
+\newblock Statistical mechanics of deep learning.
+\newblock {\em Annual Review of Condensed Matter Physics}, 11, 2019.
+
+\bibitem{mezard1987spin}
+Marc M{\'e}zard, Giorgio Parisi, and Miguel Virasoro.
+\newblock {\em Spin glass theory and beyond: An Introduction to the Replica
+  Method and Its Applications}, volume~9.
+\newblock World Scientific Publishing Company, 1987.
+
+\bibitem{bordelon2020spectrum}
+Blake Bordelon, Abdulkadir Canatar, and Cengiz Pehlevan.
+\newblock Spectrum dependent learning curves in kernel regression and wide
+  neural networks.
+\newblock In {\em Proceedings of the 37th International Conference on Machine
+  Learning}, 2020.
+
+\bibitem{jacot2020implicit}
+Arthur Jacot, Berfin Simsek, Francesco Spadaro, Clement Hongler, and Franck
+  Gabriel.
+\newblock Implicit regularization of random feature models.
+\newblock In Hal~Daumé III and Aarti Singh, editors, {\em Proceedings of the
+  37th International Conference on Machine Learning}, volume 119 of {\em
+  Proceedings of Machine Learning Research}, pages 4631--4640. PMLR, 13--18 Jul
+  2020.
+
+\bibitem{liang_isometry}
+Tengyuan Liang, Alexander Rakhlin, and Xiyu Zhai.
+\newblock On the multiple descent of minimum-norm interpolants and restricted
+  lower isometry of kernels.
+\newblock volume 125 of {\em Proceedings of Machine Learning Research}, pages
+  2683--2711. PMLR, 09--12 Jul 2020.
+
+\bibitem{loog2020brief}
+Marco Loog, Tom Viering, Alexander Mey, Jesse~H Krijthe, and David~MJ Tax.
+\newblock A brief prehistory of double descent.
+\newblock {\em Proceedings of the National Academy of Sciences},
+  117(20):10625--10626, 2020.
+
+\bibitem{montanari2019generalization}
+Song Mei and Andrea Montanari.
+\newblock The generalization error of random features regression: Precise
+  asymptotics and double descent curve.
+\newblock {\em arXiv preprint arXiv:1908.05355}, 2019.
+
+\bibitem{genton2001classes}
+Marc~G Genton.
+\newblock Classes of kernels for machine learning: a statistics perspective.
+\newblock {\em Journal of machine learning research}, 2(Dec):299--312, 2001.
+
+\bibitem{RasmussenWilliams}
+Carl~Edward Rasmussen and Christopher K.~I. Williams.
+\newblock {\em Gaussian Processes for Machine Learning (Adaptive Computation
+  and Machine Learning)}.
+\newblock The MIT Press, 2005.
+
+\bibitem{scholkopf2002learning}
+Bernhard Sch{\"o}lkopf, Alexander~J Smola, Francis Bach, et~al.
+\newblock {\em Learning with kernels: support vector machines, regularization,
+  optimization, and beyond}.
+\newblock MIT press, 2002.
+
+\bibitem{dascoli2020double}
+Stéphane d'Ascoli, Maria Refinetti, Giulio Biroli, and Florent Krzakala.
+\newblock Double trouble in double descent : Bias and variance(s) in the lazy
+  regime.
+\newblock In {\em Proceedings of the 37th International Conference on Machine
+  Learning}, 2020.
+
+\bibitem{dascoli2020triple}
+Stéphane d'Ascoli, Levent Sagun, and Giulio Biroli.
+\newblock Triple descent and the two kinds of overfitting: Where and why do
+  they appear?
+\newblock {\em Advances in Neural Information Processing Systems}, 2020.
+
+\bibitem{MNIST}
+Yann LeCun, Corinna Cortes, and CJ~Burges.
+\newblock Mnist handwritten digit database.
+\newblock {\em ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist},
+  2, 2010.
+
+\bibitem{CIFAR}
+Alex Krizhevsky.
+\newblock Learning multiple layers of features from tiny images.
+\newblock Technical report, 2009.
+
+\bibitem{nakkiran2020optimal}
+Preetum Nakkiran, Prayaag Venkat, Sham~M. Kakade, and Tengyu Ma.
+\newblock Optimal regularization can mitigate double descent.
+\newblock In {\em International Conference on Learning Representations}, 2021.
+
+\bibitem{bai_silverstein}
+Zhidong Bai and Jack~W Silverstein.
+\newblock {\em Spectral analysis of large dimensional random matrices},
+  volume~20.
+\newblock Springer, 2010.
+
+\bibitem{Advani_Ganguli_optimal}
+Madhu Advani and Surya Ganguli.
+\newblock Statistical mechanics of optimal convex inference in high dimensions.
+\newblock {\em Phys. Rev. X}, 6:031034, Aug 2016.
+
+\bibitem{sollich1994finite}
+Peter Sollich.
+\newblock Finite-size effects in learning and generalization in linear
+  perceptrons.
+\newblock {\em Journal of Physics A: Mathematical and General}, 27(23):7771,
+  1994.
+
+\bibitem{dai2013spherical}
+Feng Dai and Yuan Xu.
+\newblock {\em Approximation Theory and Harmonic Analysis on Spheres and
+  Balls}.
+\newblock Springer New York, 2013.
+
+\bibitem{bietti2019inductive}
+Alberto Bietti and Julien Mairal.
+\newblock On the inductive bias of neural tangent kernels.
+\newblock In H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
+  Alch\'{e}-Buc, E.~Fox, and R.~Garnett, editors, {\em Advances in Neural
+  Information Processing Systems}, volume~32, pages 12893--12904. Curran
+  Associates, Inc., 2019.
+
+\bibitem{yang2020finegrained}
+Greg Yang and Hadi Salman.
+\newblock A fine-grained spectral perspective on neural networks.
+\newblock {\em arXiv preprint arXiv:1906.09235}, 2019.
+
+\bibitem{cohen2019learning}
+Omry Cohen, Or~Malka, and Zohar Ringel.
+\newblock Learning curves for deep neural networks: a gaussian field theory
+  perspective.
+\newblock {\em arXiv preprint arXiv:1906.05301}, 2019.
+
+\bibitem{montanari2019surprises}
+Trevor Hastie, Andrea Montanari, Saharon Rosset, and Ryan~J. Tibshirani.
+\newblock Surprises in high-dimensional ridgeless least squares interpolation.
+\newblock {\em arXiv preprint arXiv:1903.08560}, 2019.
+
+\bibitem{neuraltangents2020}
+Roman Novak, Lechao Xiao, Jiri Hron, Jaehoon Lee, Alexander~A. Alemi, Jascha
+  Sohl-Dickstein, and Samuel~S. Schoenholz.
+\newblock Neural tangents: Fast and easy infinite neural networks in python.
+\newblock In {\em International Conference on Learning Representations}, 2020.
+
+\bibitem{alemohammad2020recurrent}
+Sina Alemohammad, Zichao Wang, Randall Balestriero, and Richard Baraniuk.
+\newblock The recurrent neural tangent kernel.
+\newblock In {\em International Conference on Learning Representations}, 2021.
+
+\bibitem{arora2019exact}
+Sanjeev Arora, Simon~S Du, Wei Hu, Zhiyuan Li, Russ~R Salakhutdinov, and
+  Ruosong Wang.
+\newblock On exact computation with an infinitely wide neural net.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  8139--8148, 2019.
+
+\bibitem{yang2019tensor1}
+Greg Yang.
+\newblock Wide feedforward or recurrent neural networks of any architecture are
+  gaussian processes.
+\newblock In H.~Wallach, H.~Larochelle, A.~Beygelzimer, F.~d\textquotesingle
+  Alch\'{e}-Buc, E.~Fox, and R.~Garnett, editors, {\em Advances in Neural
+  Information Processing Systems}, volume~32. Curran Associates, Inc., 2019.
+
+\bibitem{yang2020tensor2}
+Greg Yang.
+\newblock Tensor programs ii: Neural tangent kernel for any architecture.
+\newblock {\em arXiv preprint arXiv:2006.14548}, 2020.
+
+\bibitem{neyshabur_inductivebias}
+Behnam Neyshabur, Ryota Tomioka, and Nathan Srebro.
+\newblock In search of the real inductive bias: On the role of implicit
+  regularization in deep learning.
+\newblock In {\em ICLR (Workshop)}, 2015.
+
+\bibitem{lee2019wide}
+Jaehoon Lee, Lechao Xiao, Samuel Schoenholz, Yasaman Bahri, Roman Novak, Jascha
+  Sohl-Dickstein, and Jeffrey Pennington.
+\newblock Wide neural networks of any depth evolve as linear models under
+  gradient descent.
+\newblock In {\em Advances in neural information processing systems}, pages
+  8570--8581, 2019.
+
+\bibitem{chizat2020implicit}
+L\'ena\"ic Chizat and Francis Bach.
+\newblock Implicit bias of gradient descent for wide two-layer neural networks
+  trained with the logistic loss.
+\newblock In Jacob Abernethy and Shivani Agarwal, editors, {\em Proceedings of
+  Thirty Third Conference on Learning Theory}, volume 125 of {\em Proceedings
+  of Machine Learning Research}, pages 1305--1338. PMLR, 09--12 Jul 2020.
+
+\bibitem{ghorbani_twolayer}
+Behrooz Ghorbani, Song Mei, Theodor Misiakiewicz, and Andrea Montanari.
+\newblock Linearized two-layers neural networks in high dimension.
+\newblock {\em arXiv preprint arXiv:1904.12191}, 2019.
+
+\bibitem{soudry_implicitbias}
+Daniel Soudry, Elad Hoffer, and Nathan Srebro.
+\newblock The implicit bias of gradient descent on separable data.
+\newblock {\em Journal of Machine Learning Research}, 19, 10 2017.
+
+\bibitem{spigler2020asymptotic}
+Stefano Spigler, Mario Geiger, and Matthieu Wyart.
+\newblock Asymptotic learning curves of kernel methods: empirical data versus
+  teacher{\textendash}student paradigm.
+\newblock {\em Journal of Statistical Mechanics: Theory and Experiment},
+  2020(12):124001, Dec 2020.
+
+\bibitem{liao2020random}
+Zhenyu Liao, Romain Couillet, and Michael~W. Mahoney.
+\newblock A random matrix analysis of random fourier features: beyond the
+  gaussian kernel, a precise phase transition, and the corresponding double
+  descent.
+\newblock In {\em Advances in Neural Information Processing Systems}. MIT
+  Press, 2020.
+
+\bibitem{cao2019understanding}
+Yuan Cao, Zhiying Fang, Yue Wu, Ding-Xuan Zhou, and Quanquan Gu.
+\newblock Towards understanding the spectral bias of deep learning.
+\newblock {\em arXiv preprint arXiv:1912.01198}, 2020.
+
+\bibitem{rahaman2018spectral}
+Nasim Rahaman, Aristide Baratin, Devansh Arpit, Felix Draxler, Min Lin, Fred
+  Hamprecht, Yoshua Bengio, and Aaron Courville.
+\newblock On the spectral bias of neural networks.
+\newblock In Kamalika Chaudhuri and Ruslan Salakhutdinov, editors, {\em
+  Proceedings of the 36th International Conference on Machine Learning},
+  volume~97 of {\em Proceedings of Machine Learning Research}, pages
+  5301--5310. PMLR, 09--15 Jun 2019.
+
+\bibitem{luo2019frequencybias}
+Tao Luo, Zheng Ma, Zhi-Qin~John Xu, and Yaoyu Zhang.
+\newblock Theory of the frequency principle for general deep neural networks.
+\newblock {\em arXiv preprint arXiv:1906.09235}, 2019.
+
+\bibitem{valleprez2020generalization}
+Guillermo Valle-Pérez and Ard~A. Louis.
+\newblock Generalization bounds for deep learning.
+\newblock {\em arXiv preprint arXiv:2012.04115}, 2020.
+
+\bibitem{cristianini2002kerneltarget}
+Nello Cristianini, John Shawe-Taylor, Andr\'{e} Elisseeff, and Jaz Kandol~a.
+\newblock On kernel-target alignment.
+\newblock In T.~Dietterich, S.~Becker, and Z.~Ghahramani, editors, {\em
+  Advances in Neural Information Processing Systems}, volume~14, pages
+  367--373. MIT Press, 2002.
+
+\bibitem{cortes2012algorithms}
+Corinna Cortes, Mehryar Mohri, and Afshin Rostamizadeh.
+\newblock Algorithms for learning kernels based on centered alignment.
+\newblock {\em The Journal of Machine Learning Research}, 13(1):795--828, 2012.
+
+\bibitem{nakkiran2019moredata}
+Preetum Nakkiran.
+\newblock More data can hurt for linear regression: Sample-wise double descent.
+\newblock {\em arXiv preprint arXiv:1912.07242}, 2019.
+
+\bibitem{spigler2019jamming}
+S~Spigler, M~Geiger, S~d’Ascoli, L~Sagun, G~Biroli, and M~Wyart.
+\newblock A jamming transition from under-to over-parametrization affects
+  generalization in deep learning.
+\newblock {\em Journal of Physics A: Mathematical and Theoretical},
+  52(47):474001, 2019.
+
+\bibitem{mezard2020generalisation}
+Federica Gerace, Bruno Loureiro, Florent Krzakala, Marc Mezard, and Lenka
+  Zdeborova.
+\newblock Generalisation error in learning with random features and the hidden
+  manifold model.
+\newblock In Hal~Daumé III and Aarti Singh, editors, {\em Proceedings of the
+  37th International Conference on Machine Learning}, volume 119 of {\em
+  Proceedings of Machine Learning Research}, pages 3452--3462. PMLR, 13--18 Jul
+  2020.
+
+\bibitem{adlam2020neural}
+Ben Adlam and Jeffrey Pennington.
+\newblock The neural tangent kernel in high dimensions: Triple descent and a
+  multi-scale theory of generalization.
+\newblock In {\em International Conference on Machine Learning}, pages 74--84.
+  PMLR, 2020.
+
+\bibitem{chen2020multipledesign}
+Lin Chen, Yifei Min, Mikhail Belkin, and Amin Karbasi.
+\newblock Multiple descent: Design your own generalization curve.
+\newblock {\em arXiv preprint arXiv:2008.01036}, 2020.
+
+\bibitem{fort2020deep}
+Stanislav Fort, Gintare~Karolina Dziugaite, Mansheej Paul, Sepideh Kharaghani,
+  Daniel~M Roy, and Surya Ganguli.
+\newblock Deep learning versus kernel learning: an empirical study of loss
+  landscape geometry and the time evolution of the neural tangent kernel.
+\newblock {\em Advances in Neural Information Processing Systems}, 33, 2020.
+
+\bibitem{Dietrich_Sompolinsky}
+Rainer Dietrich, Manfred Opper, and Haim Sompolinsky.
+\newblock Statistical mechanics of support vector networks.
+\newblock {\em Phys. Rev. Lett.}, 82:2975--2978, Apr 1999.
+
+\bibitem{spinGlassReview}
+Tommaso Castellani and Andrea Cavagna.
+\newblock Spin-glass theory for pedestrians.
+\newblock {\em Journal of Statistical Mechanics: Theory and Experiment},
+  2005(05):P05012, May 2005.
+
+\bibitem{sompolinsky1999statistical}
+Rainer Dietrich, Manfred Opper, and Haim Sompolinsky.
+\newblock Statistical mechanics of support vector networks.
+\newblock {\em Physical review letters}, 82(14):2975, 1999.
+
+\bibitem{codeanddata2021canatar}
+Abdulkadir Canatar, Blake Bordelon and Cengiz Pehlevan.
+\newblock Spectral Bias and Task-Model Alignment Explain Generalization in Kernel Regression and Infinitely Wide Neural Networks.
+\newblock {\em Zenodo}, {DOI: 10.5281/zenodo.4624893}
+\newblock {URL: \href{https://doi.org/10.5281/zenodo.4624893}{https://doi.org/10.5281/zenodo.4624893}}.
+
+\end{thebibliography}
+
+% % 
+% \bibitem{codeanddata2021canatar}
+% Abdulkadir Canatar, Blake Bordelon and Cengiz Pehlevan.
+% \newblock Spectral Bias and Task-Model Alignment Explain Generalization in Kernel Regression and Infinitely Wide Neural Networks.
+% \newblock {\em Zenodo}, {DOI: 10.5281/zenodo.4624893}
+% \newblock {URL: \href{https://doi.org/10.5281/zenodo.4624893}{https://doi.org/10.5281/zenodo.4624893}}.
+
+% % \end{thebibliography}
+
+
+
+\section*{Acknowledgements}
+
+We thank the Harvard Data Science Initiative and Harvard Dean’s Competitive Fund for Promising Scholarship for their support. We also thank the reviewers for their detailed and constructive feedback, and Jan Drugowitsch and Guillermo Valle-Perez for comments on the manuscript.
+
+
+\section*{Author Contributions}
+
+A.C., B.B. and C.P. contributed to the planning of the study. A.C. and B.B. performed the analytical calculations and numerical simulations. A.C., B.B. and C.P. contributed to the interpretation of the results and writing of the manuscript.
+
+\section*{Competing Interests}
+
+The authors declare no competing interests.
+
+\includepdf[pages=-]{SupplementaryInformation.pdf}
+
+
+\end{document}

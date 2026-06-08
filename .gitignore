@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+
+# Data and heavy outputs
+data/*
+!data/README.md
+outputs/*
+!outputs/README.md
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+
+# OS/editor
+.DS_Store
+
+# Experiment scratch
+**/runs/
+**/tmp/
+**/cache/
+
+# Paper source archives/build products
+paper/**/source.tar
+paper/**/source/**/*.aux
+paper/**/source/**/*.log
+paper/**/source/**/*.out
+paper/**/source/**/*.fls
+paper/**/source/**/*.fdb_latexmk
+paper/**/source/**/*.synctex

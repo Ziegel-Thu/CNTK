@@ -1,0 +1,302 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aitken \& Gur-Ari(2020)Aitken and Gur-Ari]{Aitken2020OnTA}
+Kyle Aitken and Guy Gur-Ari.
+\newblock On the asymptotics of wide networks with polynomial activations.
+\newblock \emph{ArXiv}, abs/2006.06687, 2020.
+
+\bibitem[Alain \& Bengio(2016)Alain and Bengio]{alain2016understanding}
+Guillaume Alain and Yoshua Bengio.
+\newblock Understanding intermediate layers using linear classifier probes.
+\newblock \emph{arXiv preprint arXiv:1610.01644}, 2016.
+
+\bibitem[Andreassen \& Dyer(2020)Andreassen and
+  Dyer]{Andreassen2020AsymptoticsOW}
+Anders~Johan Andreassen and Ethan Dyer.
+\newblock Asymptotics of wide convolutional neural networks.
+\newblock \emph{ArXiv}, abs/2008.08675, 2020.
+
+\bibitem[Arora et~al.(2018)Arora, Cohen, and Hazan]{arora_cohen_linear_acc}
+Sanjeev Arora, Nadav Cohen, and Elad Hazan.
+\newblock On the optimization of deep networks: Implicit acceleration by
+  overparameterization.
+\newblock In Jennifer Dy and Andreas Krause (eds.), \emph{Proceedings of the
+  35th International Conference on Machine Learning}, volume~80 of
+  \emph{Proceedings of Machine Learning Research}, pp.\  244--253. PMLR, 10--15
+  Jul 2018.
+\newblock URL \url{https://proceedings.mlr.press/v80/arora18a.html}.
+
+\bibitem[Arora et~al.(2019)Arora, Du, Hu, Li, Salakhutdinov, and
+  Wang]{Arora2019OnEC}
+Sanjeev Arora, Simon~Shaolei Du, Wei Hu, Zhiyuan Li, Ruslan Salakhutdinov, and
+  Ruosong Wang.
+\newblock On exact computation with an infinitely wide neural net.
+\newblock In \emph{NeurIPS}, 2019.
+
+\bibitem[Baake \& Schlaegel(2011)Baake and Schlaegel]{baake2011peano}
+Michael Baake and Ulrike Schlaegel.
+\newblock The peano-baker series.
+\newblock \emph{Proceedings of the Steklov Institute of Mathematics},
+  275\penalty0 (1):\penalty0 155--159, 2011.
+
+\bibitem[Bai et~al.(2020)Bai, Krause, Wang, Xiong, and
+  Socher]{bai2020taylorized}
+Yu~Bai, Ben Krause, Huan Wang, Caiming Xiong, and Richard Socher.
+\newblock Taylorized training: Towards better approximation of neural network
+  training at finite width, 2020.
+
+\bibitem[Baratin et~al.(2021)Baratin, George, Laurent, Hjelm, Lajoie, Vincent,
+  and Lacoste-Julien]{Baratin2021ImplicitRV}
+Aristide Baratin, Thomas George, C{\'e}sar Laurent, R.~Devon Hjelm, Guillaume
+  Lajoie, Pascal Vincent, and Simon Lacoste-Julien.
+\newblock Implicit regularization via neural feature alignment.
+\newblock In \emph{AISTATS}, 2021.
+
+\bibitem[Belkin et~al.(2018)Belkin, Ma, and
+  Mandal]{belkin_deep_kernel_understand}
+Mikhail Belkin, Siyuan Ma, and Soumik Mandal.
+\newblock To understand deep learning we need to understand kernel learning.
+\newblock In Jennifer Dy and Andreas Krause (eds.), \emph{Proceedings of the
+  35th International Conference on Machine Learning}, volume~80 of
+  \emph{Proceedings of Machine Learning Research}, pp.\  541--549. PMLR, 10--15
+  Jul 2018.
+\newblock URL \url{https://proceedings.mlr.press/v80/belkin18a.html}.
+
+\bibitem[Bordelon et~al.(2020)Bordelon, Canatar, and
+  Pehlevan]{bordelon_icml_learning_curve}
+Blake Bordelon, Abdulkadir Canatar, and Cengiz Pehlevan.
+\newblock Spectrum dependent learning curves in kernel regression and wide
+  neural networks.
+\newblock In Hal~Daumé III and Aarti Singh (eds.), \emph{Proceedings of the
+  37th International Conference on Machine Learning}, volume 119 of
+  \emph{Proceedings of Machine Learning Research}, pp.\  1024--1034. PMLR,
+  13--18 Jul 2020.
+\newblock URL \url{https://proceedings.mlr.press/v119/bordelon20a.html}.
+
+\bibitem[Brockett(2015)]{brockett2015finite}
+Roger~W Brockett.
+\newblock \emph{Finite dimensional linear systems}.
+\newblock SIAM, 2015.
+
+\bibitem[Canatar et~al.(2021)Canatar, Bordelon, and
+  Pehlevan]{Canatar2021SpectralBA}
+Abdulkadir Canatar, Blake Bordelon, and Cengiz Pehlevan.
+\newblock Spectral bias and task-model alignment explain generalization in
+  kernel regression and infinitely wide neural networks.
+\newblock \emph{Nature Communications}, 12, 2021.
+
+\bibitem[Chen et~al.(2020)Chen, He, and Su]{chen2020labelaware}
+Shuxiao Chen, Hangfeng He, and Weijie~J. Su.
+\newblock Label-aware neural tangent kernel: Toward better generalization and
+  local elasticity, 2020.
+
+\bibitem[Chizat et~al.(2019)Chizat, Oyallon, and Bach]{Chizat2019OnLT}
+L{\'e}na{\"i}c Chizat, Edouard Oyallon, and Francis~R. Bach.
+\newblock On lazy training in differentiable programming.
+\newblock In \emph{NeurIPS}, 2019.
+
+\bibitem[Cohen et~al.(2020)Cohen, Chung, Lee, and
+  Sompolinsky]{cohen2020separability}
+Uri Cohen, SueYeon Chung, Daniel~D Lee, and Haim Sompolinsky.
+\newblock Separability and geometry of object manifolds in deep neural
+  networks.
+\newblock \emph{Nature communications}, 11\penalty0 (1):\penalty0 1--13, 2020.
+
+\bibitem[Cortes et~al.(2012)Cortes, Mohri, and
+  Rostamizadeh]{cortes2012algorithms}
+Corinna Cortes, Mehryar Mohri, and Afshin Rostamizadeh.
+\newblock Algorithms for learning kernels based on centered alignment.
+\newblock \emph{The Journal of Machine Learning Research}, 13\penalty0
+  (1):\penalty0 795--828, 2012.
+
+\bibitem[Domingos(2020)]{domingos2020model}
+Pedro Domingos.
+\newblock Every model learned by gradient descent is approximately a kernel
+  machine.
+\newblock \emph{arXiv preprint arXiv:2012.00152}, 2020.
+
+\bibitem[Du et~al.(2018)Du, Hu, and Lee]{Du2018AlgorithmicRI}
+Simon~Shaolei Du, Wei Hu, and J.~Lee.
+\newblock Algorithmic regularization in learning deep homogeneous models:
+  Layers are automatically balanced.
+\newblock In \emph{NeurIPS}, 2018.
+
+\bibitem[Dyer \& Gur-Ari(2020)Dyer and Gur-Ari]{Dyer2020Asymptotics}
+Ethan Dyer and Guy Gur-Ari.
+\newblock Asymptotics of wide networks from feynman diagrams.
+\newblock In \emph{International Conference on Learning Representations}, 2020.
+\newblock URL \url{https://openreview.net/forum?id=S1gFvANKDS}.
+
+\bibitem[Flesch et~al.(2021)Flesch, Juechems, Dumbalska, Saxe, and
+  Summerfield]{Flesch}
+Timo Flesch, Keno Juechems, Tsvetomira Dumbalska, Andrew Saxe, and Christopher
+  Summerfield.
+\newblock Rich and lazy learning of task representations in brains and neural
+  networks.
+\newblock \emph{bioRxiv}, 2021.
+\newblock \doi{10.1101/2021.04.23.441128}.
+\newblock URL
+  \url{https://www.biorxiv.org/content/early/2021/04/23/2021.04.23.441128}.
+
+\bibitem[Fort et~al.(2020)Fort, Dziugaite, Paul, Kharaghani, Roy, and
+  Ganguli]{fort2020deep}
+Stanislav Fort, Gintare~Karolina Dziugaite, Mansheej Paul, Sepideh Kharaghani,
+  Daniel~M Roy, and Surya Ganguli.
+\newblock Deep learning versus kernel learning: an empirical study of loss
+  landscape geometry and the time evolution of the neural tangent kernel.
+\newblock In H.~Larochelle, M.~Ranzato, R.~Hadsell, M.~F. Balcan, and H.~Lin
+  (eds.), \emph{Advances in Neural Information Processing Systems}, volume~33,
+  pp.\  5850--5861. Curran Associates, Inc., 2020.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2020/file/405075699f065e43581f27d67bb68478-Paper.pdf}.
+
+\bibitem[Fukumizu(1998)]{fukumizu1998effect}
+Kenji Fukumizu.
+\newblock Effect of batch learning in multilayer neural networks.
+\newblock \emph{Gen}, 1\penalty0 (04):\penalty0 1E--03, 1998.
+
+\bibitem[Geiger et~al.(2021)Geiger, Petrini, and Wyart]{GEIGER20211}
+Mario Geiger, Leonardo Petrini, and Matthieu Wyart.
+\newblock Landscape and training regimes in deep learning.
+\newblock \emph{Physics Reports}, 924:\penalty0 1--18, 2021.
+\newblock ISSN 0370-1573.
+\newblock \doi{https://doi.org/10.1016/j.physrep.2021.04.001}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0370157321001290}.
+\newblock Landscape and training regimes in deep learning.
+
+\bibitem[Jacot et~al.(2018)Jacot, Gabriel, and Hongler]{Jacot2018NeuralTK}
+Arthur Jacot, Franck Gabriel, and Cl{\'e}ment Hongler.
+\newblock Neural tangent kernel: convergence and generalization in neural
+  networks (invited paper).
+\newblock \emph{Proceedings of the 53rd Annual ACM SIGACT Symposium on Theory
+  of Computing}, 2018.
+
+\bibitem[Jacot et~al.(2021)Jacot, Ged, Gabriel, {\c{S}}im{\c{s}}ek, and
+  Hongler]{jacot2021deep}
+Arthur Jacot, Fran{\c{c}}ois Ged, Franck Gabriel, Berfin {\c{S}}im{\c{s}}ek,
+  and Cl{\'e}ment Hongler.
+\newblock Deep linear networks dynamics: Low-rank biases induced by
+  initialization scale and l2 regularization.
+\newblock \emph{arXiv preprint arXiv:2106.15933}, 2021.
+
+\bibitem[Kingma \& Ba(2014)Kingma and Ba]{kingma2014adam}
+Diederik~P Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock \emph{arXiv preprint arXiv:1412.6980}, 2014.
+
+\bibitem[Lee et~al.(2019)Lee, Xiao, Schoenholz, Bahri, Novak, Sohl-Dickstein,
+  and Sohl-Dickstein]{Lee2019WideNN}
+Jaehoon Lee, Lechao Xiao, Samuel~S. Schoenholz, Yasaman Bahri, Roman Novak,
+  Jascha Sohl-Dickstein, and Jascha Sohl-Dickstein.
+\newblock Wide neural networks of any depth evolve as linear models under
+  gradient descent.
+\newblock \emph{ArXiv}, abs/1902.06720, 2019.
+
+\bibitem[Lee et~al.(2020)Lee, Schoenholz, Pennington, Adlam, Xiao, Novak, and
+  Sohl-Dickstein]{lee2020finite}
+Jaehoon Lee, Samuel~S. Schoenholz, Jeffrey Pennington, Ben Adlam, Lechao Xiao,
+  Roman Novak, and Jascha Sohl-Dickstein.
+\newblock Finite versus infinite neural networks: an empirical study, 2020.
+
+\bibitem[Liang \& Rakhlin(2018)Liang and Rakhlin]{liang_rahklin_interpolate}
+Tengyuan Liang and Alexander Rakhlin.
+\newblock Just interpolate: Kernel "ridgeless" regression can generalize.
+\newblock \emph{CoRR}, abs/1808.00387, 2018.
+\newblock URL \url{http://arxiv.org/abs/1808.00387}.
+
+\bibitem[Liu et~al.(2020)Liu, Zhu, and Belkin]{liu_belkin}
+Chaoyue Liu, Libin Zhu, and Misha Belkin.
+\newblock On the linearity of large non-linear models: when and why the tangent
+  kernel is constant.
+\newblock In H.~Larochelle, M.~Ranzato, R.~Hadsell, M.~F. Balcan, and H.~Lin
+  (eds.), \emph{Advances in Neural Information Processing Systems}, volume~33,
+  pp.\  15954--15964. Curran Associates, Inc., 2020.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2020/file/b7ae8fecf15b8b6c3c69eceae636d203-Paper.pdf}.
+
+\bibitem[Loureiro et~al.(2021)Loureiro, Gerbelot, Cui, Goldt, Krzakala,
+  Mézard, and Zdeborová]{loureiro_lenka_feature_maps}
+Bruno Loureiro, Cédric Gerbelot, Hugo Cui, Sebastian Goldt, Florent Krzakala,
+  Marc Mézard, and Lenka Zdeborová.
+\newblock Capturing the learning curves of generic features maps for realistic
+  data sets with a teacher-student model.
+\newblock \emph{CoRR}, abs/2102.08127, 2021.
+\newblock URL \url{https://arxiv.org/abs/2102.08127}.
+
+\bibitem[Novak et~al.(2020)Novak, Xiao, Hron, Lee, Alemi, Sohl-Dickstein, and
+  Schoenholz]{Novak2020Neural}
+Roman Novak, Lechao Xiao, Jiri Hron, Jaehoon Lee, Alexander~A. Alemi, Jascha
+  Sohl-Dickstein, and Samuel~S. Schoenholz.
+\newblock Neural tangents: Fast and easy infinite neural networks in python.
+\newblock In \emph{International Conference on Learning Representations}, 2020.
+\newblock URL \url{https://openreview.net/forum?id=SklD9yrFPS}.
+
+\bibitem[Rasmussen \& Williams(2006)Rasmussen and Williams]{RasmussenW06}
+Carl~Edward Rasmussen and Christopher K.~I. Williams.
+\newblock \emph{Gaussian processes for machine learning.}
+\newblock Adaptive computation and machine learning. MIT Press, 2006.
+\newblock ISBN 026218253X.
+
+\bibitem[Saxe et~al.(2014)Saxe, McClelland, and Ganguli]{Saxe14exactsolutions}
+Andrew~M. Saxe, James~L. McClelland, and Surya Ganguli.
+\newblock Exact solutions to the nonlinear dynamics of learning in deep linear
+  neural network.
+\newblock In \emph{In International Conference on Learning Representations},
+  2014.
+
+\bibitem[Sch\"{o}lkopf \& Smola(2002)Sch\"{o}lkopf and Smola]{Scholkopf2002}
+Bernhard Sch\"{o}lkopf and Alexander~J. Smola.
+\newblock \emph{Learning with kernels : support vector machines,
+  regularization, optimization, and beyond}.
+\newblock Adaptive computation and machine learning. MIT Press, 2002.
+\newblock URL \url{http://www.worldcat.org/oclc/48970254}.
+
+\bibitem[Shan \& Bordelon(2021)Shan and Bordelon]{shan2021rapid}
+Haozhe Shan and Blake Bordelon.
+\newblock Rapid feature evolution accelerates learning in neural networks,
+  2021.
+
+\bibitem[St{\"o}ger \& Soltanolkotabi(2021)St{\"o}ger and
+  Soltanolkotabi]{stoger2021small}
+Dominik St{\"o}ger and Mahdi Soltanolkotabi.
+\newblock Small random initialization is akin to spectral learning:
+  Optimization and generalization guarantees for overparameterized low-rank
+  matrix reconstruction.
+\newblock \emph{arXiv preprint arXiv:2106.15013}, 2021.
+
+\bibitem[Woodworth et~al.(2020)Woodworth, Gunasekar, Lee, Moroshko, Savarese,
+  Golan, Soudry, and Srebro]{woodworth}
+Blake Woodworth, Suriya Gunasekar, Jason~D. Lee, Edward Moroshko, Pedro
+  Savarese, Itay Golan, Daniel Soudry, and Nathan Srebro.
+\newblock Kernel and rich regimes in overparametrized models.
+\newblock In Jacob Abernethy and Shivani Agarwal (eds.), \emph{Proceedings of
+  Thirty Third Conference on Learning Theory}, volume 125 of \emph{Proceedings
+  of Machine Learning Research}, pp.\  3635--3673. PMLR, 09--12 Jul 2020.
+\newblock URL \url{https://proceedings.mlr.press/v125/woodworth20a.html}.
+
+\bibitem[Yun et~al.(2020)Yun, Krishnan, and Mobahi]{yun2020unifying}
+Chulhee Yun, Shankar Krishnan, and Hossein Mobahi.
+\newblock A unifying view on implicit bias in training linear neural networks.
+\newblock \emph{arXiv preprint arXiv:2010.02501}, 2020.
+
+\bibitem[Zagoruyko \& Komodakis(2017)Zagoruyko and
+  Komodakis]{zagoruyko2017wide}
+Sergey Zagoruyko and Nikos Komodakis.
+\newblock Wide residual networks, 2017.
+
+\bibitem[Zhang et~al.(2017)Zhang, Bengio, Hardt, Recht, and
+  Vinyals]{zhang_rethinking}
+Chiyuan Zhang, Samy Bengio, Moritz Hardt, Benjamin Recht, and Oriol Vinyals.
+\newblock Understanding deep learning requires rethinking generalization.
+\newblock In \emph{5th International Conference on Learning Representations,
+  {ICLR} 2017, Toulon, France, April 24-26, 2017, Conference Track
+  Proceedings}. OpenReview.net, 2017.
+\newblock URL \url{https://openreview.net/forum?id=Sy8gdB9xx}.
+
+\end{thebibliography}

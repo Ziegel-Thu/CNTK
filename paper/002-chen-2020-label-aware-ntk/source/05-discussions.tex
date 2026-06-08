@@ -1,0 +1,44 @@
+%!TEX root = 00-main.tex
+\section{Conclusion}\label{sec:discussion}
+
+
+%{\bf short conclusion}
+In this paper, we proposed the notion of label-awareness to explain the performance gap between a model trained by NTK and real-world NNs. %The vanilla NTK is label-agnostic, thus vulnerable to relabelling, whereas a NN corresponds to a label-aware kernel, enabling it to adapt to label systems. 
+%We show that label-agnostic kernels have 
+Inspired by the Hoeffding Decomposition of a generic label-aware kernel, we proposed two label-aware versions of NTK, both of which are shown to better simulate the behaviors of NNs via a theoretical study and comprehensive experiments. 
+
+\textcolor{black}{We conclude this paper by mentioning several potential future directions.}
+
+%We conclude this paper by mentioning one potential future direction. Note that our proposed \lantk s are both \emph{second-level truncations} of the Hoeffding Decomposition \eqref{eq: hoeffding_decomp}. In principle, our constructions can be generalized to higher-level truncations, which may give rise to even better ``neural-network-simulating'' kernels. However, such generalizations would incur even higher computational costs. It would be interesting to see if such generalizations can be done with a reasonable amount of computational resources.
+
+%The computability issue of fourth-order kernel from NTH $O(n^4)$ not computable}
+\textcolor{black}{{\bf More efficient implementations.} Our implementation of $K^{(\textnormal{HR})}$ requires forming a pairwise dataset, which can be cumbersome in practice (indeed, we need to use fast FJLT to accelerate the computation). Moreover, the exact computation of $K^{(\textnormal{NTH})}$ requires at least $O(n^4)$ time, since the dimension of the matrix $\bbE_\init [\KKKK_0(\rvx, \rvx', \cdot, \cdot)]$ is $n^2\times n^2$. It would greatly improve the practical usage of our proposed kernels if there are more efficient implementations.}
+
+\textcolor{black}{{\bf Higher-level truncations.} As discussed in Sec. \ref{sec:conn-with-hoeffd}, our proposed $K^{(\textnormal{HR})}$ and $K^{(\textnormal{NTH})}$ can be regarded as \emph{second-level truncations} of the Hoeffding Decomposition \eqref{eq: hoeffding_decomp}. In principle, our constructions can be generalized to higher-level truncations, which may give rise to even better ``NN-simulating'' kernels. However, such generalizations would incur even higher computational costs. It would be interesting to see even such generalizations can be done with a reasonable amount of computational resources.}
+%The computability issue of fourth-order kernel from NTH $O(n^4)$ not computable}
+
+\textcolor{black}{{\bf Going beyond least squares and gradient flows.} Our current derivation is based on a neural network trained by squared loss and gradient flows. While such a formulation is common in the NTK literature and makes the theoretical analysis simpler, it is of great interest to extend the current analysis to more practical loss functions and optimization algorithms.}
+
+
+\section*{Acknowledgments}
+
+This work was in part supported by NSF through CAREER DMS-1847415 and CCF-1934876, an Alfred Sloan Research Fellowship, the Wharton Dean's Research Fund, and Contract FA8750-19-2-0201 with the US Defense Advanced Research Projects Agency (DARPA). 
+
+% Approved for Public Release, Distribution Unlimited. The views expressed are those of the authors and do not reflect the official policy or position of the Department of Defense or the U.S. Government.
+
+
+
+
+\section*{Broader Impact}
+%[A New Requirement This Year] Authors are required to include a statement of the broader impact of their work, including its ethical aspects and future societal consequences. Authors should discuss both positive and negative outcomes, if any. For instance, authors should discuss a) who may benefit from this research, b) who may be put at disadvantage from this research, c) what are the consequences of failure of the system, and d) whether the task/method leverages biases in the data. If authors believe this is not applicable to them, authors can simply state this.
+%\textcolor{red}{I'm following the guide provided here: \url{https://medium.com/@operations_18894/a-guide-to-writing-the-neurips-impact-statement-4293b723f832}}
+
+%In this paper, we propose to use the notion of label-awareness to understand the performance gap between a model trained with NTK and real-world NNs. Inspired by a structural lemma proved via Hoeffding Decomposition, we introduce two label-aware versions of NTK, which are shown to better simulate the quantitative and qualitative properties of NNs. 
+
+While this work may have certain implications on the design and analysis of new kernel methods, here we focus on how this work can potentially influence the interpretation of deep learning systems. In real-world decision-making problems, interpretability is almost always a crucial factor to consider if one is to deploy a machine learning system. For example, in autonomous driving where NNs are used to detect pedestrians and traffic lights, it is important to understand why this detection network outputs a certain prediction and how confident it is for such a prediction, lack of which can cause damages to the surrounding pedestrians and other drivers. Such a call for interpretability is underlying many works on the ``calibration'' of NNs (see, e.g., \citealt{guo2017calibration}). 
+
+
+Kernel methods, due to its linearity in the feature space, are easier to interpret than highly non-linear NNs, which is typically treated as a black-box. Thus, having a high-quality ``neural-network-simulating'' kernel can greatly simplify the design of ``neural network interpreters'' (like prediction intervals) and may lead to savings of computational resources. However, depending on the user of our technology, there may be negative outcomes. For example, if the user is ignorant of the underlying assumptions behind the validity of our proposed kernels, he/she may have an overt optimism or undue trust on these kernels and make misleading decisions.
+
+We see many potential research directions on improving neural network interpretability by using our kernels. For example, our constructions can be generalized to higher-level truncations of the Hoeffding composition, which may give rise to even better ``neural-network-simulating'' kernels. %However, such generalizations would incur even higher computational costs. It would be interesting to see if such generalizations can be done with a reasonable amount of computational resources.
+However, to mitigate the risks associated with the question of ``when a kernel is indeed simulating a neural network'', we encourage researchers to carefully examine the validity of the imposed assumptions in a case-by-case manner.

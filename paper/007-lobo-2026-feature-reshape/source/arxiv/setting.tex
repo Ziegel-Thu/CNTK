@@ -1,0 +1,47 @@
+\section{Problem Setting and Preliminaries}
+\label{sec:setting}
+
+Consider a supervised regression problem with training data $\mathcal{D}=(\bm x_{i}, y_{i})_{i=1}^{n+N}$, which we will assume is drawn from a Gaussian single-index model:
+\begin{equation}\label{eq:sim}
+    y_i = f^*(\bm x_i)  + \varepsilon_i := g(\langle \bm w^*, \bm x_i \rangle) + \varepsilon_i, \quad \bm x_i \sim \mathcal{N}(\bm 0, \bm I_d)\,,
+\end{equation}
+where $\bm w^*\in \mathbb S^{d-1}$, $g: \mathbb{R} \rightarrow \mathbb{R}$ is a link function and $\varepsilon_i$ are i.i.d. sub-Gaussian noise random variables with zero mean and variance $\sigma_\varepsilon^2$. This synthetic data model has been the subject of several different works in the theoretical literature, where it was studied as a testbed for separation between lazy and feature learning regimes in the high-dimensional limit \citep{arous2021online, damian2022neural, ba2020generalization, dandi2023two}. In particular, it was shown that despite being efficiently learnable with $n=\Theta(d)$ samples for generic $g$ \citep{li1991sliced,babichev2018,barbier2019optimal, damian2024computational,troiani25a}, non-adaptive kernel methods require infinite data to learn it with arbitrary precision.  
+Given the training data, we will consider the problem of learning it with a two-layer neural network defined by $f( \bm x; \bm W, \bm a) = \frac{1}{\sqrt{m}} \sum_{j=1}^m a_j \sigma(\bm w_j^{\top} \bm x)$, where $\bm W \in \mathbb R^{d \times m}, \bm a \in \mathbb R^m$ are the first and second layer weights, respectively, and $\sigma:\mathbb R \to \mathbb R$ is an element-wise activation function. %Throughout this work, we assume the following conditions that are widely used high-dimensional statistics:
+We make the following standard assumptions:
+\begin{assumption}[Main assumptions]
+\label{ass:main-assumptions}~
+    \begin{enumerate}[leftmargin=*,topsep=0.5mm, itemsep=0.mm]
+        \item(\textbf{Initialization}) At initialization, the first layer weights are distributed as $\bm w^{0}_{j}\sim \mathcal N(0, \frac{1}{d}\bm I_d)$ and the second-layer weights are distributed as $\bm a^{0} \sim \mathcal N(0, \frac{1}{m}\bm I_m)$. 
+        \item (\textbf{High-dimensional proportional regime}) We work under the proportional regime scaling, defined as the limit where $n,m,\eta, d\to\infty$ at fixed ratios: \begin{align}\label{eq:joint_limit}
+            \alpha \coloneqq \frac{n}{d}, \qquad \beta \coloneqq \frac{m}{d}, \qquad \tilde{\eta}\coloneqq \frac{\eta}{d^\zeta}
+        \end{align} where the step size parameter admits $\eta = \Theta(d^{\zeta})$ for some $\zeta \in [1/2, 1)$.
+        \item (\textbf{Activation and target functions}) The activation function $\sigma$ is uniformly $L_{\sigma}$-Lipschitz  and $g$ is uniformly bounded and $L_g$-Lipschitz with $\mathbb{E}_{z \sim \mathcal{N}(0,1)}[g(z)]=0$ and $\mu_1 \coloneqq \mathbb{E}_{z\sim \mathcal{N}(0,1)}[g'(z)] \neq 0$. Equivalently, in the language of \cite{arous2021online} we assume $g$ has information exponent $1$.
+    \end{enumerate}
+\end{assumption}
+We employ a two-stage training scheme under the empirical risk minimization via the squared loss as in \cite{ba2022high, dandi2023two, moniri2023theory, cui2024asymptotics, dandi2024random}. Splitting the training data into two parts we have the following framework:
+\begin{itemize}[leftmargin=*,topsep=0.5mm, itemsep=0.mm]
+    \item Assume we use $n$ i.i.d samples from Eq.~\eqref{eq:sim} to train the first-layer by one single step, while keeping the second-layer fixed:
+    \begin{align}
+        \label{eq:training_step}
+         \bm w_{j}^1 & = \bm w_{j}^0 - \eta \bm g_j^0, \quad \forall j \in [m] \\
+         \bm g_j^0 & = \frac{1}{n \sqrt m} \!\sum_{i=1}^n  \left(f(\bm x_i; \bm W^{0},\bm a^{0}) - y_i \right) a_j^0 \bm x_i \sigma^\prime ({\bm w_j^0}^{\top} \bm x_i)\,. \notag
+    \end{align}
+    \item Given the updated weights $\bm W^{1}$, we update the second-layer weights via ridge regression using another $N$ samples i.i.d from Eq.~\eqref{eq:sim} 
+    \begin{align}
+        \label{eq:def:main:erm}
+        \hat{\bm a}_{\lambda}&=\underset{\bm a\in\mathbb{R}^{m}}{\rm argmin} \sum_{i = 1}^N \left(y_i -f(\bm x_i ;\bm a,\bm W^{1})\right)^{2}+\lambda \| \bm a \|_{2}^{2} =\left(\nicefrac{\bm \Phi^{\top} \bm \Phi}{m}+\lambda I_{m}\right)^{-1}\nicefrac{\bm \Phi^{\top} \bm y}{\sqrt{m}}\,,
+    \end{align}
+    where the feature matrix $\bm \Phi \in\mathbb{R}^{N\times m}$ with elements $\phi_{i j}=\sigma(\bm x_i^{\top}{\bm w^{1}_{j}})$ and the label vector $\bm y = [y_1, y_2, \cdots, y_N]^{\!\top}$.
+\end{itemize}
+The effect of training on the first-layer weights is known to depend on the scaling of $\eta$. Considering the data generating process from \cref{eq:sim}, denote by $\bm X \in \mathbb R^{n \times d}$ and $\bm y \in \mathbb R^{n}$ the data matrix and label vector seen during the training step in \cref{eq:training_step}. Defining $\bar{\bm A} := \frac{\mu_1\eta}{\sqrt{m}}\frac{\bm X^\top \bm y \bm a^\top}{n}$, the first-layer weight matrix admits the following description:
+\begin{equation}\label{eq:weightapp}%\tag{Small-Step}
+    \bm W_t = \bm W_0 + \bar{\bm A} + \bm E_t\,,    
+\end{equation}
+where $\bm E_t$ collects asymptotically negligible fluctuations, satisfying $\|\bm E_t\|_{\text{op}}=\tilde{\mathcal O}(1 / \sqrt{d})$.
+It holds in the regime $\eta=\Theta(\sqrt{d})$ with any fixed training step $t\in\mathbb{N}$ \citep{ba2022high,wang2024nonlinear}.
+Besides, at the first step ($t=1$), this formulation still holds for an intermediate step-size $\eta = \Theta(d^{\zeta})$ with $\zeta \in [1/2, 1)$ in \citep{moniri2023theory} as well as a large step-size $\eta = \Theta(d)$ \citep{cui2024asymptotics,dandi2024random}.
+That means, the gradient matrix in \cref{eq:weightapp} can be well approximated by the initial gradient and a rank-one matrix for i) constant gradient steps using small step-size and ii) the first gradient step using an intermediate or large step-size.
+Though \cref{eq:weightapp} implies that the gradient matrix has only one spike, the learned feature matrix $\sigma(\bm W_1 \bm X)$ can include more spikes for nonlinear function learning. We will discuss this from the perspective of kernel methods in this paper. 
+
+{\bf Notation:}
+We denote vectors in high dimensional spaces by bold lowercase letters ($\bm v$) and matrices/operators by bold uppercase letters ($\bm A$). Functions ($f$) and functional operators ($T$) are represented in standard typeface. We let $\rho_{\mathcal{X}}$ be the measure induced by the input distribution $\mathcal{N}(0, \bm I_d)$, and $L^2(\rho_{\mathcal{X}})$ denote the associated Hilbert function space. The notation $\|\cdot\|$ refers specifically to the standard Euclidean norm in $\mathbb{R}^d$. Whenever an alternative norm is employed, it will be explicitly denoted with the appropriate subscript (e.g., $\|\cdot\|_{L^2(\rho_{\mathcal X})}$ or $\|\cdot\|_\text{op}$). Using standard asymptotic notation $\mathcal{O}, o, \Omega, \Theta$, we track dependencies on $d$ and on the spike strength $B$. We further use the shorthand notation $o_d(f) \coloneqq o(f \cdot d^{-c})$ for some $c \in (0, 1)$ to identify terms that vanish slower than $o(f/d)$.

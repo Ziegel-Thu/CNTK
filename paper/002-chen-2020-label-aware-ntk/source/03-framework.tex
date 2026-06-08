@@ -1,0 +1,230 @@
+%!TEX root = 00-main.tex
+
+
+\section{Construction of Label-Aware NTKs}\label{sec:label_aware_kernels}
+
+
+%%We  two ways to design label-aware versions of NTK , all of which can be regarded as \emph{truncated versions} of \eqref{eq: hoefdding_decomp_layerwise}.
+
+We now propose two ways to incorporate label awareness into NTKs. In Section~\ref{sec:conn-with-hoeffd}, we give a unified interpretation of the two approaches using the Hoeffding decomposition.
+
+
+\subsection{Label-Aware NTK via Higher-Order Regression}\label{subsec:higher-order-regression}
+We shall all agree that a ``good'' feature map should map the feature vector $\rvx$ to $\phi(\rvx )$ s.t. a simple linear fit in the $\phi(\cdot)$-space can give satisfactory performance. 
+In this sense, the ``optimal'' feature map is obviously its corresponding label: $\phi(\rvx ) := \textnormal{label of } \rvx$. Hence, for $\alpha, \beta\in[n]$, the corresponding ``optimal'' kernel is given by $K^{\star}(\rvx_\alpha, \rvx_\beta) = \rvy_\alpha \rvy_\beta.$
+This motivates us to consider interpolating the NTK with the optimal kernel:
+$
+\bbE_\init K^{(2)}_0(\rvx_\alpha, \rvx_\beta) + \lambda K^{\star}(\rvx_\alpha, \rvx_\beta) = \bbE_\init K^{(2)}_0(\rvx_\alpha, \rvx_\beta)+ \lambda \rvy_\alpha \rvy_\beta, 
+$
+where $\lambda \geq 0$ controls the strength of the label information. 
+However, this interpolated kernel cannot be calculated on the test data. A natural solution is to estimate $\rvy_\alpha \rvy_\beta$. Thus, we propose to use the following kernel, which we term as \lantk-HR:
+\begin{equation}
+	\label{eq: 2nd_order_reg_kernel}
+	K^{(\textnormal{HR})}(\rvx, \rvx') :  = \bbE_\init K^{(2)}_0(\rvx, \rvx') + \lambda \gZ(\rvx, \rvx', S), 
+\end{equation}
+where $\gZ(\rvx, \rvx', S)$ is an estimator of $(\textnormal{label of }\rvx) \times (\textnormal{label of }\rvx')$ --- a quantity indicating whether both features belong to the same class or not --- using the dataset $S$.
+%$$
+%(\textnormal{label of }\rvx) \times (\textnormal{label of }\rvx') =
+%\begin{cases} 
+%	+1 & \textnormal{ if }  \rvx, \rvx' \textnormal{ belong to the same class}\\
+%	-1 & \textnormal{ if }  \rvx, \rvx' \textnormal{ belong to different classes},
+%\end{cases}
+%$$
+
+
+A natural way to obtain $\gZ$ is to form a new \emph{pairwise dataset} $\bigl\{\bigl( (\rvx_i, \rvx_j), \rvy_i\rvy_j\bigr): i, j\in[n]\bigr\}$, where we think of $\rvy_i\rvy_j$ as the label of the augmented feature vector $(\rvx_i, \rvx_j)$. If we use a linear regression model, then we would have $\gZ(\rvx, \rvx', S) = \rvy^\top \rmM(\rvx, \rvx', \rmX) \rvy$ for some matrix $\rmM\in \mathbb{R}^{n\times n}$ depending on the two feature vectors $\rvx, \rvx'$ as well as the feature matrix $\rmX$, hence the name ``higher-order regression''. 
+% \sout{\textcolor{red}{We remark that the final kernel $K^{(\textnormal{HR})}$ takes the form of the Hoeffding decomposition \mbox{\eqref{eq: hoefdding_decomp_layerwise}} \emph{truncated at the second level}.}}
+
+What requirement we do need to impose on the estimator $\gZ$? Heuristically, the inclusion of $\gZ$ is only helpful when additional information in the training data is ``extracted'' apart from the one extracted by the label-agnostic part. We refer the readers to Sec.~\ref{subsec:kernel-regression} and Appx.~\ref{subsec:details-of-Z} for more details on the choice of $\gZ$.
+
+
+%Though termed as ``higher-order regression'', the construction we presented above is really a ``second-order regression''. The construction can be readily extended to cases where we include estimators of the product of three labels, four labels, etc. However, this would require us to form a three-way dataset and a four-way dataset, respectively, incurring prohibitive computational costs. So we do not explore such generalizations further. 
+
+\subsection{Label-Aware NTK via Approximately Solving NTH}
+As we have discussed in Section \ref{sec:intro}, different from the label-agnostic NTK $\bbE_\init \KK_0$, the time-dependent kernel $\KK_t$ is indeed label-aware. This suggests that in real-world neural network training, $\KK_t$ must drift away from $\KK_0$ by a non-negligible amount. Indeed, \cite{huang2019dynamics} prove that the second order kernel $\KK_t$ evolves according to the following infinite \emph{hierarchy} of ordinary differential equations (that is, the NTH): 
+\begin{align}
+	%\dot f_t(\rvx) & = -\frac{1}{n} \sum_{i \in[n]} \KK_t(\rvx, \rvx_i) (f_t(\rvx_i) - \rvy_i)\nonumber\\
+	\label{eq: nth}
+	\dot{K}^{(r)}_t(\rvx_{\alpha_1}, \cdots, \rvx_{\alpha_r}) & = -\frac{1}{n} \sum_{i\in[n]} K^{(r+1)}_t(\rvx_{\alpha_1}, \cdots, \rvx_{\alpha_r}, \rvx_i)(f_t(\rvx_i) - \rvy_i), \ \ \ r\geq 2,
+\end{align}
+which, along with \eqref{eq: grad_flow_f}, gives a \emph{precise description} of the training dynamics of NNs.
+%, and they term this hierarchy as Neural Tangent Hierarchy (NTH). 
+Here, $K_t^{(r)}$ is an \emph{$r$-th order kernel} which takes $r$ feature vectors as the input. 
+%Note that NTK corresponds to a truncated version of NTH at the second level by setting $\dKK_t = 0$. 
+
+%$\bbE_\init \KK_0$ might be too coarse an approximation of $\KK_t$ to retain the label information. After all, as observed in practice, in real-world NN training, $\KK_t$ drifts away from $\KK_0$ by a non-negligible amount.
+
+%Indeed, by taking the time derivative, \cite{huang2019dynamics} prove that the second order kernel $\KK_t$ evolves as $\dot{K}^{(2)}_t(\rvx, \rvx')  = -\frac{1}{n} \sum_{i\in[n]} K^{(3)}_t(\rvx, \rvx', \rvx_i)(f_t(\rvx_i) - \rvy_i)$, 
+%where $\KKK_t$ is some time-dependent \emph{third-order kernel}. In fact, continuing this process, \cite{huang2019dynamics} derives an infinite \emph{hierarchy} of ODEs: 
+%\begin{align}
+%	%\dot f_t(\rvx) & = -\frac{1}{n} \sum_{i \in[n]} \KK_t(\rvx, \rvx_i) (f_t(\rvx_i) - \rvy_i)\nonumber\\
+%	\label{eq: nth}
+%	\dot{K}^{(r)}(\rvx_{\alpha_1}, \cdots, \rvx_{\alpha_r}) & = -\frac{1}{n} \sum_{i\in[n]} K^{(r+1)}_t(\rvx_{\alpha_1}, %\cdots, \rvx_{\alpha_r}, \rvx_i)(f_t(\rvx_i) - \rvy_i), \ \ \ r\geq 2,
+%\end{align}
+%which, along with \eqref{eq: grad_flow_f}, gives a \emph{precise description} of the training dynamics of NNs , and they term this hierarchy as Neural Tangent Hierarchy (NTH). Here, $K_t^{(r)}$ is an \emph{$r$-th order kernel} which takes $r$ feature vectors as the input. Note that NTK corresponds to a truncated version of NTH at the second level by setting $\dKK_t = 0$. 
+
+Our second construction of \lantk~is to obtain a finer approximation of $\KK_t$. Let $\rvf_t$ be the vector of $f_t(\rvx_i)$'s. Using \eqref{eq: nth}, we can re-write 
+$\KK_t(\rvx, \rvx')$ as $\KK_0(\rvx, \rvx') -\frac{1}{n} \int_{0}^t \langle \KKK_0(\rvx, \rvx', \cdot), \rvf_u-\rvy \rangle du + \frac{1}{n^2} \int_0^t \int_0^u (\rvf_u - \rvy)^\top \KKKK_v(\rvx, \rvx', \cdot, \cdot) (\rvf_v - \rvy) dvdu,$
+%\begin{align*}
+%	\KK_t(\rvx, \rvx')& = 
+	%\KK_0(\rvx, \rvx') -\frac{1}{n} \int_{0}^t \bigg\langle \KKK_u(\rvx, \rvx', \cdot), \rvf_u-\rvy \bigg\rangle du\\
+	% & = \KK_0(\rvx_\alpha, \rvx_\beta) -\frac{1}{n} \int_{0}^t \bigg\langle \KKK_0(\rvx_\alpha, \rvx_\beta, \cdot), \rvf_u-\rvy \bigg\rangle du \\
+	% & \qquad - \frac{1}{n} \int_0^t \bigg\langle \KKK_u(\rvx_\alpha, \rvx_\beta, \cdot)- \KKK_0(\rvx_\alpha, \rvx_\beta, \cdot), \rvf_u - \rvy \bigg\rangle du\\
+	% & = \KK_0(\rvx_\alpha, \rvx_\beta) -\frac{1}{n} \int_{0}^t \bigg\langle \KKK_0(\rvx_\alpha, \rvx_\beta, \cdot), \rvf_u-\rvy \bigg\rangle du \\
+	% & \qquad - \frac{1}{n} \int_0^t \bigg\langle -\int_{0}^u \frac{1}{n} \KKKK_v(\rvx_\alpha, \rvx_\beta, \cdot, \cdot) (\rvf_v - \rvy) dv, \rvf_u- \rvy \bigg\rangle               du\\
+%	\KK_0(\rvx, \rvx') -\frac{1}{n} \int_{0}^t \bigg\langle \KKK_0(\rvx, \rvx', \cdot), \rvf_u-\rvy \bigg\rangle du \\
+%	& \qquad + \frac{1}{n^2} \int_0^t \int_0^u (\rvf_u - \rvy)^\top \KKKK_v(\rvx, \rvx', \cdot, \cdot) (\rvf_v - \rvy) dvdu,
+%\end{align*}
+where $\KKK_t(\rvx,\rvx', \cdot)$ is an $n$-dimensional vector whose $i$-th coordinate is $\KKK_t(\rvx,\rvx', \rvx_i)$, and $\KKKK_t(\rvx,\rvx', \cdot,\cdot)$ is an $n\times n$ matrix, whose $(i, j)$-th entry is $\KKKK_t(\rvx,\rvx', \rvx_i, \rvx_j)$.
+%In general, the above integral equation cannot be solved explicitly, because both $\rvf_t - \rvy$ and $\KKKK_t$ are complicated functions of the time $t$, which is typically analytically intractable. However, we can approximately solve the above integral equation by approximating $\rvf_t$ and $\KKKK_t$ with some relatively simple functions, as we are to detail below.
+Now, let $\rmKK_0 \in \mathbb{R}^{n\times n}$ be the kernel matrix corresponding to $\KK_0$ computed on the training data. The kernel gradient descent using $\rmKK_0$ is characterized by $\dot{\rvh}_t = -\frac{1}{n} \rmKK_0(\rvh_t - \rvy)$ with the initial value condition $\rvh_0 = \rvf_0$,
+%\begin{align*}
+%	\dot{\rvh}_t = -\frac{1}{n} \rmKK_0(\rvh_t - \rvy), \ \ \ \rvh_0 = \rvf_0,
+%\end{align*}
+whose solution is given by $\rvh_t = (\rmI_n - e^{-t \rmKK_0/n}) \rvy + \rvh_0.$
+%\begin{equation*}
+%	\rvh_t = (\rmI_n - e^{-t \rmKK_0/n}) \rvy + \rvh_0.
+%\end{equation*}
+For a wide enough network, we expect $\rvh_t \approx \rvf_t$, at least when $t$ is not too large. On the other hand, it has been shown in \cite{huang2019dynamics} that $\KKKK_t$ varies at a rate of $\tilde{O}(1/m^2)$, where $\tilde O$ hides the poly-log factors and $m$ is the (minimum) width of the network. Hence, it is reasonable to approximate $\KKKK_t$ by $\KKKK_0$. This motivates us to write
+\begin{align}
+    \label{eq: approx_nth_full}
+	\KK_t(\rvx, \rvx') & = \hat{K}^{(2)}_t(\rvx, \rvx') + \gE %\\
+	%\hat{K}^{(2)}_t(\rvx, \rvx')& = \KK_0(\rvx, \rvx') -\frac{1}{n} \int_{0}^t \bigg\langle \KKK_0(\rvx, \rvx', \cdot), \rvh_u-\rvy \bigg\rangle du \nonumber\\
+	%\label{eq: approx_nth_expression}
+	%& \qquad + \frac{1}{n^2} \int_0^t \int_0^u (\rvh_u - \rvy)^\top \KKKK_0(\rvx, \rvx', \cdot, \cdot) (\rvh_v - \rvy) dvdu ,
+\end{align}
+where $\gE$ is a small error term and $\hat{K}^{(2)}_t(\rvx, \rvx') = \KK_0(\rvx, \rvx') -\frac{1}{n} \int_{0}^t \langle \KKK_0(\rvx, \rvx', \cdot), \rvh_u-\rvy \rangle du  + \frac{1}{n^2} \int_0^t \int_0^u (\rvh_u - \rvy)^\top \KKKK_0(\rvx, \rvx', \cdot, \cdot) (\rvh_v - \rvy) dvdu$.
+%\begin{align*}
+%		 & \KK_0(\rvx, \rvx') + \bigg\langle \KKK_0(\rvx, \rvx', \cdot), (\rmKK_0)^{-1}\bigg(\rmI_n - e^{-t \rmKK_0/n}\bigg) \rvy \bigg\rangle  \\
+%		 & \qquad + \rvy^\top (\rmKK_0)^{-1}\bigg(\rmI_n - e^{-t \rmKK_0/n}\bigg) \KKKK_0(\rvx, \rvx', \cdot, \cdot) (\rmKK_0)^{-1} \rvy - \rvy^\top \rmP\rmQ(\rvx, \rvx')\rmP^\top \rvy,
+%	\end{align*}
+%where
+%	\begin{align*}
+%		\bigg(\rmQ(\rvx, \rvx')\bigg)_{ij} = (1-e^{-t(\rmD_{ii} + \rmD_{jj})/n}) \times {\bigg(\rmP^\top \KKKK_0(\rvx, \rvx', \cdot, \cdot) \rmP \rmD^{-1}\bigg)_{ij}}\bigg/\bigg({\rmD_{ii} + \rmD_{jj}}\bigg)  ,
+%	\end{align*}
+%and $\rmP \rmD \rmP^\top$ is the eigen-decomposition of $\rmKK_0$.
+
+%We show that the main terms in the RHS above can be evaluated analytically:
+
+%\begin{proof}
+%	See Appendix \ref{subappend:proof_approx_nth_zero_init}.
+%\end{proof}
+
+In Appx.~\ref{subappend:proof_approx_nth_zero_init}, we show that $\hKK_t$ can be evaluated analytically, and the analytical expression is of the form $\KK_0 + \rva^\top \rvy + \rvy^\top \rmB \rvy$ for some vector $\rva$ and matrix $\rmB$ (see Proposition \ref{prop: approx_nth_zero_init} for the exact formula). 
+% \sout{\textcolor{red}{which can again be regarded as a special case of the Hoeffding decomposition (\ref{eq: hoeffding_decomp}) \emph{truncated at the second level}}}.
+Moreover, the approximation \eqref{eq: approx_nth_full} can be justified formally under mild regularity conditions: 
+%For brevity, we refer interested readers to Appendix \ref{subappend:proof_approx_nth_error} for an exact description of the assumption we impose.
+\begin{theorem}[Validity of $\hKK_t$]
+	\label{thm: approx_nth_error}
+	Consider a neural network with $\rvb^{(\ell)} = 0 \ \forall \ell$ and $p_\ell = q_\ell = m$ except for $q_1 = d, p_L = 1$. We train this net using gradient flow with the least squares loss and Gaussian initialization. Under Assumption \ref{assump: justify_approx_error} in Appendix \ref{subappend:proof_approx_nth_error}, with probability at least $1-e^{-Cm}$ w.r.t. the initialization, the error of the approximation \eqref{eq: approx_nth_full} at time $t$ satisfies 
+	\[
+		|\gE| \lesssim \frac{(\log m)^c}{m^2} \times\bigg[ t^2(t^2\lor 1) \bigg(1+\frac{t^2}{m}\bigg)\bigg(t \land \frac{n}{\lambda}\bigg) + t^3(1\lor t) \bigg] \textnormal{ provided }  t \lesssim \bigg({\frac{\sqrt{\lambda m/n}}{(\log m)^{c'}}} \land \frac{m^{1/3}}{(\log m)^{c''}}\bigg),
+	\]
+	where $C, c, c', c''$ are some absolute constants and $\lambda$ is a quantity defined in Asumption \ref{assump: justify_approx_error}. On the other hand, on the same high probability event, the three terms in $\hat{K}^{(2)}_t$ are at most $\tilde{O}(1), \tilde{O}(t/m)$ and $\tilde{O}(t^2/m),$
+	%$$
+	%	\tilde{O}(1), \ \ \ \tilde{O}(t/m),  \ \ \ \tilde{O}(t^2/m),
+	%$$
+	respectively.
+\end{theorem}
+%\begin{proof}
+%	See Appendix \ref{subappend:proof_approx_nth_error}.
+%\end{proof}
+%The approximation rate of the above theorem resembles the rate given in Theorem 1 of \cite{bai2020taylorized}. However, our goal is fundamentally different from theirs --- their result concerns the parameters obtained by training a higher-order Taylor expansion of $f(\rvx, \rvtheta)$, whereas our result focuses on approximation of $\KK_t$. 
+
+By the above theorem, the error term is much smaller than the main terms for large $m$, justifying the validity of the approximation \eqref{eq: approx_nth_full}. Meanwhile, this approximation is \emph{strictly better} than $\bbE_\init \KK_0$, whose error term is shown to be $\tilde O(1/m)$ in \cite{huang2019dynamics}.
+
+Based on the approximation \eqref{eq: approx_nth_full}, we propose the following \lantk-NTH:
+\begin{align}
+	K^{(\textnormal{NTH})}(\rvx, \rvx') &:= \bbE_\init \KK_0(\rvx, \rvx') + \rvy^\top (\E_\init\rmKK_0)^{-1} \E_\init[\KKKK_0(\rvx, \rvx', \cdot, \cdot)] (\E_\init\rmKK_0)^{-1} \rvy \nonumber\\
+	\label{eq: approx_nth_kernel}
+	& \qquad - \rvy^\top \bar\rmP\bar\rmQ(\rvx, \rvx')\bar\rmP^\top \rvy,
+\end{align}
+where $\bar \rmP\bar \rmD\bar \rmP^\top$ is the eigen-decomposition of $\bbE_\init \rmK_0^{(2)}$ and the $(i, j)$-th entry of $\bar\rmQ(\rvx, \rvx')$ is given by ${\bigl(\bar\rmP^\top \bbE_\init[\KKKK_0(\rvx, \rvx', \cdot, \cdot)] \bar\rmP \bar\rmD^{-1}\bigr)_{ij}}\bigr/({\bar\rmD_{ii} + \bar\rmD_{jj}}).$ 
+In a nutshell, we take the formula for $\hKK$, integrate it w.r.t. the initialization, and send $t\to \infty$. The linear term $\rva^\top \rvy$ vanishes as $\bbE_\init [\rva] = 0$.\footnote{We can in principle prove a similar result as Theorem \ref{thm: approx_nth_error} for $\KNTH$ by exploiting the concentration of $\KKK_0$ and $\KKKK_0$, but since it is not the focus of this paper, we omit the details.}
+
+
+%\begin{align*}
+%	\bigl(\bar\rmQ(\rvx, \rvx')\bigr)_{ij} = {\bigl(\bar\rmP^\top \bbE_\init[\KKKK_0(\rvx, \rvx', \cdot, \cdot)] \bar\rmP \bar\rmD^{-1}\bigr)_{ij}}\bigr/({\bar\rmD_{ii} + \bar\rmD_{jj}}).
+%\end{align*}
+%In obtaining $K^{(\textnormal{NTH})}$, we implicitly used $\E_{\init}\KKK_0 = 0$ (c.f. Theorem 2.3 of \citealt{huang2019dynamics}) and sent $t\to\infty$.
+
+%In our construction above, we have implicitly assumed $\KKKK_t \approx \KKKK_0$ and $\rvf_t \approx \rvh_t$. In principle, one can extend the above construction by alternatively assuming $K^{(r)}_t \approx K^{(r)}_0$ for an arbitrary $r$ and approximating $\rvf_t$ by another analytically tractable quantity (for example, kernel regression using $K^{(\textnormal{NTH})}$). This will give a label-aware NTK of the following form: 
+%$$
+%\bbE_\init \KK_0(\rvx, \rvx') +\la \rmM^{(4)}, \rvy\rvy^\top \ra + \la \rmM^{(6)}, \rvy^{\otimes 4}\ra + \cdots
+%$$
+%where $\rmM^{(r)}$'s are some tensors of appropriate order. We omit the odd terms in the above display since $\bbE_\init K_0^{(r)} = 0$ for odd $r$. This is similar to the generalizations of $K^{(\textnormal{HR})}$ we discussed in the previous section --- though they may be more accurate in approximating $\KK_t$, they incur prohibitive computation costs, and so we do not explore them further in this work. 
+
+
+
+
+%\hangfeng{add notations descriptions such as$\rmX$, why not $\rmY$ but $\rvy$}
+%\subsection{Inspiration: Hoeffding Decomposition of A Generic Label-Aware Kernel}
+
+\subsection{Understanding the connection between \lantk-HR and \lantk-NTH}
+\label{sec:conn-with-hoeffd}
+\textcolor{black}{The formulas for the two \lantk s are perhaps unexpectedly similar --- they are both quadratic functions of $\rvy$ (here we focus on linear regression based $\gZ$ in $\KHR$). 
+Is there any intrinsic relationship between the two? In this section, we propose to understand their relationship via a classical tool from asymptotic statistics called \emph{Hoeffding decomposition} \citep{hoeffding1948class}. Let us start by considering a generic label-aware kernel $K(\rvx, \rvx') \equiv K(\rvx, \rvx', S)$, which may have arbitrary dependence on the training data $S$.}
+% \textcolor{red}{\sout{To motivate our construction of \lantk s, we start by considering a generic label-aware kernel $K(\rvx, \rvx') \equiv K(\rvx, \rvx', S)$, which may have arbitrary dependence on the training data $S$. To obtain a more structured representation, we use a classical tool from asymptotic statistics called \emph{Hoeffding decomposition} \mbox{\citep{hoeffding1948class}.}}}
+For a fixed $A \subseteq [n]$, define
+\begin{equation}
+    \label{eq: func_space_hoeffding_decomp}
+    \gG_A := \bigg\{g: \rvy_A\mapsto f(\rvy_A) \ \bigg| \ \E_{\rvy|\rmX} g(\rvy_A)^2 < \infty, \E_{\rvy|\rmX}[g(\rvy_A) | \rvy_B] = 0 \ \forall B \textnormal{ s.t. } |B| < |A|\bigg\},
+\end{equation}
+The requirement of $\E_{\rvy|\rmX}[g(\rvy_A) | \rvy_B] = 0 \ \forall B \textnormal{ s.t. } |B| < |A|$ means that for any $B$ whose cardinality is less than $A$, the function $g$ has no information in $\rvy_B$, which reflects our intention to orthogonally decompose a generic function of $\rvy$ into parts whose dependence on $\rvy$ is increasingly complex. 
+%For example, $\gG_\varnothing$ is the space of constant functions, which is label-agnostic. Meanwhile, $\gG_{\{i\}}$ is the space of mean zero functions which only depend on a single $\rvy_i$. The mean zero condition implies that $\gG_{i}$ is orthogonal to $\calG_{\varnothing}$ w.r.t. the $L^2$ geometry. Futhermore, $\gG_{\{i, j\}}$ is the space of mean zero functions which only depend on a pair $(\rvy_i, \rvy_j)$, with an extra requirement of $\bbE_{\rvy|\rmX}[g(\rvy_i, \rvy_j)|\rvy_{k}] = 0$, meaning that $\gG_{\{i, j\}}$ is orthogonal to $\gG_{\{k\}}$. 
+
+
+The celebrated work of \cite{hoeffding1948class} tells that the function spaces $\{\gG_A : A \subseteq [n]\}$ form an orthogonal decomposition of  $\sigma(\rvy \ | \ \rmX)$, the space of all measurable functions of $\rvy$ (w.r.t. the conditional law of $\rvy \ | \ \rmX$). Specifically, we have:
+\begin{lemma}[Hoeffding decomposition of a generic label-aware kernel]
+\label{lemma: hoeffding_decomp}
+We can decompose a generic label-aware $K$ into
+\begin{equation}
+	\label{eq: hoeffding_decomp}
+	K(\rvx, \rvx', S)  = \sum_{A \subseteq[n]}  \proj_AK(\rvx, \rvx', S) = \sum_{r = 0}^n \sum_{A \subseteq[n]: |A| = r}  \proj_AK(\rvx, \rvx', S),
+\end{equation}
+where $\proj_A$ is the $L^2$ projection operator onto the function space $\gG_A$. In particular, we can write 
+\begin{align}
+\label{eq: hoefdding_decomp_layerwise} 
+	K(\rvx, \rvx', S) & =  
+	%\sum_{r = 0}^n \sum_{A \subseteq[n]: |A| = r}  \proj_AK(\rvx, \rvx', S) \nonumber\\
+	%& = \proj_{\varnothing} \gK(\rvx, \rvx', S) + \sum_{i\in[n]} \proj_{\{i\}} \gK(\rvx_\alpha, \rvx_\beta, S) + \sum_{i\neq j} \proj_{\{i, j\}}\gK(\rvx, \rvx', S) \nonumber\\
+	%& \qquad + \cdots  + \proj_{[n]} \gK(\rvx, \rvx', S) \nonumber\\
+	\gK^{(2)}_\varnothing(\rvx, \rvx') + \sum_{i\in[n]}\gK^{(3)}_i(\rvx, \rvx', \rvy_i) + \sum_{i\neq j}\gK^{(4)}_{ij}(\rvx, \rvx', \rvy_i, \rvy_j) + \cdots ,
+\end{align}
+%\hangfeng{Highlight the information is orthogonal in different parts again in the following explanation.}
+where $\{\gK^{(r+2)}_{A}: 0\leq r\leq n , |A| = r\}$ is a collection of measurable functions s.t. $\gK^{(r+2)}_A$ only depends on $\rvy_A$.
+%, and we have
+%\begin{equation}
+%	\label{eq: formula_for_proj}
+%	\proj_A K(\rvx_\alpha, \rvx_\beta, S) = \sum_{B \subseteq A} (-1)^{|A|-|B|} \E_{\rvy| \rmX} [K(\rvx_\alpha, \rvx_\beta, S)\ | \ \rvy_B].
+%\end{equation}
+\end{lemma}
+Thus, we have decomposed a generic label-aware kernel into the superimposition of a hierarchy of smaller kernels with \emph{increasing complexity} on the label dependence structure: at the zero-th level, $\gK^{(2)}_\varnothing$ is label-agnostic; at the first level, $\{\gK^{(3)}_i\}$ depend only on a single coordinate of $\rvy$; at the second level, $\{\gK^{(4)}_{ij}\}$ depend on a pair of labels, etc. Moreover, \emph{the information at each level is orthogonal}. 
+
+\textcolor{black}{In view of the above lemma, the two \lantk s we proposed can be regarded as \emph{truncated versions} of \eqref{eq: hoefdding_decomp_layerwise}, where the truncation happens at the second level.}
+
+\textcolor{black}{The above observation motivates us to ask a more ``fine-grained'' question regarding the two \lantk s: \emph{is the label-aware part in $\KNTH$ implicitly doing a higher-order regression?}}
+
+\textcolor{black}{To offer some intuitions for this question, we randomly choose $5$ planes and $5$ ships in CIFAR-10\footnote{We only sample such a small number of images because the computation cost of $\KNTH$ is at least $O(n^4)$.}, and we compute the intra-class and inter-class values of the label-aware component in a two-layer fully-connected $\KNTH$ (See Appx.~\mbox{\ref{append:nth_calculations}} for the exact formulas). We find that the mean of the intra-class values is $98$, whereas the mean of the inter-class values is $48$. The difference between the two means indicates that $\KNTH$ may implicitly try to increase the similarity between two examples if they come from the same class and decrease it otherwise, and this behavior agrees with the \emph{intention} of $\KHR$.}
+
+\textcolor{black}{We conclude this section by remarking that our above arguments are, of course, largely heuristic, and a rigorous study on the relationship between the two \lantk s is left as future work.}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

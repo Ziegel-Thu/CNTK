@@ -1,0 +1,200 @@
+\section{Feature learning as a distribution transformation in the kernels}\label{sec:three}
+
+We may now discuss how feature learning can be regarded as a target-dependent distribution transformation.
+Under Gaussian initialization, the network implicitly induces the baseline kernel $k_0(\bm{x}, \bm{x}') = \mathbb{E}_{\bm{w} \sim \mathcal{N}(0, \frac{1}{d}\bm{I}_d)}[\sigma(\langle\bm{w}, \bm{x}\rangle)\sigma(\langle\bm{w}, \bm{x}'\rangle)]$ as mentioned before. To capture the network's capacity for feature learning, our analysis isolates the structural deformation of this kernel driven solely by a rank-one update to the weights.
+
+As discussed in \cref{sec:setting}, after one gradient step under the step-size $\eta = \Theta(d^{\zeta})$ with $\zeta \in [1/2, 1)$, we know that $(\bm W_1^\top \bm x)_j = \langle\bm w^0_j, \bm x\rangle +  \langle \bm v_j, \bm x\rangle$ for vectors $\bm v_j \in \mathbb R^d$ deriving from the deterministic update $\bar{\bm A} = \frac{\mu_1\eta}{\sqrt{m}}\frac{\bm X^\top \bm y \bm a^\top}{n}$. Hence the new feature map $\phi \left( \bm x, \bm w + \bm v\right)$ induces the following spiked conjugate kernel, where $\mu$ is the Gaussian measure:
+\begin{equation}\label{kernelt}
+    k_{1}^*(\bm x, \bm x') = \int_{\mathcal{W}} \phi \left( \bm x, \bm w + \bm v\right)\phi \left( \bm x', \bm w + \bm v\right) \mathrm{d}\mu(\bm w)\,.  
+\end{equation}
+Note that, $ k_{t}^*$ for constant steps $t$ under the small step-size $\eta=\Theta(\sqrt{d})$ also admits this formulation.
+But for a unifying analysis framework, we study the impact of the learning rate coming from the regime \cref{eq:joint_limit} under the first step. %indicated by the subscript $1$ on all affected objects.
+In the following, we will investigate how the spike $\bm v$ impact the kernel as well as the associated function spaces.
+
+As two positive semi-definite kernels, $k_0$ and $k^*_1$ uniquely determine two different RKHS: $\mathcal H_0, \mathcal H_1^* \subset L^2(\rho_{\mathcal X})$. We let $\rho$ be an unknown probability distribution on $\mathcal{X} \times \mathcal{Y}$ satisfying $\int_{\mathcal{X} \times \mathcal{Y}} y^2 \mathrm{d}\rho(\bm{x}, y) < \infty$, and denote its corresponding marginal distribution over the inputs as $\rho_{\mathcal{X}}$. Following \cite{bach2017equivalence}, we can associate each kernel with a self-adjoint, positive semi-definite, trace-class integral operator. For the two conjugate kernels $k_{0},k_{1}^{\star}$, the operators $T_0,T_1 : L^2(\rho_{\mathcal{X}}) \to L^2(\rho_{\mathcal{X}})$ are given by:
+\begin{equation}\label{eq:int-ops}
+    (T_0 f)(\bm{x}) = \int_{\mathcal{X}} k_0(\bm{x}, \bm{x}') f(\bm{x}') \mathrm{d}\rho_{\mathcal{X}}(\bm{x}') \quad \text{and} \quad (T_1^* f)(\bm{x}) = \int_{\mathcal{X}} k_1^*(\bm{x}, \bm{x}') f(\bm{x}') \mathrm{d}\rho_{\mathcal{X}}(\bm{x}')\, .
+\end{equation}
+By the spectral theorem, both operators admit different spectral decompositions, and Mercer's theorem states that we can represent each kernel by its respective spectral decomposition. Therefore, we will study the distribution of the learned features, the formulation of the kernel $k_1^{*}$, as well as the spectrum of function spaces from $\mathcal H_{0}$ to $\mathcal H_{1}^{*}$.
+
+\subsection{Distribution and moments of the learned features}
+
+Let $\bm \varsigma := \sum_{i=1}^n y_i \bm x_i$. The learned feature is given by $\bm z := \bm w + \frac{\mu_1\eta}{n \sqrt{m}}a\bm \varsigma$. Since $a$ is a scalar Gaussian random variable and $\bm w$ is a Gaussian random vector, both independent, $\bm z$ has zero mean. Moreover, conditioned on the dataset (or equivalently conditioned on $\bm \varsigma$) we have:
+\begin{equation*}
+    \bm z \mid \bm \varsigma \sim \mathcal{N}\!\left(0,\ \frac{1}{d} \bm I_d + \frac{\mu_1^2 \eta^2}{n^2 m^2} \bm \varsigma \bm \varsigma^\top \right)\,.
+\end{equation*}
+Therefore, conditionally on $\bm \varsigma$, $\bm z$ is a Gaussian vector with a spiked covariance along the random direction $\bm \varsigma$. Without conditioning, the distribution of $\bm z$ is complex. In particular, its covariance matrix is given by 
+\begin{equation}\label{eq:covz}
+\begin{split}
+   \frac{1}{d}\bm \Gamma := \mathbb E[\bm z\bm z^\top] & = \underbrace{\left( 1 + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\mathbb E[f^*(\bm x)^2] + \frac{\eta^2\lambda_{\alpha, \beta}}{d^2}\sigma_\varepsilon^2\right)}_{:= A} \frac{\bm I_d}{d} + \underbrace{\left[\frac{\eta^2}{d}\frac{\mu_1^4}{\alpha \beta^2}\Big(\alpha - \frac{1}{d} + \frac{2s}{\mu_1^2d}\Big)\right]}_{:=B} \frac{\bm w^* (\bm w^*)^\top}{d} \,,
+\end{split}
+\end{equation}
+where $\lambda_{\alpha, \beta} := \frac{\mu_1^2}{\alpha \beta^2}$, $\alpha, \beta$ are constants as defined in \cref{eq:joint_limit}, $\mu_1$ is the first Hermite coefficient of $g$ and,  by denoting~$h(t):=[g(t)]^2$, we have
+\[
+    s \coloneqq \mathbb E[g'(\langle \bm w^*,\bm x\rangle)^2]+ \mathbb E[g(\langle \bm w^*,\bm x\rangle)g''(\langle \bm w^*,\bm x\rangle)] = \frac{1}{2} \mathbb{E}[h''(\langle \bm w^*,\bm x\rangle)]\,.
+\]
+For short, we write $\bm \Gamma := A\bm I_d + B \bm w^* (\bm w^*)^\top$, and defer the full derivation of these quantities to \cref{app:deriv-2nd-moment}. See the discussion on when $s \gtreqqless 0$ and some examples for particular choices of $g$ in \cref{app:spike-coef}. Lastly, note that $B$ has three terms and $\alpha$ will dominate in the high-dimensional asymptotic regime.
+Accordingly, we can ensure $\bm \Gamma$ to be positive definite.
+
+As previously discussed, the (unconditional) distribution of $\bm z$ is complex, but in the next subsection we will show that it can be well approximated by a Gaussian distribution with matching covariance $\bm \Gamma$. This will allow us to derive an approximation for the associated kernel.
+
+\subsection{The kernel formulation}
+
+To tractably analyze this we present our main theorem to approximate the true kernel $k_1^*$ in \cref{kernelt} by a Gaussian kernel $k_1$ governed by $\bm \Gamma$, with the proof deferred to \cref{app:thm-approx-true-kernel}.
+\begin{theorem}\label{thm:approx-true-kernel}
+    Denote $\bm \varsigma := \sum_{i=1}^n y_i \bm x_i$ and $\bm z := \bm w + \frac{\mu_1\eta}{n \sqrt{m}}a\bm \varsigma$ and let $\mu^*$ be the distribution of $\bm z$. Then, under \cref{ass:main-assumptions}, given the matrix $\bm \Gamma$ defined by \cref{eq:covz}, $k_1^*$ under $\mu^*$ can be approximated by the following kernel 
+    \begin{equation}\label{eq:kernel1}
+    k_1(\bm x, \bm x') = \mathbb E_{\bm w \sim \mathcal N(0, \frac{1}{d}\bm \Gamma)}[\sigma(\langle \bm w, \bm x\rangle)\sigma(\langle \bm w, \bm x'\rangle)] = k_0(\bm \Gamma^{1/2} \bm x, \bm \Gamma^{1/2}\bm x')\,,
+    \end{equation}
+    such that their respective integral operators $T_1^*$ and $T_1$ admit
+    \[
+        \|T_1^* - T_1\|_{\text{HS}} = \|k_1^* - k_1\|_{L^2(\rho_{\mathcal X})\times L^2(\rho_{\mathcal X})} = \mathcal O\left(\frac{\eta^4 \ln^3 d}{d^5}\right)\, .
+    \]
+    Moreover, defining the pushforward measure of the standard Gaussian measure $\nu = (\rho_{\mathcal X} \circ \bm \Gamma^{-1/2})$ such that $k_0(\bm z, \bm z') = \sum_{i=0}^\infty \omega_i \bm e_i(\bm z)\bm e_i(\bm z')$ with respect to $\nu$, the spectral decomposition of $k_1$ with respect to the original input distribution $\rho_{\mathcal X}$ is given by $k_1(\bm x, \bm x') = \sum_{i=0}^\infty \omega_i \bm e_i(\bm \Gamma^{1/2}\bm x)\bm e_i(\bm \Gamma^{1/2}\bm x')$.
+\end{theorem}
+\begin{remark}\label{rmk:approx-true-kernel}
+    Our result builds upon macroscopic results of order $\mathcal O\left(\frac{|B|}{d}\right)$, by repeatedly showing the trailing terms of our approximations decay with rate $o_d\left(\frac{|B|}{d}\right)$. This bound shows that the approximation of $k_1^*$ via $k_1$ respects the decay needed in order for the result to hold. Indeed, since $|B| = \Theta\left(\frac{\eta^2}{d}\right)$, we have $\mathcal O\left(\frac{\eta^4 \ln^3 d}{d^5}\right) = \mathcal O\left(\frac{|B|^2\ln^3 d}{d^3}\right) \subset o_d\left(\frac{|B|}{d}\right)$. Thanks to \cref{thm:approx-true-kernel}, we can work with $k_1$ throughout this paper. Lastly, note that this result also guarantees an asymptotic approximation in the most aggressive learning rate regime where $\eta = \Theta(d)$.
+\end{remark}
+\noindent {\bf Data-adaptive kernel:} The relationship between $k_0$ and $k_1$ in \cref{eq:kernel1} can be characterized by a distribution transformation in either parameters or data. From the {\bf parameter-space} perspective, feature learning transforms the parameter distribution from its initial standard Gaussian distribution into a target-dependent distribution shaped by the training objective.
+From the {\bf data-space} perspective, feature learning induces a shift in the representation of the input data, moving it toward a structure that is more aligned with the target function or labels.
+This can be a data-adaptive kernel, similar in spirit to \cite{follain2024enhanced,Huang2025} with a fixed base kernel with a low-dimensional linear map. 
+In contrast, our transformation acts in the full ambient space, leading to anisotropic amplification of signal directions rather than dimensionality reduction.
+
+\section{Feature learning as an additional target-dependent kernel}\label{sec:four}
+In this section, we investigate the spectrum of $k_1$ and its dynamics. As a preliminary step, we have the following theorem
+
+\begin{theorem}\label{thm:eigenv-decay}
+    Consider the integral operators $T_1$ and $T_0$ defined in \cref{eq:int-ops}. Under \cref{ass:main-assumptions}, for any $\varepsilon > 0$ there exists a truncation radius $R>0$, a constant $C_R > 0$ that depends on $R$ and an absolute constant $c > 0$ such that the $j$-th eigenvalues of the operators satisfy
+    \[
+        c \lambda_j(T_0) \leq \lambda_j(T_1) \leq C_R \lambda_j(T_0) + \varepsilon\,,
+    \]
+    for all $k \geq 0$. Consequently, the spectra of both operators exhibit the same asymptotic decay rate.
+\end{theorem}
+
+\cref{thm:eigenv-decay} is an important tool because it establishes that $T_1$ does not prematurely deactivate features by forcing eigenvalues to zero. Its formal proof are provided in \cref{app:thm-eigenv-decay}.
+
+\subsection{The spiked covariance expansion framework}
+To understand the connection between $k_1$ and $k_0$, we present a general expansion that aims to isolate the contributions of the spike. By performing a Taylor-like series expansion, the influence of the spike is expressed by higher order terms that form the remainder of the expansion. We first give the following expansion, with the proof deferred to \cref{app:thm-cov-expansion}.
+\begin{theorem}\label{thm:cov-expansion}
+    Let $\bm \Sigma := \gamma_1\bm I + \gamma_2 \bm u \bm u^\top$ be a covariance matrix with $\gamma_1, \gamma_2 > 0$ and $\|\bm u\|= 1$, and \(G:\mathbb R^d \to \mathbb R\) be a measurable function of at most polynomial growth. Denote $D_{\bm u}^{(j)} G$ as the $j$-th order directional derivative of $G$ along $\bm u$ in the sense of tempered distributions, defined by its action on any test function $\varphi \in \mathcal{S}(\mathbb{R}^d)$ as
+    \[
+        \langle D_{\bm u}^{(j)} G, \varphi \rangle := (-1)^j \langle G, D_{\bm{u}}^{(j)} \varphi \rangle\, , \text{where} \  D_{\bm{u}}\varphi(\bm {w}) = \langle \nabla \varphi(\bm{w}), \bm {u} \rangle\, .
+    \]
+    Then, we have that
+    \[
+        \mathbb E_{\bm w \sim \mathcal N(0, \bm \Sigma)}[G(\bm w)] = \mathbb{E}_{\bm w \sim \mathcal N(0, \gamma_1\bm I_d)}[G(\bm{w})] + \sum_{j=1}^\infty \frac{1}{j!}\left(\frac{\gamma_2}{2}\right)^j \mathbb{E}_{\bm w \sim \mathcal N(0, \gamma_1\bm I_d)}[ D_{\bm u}^{(2j)} G(\bm{w})]\,.
+    \]    
+\end{theorem}
+
+\begin{remark}\label{rmk:well-defined-derivs}
+Since we are only interested in using this for $\bm \Gamma$, we note that the conditions on the covariance matrix naturally translate to our case since $A, B > 0$ in the asymptotic regime.
+Also note that because the growth of $G$ is polynomially bounded and the Gaussian density belongs to $\mathcal{S}(\mathbb{R}^d)$, the terms $\mathbb{E}_{\bm w \sim \mathcal N(0, \gamma_1\bm I_d)}[ D_{\bm u}^{(2n)} G(\bm{w})]$ are well-defined for all $n \geq 0$.
+\end{remark}
+
+\begin{remark}
+    This expansion can be intuitively understood as a Taylor series of the scalar function $f(t) = \mathbb{E}_{\bm w \sim \mathcal{N}(0, \bm \Sigma(t))}[G(\bm w)]$ where $\bm \Sigma(t) = \gamma_1\bm{I}_d + t\gamma_2\bm u\bm u^\top$. Iteratively applying Price's Theorem \citep{Price1958,McMahonPrice1964} to obtain the derivatives of $f$ with respect to $t$ reveals that this infinite sum is exactly the formal Taylor series of $f(t)$ around $t = 0$. 
+\end{remark}
+
+\subsection{Expansion of the updated kernel $k_1$}
+\label{sec:expansion}
+To bring \cref{thm:cov-expansion} into our context, for a fixed pair $(\bm x, \bm x')$, we define the function $G(\bm w) := G_{\bm x, \bm x'}(\bm w) = \sigma(\langle \bm w, \bm x \rangle) \sigma(\langle \bm w, \bm x' \rangle)$. Given \cref{rmk:well-defined-derivs} and since $\bm \Gamma$ is positive definite, setting $\gamma_1 := \frac{A}{d}$ and $\gamma_2 := \frac{B}{d}$, we apply the theorem to obtain the expansion:
+\[
+    k_1(\bm x, \bm x') = \mathbb{E}_{\bm w \sim \mathcal N(0, \frac{1}{d}\bm \Gamma)}[ G(\bm{w})] = \mathbb{E}_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[ G(\bm{w})]+ \sum_{j=1}^\infty \frac{1}{j!}\left(\frac{B}{2d}\right)^j \mathbb{E}_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[ D_{\bm w^*}^{(2j)} G(\bm{w})]\, .
+\]
+In this series, the $j=0$ term corresponds to the scaled isotropic kernel 
+\begin{equation*}
+  k_0^{(A)} (\bm x, \bm x') \coloneqq \mathbb{E}_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[ \sigma(\langle \bm w, \bm x \rangle) \sigma(\langle \bm w, \bm x' \rangle)] \,,  
+\end{equation*}
+and the $j=1$ term admits an exact expression by applying Leibniz rule
+\begin{align}\label{eq:1st-order-term}
+    S(\bm x, \bm x') := \mathbb{E}_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[ D_{\bm w^*}^{(2)} G(\bm{w})] &= \langle \bm w^*, \bm{x}' \rangle^{2}\mathbb E[\sigma(\langle\bm w, \bm x\rangle)\sigma^{(2)}(\langle\bm w, \bm x'\rangle)] \nonumber \\
+    &\quad + 2\langle \bm w^*, \bm{x} \rangle\langle \bm w^*, \bm{x}' \rangle\mathbb E[\sigma'(\langle\bm w, \bm x\rangle)\sigma'(\langle\bm w, \bm x'\rangle)] \\
+    &\quad + \langle \bm w^*, \bm{x} \rangle^{2}\mathbb E[\sigma^{(2)}(\langle\bm w, \bm x\rangle)\sigma(\langle\bm w, \bm x'\rangle)] \nonumber\, .
+\end{align}
+Hence we can isolate the effect of the spike by taking $k_1$ as a first-order perturbation of $k_0^{(A)}$ with
+\begin{equation}\label{eq:first-order-k1-exp}
+    k_1(\bm x, \bm x') = k_0^{(A)}(\bm x, \bm x')+ \frac{B}{2d}S(\bm x, \bm x')+ R(\bm x, \bm x')\, ,    
+\end{equation}
+where $S(\bm x, \bm x')$ is defined by \cref{eq:1st-order-term}, and $R(\bm x, \bm x')$ are the residual terms formally defined as the tail of the expansion for $j \geq 2$:
+\begin{equation}\label{eq:exp-remainder}
+    R(\bm x, \bm x') = \sum_{j=2}^{\infty} \frac{1}{n!} \left(\frac{B}{2d}\right)^j \mathbb{E}_{\bm w \sim \mathcal{N}(0, \frac{A}{d}\bm I_d)}[D_{\bm w^*}^{(2j)}G(\bm w)]\, .
+\end{equation}
+\cref{ass:main-assumptions} ensures $k_1$, $k_0^{(A)}$, and $S$ grow at most polynomially, thus $R$ defines a bounded integral operator on the Gaussian space, and is dominated by the first terms of the expansion by the following lemma, with the full proof available in \cref{app:lemma-T_R-op-bound}.
+\begin{lemma}\label{lemma:T_R-op-bound}
+    Under \cref{ass:main-assumptions} for the function $R$ defined by \cref{eq:exp-remainder} with bounded integral operator $T_R f(\bm x) = \int R(\bm x, \bm x') f(\bm x') \mathrm d \rho_{\mathcal X}(\bm x')$, we have that $\|T_R\|_{\text{op}} = \mathcal O\left(\frac{B^2}{d^2}\right)$.
+\end{lemma}
+\begin{remark}
+    As verified by \cite{moniri2023theory}, the feature matrix receives an increasing number of non-linear ``spikes" as $\zeta \to 1$. In our case, every higher order derivative term introduces non-linear projections onto $\bm w^*$, so we expect a similar effect on the kernel as a function of $\zeta$ since this will make $\frac{|B|}{d} \to \Theta(1)$. Even though the importance of these terms grows, $\zeta < 1$ implies $\left(\frac{|B|}{d}\right)^n = o_d\left(\frac{|B|}{d}\right)$ for all $n > 1$, making $S$ the dominant term in every scenario.
+\end{remark}
+
+\section{Example under the ReLU activations}
+\label{sec:relu}
+
+To make the previous discussion on $k_1$ concrete, we now look closer to the particular case of a ReLU network, giving an explicit characterization of its eigenfunctions as well as numerical illustration. Defining the warped cosine similarity $\gamma_{\bm \Gamma} \coloneqq \frac{\bm x^\top \bm \Gamma \bm x'}{\sqrt{(\bm x^\top \bm \Gamma \bm x)(\bm x'^\top \bm \Gamma \bm x')}}$, we can write $k_{1}$ for the ReLU activation explicitly:
+\begin{equation}\label{eq:relu-k1}
+    k_1(\bm x, \bm x') = \frac{\sqrt{(\bm x^\top \bm \Gamma \bm x)(\bm x'^\top \bm \Gamma \bm x')}}{2\pi d}\left[\gamma_{\bm \Gamma}(\pi -\arccos (\gamma_{\bm \Gamma})) +\sqrt{1 - \gamma_{\bm \Gamma}^2}\right]\,.
+\end{equation}
+The calculation leverages the coordinate transformation trick \citep[Appendix A]{liao2018spectrum} and we omit the details here. In the next segment, we discuss the results from \cref{sec:four} applied to the ReLU case.
+
+\subsection{Specialization of the expansion for the ReLU kernel}
+First, we consider the expansion of the kernel for the ReLU activation, and determine the first two terms from \cref{eq:first-order-k1-exp}.
+When $\sigma(t) = \max(0, t)$, the scaling effect is captured by the identity $k_0^{(A)}(\bm x, \bm x') = A k_0(\bm x, \bm x')$. To determine $S$, if we let $\theta_{\bm x, \bm x'}$ be the angle between $\bm x$ and $\bm x'$, we know that $\sigma'' = \delta$ in the distributional sense, thus
+\[
+    \mathbb E_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[\sigma''(\langle \bm w, \bm x\rangle)\sigma(\langle \bm w, \bm x'\rangle)] = \frac{\|\bm x'\|}{\|\bm x\|}\frac{\sin \theta_{\bm x, \bm x'}}{2\pi} \quad \text{and} \quad \mathbb E[\sigma(\langle \bm w, \bm x\rangle)\sigma''(\langle \bm w, \bm x'\rangle)] = \frac{\|\bm x\|}{\|\bm x'\|}\frac{\sin \theta_{\bm x, \bm x'}}{2\pi}\, .
+\]
+Also, $\sigma'(t) = \bm 1_{\{t\geq 0\}}$ almost everywhere so 
+\[
+    \mathbb E_{\bm w \sim \mathcal N(0, \frac{A}{d}\bm I_d)}[\sigma'(\langle \bm w, \bm x\rangle)\sigma'(\langle \bm w, \bm x'\rangle)] = \frac{\pi - \theta_{\bm x, \bm x'}}{2\pi}\, .
+\]
+Note that the expectation is always taken under $\mathcal N(0, \frac{A}{d}\bm I_d)$, however that does not affect the result since for every $c > 0$ we have $\sigma(ct) = c \sigma(t)$, $ \sigma'(ct) = \bm 1_{\{ct \geq 0\}} = \sigma'(t) $ and $\delta(ct) = \frac{\delta(t)}{|c|}$.
+
+Therefore, the first-order term in the ReLU case is given by
+\begin{equation}\label{eq:S-relu}
+    S(\bm x, \bm x') = \frac{\pi - \theta_{\bm x, \bm x'}}{\pi }[\langle \bm x, \bm w^*\rangle\langle \bm x', \bm w^*\rangle] + \frac{\sin \theta_{\bm x, \bm x'}}{2\pi}\left(\frac{\|\bm x'\|}{\|\bm x\|}\langle \bm x, \bm w^*\rangle^2 + \frac{\|\bm x\|}{\|\bm x'\|}\langle \bm x', \bm w^*\rangle^2\right)\,,
+\end{equation}
+and the ReLU $k_1$ kernel is
+\begin{align*}
+    k_1(\bm x, \bm x') =& Ak_0(\bm x, \bm x') + \frac{B}{2d}\frac{(\pi - \theta_{\bm x, \bm x'})}{\pi }[\langle \bm x, \bm w^*\rangle\langle \bm x', \bm w^*\rangle] \\
+    &+ {\frac{B}{2d}} \frac{\sin \theta_{\bm x, \bm x'}}{2\pi}\left(\frac{\|\bm x'\|}{\|\bm x\|}\langle \bm x, \bm w^*\rangle^2 + \frac{\|\bm x\|}{\|\bm x'\|}\langle \bm x', \bm w^*\rangle^2\right) + R(\bm x, \bm x')\, .
+\end{align*}
+We can see that this expansion is dominated by the original kernel $k_0$. As a result, the original isotropic eigenfunctions continue to play a fundamental role in shaping the geometry of the new function space. With that in mind, the following lemma details the spectral basis of $T_0$, which we will use to approximate the eigenfunctions of the new operator. 
+\begin{lemma}\label{lemma:iso-eigenfn}
+    The normalized eigenfunctions of the integral operator $T_0$ when $\sigma(t) = \max(0, t)$ are strictly of the form $\psi_{k,m}(\bm x) = \frac{\|\bm x\|}{\sqrt d}Y_{k,m}(\bm \omega)$, where $ \bm \omega = \frac{\bm x}{\|\bm x\|}$ and $Y_{k,m}$ are the orthonormal spherical harmonics on $\mathbb S^{d-1}$.
+\end{lemma}
+\paragraph{Approximating the action of $S$:} \cref{lemma:T_R-op-bound} establishes that the effect of the spike onto the new kernel is driven by $S$. However, the terms within $S$ have complex interactions governed by the angles of both input vectors. To circumvent this, we leverage the concentration properties of the Gaussian measure to approximate the action of its integral operator, with proof deferred to \cref{app:lemma-first-order-op}. 
+\begin{lemma}\label{lemma:approx-first-order-op}
+    Consider the function from \cref{eq:S-relu} with integral operator $T_S: L^2(\rho_{\mathcal X}) \to L^2(\rho_{\mathcal X})$ defined by $T_S f(\bm x) = \int S(\bm x, \bm x') f(\bm x') \mathrm d \rho_{\mathcal X}(\bm x')$. Let $\{\psi_{k, m}\}$ be the eigenbasis of $T_0$ and $f$ be a normalized function that can expressed in that basis. If we define the operators $ T_{S}^{(1*)}, T_{S}^{(2*)} : L^2(\rho_{\mathcal X}) \to L^2(\rho_{\mathcal X})$ by
+    \[
+        T_{S}^{(1*)} f(\bm x) = \frac{\langle \bm x, \bm w^*\rangle}{2}\langle\langle \cdot, \bm w^*\rangle,f\rangle \quad \text{and} \quad
+        T_{S}^{(2*)} f(\bm x) = \frac{1}{2\pi}\left(\frac{\langle \bm x, \bm w^*\rangle^2}{\|\bm x\|} \langle \|\cdot\|, f\rangle + \|\bm x \| \left\langle \frac{\langle \cdot, \bm w^*\rangle^2}{\|\cdot\|}, f \right\rangle \right)\, ,
+    \]
+    then, under \cref{ass:main-assumptions}, we have 
+    \[
+        T_S f(\bm x) = T_{S}^{(1*)} f(\bm x) + T_{S}^{(2*)} f(\bm x) + E(\bm x)\, ,
+    \] such that $\|E\|_{L^2(\rho_{\mathcal X})} = o_d(1)$.
+\end{lemma}
+This result characterizes the action of $S$ in terms of explicit actions onto the function space, given by the projections present in $T_S^{(1*)}$ and $T_S^{(2*)}$. Most notably, these projections can be exclusively defined in terms of the basis from \cref{lemma:iso-eigenfn}, allowing us to track how they combine to shape the new functional geometry.
+
+\paragraph{Emergence of feature learning in the top eigenspaces:} Through the explicit form of the ReLU kernel, we can compute the action of the operator $T_1$ on linear functions. Solving the eigenvalue problem analytically for linear functions reveals a clean orthogonal splitting, as shown by the next theorem. We see the linear function aligned with $\bm w^*$ receiving a selective boost to its eigenvalue, while the linear functions that are orthogonal to $\bm w^*$ remain unaffected by the spike. The proof for this is available in \cref{app:thm-lin-eigenfn}.
+\begin{theorem}[Feature learning in the linear eigenspace]\label{thm:lin-eigenfn}
+    Under \cref{ass:main-assumptions}, the function $\psi_{*}(\bm x) = \langle \bm x, \bm w^*\rangle$ is an eigenfunction of $T_1$ with eigenvalue $\lambda_{\psi_*}(T_1) = A\lambda_{\psi_*}(T_0) + \frac{B}{4d}$. Furthermore, for any function $\psi_{\perp}(\bm x) = \langle \bm x, \bm v\rangle$ such that $\bm v \perp \bm w^*$, we have that $\psi_{\perp}$ is an eigenfunction of $T_1$ with eigenvalue $\lambda_{\psi_\perp}(T_1) = A \lambda_{\psi_\perp}(T_0)$.
+\end{theorem}
+
+\cref{thm:lin-eigenfn} implies that the other eigenfunctions of $T_1$ must be orthogonal to the linear function. Furthermore, while the top eigenfunction of $T_0$ is directly related to the constant harmonic $Y_0$, the terms in $S$ strongly interact with the degree-2 zonal harmonic $Y_2$. This results in a superposition of $Y_0$ and $Y_2$ within the new top eigenspace, as detailed in the following theorem (see the proof in \cref{app:thm-approx-top-eigenfn}). %for a full proof).
+
+\begin{theorem}[Feature learning in the top eigenspace]\label{thm:approx-top-eigenfn}
+    Let $\Psi$ be the top eigenfunction of the integral operator $T_1$ with associated eigenvalue $\lambda_{\max}(T_1)$. Also, define $\bm \omega = \frac{\bm x}{\|\bm x\|}$ and consider the functions given by $Y_0(\bm \omega) = 1$ and $\hat{Y}_2(\bm \omega, \bm w^*) = \langle \bm \omega, \bm w^*\rangle^2 - \frac{1}{d}$ such that $T_0 \Big[\|\bm x\| Y_0(\bm \omega)\Big] = \lambda_{\max}(T_0)\Big[\|\bm x\| Y_0(\bm \omega)\Big]$ and $T_0 \Big[\|\bm x\| \hat{Y}_2(\bm \omega, \bm w^*)\Big] = \lambda_{2}(T_0)\Big[\|\bm x\| \hat{Y}_2(\bm \omega, \bm w^*)\Big]$. We define the approximate eigenvalue and eigenfunction as
+    \begin{equation}\label{eq:approx-top-eigenfn}
+        \tilde{\lambda} = A\lambda_{\max}(T_0) + \frac{B}{2\pi d} + o_d\left(\frac{|B|}{d}\right) \,, \quad     
+        \tilde{\Psi}(\bm x) = \frac{1}{\sqrt{N}}\frac{\|\bm x\|}{\sqrt d}\Big[ Y_0(\bm \omega)+ \tau Y_2(\bm \omega, \bm w^*) \Big] \, ,
+    \end{equation}
+    where $N$ is a normalization constant, $\tau := \tau(B) = \frac{1}{d}\sqrt{\frac{2d - 2}{d+2}}\left[\frac{B}{4 \pi (\tilde{\lambda} -A\lambda_2(T_0))}\right]$ and $Y_2 = \frac{\hat{Y}_2}{\| \hat{Y}_2 \|}$ is the normalized quadratic zonal harmonic.
+    Then, under \cref{ass:main-assumptions}, we have 
+    \[
+        T_1\tilde{\Psi} = \tilde{\lambda}\tilde{\Psi} + e
+    \] where $\|e\|_{L^2(\rho_{\mathcal X})} = o_d\left(\frac{|B|}{d}\right)$.
+    Also, $\|\Psi - \tilde{\Psi}\|_{L^2(\rho_{\mathcal X})}  = o_d\left(\frac{|B|}{d}\right)$ and $|\lambda_{\max}(T_1) - \tilde{\lambda}| = o_d\left(\frac{|B|}{d}\right)$.
+\end{theorem}
+\begin{remark}
+    {Theorems \ref{thm:lin-eigenfn} and \ref{thm:approx-top-eigenfn} show the boost to the linear eigenfunction is of the same order of the boost to the top eigenvalue and of the coefficient of $Y_2$ in the top eigenfunction. This conforms with the empirical findings demonstrated in \cite{moniri2023theory}, where the effects of the quadratic and the linear terms are introduced with similar strength on the spectrum of the feature matrix.}
+\end{remark}

@@ -1,0 +1,60 @@
+%!TEX root = 00-main.tex
+
+\subsection{Preliminaries}
+
+We focus on binary classification tasks for ease of exposition, but our results can be easily extend to multi-class classification tasks. 
+Suppose we have i.i.d. data $S = \{(\rvx_i, \rvy_i): i\in [n]\} \subseteq \mathbb{R}^d \times \{\pm 1\}$. 
+Let $\rmX \in \mathbb{R}^{n\times d}$ be the feature matrix and let $\rvy \in \{\pm 1\}^n$ be the vector of labels.
+Let $\rvtheta = \{(\rmW ^{(\ell)}, \rvb^{(\ell)})\in \bbR^{p_\ell \times q_\ell}\times\bbR^{q_\ell}: \ell \in [L]\}$ be the collection of weights and biases at each layer. A neural network function is recursively defined as $\xxx{0} = \rvx, \xxx{\ell}  = \frac{1}{\sqrt{q_\ell}} \sigma(\WWW{\ell} \xxx{\ell-1} + \bbb{\ell})$ and $f(\rvx, \rvtheta)	 = \xxx{L}$, 
+%\begin{align}
+%	\label{eq: neural_net_f}
+%	\xxx{0} & = \rvx , \ \ \ \xxx{\ell}  = \frac{1}{\sqrt{q_\ell}} \sigma(\WWW{\ell} \xxx{\ell-1} + \bbb{\ell}), \ \ \ f(\rvx, \rvtheta)	 = \xxx{L}.
+	% f(\rvx, \rvtheta) &= \WWW{L} \sigma\bigg(\WWW{L-1} \cdots \bigl(\WWW{2} \sigma(\WWW{1} \rvx + \bbb{1}) + \bbb{2}\bigr) + \cdots + \bbb{L-1}\bigg) + \bbb{L},
+%\end{align}
+where $\sigma$ is the activation function which applies element-wise to matrices. Note that $q_1 = d$ and $p_L = 1$. 
+
+%\subsection{Neural Tangent Kernel (NTK)}
+
+Consider training NNs with least squares loss: $L(\rvtheta) = \frac{1}{2n} \sum_{i=1}^n \bigl(f(\rvx_i, \rvtheta)- \rvy_i\bigr)^2$.
+The gradient flow dynamics (i.e., gradient descent with infinitesimal step sizes) is given by $\dot{\rvtheta_t} = - \frac{\partial}{\partial \rvtheta} L(\rvtheta_t),$
+where we use the dot notation to denote the derivative w.r.t. time, and $\rvtheta_t$ is the parameter value at time $t$. The dynamics w.r.t. $f$ is given by a kernel gradient descent \eqref{eq: grad_flow_f}, 
+where the corresponding \emph{second-order} kernel is given by $\KK_t(\rvx, \rvx') =  \la \frac{\partial}{\partial \rvtheta} f(\rvx, \rvtheta_t), \frac{\partial}{\partial \rvtheta} f(\rvx', \rvtheta_t)  \ra$.
+With sufficient over-parameterization, one can show that $\KK_t \approx \KK_0$, and with Gaussian initialization, one can show that $\KK_0$ concentrates around $\bbE_\init \KK_0$, {where $\bbE_{\init}$ is the expectation operator w.r.t. the random initialization}. Hence, $\KK_t$ can be approximated by the \emph{deterministic kernel} $\bbE_\init \KK_0$, the NTK.
+
+%\subsection{Curse of Label-Agnosticism}\label{subsec:fund_limit_of_label_agnostic_kernels}
+%Note that the NTK is only a function of the network architecture and has no explicit dependence on $\rvy$. 
+We have heuristically argued in Section \ref{sec:intro} that the label-agnostic property of NTK can cause problems when the semantic meaning of the features is highly dependent on the label system. To further illustrate this point, in Appx.~\ref{subappend:example_limit_of_label_agnostic_kernels}, we construct a simple example that validates the following claim: 
+\begin{claim}[Curse of Label-Agnosticism]
+\label{claim: limitations_of_label_agnostic_kernels}
+If a kernel $K$ is label-agnostic and it works well on one label system, then there exists a natural relabeling, which gives another label system on which $K$ performs arbitrarily bad. In other words, $K$ is not adaptive to different label systems.
+\end{claim}
+
+We make two remarks. The above claim applies to any label-agnostic kernels, and the NTK is only a specific example. 
+%is not adaptive to different label systems is only a specific example. 
+Moreover, the above claim only applies to the generalization error. A label-agnostic kernel can always achieve zero training error, as long as the corresponding kernel matrix is invertible. 
+%\footnote{This follows from the prediction formula for kernel regression. An alternative way to think about this is that, as long as the dimension of the $\phi$ space is large enough, the training data is always linearly separable.}
+
+
+
+\iffalse
+\subsection{Information Bottleneck}
+This part should be put into the discussion section, because we didn't incorporate information bottleneck in our framework anymore.
+Consider the model fitting process: $Y\to X \to T \to \hat Y$. That is: 1) The nature generates a label $Y \in \{\pm 1\}$, e.g., a cat; 2) Given the label $Y$, the nature further generates a ``raw'' feature $X$, e.g., an image of a cat; 3) We try to find a feature map which maps $X$ to $T$; 4) We use $T$ to generate a prediction $\hat Y$. 
+
+The Information Bottleneck (IB) principle gives a way to justify ``what kind of $T$ is optimal''. More explicitly, it poses the following optimization problem:
+\[
+	\min_{\substack{p_{T|X}\\ p_{Y|T}\\ p_T}} I(p_X; p_T) - \beta I(p_T; p_Y),
+\]
+where we let $p_A$ to be the density of a random variable $A$. Then the ``optimal'' feature $T$ is a randamized map which sends a specific realization $X = \rvx$ to a ramdom feature $T \sim p_{T|X=\rvx}$. 
+
+Note that in the IB formulation, the optimal feature $T$ \emph{has no explicit dependence on $Y$} -- it only depends on $Y$ through $X$.
+
+To further illustrate this point, it has been shown that any optimal solution to the IB optimization problem must satisfy the following set of \emph{self-consistent equations}:
+\begin{align*}
+	p_{T|X}(t|x)& = \frac{p_T(t)}{Z(x; \beta)} \exp\bigg\{ -\beta D_{KL}(p_{Y|X} \| p_{Y|T})\bigg\}\\
+	p(t) & = \int p_{T|X}(t | x) p_X(x) dx \\
+	p_{Y|T}(y|t) & = \int p_{Y|X}(y|x) p_{X|T}(x|t) dx.
+\end{align*}
+Note that the distribution of the optimal feature $T$ only has dependence on $x$, and has no explicit dependence on $Y$, because $Y$ is marginalized in the KL divergence term.
+\fi
+

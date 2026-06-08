@@ -1,0 +1,182 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2020
+
+% ready for submission
+% \usepackage{neurips_2020}
+
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2020}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{neurips_2020}
+% \usepackage{soul}
+% \usepackage{cancel}
+\usepackage[normalem]{ulem}
+\usepackage{xcolor}
+
+
+% to avoid loading the natbib package, add option nonatbib:
+%\usepackage[]{neurips_2020}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage[hidelinks]{hyperref}
+%\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{appendix}
+\usepackage{makecell}
+\usepackage{soul}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{assump}{Assumption}
+\renewcommand*{\theassump}{\Alph{assump}}
+\newtheorem{claim}{Claim}[section]
+\newtheorem{remark}{Remark}[section]
+
+\input{math_commands.tex}
+
+
+\usepackage{color}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{amsmath,amssymb}
+\usepackage{subfigure}
+\usepackage{graphicx}
+
+
+%\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\x}{\bm{x}}
+\DeclareMathOperator{\y}{\bm{y}}
+%\DeclareMathOperator{\1}{\mathbf{1}}
+\DeclareMathOperator{\D}{\mathcal{D}}
+\DeclareMathOperator{\La}{\mathcal{L}}
+\DeclareMathOperator{\V}{\mathcal{V}}
+\DeclareMathOperator{\h}{\mathcal{H}}
+%\DeclareMathOperator{\R}{\mathcal{R}}
+
+%%%% We'll need to delete these for anonymity!
+\newcommand\hangfeng[1]{\textrm{\small  \color{blue} [HF: #1]}}
+\newcommand\hfch[1]{\textrm{\color{blue} #1}}
+\newcommand{\sxc}[1]{\textcolor{red}{[SXC: #1]}}
+\newcommand{\wjs}[1]{\textcolor{red}{[WJS: #1]}}
+
+
+\renewcommand{\rvx}{\bm{x}}
+\renewcommand{\rvy}{y}
+\renewcommand{\theta}{w}
+
+\newcommand{\proj}{\textnormal{proj}}
+\newcommand{\KK}{{K}^{(2)}} 
+\newcommand{\hKK}{{\hat{K}}^{(2)}} 
+\newcommand{\dKK}{{\dot K}^{(2)}} 
+\newcommand{\dhKK}{{\dot{\hat{K}}}^{(2)}} 
+\newcommand{\KKK}{{K}^{(3)}} 
+\newcommand{\hKKK}{{\hat{K}}^{(3)}} 
+\newcommand{\dKKK}{{\dot K}^{(3)}} 
+\newcommand{\KKKK}{{K}^{(4)}} 
+\newcommand{\hKKKK}{{\hat{K}}^{(4)}} 
+\newcommand{\dKKKK}{{\dot K}^{(4)}} 
+\newcommand{\rmKK}{{\rmK}^{(2)}} 
+\newcommand{\init}{\textnormal{init}} 
+\newcommand{\RN}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\newcommand{\WWW}[2][]{\rmW^{{#1}(#2)}}
+\newcommand{\bbb}[2][]{\rvb^{{#1}(#2)}}
+\newcommand{\xxx}[2][]{\rvx^{{#1}(#2)}}
+
+\newcommand{\aware}{label-aware} 
+\newcommand{\agnostic}{label-agnostic}
+
+\newcommand{\lantk}{\textsc{LANTK}}
+\newcommand{\lintk}{\textsc{LINTK}}
+
+\newcommand{\lantkKR}{\textsc{LANTK-KR}}
+\newcommand{\lantkFJLT}{\textsc{LANTK-FJLT}}
+
+\newcommand{\KHR}{K^{(\textnormal{HR})}}
+\newcommand{\KNTH}{K^{(\textnormal{NTH})}}
+
+
+\title{Label-Aware Neural Tangent Kernel: \\ Toward Better Generalization and Local Elasticity}
+
+%% \And replaced by \quad
+\author{Shuxiao Chen \quad~~~ Hangfeng He \quad~~~ Weijie J.~Su\\[0.5em]
+University of Pennsylvania\\[0.3em]
+\texttt{\{shuxiaoc@wharton, hangfeng@seas, suw@wharton\}.upenn.edu}\\
+}
+
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+
+
+\begin{document}
+
+\maketitle
+
+%%, even in moderately large-scale applications such as image classification on CIFAR-10
+%%The NTK is \emph{label-agnostic}, meaning that it is only a function of the network architecture and has no explicit dependence on the label information in the training data, making the learned model vulnerable to relabelling. To address this limitation
+
+\begin{abstract}
+As a popular approach to modeling the dynamics of training overparametrized neural networks (NNs), the neural tangent kernels (NTK) are known to fall behind real-world NNs in generalization ability. This performance gap is in part due to the \textit{label agnostic} nature of the NTK, which renders the resulting kernel not as \textit{locally elastic} as NNs~\citep{he2019local}. In this paper, we introduce a novel approach from the perspective of \emph{label-awareness} to reduce this gap for the NTK. Specifically, we propose two label-aware kernels that are each a superimposition of a label-agnostic part and a hierarchy of label-aware parts with increasing complexity of label dependence, using the Hoeffding decomposition. Through both theoretical and empirical evidence, we show that the models trained with the proposed kernels better simulate NNs in terms of generalization ability and local elasticity.\footnote{Our code is publicly available at \url{https://github.com/HornHehhf/LANTK}.}
+
+
+
+
+%%The Neural Tangent Kernels (NTK) recently emerged as a popular approach to modeling the dynamics of training overparametrized neural networks (NNs). Despite its popularity, there remains a non-negligible performance gap between the NTK and real-world NNs, in part due to the \textit{label agnostic} nature of the NTK. To reduce this gap, t
+%Many follow-up works have argued that this gap is due to the finiteness of the width in real-world NNs and have proposed various forms of ``finite-width correction'', such as Neural Tangent Hierarchy (NTH). 
+% In this paper, we propose a different yet complementary perspective on this performance gap: the NTK is \emph{label-agnostic}, meaning that it is only a function of the network architecture and does not take the label information into account. 
+%\st{Using the tool of \emph{Hoeffding Decomposition}, we decompose a generic \emph{label-aware} kernel into the superimposition of a label-agnostic part and a hierarchy of label-aware parts with increasing complexity of label dependence.}
+%Based on this decomposition, two specific algorithms are proposed to incorporate label information into the label-agnostic NTK.
+%Finally, we provide both theoretical and empirical evidence that the proposed label-aware versions of NTK better simulate the quantitative behaviors of NNs (e.g., generalization ability) as well as its qualitative characteristics like local elasticity.
+\end{abstract}
+
+
+
+
+\input{01-introduction.tex}
+\input{02-preliminaries.tex}
+\input{03-framework.tex}
+\input{04-experiments.tex}
+\input{05-discussions.tex}
+
+
+\bibliography{ntkl}
+\bibliographystyle{iclr2020_conference}
+
+% We need to put the appendix into a separate file.
+\appendix
+\input{06-appendix_theory.tex}
+\input{07-appendix_experiments.tex}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

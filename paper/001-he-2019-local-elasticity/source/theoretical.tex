@@ -1,0 +1,132 @@
+
+
+
+%%\section{Theoretical Analysis}
+%\weijie{todo.}
+
+\section{Local Elasticity}\label{sec:def}
+%%We consider a model that is sequentially updated by calling SGD
+%%Now consider one-step update of the weights using SGD:
+
+This section formalizes the notion of local elasticity and proposes associated similarity measures that will be used for clustering in Section~\ref{sec:local-elast-based}. Denote by $\bx \in \R^{d}$ and $y$ the feature vector and the label of an instance $(\bx, y)$, respectively. Let $f(\bx, \bw)$ be the prediction with model parameters $\bw$, and write $\mathcal{L}(f, y)$ for the loss function. Consider using SGD to update the current parameters $\bw$ using the instance $(\bx, y)$:
+\begin{equation}\label{eq:sgd_update}
+\begin{aligned}
+\bw^+ = \bw - \gamma \frac{\mathrm{d}\mathcal{L}(f(\bx, \bw), y)}{\mathrm{d}\bw} = \bw - \gamma \frac{\partial \mathcal{L}(f(\bx, \bw), y)}{\partial f} \cdot \frac{\partial f(\bx, \bw)}{\partial \bw}.
+\end{aligned}
+\end{equation}
+In this context, we say that the classifier $f$ is \textit{locally elastic} at parameters $\bw$ if $|f(\bx', \bw^+) - f(\bx', \bw)|$, the change in the prediction at a test feature vector $\bx'$, is relatively \textit{large} when $\bx$ and $\bx'$ are \textit{similar/close}, and vice versa. Here, by similar/close, we mean two input points $\bx$ and $\bx'$ share many characteristics or are connected by a short geodesic path in the feature space. Intuitively, $\bx$ and $\bx'$ are similar if $\bx$ denotes an Egyptian cat and $\bx'$ denotes a Persian cat; they are dissimilar if $\bx$ denotes a German shepherd and $\bx'$ denotes a trailer truck.
+
+For illustration, Figure~\ref{fig:illustration}(a) shows that the (linear) classifier is \textit{not} locally elastic since the SGD update on $\bx$ leads to significant impact on the prediction at $\bx'$, though $\bx'$ is far from $\bx$; on the other hand, the (nonlinear) classifier in Figure~\ref{fig:illustration}(b) is locally elastic since the change at $\bx'$ is relatively small compared with that at $\bx$. In Section~\ref{sec:interpr-two-layer}, we provide some intuition why nonlinearity matters for local elasticity in two-layer neural nets. 
+
+%For completeness, our finding is different from \cite{koh2017understanding}
+%%observed to yield updating one point will have more impact on the closer points. 
+%%with respect to a certain similarity measure $S$ at feature $\bx$ and parameters $\bw$ if (for a sufficiently small learning rate $\gamma$) the value of $S(\bx, \bx')$ is large provided $\bx$ and $\bx'$ are close, and vice versa. Here, we intentionally leave the definition of ``closeness'' open. 
+
+%%  of feature vectors. Loosely speaking, two feature points from a metric space are close if their geodesic distance is small, or a priori it is known that the two points are closely related in some sense. We propose to 
+%%. To leverage this implication, we propose the  following similarity measure $\Sr(\bx, \bx')$
+
+\subsection{Relative Similarity}\label{sec:relative-similarity}
+The essence of local elasticity is that the change in the prediction has an (approximate) monotonic relationship with the similarity of feature vectors. Therefore, the change can serve as a \textit{proxy} for the similarity of two inputs $\bx$ and $\bx'$:
+\begin{equation}\label{eq:sr}
+\Sr(\bx, \bx') := \frac{|f(\bx', \bw^+) - f(\bx', \bw)|}{|f(\bx, \bw^+) - f(\bx,\bw)|}.
+\end{equation}
+In the similarity measure above, $|f(\mbf{x}, \mbf{w}^+) - f(\mbf{x}, \mbf{w})|$ is the change in the prediction of $(\mbf{x}, y)$ used for the SGD update, and $|f(\mbf{x}', \mbf{w}^+) - f(\mbf{x}', \mbf{w})|$ is the change in the output of a test input $\mbf{x}'$. Note that $\Sr(\bx, \bx')$ is not necessarily symmetric and, in particular, the definition depends on the weights $\bw$. Our experiments in Section~\ref{sec:experiments} suggest the use of a near-optimal $\bw$ (which is also the case in the second definition of local elasticity in Section~\ref{subsec:kernel}). In the notion of local elasticity, locality suggests that this ratio is large when $\bx$ and $\bx'$ are close, and vice versa, while elasticity means that this similarity measure decreases \textit{gradually} and \textit{smoothly}, as opposed to abruptly, when $\bx'$ moves away from $\bx$. Having evaluated this similarity measure for (almost) all pairs by performing SGD updates for several epochs, we can obtain a similarity matrix, whose rows are each regarded as a feature vector of its corresponding input. This can be used for clustering followed by $K$-means. 
+
+%%For comparison, we show that linear regression does not exhibit local elasticity. Let $f(\bx, \bw) = \bw_1^\top \bx + w_0$, where $\bw = (\bw_1^\top, w_0)^\top \in \R^{d+1}$ and $\mathcal{L}(f, y) = \frac12 (f - y)^2$. With some omitted calculations that are deferred to the appendix, we get \weijie{check if $\|\|$ norm introduced earlier.}
+%%\[
+%\Sr(\bx, \bx') = \frac{\bx^\top \bx' + 1}{\|\bx\|^2 + 1},
+%\]
+%which can relatively large for some $\bx'$ such that $\|\bx' - \bx\|$ is large. 
+
+%%As an aside, $\Sr(\bx, \bx')$ is not necessarily symmetric since $\bw^+$ is updated from $\bw$ using $\bx$, though its interpretation as a similarity measure is symmetric in a certain sense. 
+%%proccedThis allows us to obtain a similarity matrix, whose rows each represent the feature vector of the corresponding data point. (Section~\ref{sec:local-elast-based} uses $K$-means to perform clustering.) 
+%%\weijie{If local elasticity holds, then...., which is the case of NN as shown by Figure 1. Here we emphasize elasticity in the sense that it decays smoothly as the distances increases.} \hangfeng{Actually, we use the $S = \frac{1}{2}(S + S^T)$ to make it symmetric.} \weijie{Yes. We may mention this adjustment in the next section. It would be a bit confusing if we introduce the symmetrization too early.}
+
+%%While $S(\bx, \bx')$ is in general unknown and not specified, $\Sr(\bx, \bx')$ can be easily computed. This paper uses $\Sr(\bx, \bx')$ as a surrogate for the similarity measure.
+
+\subsection{Kernelized Similarity}
+\label{subsec:kernel}
+%%Connection with Neural Tangent Kernels}
+%%Now we formally propose the following definition, which involves a similarity measure $S(\bx, \bx')$ for any two feature points $\bx$ and $\bx'$. In the context of the present paper, the similarity measure $S$ can be a kernel $K(\varphi(\bx), \varphi(\bx'))$ defined through a lifting map from the feature space to a reproducible Hilbert space. If the feature space is endowed with a metric, $S(\bx, \bx')$ can be any decreasing function of the distance between $\bx$ and $\bx'$.
+
+
+Next, we introduce a different similarity measure that manifests local elasticity by making a connection to the neural tangent kernel \citep{jacot2018neural}. Taking a small learning rate $\gamma$, for a new feature point $\bx'$, the change in its prediction due to the SGD update in Equation (\ref{eq:sgd_update}) approximately satisfies:
+%% arxiv version use three lines
+\[
+\begin{aligned}
+f(\mbf{x}', \mbf{w}^+) - f(\mbf{x}', \mbf{w}) &= f\left(\bx', \bw - \gamma \frac{\partial \mathcal{L}}{\partial f} \cdot \frac{\partial f(\bx, \bw)}{\partial \bw}\right)  - f(\bx', \mbf{w})\\
+& \approx f(\bx', \mbf{w}) - \left\langle \frac{\partial f(\bx', \bw)}{\partial \bw}, ~ \gamma \frac{\partial \mathcal{L}}{\partial f} \cdot \frac{\partial f(\bx, \bw)}{\partial \bw} \right\rangle - f(\bx', \mbf{w})\\
+&= -\gamma \frac{\partial \mathcal{L}}{\partial f} \left\langle \frac{\partial f(\bx', \bw)}{\partial \bw}, ~ \frac{\partial f(\bx, \bw)}{\partial \bw} \right\rangle.
+\end{aligned}
+\]
+The factor $-\gamma \frac{\partial \mathcal{L}}{\partial f}$ does not involve $\bx'$, just as the denominator $|f(\bx, \bw^+) - f(\bx,\bw)|$ in Equation~(\ref{eq:sr}). This observation motivates an alternative definition of the similarity:
+\begin{equation}\label{eq:sk}
+\Sk(\bx, \bx'):= \frac{f(\mbf{x}', \mbf{w}) - f(\mbf{x}', \mbf{w}^+)}{\gamma \frac{\partial \mathcal{L}(f(\bx, \bw), y)}{\partial f}}.
+\end{equation}
+In the case of the $\ell_2$ loss $\mathcal{L}(f, y) = \frac12 (f - y)^2$, for example, $\Sk(\mbf{x}, \mbf{x}’) = \frac{f(\mbf{x}', \mbf{w}) - f(\mbf{x}', \mbf{w}^+)}{\gamma (f - y)}$. In Section~\ref{sec:local-elast-based}, we apply the kernel $K$-means algorithm to this similarity matrix for clustering.
+
+The kernelized similarity in Equation (\ref{eq:sk}) is approximately the inner product of the gradients of $f$ at $\bx$ and $\bx'$\footnote{As opposed to the relative similarity, this definition does not take absolute value in order to retain its interpretation as an inner product. }. This is precisely the definition of the neural tangent kernel \citep{jacot2018neural} (see also \citet{arora2019exact}) if $\bw$ is generated from i.i.d.~normal distribution and the number of neurons in each layer tends to infinity. However, our empirical results suggest that a data-adaptive $\bw$ may lead to more significant local elasticity. Explicitly, both similarity measures with pre-trained weights yield better performance of Algorithm~\ref{algo:clustering} (in Section~\ref{sec:local-elast-based}) than those with randomly initialized weights. This is akin to the recent findings on a certain superioritiy of data-adaptive kernels over their non-adaptive counterparts \citep{dou2019training}. 
+
+
+
+
+\subsection{Interpretation via Two-layer Networks}
+\label{sec:interpr-two-layer}
+
+We provide some intuition for the two similarity measures in Equation (\ref{eq:sr}) and Equation (\ref{eq:sk}) with two-layer neural networks. Letting $\overline\bx = (\bx^\top, 1)^\top \in \R^{d+1}$, denote the networks by $f(\bx, \bw) = \sum_{r=1}^m a_r \sigma(\bw_r^\top \overline\bx)$, where $\sigma(\cdot)$ is the ReLU activation function ($\sigma(x) = x$ for $x \ge 0$ and $\sigma(x) = 0$ otherwise) and $\bw = (\bw_1^\top, \ldots, \bw_r^\top)^\top \in \R^{m(d+1)}$. For simplicity, we set $a_k \in \{-1, 1\}$. Note that this does \textit{not} affect the expressibility of this net due to the positive homogeneity of ReLU.
+
+Assuming $\bw$ are i.i.d.~normal random variables and some other conditions, in the appendix we show that this neural networks with the SGD rule satisfies
+\begin{equation}\label{eq:dnn_diff}
+\frac{f(\bx', \bw^+) - f(\bx', \bw)}{f(\bx, \bw^+) - f(\bx, \bw)} = (1 + o(1)) \frac{(\bx^\top \bx' + 1) \sum_{r=1}^m \mathbb{I}\{\bw_r^T \overline\bx \ge 0\} \mathbb{I}\{\bw_r^\top \overline\bx' \ge 0\}}{(\|\bx\|^2 +1) \sum_{r=1}^m \mathbb{I}\{\bw_r^T \overline\bx \ge 0\}}.
+\end{equation}
+Above, $\|\cdot\|$ denotes the $\ell_2$ norm. For comparison, we get $\frac{\tilde f(\bx', \bw^+) - \tilde f(\bx', \bw)}{\tilde f(\bx, \bw^+) - \tilde f(\bx, \bw)} = \frac{\bx^\top \bx' + 1}{\|\bx\|^2 + 1}$ for the linear neural networks $\tilde f(\bx) := \sum_{r=1} a_r \bw_r^\top \bx$. For both cases, the change in the prediction at $\bx'$ resulting from an SGD update at $(\bx, y)$ involves a multiplicative factor of $\bx^\top \bx'$. However, the distinction is that the nonlinear classifier $f$ gives rise to a dependence of the signed $\Sk(\bx, \bx')$ on the fraction of neurons that are activated at both $\bx$ and $\bx'$. Intuitively, a close similarity between $\bx$ and $\bx'$ can manifest itself with a large number of commonly activated neurons. This is made possible by the nonlinearity of the ReLU activation function. We leave the rigorous treatment of the discussion here for future work.
+
+%%, on the other hand, 
+%%\begin{equation}\label{eq:linear_diff}
+
+%%\end{equation}
+
+%%a large value of $\sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \mathbb{I}\{\bw_r^\top \bx' \ge 0\}$
+%A comparison between (\ref{eq:dnn_diff}) and (\ref{eq:linear_diff}) reveals that
+
+
+% and apply stochastic gradient descent (SGD) on the first layer weights matrix. 
+% {\bf Settings.}. We consider a SGD update on  the point $\mathbf{(x_0, y_0)}$ for the above three models. The parameters are changed from $\mathbf{W}$ and $\mathbf{W'}$. Our goal is to study the change of the prediction from the three models for any input $\mathbf{x}$. 
+% \\
+% {\bf Results.} 
+% The results for the linear model are as following:
+% $$||H(\mathbf{W'}, \mathbf{x}) - H(\mathbf{W}, \mathbf{x})  ||_2^2 = M \mathbf{x}^T\mathbf{x_0}$$
+% where $M = H(\mathbf{W'}, \mathbf{x_0}) - H(\mathbf{W}, \mathbf{x_0})$ is the change of the prediction at $\mathbf{x_0}$. It means that the change of the prediction of the input $\mathbf{x}$ depends on the cosine between $\mathbf{x}$ and $\mathbf{x_0}$.
+% \\
+% The results for the pseudo network are as following:
+% $$||G(\mathbf{W'}, \mathbf{x}) - G(\mathbf{W}, \mathbf{x})  ||_2^2 = M \mathbf{x}^T\mathbf{x_0}|| \frac{\sum_{r=1}^m \mathbb{I}\{ \mathbf{w_i^{(0)}}^T \mathbf{x_0} \geq 0 \} \mathbb{I}\{ \mathbf{w_i^{(0)}}^T \mathbf{x} \geq 0 \} }{\sum_{r=1}^m \mathbb{I}\{ \mathbf{w_i^{(0)}}^T \mathbf{x_0} \geq 0 \}} ||_2^2$$
+% where $M = F(\mathbf{W'}, \mathbf{x_0}) - F(\mathbf{W}, \mathbf{x_0})$ is the change of the prediction at $\mathbf{x_0}$. The above formula shows that the change of the prediction on the input $\mathbf{x}$ not only depends on the cosine between $\mathbf{x}$ and $\mathbf{x_0}$ but also the ratio of the neurons that are both activated on $\mathbf{x}$ and $\mathbf{x_0}$ over the neurons that are activated on $\mathbf{x_0}$.
+% \\
+% The results for the two-layer neural network are as following:
+% $$||F(\mathbf{W'}, \mathbf{x}) - F(\mathbf{W}, \mathbf{x})  ||_2^2 = ||S_1 + S_2||_2^2$$
+% where $$S_1 = \sum_{r=1}^m a_i \mathbf{w_i}^T\mathbf{x} (\mathbb{I}\{ \mathbf{w_i}^T\mathbf{x} + (\Delta \mathbf{w_i})^T\mathbf{x} \geq 0\} -  \mathbb{I}\{ \mathbf{w_i}^T\mathbf{x} \geq 0\})$$
+% $$S_2 = M_2\mathbf{x}^T\mathbf{x_0} \sum_{r=1}^m \mathbb{I}\{ \mathbf{w_i}^T\mathbf{x_0} \geq 0\}\mathbb{I}\{ \mathbf{w_i}^T\mathbf{x} + \mathbf{(\Delta w_i)}^T\mathbf{x} \geq 0 \}$$
+% In general, we have
+% $||S_2||_2^2 \approx M_2 \mathbf{x}^T\mathbf{x_0}|| \frac{\sum_{r=1}^m \mathbb{I}\{ \mathbf{w_i}^T \mathbf{x_0} \geq 0 \} \mathbb{I}\{ \mathbf{w_i}^T \mathbf{x} \geq 0 \} }{\sum_{r=1}^m \mathbb{I}\{ \mathbf{w_i}^T \mathbf{x_0} \geq 0 \}} ||_2^2$, and $||S_1|| \approx o(1)$.
+
+
+
+% \subsection{Connections with Kernel Methods}
+% \label{subsec:kernel}
+% \subsection{Elastic Kernel Clustering}
+% For elastic kernel clustering method, we propose to get the approximate NTK as following:
+% $$kernel(\mbf{x}, \mbf{x}') = \left< \frac{\partial f(\mbf{w}, \mbf{x})}{\partial \mbf{w}},  \frac{\partial f(\mbf{w}, \mbf{x}')}{\partial \mbf{w}} \right> $$
+% We start with the change of the predictions as following:
+% \begin{align*}
+% f(\mbf{x}, \mbf{w}') - f(\mbf{x}, \mbf{w}) &= \frac{\partial f(\mbf{w}, \mbf{x})}{\partial \mbf{w}} \times (\mbf{w}' - \mbf{w})\\
+% &= \frac{\partial f(\mbf{w}, \mbf{x})}{\partial \mbf{w}} \times (- \eta \times \frac{\partial l(f, y')}{\partial f} \times  \frac{\partial f(\mbf{w}, \mbf{x}')}{\partial \mbf{w}})\\
+% \end{align*}
+% With a small enough learning rate $\eta$, we have 
+% $$kernel(\mbf{x}, \mbf{x}') = \frac{f(\mbf{x}, \mbf{w}') - f(\mbf{x}, \mbf{w})}{-\eta \times \frac{\partial l(f, y')}{\partial f}}$$
+% For example, if we use the $\ell_2$ loss, we will have $ kernel(\mbf{x}, \mbf{x}’) = \frac{f(\mbf{x}, \mbf{w}') - f(\mbf{x}, \mbf{w})}{-\eta \times 2 \times (f - y')}$.
+% After we get the kernel matrix of the data, we use a kernel $K$-means to do the clustering. 
+% \subsection{Elastic Similarity Clustering}
+% As shown in Figure \ref{fig:simulations}, updating one point will have more impact on the closer points. We propose to use the relative prediction changes to estimate the similarities between data points as following:
+% $$similarity(\mbf{x}, \mbf{x}') = \frac{|f(\mbf{x}, \mbf{w}') - f(\mbf{x}, \mbf{w})|}{|f(\mbf{x}', \mbf{w}') - f(\mbf{x}', \mbf{w})|}$$
+
+

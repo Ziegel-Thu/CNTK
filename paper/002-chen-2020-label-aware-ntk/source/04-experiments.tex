@@ -1,0 +1,194 @@
+%!TEX root = 00-main.tex
+\section{Experiments}\label{sec:experiment}
+
+
+
+
+
+
+
+
+%In this section, we first show the relation between the two label-aware NTKs, via higher-order regression or via solving NTH in Sec. \ref{subsec:relation}. After that, two characteristics of NNs, generalization ability and local elasticity, are considered in Sec. \ref{subsec:kernel-regression} and \ref{subsec:local-elasticity}. Most experimental settings will be describe in the following subsections, but some extra settings can be found in Appx. \ref{subsec:experimental-settings}.
+% \subsection{Connections between \lantk-HR and \lantk-NTH}
+% \label{subsec:relation}
+% \sout{\textcolor{red}{The formulas for the two \mbox{\lantk}s are perhaps unexpectedly similar --- they are both quadratic functions of $\rvy$ (here we focus on linear regression based $\gZ$ in $\KHR$).}}
+
+% \textcolor{red}{\sout{This motivates us to ask the following question: \emph{is the label-aware part in $\KNTH$ implicitly doing a higher-order regression?}}}
+
+
+% To answer this question, we randomly choose $5$ planes and $5$ ships in CIFAR-10\footnote{We only sample such a small number of images because the computation cost of $\KNTH$ is at least $O(n^4)$.}, and we compute the intra-class and inter-class values of the label-aware component in a two-layer fully-connected $\KNTH$ (See Appx.~\mbox{\ref{append:nth_calculations}} for the exact formulas). We find that the mean of the intra-class values is $98$, whereas the mean of the inter-class values is $48$. The significant difference between the two means indicates that $\KNTH$ implicitly tries to increase the similarity between two examples if they come from the same class and decrease it otherwise, exactly agreeing with the intention of $\KHR$. 
+
+Though we have proved in Theorem \mbox{\ref{thm: approx_nth_error}} that $\KNTH$ possesses favorable theoretical guarantees, it's computational cost is prohibitive for large-scale experiments. Hence, in the rest of this section, all experiments on \lantk s are based on $\KHR$. However, in view of their close connections established in Sec. \ref{sec:conn-with-hoeffd}, we conjecture that similar results would hold for $\KNTH$.
+
+\subsection{Generalization Ability}
+\label{subsec:kernel-regression}
+%We demonstrate the superior generalization ability of label-aware NTK compared to its \agnostic~counterpart in both binary and multi-class image classification tasks on CIFAR-10.
+We compare the generalization ability of the \lantk~to its \agnostic~counterpart in both binary and multi-class image classification tasks on CIFAR-10.
+We consider an $8$-layer CNN and its corresponding CNTK. The implementation of CNTK is based on \cite{neuraltangents2020} and the details of the architecture can be found in Appx. \ref{subsec:CNN-architecture}. 
+%Some extra experimental settings can be found in Appx.~\ref{subsec:experimental-settings}. 
+
+
+{\bf Choice of higher-order regression methods.} 
+%Recall that the label-aware NTK via higher-order regression mainly depends on the choice of the estimator $\gZ(\rvx, \rvx', S)$. 
+Due to the high computational cost of kernel methods, our choice of $\gZ$ is particularly simple. We consider two methods: one is a kernelized regression (\lantkKR-V1 and V2\footnote{V1 and V2 stand for two ways of extracting features.}), and the other is a linear regression with Fast-Johnson-Lindenstrauss-Transform (\lantkFJLT-V1 and V2), a sketching method that accelerates the computation \citep{ailon2009fast}. We refer the readers to Appx.~\ref{subsec:details-of-Z} for further details. The choice of ``fancier'' $\gZ$ is deferred to future work.
+%For simple kernel regression, we consider $\gZ(\rvx, \rvx', S) = \sum_{i,j} \rvy_i\rvy_j \psi(\bbE_\init \rmK_0^{(2)}(\rvx, \rvx'), \bbE_\init \rmK_0^{(2)}(\rvx_i, \rvx_j))$ as CNTK-V1, and $\gZ(\rvx, \rvx', S) = \sum_{i,j} ((\E_\init\rmKK_0)^{-1}\rvy)_i((\E_\init\rmKK_0)^{-1}\rvy)_j \psi(\bbE_\init \rmK_0^{(2)}(\rvx, \rvx'), \bbE_\init \rmK_0^{(2)}(\rvx_i, \rvx_j))$ as CNTK-V2, where $\psi(\phi_{ab}, \phi_{ij}) = \frac{B - (\phi_{ab} - \phi_{ij})^2}{n^2B - \sum_{s,t}(\phi_{ab} - \phi_{st})^2}$ is a normalized similarity metric (smaller distance $(\phi_{ab} - \phi_{ij})^2$ indicates larger similarity) and $B$ is a constant where we simply use the largest distance  $(\phi_{max} - \phi_{min})^2$  in the training data. Note that the change from $\rvy$ to $(\E_\init\rmKK_0)^{-1}\rvy$ in CNTK-V2 is inspired from the second term in $K^{(\textnormal{NTH})}(\rvx, \rvx')$. For simple linear regression with Fast-Johnson-Lindenstrauss-Transform (FJLT) \citep{ailon2009fast}, we consider a linear regression from $\phi(\rvx_i, \rvx_j)$ to $\rvy_i\rvy_j$, where $\phi(\rvx_i, \rvx_j)$ denotes the pairwise features. As discussed in Sec.~\ref{subsec:higher-order-regression}, we consider some features that are not covered by the label-agnostic kernel, and the specific $10$ features can be found in Appx. \ref{subsec:pairwise-features}. CNTK-FJLT-V1 directly use these features and CNTK-FJLT-V2 also incorporate the same $10$ features based on the top five principle components from principal component analysis (PCA). FJLT\footnote{Our implementation is based on \url{https://github.com/michaelmathen/FJLT} and \url{https://github.com/dingluo/fwht}.} is used to reduce the computational cost because there are $O(10^8)$ examples.
+
+\begin{table*}[t]
+\centering
+\scalebox{0.8}{
+\begin{tabular}{c||c|c|c|c|c||c|c}
+\Xhline{2\arrayrulewidth}
+ & {deer vs dog} & {cat vs deer}  & { cat vs frog} & { deer vs frog} & {bird vs frog} & Avg & Imp. (abs./rel.) \\ \hline \hline
+ CNTK & 85.15 & 83.55 & 86.95 & 87.55& 86.35 & 85.91 & -\\
+ \lantk-best & {\bf 86.75}& {\bf 84.85} & {\bf 87.40} & {\bf 88.30} & {\bf 87.45} & {\bf 86.95}& 1.04 / 7.4\% \\ \hline \hline
+ \lantkKR-V1 & 85.65 & 83.90 & 87.20 & 87.85& {\bf 87.45} & 86.41 & 0.50 / 3.5\%\\
+ \lantkKR-V2 & 85.80 & 83.90 & 87.15& 87.90 & 87.25 & 86.40 & 0.49 / 3.5\%  \\
+ \lantkFJLT-V1 & {\bf 86.75} & {\bf 84.85} & {\bf 87.40} & 88.10 & 86.40 & {\bf 86.70} & 0.79 / 5.6\% \\
+ \lantkFJLT-V2 & 86.25& 84.55 & 87.10 & {\bf 88.30} & 87.00 & 86.64& 0.73 / 5.2\% \\ \hline \hline
+ CNN & 89.00 & 88.50 & 89.00 & 92.50 & 90.15 & 89.83 & 3.92 / 27.8\% \\
+ \Xhline{2\arrayrulewidth}
+\end{tabular}}
+\caption{Performance of \lantk~, CNTK and CNN on binary image classification tasks on CIFAR-10. 
+%CNTK refers to the NTK of an 8-layer CNN. 
+%We consider four \lantk s: \lantkKR-V1 and \lantkKR-V2 are based on a simple kernelized regression, and \lantkFJLT-V1 and \lantkFJLT-V2 are based on a linear regression with Fast-Johnson-Lindenstrauss-Transform (FJLT). 
+Note that the best \lantk (indicated as \lantk-best) significantly outperforms CNTK. 
+%Here, ``abs'' (resp. ``rel'') stands for absolute (resp. relative) improvement.
+Here, ``abs'' stands for absolute improvement and ``rel'' stands for the relative error reduction. 
+%Such a improvement indicates the importance of the label information and confirms our claim that \lantk better simulates the quantitative behavior of NNs.
+}
+\label{table:binary-kernel-regression}
+%\vspace{-17pt}
+\end{table*}
+
+{\bf Binary classification.} We first choose five pairs of categories on which the performance of the 2-layer fully-connected NTK is neither too high (o.w. the improvement will be marginal) nor too low (o.w. it may be difficult for $\gZ$ to extract useful information). 
+We then randomly sample $10000$ examples as the training data and another $2000$ as the test data, under the constraint that the sizes of positive and negative examples are equal.
+%The performance is neither too high (hard to see the improvement) nor too low (hard to have a reasonable higher-order regression performance). Based on this criteria, 
+The performance on the five binary classification tasks are shown in Table \ref{table:binary-kernel-regression}. 
+We see that \lantkFJLT-V1 works the best overall, followed by \lantkFJLT-V2 (which uses more features).
+%can outperform CNTK-FJLT-V1 in the cases that CNTK-FJLT-V1 is not good at. 
+%Therefore, a natural choice is to add L1 normalization in CNTK-FJLT-V2 to better use the extra features. We postpone this as our future work. 
+The improvement compared to CNTK indicates the importance of label information and confirms our claim that \lantk~better simulates the quantitative behaviors of NNs.
+
+
+
+\begin{table*}[t]
+\centering
+\scalebox{0.8}{
+\begin{tabular}{c||c|c|c|c||c|c}
+\Xhline{2\arrayrulewidth}
+Training size & 2000 & 5000  & 10000 & 20000 &  Avg & Imp. (abs./rel.) \\ \hline \hline
+ CNTK &44.01 & 50.44& 55.18& 60.12& 52.44 & - \\
+ \lantk-best & {\bf 46.31} & {\bf 52.66} & {\bf 56.96} & {\bf 61.58} & {\bf 54.38} & 1.94 / 4.1\%  \\ \hline \hline
+ \lantkKR-V1  &44.49 & 51.39 & 55.74 & 60.87& 53.12& 0.68 / 1.4\%\\
+ \lantkKR-V2  & 44.64& 51.38& 55.89 & 60.87& 53.20 & 0.76 / 1.6\%   \\
+ \lantkFJLT-V1  &{\bf 46.31} & {\bf 52.66} & {\bf 56.96} & {\bf 61.58} & {\bf 54.38} & 1.94 / 4.1\%  \\
+ \lantkFJLT-V2  & 45.72& 52.50&  56.26& Failed &- & 1.62 / 3.4\%  \\ \hline \hline
+ CNN  &45.30 & 52.70& 60.23 & 68.15& 56.60 & 4.16 / 8.7\% \\
+ \Xhline{2\arrayrulewidth}
+\end{tabular}}
+\caption{Performance of \lantk~, CNTK, and CNN on multi-class image classification tasks on CIFAR-10. The improvement is  more evident than the binary classification.
+%, supporting our claim that label information is more important when the semantic meanings are highly dependent on the label system.
+}
+\label{table:multiple-kernel-regression}
+%\vspace{-17pt}
+\end{table*}
+
+{\bf Multi-class classification.} Our current construction of \lantk~is under binary classification tasks, but it can be easily extended to multi-class classification tasks by changing the definition of the ``optimal'' kernel to $K^{\star}(\rvx_\alpha, \rvx_\beta) = \mathbf{1}\{\rvy_\alpha=\rvy_\beta\}$. Here, we again samples from CIFAR-10 under the constraint that the classes are balanced, and we vary the size of the training data in $\{2000, 5000, 10000, 20000\}$ while fixing the size of the test data to be $10000$. 
+%Note that we always keep different classes with equal sizes for both training and test data. 
+The results are shown in Fig. \ref{table:multiple-kernel-regression}. ``Failed'' in the table means that the experiment is failed due to memory constraint.
+%\footnote{It requires more than $512$G memory, which is beyond the capacity of our computers. Since the result is already clear without this configuration, we choose not to handle this issue further.} 
+Similarly, \lantkFJLT-V1 works the best among all training sizes, and the performance gain is even higher compared to binary classification tasks. This supports our claim that the label information is particularly important when the semantic meanings of the features are highly dependent on the label system.
+%, and that the proposed \lantk~better simulates the quantitative behaviors of NNs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Local Elasticity}
+\label{subsec:local-elasticity}
+Local elasticity, originally proposed by \citet{he2019local}, refers to the phenomenon that the prediction of a feature vector $\rvx'$ by a classifier (not necessarily a NN) is not significantly perturbed, after this classifier is updated via stochastic gradient descent at another feature vector $\rvx$, if $\rvx$ and $\rvx'$ are \emph{dissimilar} according to some geodesic distance which captures the semantic meaning of the two feature vectors. 
+%Mathematically, it means that $|f(\rvx', \rvtheta_{t_+}) -  f(\rvx', \rvtheta_{t})|$ is a smooth, monotonically increasing function of $K(\rvx, \rvx')$ for some $K$ that encodes the similarity between $\rvx$ and $\rvx'$, where $\rvtheta_{t_+}$ is obtained by running one step of SGD from $\rvtheta_t$ using $\rvx$ and its label. 
+Through extensive experiments, \citet{he2019local} demonstrate that NNs are locally elastic, whereas linear classifiers are not. Moreover, they show that models trained by NTK is far less locally elastic compared to NNs, but more so compared to linear models. 
+
+In this section, we show that \lantk~is significantly more locally elastic than NTK. We follow the experimental setup in \citet{he2019local}.
+Specifically, for a kernel $K$, define the \emph{normalized kernelized similarity}\footnote{This similarity measure is closely related stiffness \citep{fort2019stiffness}, but the difference lies in that stiffness takes the loss function into account.} as $\bar{K}(\rvx, \rvx'):= K(\rvx, \rvx')/\sqrt{K(\rvx, \rvx) K(\rvx', \rvx')}$. Then, the strength of local elasticity of the corresponding kernel regression can be quantified by the relative ratio of $\bar K$ between intra-class examples and inter-class examples:
+\begin{equation}
+    \label{eq: relative_ratio}
+    \textnormal{RR}(K):= \frac{\sum_{(\rvx, \rvx')\in S_1} \bar K(\rvx, \rvx') / |S_1|}{\sum_{(\rvx, \rvx')\in S_1} \bar K(\rvx, \rvx') / |S_1| + \sum_{(\tilde\rvx, \tilde\rvx')\in S_2} \bar K(\tilde\rvx, \tilde\rvx') / |S_2|},
+\end{equation}
+where $S_1$ is the set of intra-class pairs and $S_2$ is the set of inter-class pairs. Note that under this setup, the strength of local elasticity of NNs corresponds to $\textnormal{RR}(\KK_t)$. In practice, we can take the pairs to both come from the training set (train-train pairs), or one from the test set and another from the training set (test-train pairs). 
+
+
+%is proposed by \cite{he2019local} to describe the behaviors of NNs when updating its weights using SGD at an example $(\rvx, y)$. 
+%Specifically, the relative change of the prediction on another input $\rvx'$ depends on the similarity between $\rvx$ and $\rvx'$.
+%Specifically, the relative change is large when $\rvx$ and $\rvx'$ are close (locality), and the relative change decreases gradually and smoothly when $\rvx'$ moves away from $\rvx$ (elasticity). 
+%Note that the closeness is based on the geodesic distance instead of Euclidean distance. 
+%There are two types of similarity based on the local elasticity: relative similarity and kernelized similarity. 
+%In general, the goodness of similarity indicates the strength of local elasticity. 
+%In our analysis, we consider the normalized kernelized similarity which is also related to stiffness \citep{fort2019stiffness}, but their difference lies in that normalized kernelized similarity doesn't consider the loss function but stiffness considers the loss function.
+
+\begin{table*}[t]
+\centering
+\scalebox{0.8}{
+\begin{tabular}{c||c|c|c|c|c|c}
+\Xhline{2\arrayrulewidth}
+ Train-train & frog vs ship& frog vs truck & deer vs ship & dog vs truck & bird vs truck & deer vs truck  \\ \hline
+NN-init & 58.37 & 55.07& 57.50 & 54.75 & 52.93& 54.86 \\ 
+NN-trained & {\bf 71.99 } $\uparrow$  & {\bf 68.36 }  $\uparrow$ & {\bf 69.98}  $\uparrow$& {\bf 66.35}  $\uparrow$& {\bf 63.99}  $\uparrow$& {\bf 65.96}  $\uparrow$\\ \hline
+NTK & 63.83 &58.31 & 62.43 & 58.05 & 55.01 & 58.02 \\ 
+\lantk & {\bf 66.62}  $\uparrow$& {\bf 60.57}  $\uparrow$& {\bf 64.90}  $\uparrow$& {\bf 59.75}  $\uparrow$& {\bf 55.94}  $\uparrow$& {\bf 59.59}  $\uparrow$\\ 
+\hline \hline
+Test-train & frog vs ship& frog vs truck & deer vs ship & dog vs truck & bird vs truck & deer vs truck  \\ \hline 
+NN-init & 58.31 & 55.06 & 57.64 & 54.62 & 52.93 & 54.94 \\ 
+NN-trained & {\bf 71.45}  $\uparrow$& {\bf 67.91}  $\uparrow$& {\bf 69.73} $\uparrow$& {\bf 65.80}  $\uparrow$& {\bf 63.58} $\uparrow$ & {\bf 65.53}  $\uparrow$\\ \hline
+NTK & 63.76 & 58.30 & 62.67 & 57.84 & 55.00 & 58.14 \\ 
+\lantk & {\bf 66.53} $\uparrow$& {\bf 60.08} $\uparrow$& {\bf 65.20} $\uparrow$ & {\bf 59.54} $\uparrow$& {\bf 55.97} $\uparrow$ & {\bf 59.77} $\uparrow$ \\ 
+ \Xhline{2\arrayrulewidth}
+\end{tabular}
+}
+\caption{Strength of local elasticity in binary classification tasks on CIFAR-10. 
+%NN-init and NN-trained stands for a two-layer NN with randomly initialized weights and trained weights. NTK-label indicate the label-aware NTK. Train-train indicates that the normalized kernelized similarity is computed between training data and training data, but test-train indicates that the similarity is computed between test data and training data.
+%Note that the difference between approximate NTK and NTK is that NTK is based on the expectation of inner products of gradients, while approximate NTK is based on specific weights. 
+The training makes NNs more locally elastic, and \lantk~successfully simulates this behavior.}
+%, indicating that label information is an important gap between NTK and NNs.
+\label{table:label-le}
+%\vspace{-10pt}
+\end{table*}
+
+We first compute the strength of local elasticity for two-layer NNs with $40960$ hidden neurons at initialization and after training. We find that for all $\binom{10}{2} = 45$ binary classification tasks in CIFAR-10, $\textnormal{RR}$ significantly increases after training, under both train-train and test-train settings, agreeing with the result in Fig.~\ref{fig:le-cat-dog} and Fig.~\ref{fig:le-chair-bench}. The top $6$ tasks with the largest increase in $\textnormal{RR}$ in Table \ref{table:label-le}. The absolute improvement in the test accuracy is shown in Fig.~\ref{fig:ntk-init-trained}.
+%The relative improvement of approximate NTK ($\KK_t$) after training on these six tasks are shown in Fig.~\ref{fig:ntk-init-trained}.
+
+We then compute the strength of local elasticity for the corresponding NTK and \lantk~(specifically, \lantk-KR-V1) based on the formulas derived in Appx. \ref{subsubsection:label-agnostic-kernel},
+%\footnote{We cannot compute $\bar{K}(\rvx, \rvx)$ for \lantk~when $\rvx$ comes from the test data, because the label is unknown. So we simply replace this value by using NTK. This does not change the qualitative conclusion here because $\bar{K}(\rvx,\rvx)$ is of marginal importance in the definition of $\textnormal{RR}(K)$.}
+and the results for the same $6$ binary classification tasks are shown in Table \ref{table:label-le}. We find that \lantk~is more locally elastic than NTK, indicating that \lantk~better simulates the qualitative behaviors of NNs. 
+
+
+%The formulas for NTK and \lantk is derived in Appx. \ref{subsubsection:label-agnostic-kernel}. 
+
+
+%In this subsection, our experiments are based on a 2-layer NNs with a hidden size $40960$. 
+%The corresponding NTK is implemented based on Appx. \ref{subsubsection:label-agnostic-kernel}. 
+%We first experiment on the relative ratio of the normalized kernelized similarity between intra-class pairs and inter-class pairs for NNs with randomly initialized weights and trained weights. 
+%The sizes of positive and negative examples are always equal in our experiments, indicating that the number of intra-class pairs is the same as that of inter-class pairs. 
+
+
+%The local elasticity can also be computed given the kernel matrix by normalizing the items as follows:
+%\[
+%\bar{S}_{ker}(\rvx, \rvx'):= S_{ker}(\rvx, \rvx')/\sqrt{S_{ker}(\rvx, \rvx) S_{ker}(\rvx', \rvx')},
+%\]
+%where $S_{ker}$ is the corresponding kernel matrix. 
+%The local elasticity of NTK is computed accordingly. 
+%The label-aware NTK here we used has the same kernel regression method as CNTK-V1. %When normalizing the similarity between test data and training data, we use the label-agnostic kernel to estimate the similarity between the test point and itself $S_{ker}(\rvx', \rvx')$. 
+%As shown in Table \ref{table:label-le}, we find that the label-aware NTK also increases the local elasticity of NTK on the six tasks with the help of labels, indicating that label-aware NTK better simulates the behaviors of NNs in the aspect of local elasticity.

@@ -1,0 +1,73 @@
+\subsection{Some Calculations}
+%Details of Theoretical Analysis}
+\label{sec:deta-theor-analys}
+
+
+
+\iffalse
+
+We consider applying SGD to kernel regression:
+\[
+\sum_{i=1}^N \frac12 (\bw^\top \varphi(\bx_i) - y_i)^2,
+\]
+which gives
+\[
+\bw_{t+1} = \bw_t - \eta(\bw^\top \varphi(\bx_i) - y_i) \varphi(\bx_i).
+\]
+Therefore, the kernel trick gives
+\[
+\begin{aligned}
+f(\bw_{t+1}, \bx_j) &= \bw_{t+1}^\top \varphi(\bx_i)\\
+&=\left\langle \bw_t - \eta (\bw_t^\top \varphi(\bx_i) - y_i) \varphi(\bx_i),  \varphi(\bx_j) \right\rangle\\
+& = f(\bw_t, \bx_j) - \eta (\bw_t^\top \varphi(\bx_i) - y_i) \left\langle \varphi(\bx_i),  \varphi(\bx_j) \right\rangle\\
+& = f(\bw_t, \bx_j) - \eta (\bw_t^\top \varphi(\bx_i) - y_i) K(\bx_i, \bx_j).
+\end{aligned}
+\]
+As such, the change of the prediction on $\bx_j$ is contingent upon $K(\bx_i, \bx_j)$.
+
+\fi
+
+
+We brief explain how to obtain Equation (\ref{eq:dnn_diff}) under the same assumptions of \citet{li2018learning}.
+\[
+\begin{aligned}
+f(\overline\bx', \bw^+) - f(\bx', \bw) &= \sum_{r=1}^m a_r \sigma((\bw_r^+)^\top \bx') - \sum_{r=1}^m a_r \sigma(\bw_r^\top \bx')\\
+&= \sum_{r=1}^m a_r \sigma\left(\left(\bw_r - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx \mathbb{I}\{\bw_r^T \bx \ge 0\} \right)^\top \bx' \right) - \sum_{r=1}^m a_r \sigma(\bw_r^\top \bx')\\
+&= \sum_{r=1}^m a_r \sigma\left( \bw_r^\top \bx' - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \mathbb{I}\{\bw_r^T \bx \ge 0\} \right) - \sum_{r=1}^m a_r \sigma(\bw_r^\top \bx')\\
+& = \Delta_1 + \Delta_2,
+\end{aligned}
+\]
+where
+\[
+\begin{aligned}
+\Delta_1 &= - \eta \frac{\partial \mathcal{L}}{\partial f} \sum_{r=1}^m \bx^\top \bx' \mathbb{I}\{\bw_r^T \bx \ge 0\} \mathbb{I}\{\bw_r^\top \bx' \ge 0\}\\
+&= - \eta \frac{\partial \mathcal{L}}{\partial f}\bx^\top \bx'  \sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \mathbb{I}\{\bw_r^\top \bx' \ge 0\}
+\end{aligned}
+\]
+and 
+\[
+\begin{aligned}
+\|\Delta_2\|  &\le \sum_{r=1}^m \left| - a_r \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \mathbb{I}\{\bw_r^T \bx \ge 0\} \right| \cdot \left| \mathbb{I}\left\{ \bw_r^\top \bx' - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \mathbb{I}\{\bw_r^T \bx \ge 0\} \ge 0\right\} -  \mathbb{I}\{\bw_r^\top \bx' \ge 0\} \right|\\
+&=  \eta \left|\frac{\partial \mathcal{L}}{\partial f} \right| \left|\bx^\top \bx' \right|\sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \left| \mathbb{I}\left\{ \bw_r^\top \bx' - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \mathbb{I}\{\bw_r^T \bx \ge 0\} \ge 0\right\} -  \mathbb{I}\{\bw_r^\top \bx' \ge 0\} \right|\\
+&=  \eta \left|\frac{\partial \mathcal{L}}{\partial f}\right| \left|\bx^\top \bx' \right|\sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \left| \mathbb{I}\left\{ \bw_r^\top \bx' - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \ge 0\right\} -  \mathbb{I}\{\bw_r^\top \bx' \ge 0\} \right|.
+\end{aligned}
+\]
+As shown in \citet{li2018learning}, only a vanishing fraction of the neurons lead to different patterns between $\mathbb{I}\left\{ \bw_r^\top \bx' - \eta \frac{\partial \mathcal{L}}{\partial f} a_r \bx^\top \bx' \ge 0\right\}$ and $\mathbb{I}\{\bw_r^\top \bx' \ge 0\}$. Consequently, we get $|\Delta_2| \ll |\Delta_1|$, thereby certifying
+\begin{equation}\nonumber\label{eq:dnn_diffxx}
+\begin{aligned}
+f(\bx', \bw^+) - f(\bx', \bw) &= - (1 + o(1)) \eta \frac{\partial \mathcal{L}}{\partial f}\bx^\top \bx'  \sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \mathbb{I}\{\bw_r^\top \bx' \ge 0\}\\
+&= (1 + o(1)) \frac{\bx^\top \bx'  \sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\} \mathbb{I}\{\bw_r^\top \bx' \ge 0\}}{\|\bx\|^2  \sum_{r=1}^m \mathbb{I}\{\bw_r^T \bx \ge 0\}} (f(\bx, \bw^+) - f(\bx, \bw)).
+\end{aligned}
+\end{equation}
+
+\iffalse
+The normalized kernelized similarity is $\bSk(\bx, \bx'):= \Sk(\bx, \bx')/\sqrt{\Sk(\bx, \bx) \Sk(\bx', \bx')}$.
+\fi
+
+%This forms a kernel matrix, which is taken as input by the kernel $K$-means for clustering in Section~\ref{sec:local-elast-based}. 
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

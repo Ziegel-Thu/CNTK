@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\pdfoutput=1
+
+\usepackage{mathrsfs}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{natbib}
+\usepackage[usenames]{color}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{multirow} 
+\usepackage{enumitem}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{booktabs,threeparttable,multirow}
+
+\usepackage{amsmath}
+\usepackage{amssymb,bm}
+\usepackage{mathtools}
+\usepackage{caption}
+\usepackage{subcaption,color}
+\usepackage{indentfirst}
+\usepackage{amsfonts}
+\usepackage{float,url}
+\usepackage{bbm}
+\usepackage{lipsum}
+\usepackage{nicefrac}
+\usepackage{pifont}
+
+
+\usepackage[colorlinks,
+linkcolor=red,
+anchorcolor=blue,
+citecolor=blue
+]{hyperref}
+
+\renewcommand{\baselinestretch}{1.05}
+
+\usepackage{mylatexstyle}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+
+\newcommand{\disableaddcontentsline}{%
+  \let\savedaddcontentsline\addcontentsline 
+  \renewcommand{\addcontentsline}[3]{}
+}
+% recover \addcontentsline
+\newcommand{\enableaddcontentsline}{%
+  \let\addcontentsline\savedaddcontentsline
+}
+
+\newcommand{\op}{{op}}
+
+\newcommand{\Tr}{\operatorname{Tr}}
+\def\Trarg#1{\Tr\left({#1}\right)} % Trace with argument
+\newcommand{\iid}{\stackrel{\mathrm{\tiny{i.i.d.}}}{\sim}}
+
+\usepackage{setspace}
+%\setstretch{1.5}
+\usepackage{xcolor}
+
+
+\setlength{\marginparwidth}{0.8in}
+
+
+% \def\CC{\textcolor{red}}
+\def\CC{}
+
+\usepackage{graphicx,eso-pic}
+\AddToShipoutPictureFG*{%
+  \AtPageUpperLeft{%
+    % Logos with fixed spacing
+    \raisebox{-2cm}{%
+      \hspace{2.5cm}% Initial offset
+      \includegraphics[width=1cm]{logos/warwick-logo.pdf}%
+      \hspace{0.3cm}%
+      \includegraphics[width=0.8cm]{logos/LOGO_CNRS_BLEU.png}%
+      \hspace{0.3cm}%
+      \includegraphics[width=0.8cm]{logos/sjtulogored.pdf}%
+    }%
+  }%
+}
+
+\AddToShipoutPictureFG*{%
+  \AtPageUpperLeft{%
+    \raisebox{-2.2cm}{%
+      \hspace*{\dimexpr 1in+\oddsidemargin\relax}%
+      \makebox[\textwidth][l]{\rule{\textwidth}{0.5pt}}% thickness = 0.5pt
+    }%
+  }%
+}
+
+\title{\textbf{How does feature learning reshape the function space?}}
+
+\author
+{
+     João Lobo \thanks{Department of Computer Science, University of Warwick, 
+        United Kingdom; Email: {\tt joao.lobo-pevidor@warwick.ac.uk} (J.L.), 
+        {\tt long.tran-thanh@warwick.ac.uk} (L.T-T.)}
+     \and
+     Bruno Loureiro\thanks{Departement d'Informatique, \'Ecole Normale Sup\'erieure, PSL \& CNRS; Email: {\tt bruno.loureiro@di.ens.fr}}
+     \and
+     Long Tran-Than \footnotemark[1]
+     \and
+     Fanghui Liu\thanks{School of Mathematical Sciences, Institute of Natural Sciences and MOE-LSC, Shanghai Jiao Tong University, China. Part of work was done at Department of Computer Science, and Centre for Discrete Mathematics and its Applications (DIMAP), University of Warwick, United Kingdom; Email: {\tt fanghui.liu@\{sjtu.edu.cn,warwick.ac.uk\}} (Corresponding author)}
+}
+\date{}
+
+
+% \def\CCC{\textcolor{red}}
+
+% \def\CC{}
+
+\begin{document}
+\disableaddcontentsline
+
+\definecolor{fhcolor}{rgb}{0.523, 0.235, 0.625}
+\newcommand{\fh}[1]{\textcolor{fhcolor}{(Fanghui: #1)}}
+
+\newcommand{\jcomment}[1]{\textcolor{olive}{(João: #1)}}
+
+\maketitle
+
+\begin{abstract}
+Feature learning is widely regarded as the key mechanism distinguishing neural networks from fixed-kernel methods, yet its impact on the induced function space remains poorly understood. In this work, we precisely characterize how the function space spanned by the features of a two-layer neural network evolves during gradient descent training.
+%
+We prove that, in the high-dimensional proportional regime, after a large gradient step the post-update feature distribution is well approximated by a target-dependent spiked Gaussian covariance. This induces a data-adaptive kernel that reshapes the function space and modifies its spectral structure.
+%
+Our analysis reveals that feature learning can be interpreted as a distributional transformation in either parameter space or input space, equivalently as the introduction of a target-dependent kernel. In particular, it selectively amplifies eigenvalues aligned with the target direction and mixes leading eigenfunctions, coupling the top radial mode with a target-aligned quadratic harmonic.
+%
+%We prove that the global eigenvalue decay rate is preserved, while the spike selectively alters the leading eigenspaces. For ReLU activations, we derive an explicit perturbative expansion showing that feature learning boosts the eigenvalue of the linear eigenfunction aligned with the target direction and mixes the top radial eigenfunction with a target-aligned quadratic harmonic. 
+%
+Overall, our results provide a precise function-space perspective on early-stage feature learning: rather than just rescaling a fixed kernel, gradient descent induces a data-adaptive deformation that preferentially enhances directions aligned with the signal in the data.
+\end{abstract}
+
+\input{arxiv/intro}
+\input{arxiv/setting}
+\input{arxiv/main-results}
+\input{arxiv/experiments}
+\input{arxiv/conclusion}
+
+\bibliography{references}
+\bibliographystyle{ims}
+
+\newpage
+\appendix
+\enableaddcontentsline
+\tableofcontents
+\newpage
+
+\section{Properties of the Spiked Covariance Matrix}
+\input{appendixes/appendix-2nd-moment-matrix}
+
+\section{Technical Lemmas and their proofs}
+\input{appendixes/appendix-lemmas}
+
+\section{Proofs of the main results}
+\input{appendixes/appendix-main-proofs}
+
+\section{Experimental details}
+\input{appendixes/appendix-experiments}
+
+\end{document}
+
