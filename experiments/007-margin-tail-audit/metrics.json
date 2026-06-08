@@ -1,0 +1,791 @@
+{
+  "final_rows": [
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.28421736869545644,
+      "mixing": 0.14133333333333334,
+      "margin": 3.226877450942993,
+      "accuracy": 0.9200000166893005
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.08475376131711987,
+      "mixing": 0.05733333333333333,
+      "margin": 17.70332908630371,
+      "accuracy": 0.9466666579246521
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "lazy_wide_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.2183847260958881,
+      "mixing": 0.12333333333333334,
+      "margin": 0.22621174156665802,
+      "accuracy": 0.8833333253860474
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.31293439578386295,
+      "mixing": 0.20433333333333334,
+      "margin": 2.560171604156494,
+      "accuracy": 0.8799999952316284
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.1423893234813638,
+      "mixing": 0.105,
+      "margin": 15.633021831512451,
+      "accuracy": 0.8966666460037231
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "lazy_wide_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.2575748815437331,
+      "mixing": 0.178,
+      "margin": 0.10668429732322693,
+      "accuracy": 0.8600000143051147
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.8823883459300895,
+      "mixing": 0.47875,
+      "margin": 0.6040716171264648,
+      "accuracy": 0.6416666507720947
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.8811873924137783,
+      "mixing": 0.49166666666666664,
+      "margin": 2.4269498586654663,
+      "accuracy": 0.574999988079071
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "lazy_wide_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.8552145471215608,
+      "mixing": 0.4775,
+      "margin": 0.011950676329433918,
+      "accuracy": 0.550000011920929
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.8024545486689877,
+      "mixing": 0.4320833333333333,
+      "margin": 0.9069855213165283,
+      "accuracy": 0.6333333253860474
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.7271738887187926,
+      "mixing": 0.42,
+      "margin": 5.9591569900512695,
+      "accuracy": 0.6000000238418579
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "lazy_wide_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.7538142446278142,
+      "mixing": 0.43125,
+      "margin": 0.05009216070175171,
+      "accuracy": 0.6416666507720947
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.8739952967755129,
+      "mixing": 0.5029166666666667,
+      "margin": -0.007670767605304718,
+      "accuracy": 0.49166667461395264
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.8338400083327309,
+      "mixing": 0.4558333333333333,
+      "margin": 0.36113667488098145,
+      "accuracy": 0.6041666865348816
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "lazy_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.8370137302322169,
+      "mixing": 0.49,
+      "margin": -0.00019555073231458664,
+      "accuracy": 0.48750001192092896
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "frozen_random",
+      "row_type": "binary_final",
+      "tail": 0.725672115602953,
+      "mixing": 0.4816666666666667,
+      "margin": 0.05585874617099762,
+      "accuracy": 0.5625
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "feature_learning",
+      "row_type": "binary_final",
+      "tail": 0.63099529930261,
+      "mixing": 0.40125,
+      "margin": 0.8608485758304596,
+      "accuracy": 0.7291666865348816
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "lazy_small_lr",
+      "row_type": "binary_final",
+      "tail": 0.7354071532230912,
+      "mixing": 0.4633333333333333,
+      "margin": 0.001303771510720253,
+      "accuracy": 0.5
+    },
+    {
+      "source": "004_stress",
+      "dataset": "clean",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.28421736869545644,
+      "mixing": 0.14133333333333334,
+      "margin": 3.226877450942993,
+      "accuracy": 0.9200000166893005
+    },
+    {
+      "source": "004_stress",
+      "dataset": "clean",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.08475376131711987,
+      "mixing": 0.05733333333333333,
+      "margin": 17.70332908630371,
+      "accuracy": 0.9466666579246521
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.1",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.24612631913261562,
+      "mixing": 0.13133333333333333,
+      "margin": 2.139456033706665,
+      "accuracy": 0.8833333253860474
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.1",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.15078629802806987,
+      "mixing": 0.08,
+      "margin": 12.42666482925415,
+      "accuracy": 0.9333333373069763
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.3",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.24174166068341962,
+      "mixing": 0.156,
+      "margin": 0.8030951917171478,
+      "accuracy": 0.7066666483879089
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.3",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.28781937135349145,
+      "mixing": 0.222,
+      "margin": 4.708949089050293,
+      "accuracy": 0.6700000166893005
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.1",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.29038621997519054,
+      "mixing": 0.15733333333333333,
+      "margin": 2.4654202461242676,
+      "accuracy": 0.8833333253860474
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.1",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.11714522092987367,
+      "mixing": 0.09866666666666667,
+      "margin": 15.58149242401123,
+      "accuracy": 0.8799999952316284
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.3",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.26089513059908,
+      "mixing": 0.146,
+      "margin": 1.1257787346839905,
+      "accuracy": 0.7066666483879089
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.3",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.16935456174323005,
+      "mixing": 0.07833333333333334,
+      "margin": 7.852390766143799,
+      "accuracy": 0.6633333563804626
+    },
+    {
+      "source": "004_stress",
+      "dataset": "duplicate0.2",
+      "regime": "frozen_random",
+      "row_type": "binary_stress_final",
+      "tail": 0.251241771932159,
+      "mixing": 0.14833333333333334,
+      "margin": 1.7203615307807922,
+      "accuracy": 0.8533333539962769
+    },
+    {
+      "source": "004_stress",
+      "dataset": "duplicate0.2",
+      "regime": "feature_learning",
+      "row_type": "binary_stress_final",
+      "tail": 0.12784843112275945,
+      "mixing": 0.093,
+      "margin": 7.611141681671143,
+      "accuracy": 0.9166666865348816
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "random_cnn",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.773368525182832,
+      "mixing": 0.8175,
+      "margin": -1.7835171222686768,
+      "accuracy": 0.2824999988079071
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "short_fullbatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.733546262378197,
+      "mixing": 0.7865,
+      "margin": -0.7607778310775757,
+      "accuracy": 0.3425000011920929
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "strong_minibatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7217250887461945,
+      "mixing": 0.7485,
+      "margin": -0.6540437936782837,
+      "accuracy": 0.4124999940395355
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "random_cnn",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7699456460690024,
+      "mixing": 0.81275,
+      "margin": -2.12774920463562,
+      "accuracy": 0.26249998807907104
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "short_fullbatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7626725290409597,
+      "mixing": 0.79075,
+      "margin": -0.7316246032714844,
+      "accuracy": 0.3449999988079071
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_all10",
+      "regime": "strong_minibatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7398914931961812,
+      "mixing": 0.7585,
+      "margin": -0.7781987190246582,
+      "accuracy": 0.3725000023841858
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "random_cnn",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.8249621082726171,
+      "mixing": 0.7875,
+      "margin": -2.1926004886627197,
+      "accuracy": 0.3166666626930237
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "short_fullbatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7915973563421959,
+      "mixing": 0.75,
+      "margin": -0.7875604033470154,
+      "accuracy": 0.34583333134651184
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "strong_minibatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7803330519475284,
+      "mixing": 0.7475,
+      "margin": -1.3552279472351074,
+      "accuracy": 0.3583333194255829
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "random_cnn",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.8265990538344548,
+      "mixing": 0.7754166666666666,
+      "margin": -2.3680641651153564,
+      "accuracy": 0.32083332538604736
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "short_fullbatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.8077308052982483,
+      "mixing": 0.7725,
+      "margin": -1.0014235973358154,
+      "accuracy": 0.3583333194255829
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_animals6",
+      "regime": "strong_minibatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7735445239709857,
+      "mixing": 0.7395833333333334,
+      "margin": -1.04410719871521,
+      "accuracy": 0.38749998807907104
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "random_cnn",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7645209427997122,
+      "mixing": 0.641875,
+      "margin": -0.765892505645752,
+      "accuracy": 0.38749998807907104
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "short_fullbatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7471454370208406,
+      "mixing": 0.61125,
+      "margin": -0.705674409866333,
+      "accuracy": 0.40625
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "strong_minibatch",
+      "seed": 0,
+      "row_type": "multiclass_final",
+      "tail": 0.7445724143918566,
+      "mixing": 0.6075,
+      "margin": -0.47144412994384766,
+      "accuracy": 0.48124998807907104
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "random_cnn",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7451101830499878,
+      "mixing": 0.66125,
+      "margin": -0.5148419141769409,
+      "accuracy": 0.46875
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "short_fullbatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7471413395083868,
+      "mixing": 0.6625,
+      "margin": -0.8851251602172852,
+      "accuracy": 0.38749998807907104
+    },
+    {
+      "source": "006_cifar_schedule",
+      "dataset": "cifar10_vehicles4",
+      "regime": "strong_minibatch",
+      "seed": 1,
+      "row_type": "multiclass_final",
+      "tail": 0.7027384281418219,
+      "mixing": 0.623125,
+      "margin": 0.2228248119354248,
+      "accuracy": 0.512499988079071
+    }
+  ],
+  "delta_rows": [
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 3.2474259277805686,
+      "accuracy_gain": 0.4233333468437195
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.26478316566429927,
+      "margin_gain": 17.70901138521731,
+      "accuracy_gain": 0.44999998807907104
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_3vs8_n150_train",
+      "regime": "lazy_wide_small_lr",
+      "tail_decrease": 0.009823579393851478,
+      "margin_gain": 0.22982242330908775,
+      "accuracy_gain": 0.4099999964237213
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 2.565248372964561,
+      "accuracy_gain": 0.43666666746139526
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.25946469900968916,
+      "margin_gain": 15.631226921454072,
+      "accuracy_gain": 0.38333332538604736
+    },
+    {
+      "source": "002_mnist",
+      "dataset": "mnist_4vs9_n150_train",
+      "regime": "lazy_wide_small_lr",
+      "tail_decrease": 0.002439065168017396,
+      "margin_gain": 0.11911036958917975,
+      "accuracy_gain": 0.4566666781902313
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 0.5979280546307564,
+      "accuracy_gain": 0.10416662693023682
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.004511830873443312,
+      "margin_gain": 2.4268356654793024,
+      "accuracy_gain": 0.07499998807907104
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "lazy_wide_small_lr",
+      "tail_decrease": 0.0025425912786044558,
+      "margin_gain": 0.01976090297102928,
+      "accuracy_gain": 0.07916668057441711
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 0.895928917452693,
+      "accuracy_gain": 0.08333331346511841
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.05830124789108815,
+      "margin_gain": 5.95999258896336,
+      "accuracy_gain": 0.10416668653488159
+    },
+    {
+      "source": "002_cifar_mlp",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "lazy_wide_small_lr",
+      "tail_decrease": 0.001533319018904633,
+      "margin_gain": 0.04645102936774492,
+      "accuracy_gain": 0.125
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": -0.005783285945653915,
+      "accuracy_gain": -0.008333325386047363
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.026798435556311784,
+      "margin_gain": 0.3640111582353711,
+      "accuracy_gain": 0.13333335518836975
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_catvsdog_n120_train",
+      "regime": "lazy_small_lr",
+      "tail_decrease": 3.146541518384005e-05,
+      "margin_gain": -0.000247076153755188,
+      "accuracy_gain": -0.012499988079071045
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 0.05697266384959221,
+      "accuracy_gain": 0.06666666269302368
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "feature_learning",
+      "tail_decrease": 0.11979775448654217,
+      "margin_gain": 0.8573480509221554,
+      "accuracy_gain": 0.2291666865348816
+    },
+    {
+      "source": "002_cifar_cnn",
+      "dataset": "cifar10_automobilevstruck_n120_train",
+      "regime": "lazy_small_lr",
+      "tail_decrease": -0.00015651297286256582,
+      "margin_gain": 0.00018809735774993896,
+      "accuracy_gain": 0.0
+    },
+    {
+      "source": "004_stress",
+      "dataset": "clean",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 3.2474259277805686,
+      "accuracy_gain": 0.4233333468437195
+    },
+    {
+      "source": "004_stress",
+      "dataset": "clean",
+      "regime": "feature_learning",
+      "tail_decrease": 0.26478316566429927,
+      "margin_gain": 17.70901138521731,
+      "accuracy_gain": 0.44999998807907104
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.1",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 2.1427339958027005,
+      "accuracy_gain": 0.42666664719581604
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.1",
+      "regime": "feature_learning",
+      "tail_decrease": 0.22631168949822966,
+      "margin_gain": 12.412142681889236,
+      "accuracy_gain": 0.3566666841506958
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.3",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 0.8058990836143494,
+      "accuracy_gain": 0.22333332896232605
+    },
+    {
+      "source": "004_stress",
+      "dataset": "flip0.3",
+      "regime": "feature_learning",
+      "tail_decrease": -0.03083892933247223,
+      "margin_gain": 4.699014614336193,
+      "accuracy_gain": 0.07333332300186157
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.1",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 2.460949392989278,
+      "accuracy_gain": 0.34333330392837524
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.1",
+      "regime": "feature_learning",
+      "tail_decrease": 0.2034446920161912,
+      "margin_gain": 15.586327403783798,
+      "accuracy_gain": 0.4333333373069763
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.3",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 1.1253542955964804,
+      "accuracy_gain": 0.20333331823349
+    },
+    {
+      "source": "004_stress",
+      "dataset": "advflip0.3",
+      "regime": "feature_learning",
+      "tail_decrease": 0.12072881017065695,
+      "margin_gain": 7.865151273086667,
+      "accuracy_gain": 0.22333335876464844
+    },
+    {
+      "source": "004_stress",
+      "dataset": "duplicate0.2",
+      "regime": "frozen_random",
+      "tail_decrease": 0.0,
+      "margin_gain": 1.7223816439509392,
+      "accuracy_gain": 0.3733333647251129
+    },
+    {
+      "source": "004_stress",
+      "dataset": "duplicate0.2",
+      "regime": "feature_learning",
+      "tail_decrease": 0.19841044915251016,
+      "margin_gain": 7.61592523381114,
+      "accuracy_gain": 0.43666669726371765
+    }
+  ],
+  "source_summaries": [
+    {
+      "source": "002_cifar_cnn",
+      "n": 6,
+      "tail_mean": 0.7728206005781858,
+      "margin_mean": 0.21188024167592326,
+      "accuracy_mean": 0.5625000099341074,
+      "corr_tail_accuracy": -0.7160742158356682,
+      "corr_margin_accuracy": 0.9735831846165635
+    },
+    {
+      "source": "002_cifar_mlp",
+      "n": 6,
+      "tail_mean": 0.8170388279135038,
+      "margin_mean": 1.659867804031819,
+      "accuracy_mean": 0.6069444417953491,
+      "corr_tail_accuracy": -0.3051674197291632,
+      "corr_margin_accuracy": -0.16588807841305023
+    },
+    {
+      "source": "002_mnist",
+      "n": 6,
+      "tail_mean": 0.21670907615290402,
+      "margin_mean": 6.576049335300922,
+      "accuracy_mean": 0.897777775923411,
+      "corr_tail_accuracy": -0.59759166531977,
+      "corr_margin_accuracy": 0.7019974207125103
+    },
+    {
+      "source": "004_stress",
+      "n": 12,
+      "tail_mean": 0.20935967629270547,
+      "margin_mean": 6.4470797553658485,
+      "accuracy_mean": 0.8302777806917826,
+      "corr_tail_accuracy": -0.384393404826049,
+      "corr_margin_accuracy": 0.42918720365041385
+    },
+    {
+      "source": "006_cifar_schedule",
+      "n": 18,
+      "tail_mean": 0.7642858438440002,
+      "margin_mean": -1.0391693545712366,
+      "accuracy_mean": 0.37493054899904465,
+      "corr_tail_accuracy": -0.6338370285243338,
+      "corr_margin_accuracy": 0.8264514699871451
+    }
+  ]
+}

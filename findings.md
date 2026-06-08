@@ -144,6 +144,24 @@ Interpretation:
 - The improvement is still modest, so the next engineering step should be
   larger/more-seed GPU runs or pretrained/self-supervised features.
 
+## 007 - Margin/Tail Audit
+
+- Result: `experiments/007-margin-tail-audit/result.md`
+- final-row corr(test tail, accuracy) = `-0.855`
+- final-row corr(margin median, accuracy) = `0.689`
+- final-row corr(test tail, margin median) = `-0.723`
+- final-row corr(local mixing, test tail) = `0.885`
+- corr(test tail decrease, margin gain) = `0.918`
+
+Interpretation:
+
+- Tail remains the stronger global obstruction/accuracy correlate across the
+  mixed existing-metrics collection.
+- Margin is still useful because it tracks confidence/optimization and aligns
+  strongly with tail decrease over feature dynamics.
+- Going forward, tail and local mixing should describe geometry; margin should
+  describe whether that geometry is translating into a usable classifier.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -164,6 +182,10 @@ Interpretation:
 5. Intrinsic contradiction:
    deterministic models cannot fit identical inputs with opposite labels; train
    accuracy/tail remain obstructed even if clean test structure improves.
+
+6. Margin/optimization companion:
+   tail and mixing describe representation geometry, while margin captures
+   confidence and optimization progress inside that geometry.
 
 ## Next Best Experiments
 

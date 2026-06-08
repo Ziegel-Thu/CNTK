@@ -12,6 +12,7 @@ Compact result summaries live in `experiments/results.md`.
 | 004 | intrinsic-collision-stress | P2 | MNIST stress complete | What mixing is correctable vs intrinsic/noisy? | CPU/GPU |
 | 005 | multiclass-obstruction-diagnostics | P2 | MNIST/CIFAR multiclass complete | Do local mixing and spectral tail diagnostics extend beyond binary labels? | CPU/GPU |
 | 006 | cifar-multiclass-schedule-sweep | P2 | CPU two-seed schedule sweep complete | Is weak CIFAR multiclass transfer a schedule artifact? | GPU preferred |
+| 007 | margin-tail-audit | P2 | existing-metrics audit complete | Is margin redundant with tail, or complementary? | CPU |
 
 ## Standard Artifact Contract
 
@@ -44,3 +45,4 @@ Use these names:
 - `cntk-004-collision-stress`
 - `cntk-005-multiclass`
 - `cntk-006-cifar-schedule`
+- `cntk-007-margin-audit`

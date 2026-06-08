@@ -17,6 +17,7 @@ Date: 2026-06-08
 | 004 | `004-intrinsic-collision-stress/result_mnist_stress.md` | Label noise separates train-tail collapse from clean transfer; exact contradictory duplicates cap train accuracy. |
 | 005 | `005-multiclass-obstruction-diagnostics/result.md` | Multiclass extension works: corr(test disagreement, multiclass tail) = `0.960`; corr(tail, probe acc) = `-0.925`. |
 | 006 | `006-cifar-multiclass-schedule-sweep/result.md` | Stronger CIFAR schedule lowers multiclass tail and improves probe accuracy across all-10, animals6, and vehicles4. |
+| 007 | `007-margin-tail-audit/result.md` | Existing-metrics audit: corr(test tail, accuracy) = `-0.855`; corr(tail decrease, margin gain) = `0.918`. |
 
 ## Current Read
 

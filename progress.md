@@ -109,6 +109,14 @@
     without dataset downloads or experiment artifact writes;
   - `experiments/results.md` as a compact completed-results index;
   - updated `README.md` setup/status notes.
+- Ran `007-margin-tail-audit` on existing 002/004/006 metrics:
+  - final-row corr(test tail, accuracy) = `-0.855`;
+  - final-row corr(margin median, accuracy) = `0.689`;
+  - final-row corr(local mixing, tail) = `0.885`;
+  - corr(test tail decrease, margin gain) = `0.918`;
+  - conclusion: margin is complementary rather than a replacement for tail;
+    future dynamics results should report tail, mixing, accuracy, and margin
+    together.
 - Push is not available until a remote is configured.
 
 ## Current Framing

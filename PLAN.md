@@ -229,6 +229,21 @@ Expected outcome:
 - if tail improves without accuracy or margin improvement, treat it as a
   diagnostic boundary and route to pretrained features.
 
+#### Experiment 007: margin-tail audit
+
+Folder: `experiments/007-margin-tail-audit/`
+
+Question:
+
+> Across existing dynamics and schedule metrics, is margin redundant with
+> spectral tail, or a complementary diagnostic?
+
+Expected outcome:
+
+- final tail should remain a strong obstruction/accuracy correlate;
+- margin should add performance-facing information, especially within narrower
+  CIFAR-only comparisons and over training deltas.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -242,6 +257,7 @@ Expected outcome:
 9. Run `004` stress tests.
 10. Run `005` multiclass diagnostics.
 11. Run `006` CIFAR multiclass schedule sweep.
+12. Run `007` margin-tail audit.
 
 ## Decision Rules
 

@@ -61,6 +61,8 @@
   stronger CNN schedules and two seeds on CPU.
 - [ ] `006-cifar-multiclass-schedule-sweep`: rerun stronger schedules on GPU
   with more seeds, larger subsets, and longer training.
+- [x] `007-margin-tail-audit`: aggregate existing binary/multiclass metrics to
+  test whether margin is complementary to tail.
 
 ## P1 - Run Discipline
 
@@ -83,7 +85,10 @@
   disjoint-pair corollary is only a conservative sufficient obstruction.
 - [ ] Relate spectral tail to kernel gradient-flow time to reach a training loss.
 - [ ] Relate fixed-metric collision/mixing to margin and RKHS norm proxies.
-- [ ] Promote margin curves to first-class diagnostics in feature-dynamics runs.
+- [x] Audit margin against tail/accuracy using existing feature-dynamics and
+  schedule metrics.
+- [ ] Promote margin curves to first-class diagnostics in future
+  feature-dynamics plots and result tables.
 - [ ] Separate metric mismatch from intrinsic label ambiguity.
 - [ ] Add fixed-metric obstruction taxonomy: local collision obstruction vs
   global/nonlinear spectral misalignment obstruction.
