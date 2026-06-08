@@ -46,7 +46,7 @@
 - [x] `002-feature-metric-dynamics`: MNIST run tracking `K_t`,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
 - [x] `002-feature-metric-dynamics`: CIFAR raw-pixel MLP run after MNIST dynamics are clean.
-- [ ] `002-feature-metric-dynamics`: CIFAR small-CNN run after raw-pixel MLP
+- [x] `002-feature-metric-dynamics`: CIFAR small-CNN run after raw-pixel MLP
   shows mostly memorization.
 - [ ] `003-fixed-representation-sweep`: compare random features, frozen CNN,
   pretrained features, linear probe, fine-tuned features.

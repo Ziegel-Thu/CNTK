@@ -43,6 +43,36 @@ class MLP(nn.Module):
             param.requires_grad_(False)
 
 
+class SmallCNN(nn.Module):
+    """Small CIFAR-style CNN exposing penultimate features."""
+
+    def __init__(self, width: int = 32, feature_dim: int = 128) -> None:
+        super().__init__()
+        self.feature_net = nn.Sequential(
+            nn.Conv2d(3, width, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(width, 2 * width, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(2 * width, feature_dim, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+        )
+        self.head = nn.Linear(feature_dim, 1)
+
+    def features(self, x: torch.Tensor) -> torch.Tensor:
+        return self.feature_net(x)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.head(self.features(x)).squeeze(-1)
+
+    def freeze_features(self) -> None:
+        for param in self.feature_net.parameters():
+            param.requires_grad_(False)
+
+
 def binary_accuracy(logits: torch.Tensor, targets01: torch.Tensor) -> float:
     preds = (torch.sigmoid(logits) >= 0.5).to(targets01.dtype)
     return float((preds == targets01).float().mean().item())

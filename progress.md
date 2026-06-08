@@ -58,6 +58,11 @@
   - `cat vs dog` test tail remains `0.886 -> 0.881`, indicating memorization;
   - `automobile vs truck` test tail partially improves `0.785 -> 0.727`;
   - next CIFAR dynamics should use a small CNN inductive bias.
+- Ran `002-feature-metric-dynamics` on CIFAR-10 small CNNs:
+  - CNN feature learning transfers better than raw MLP feature learning;
+  - `cat vs dog` test tail improves slightly `0.861 -> 0.834`, test acc `0.604`;
+  - `automobile vs truck` test tail improves `0.751 -> 0.631`, test acc `0.729`;
+  - lazy CNN control has near-zero feature movement and no geometry improvement.
 - Push is not available until a remote is configured.
 
 ## Current Framing

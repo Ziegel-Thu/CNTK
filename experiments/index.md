@@ -5,7 +5,7 @@
 | ID | Name | Priority | Status | Main Question | Resource |
 | --- | --- | --- | --- | --- | --- |
 | 001 | spectral-tail-diagnostics | P0 | toy + image subsets + bound audit complete | Does local mixing predict spectral tail and slow kernel flow? | CPU first, GPU optional |
-| 002 | feature-metric-dynamics | P1 | toy + MNIST + CIFAR MLP complete | Does feature learning reduce mixing/tail by changing `K_t`? | GPU preferred |
+| 002 | feature-metric-dynamics | P1 | toy + MNIST + CIFAR MLP/CNN complete | Does feature learning reduce mixing/tail by changing `K_t`? | GPU preferred |
 | 003 | fixed-representation-sweep | P2 | planned | Is this fixed-metric general, beyond CNTK? | GPU for feature extraction |
 | 004 | intrinsic-collision-stress | P2 | planned | What mixing is correctable vs intrinsic/noisy? | CPU/GPU |
 
