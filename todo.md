@@ -41,7 +41,7 @@
 - [ ] `001-spectral-tail-diagnostics`: theorem-bound audit for collision lower bounds.
 - [x] `002-feature-metric-dynamics`: toy quick run tracking feature Gram,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
-- [ ] `002-feature-metric-dynamics`: replace lazy-ish control with stricter SGD
+- [x] `002-feature-metric-dynamics`: replace lazy-ish control with stricter SGD
   small-LR/wider lazy control.
 - [ ] `002-feature-metric-dynamics`: MNIST run tracking `K_t`,
   `T_y^{K_t}(m)`, collisions, alignment, margin.

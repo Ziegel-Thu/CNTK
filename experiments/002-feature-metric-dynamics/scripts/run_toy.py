@@ -89,13 +89,24 @@ def train_regime(
     elif regime == "feature_learning":
         model = models.MLP(input_dim=train.x.shape[1], width=128, depth=2)
         lr = 1e-2
+        optimizer_kind = "adam"
     elif regime == "lazy_wide_small_lr":
-        model = models.MLP(input_dim=train.x.shape[1], width=512, depth=2)
-        lr = 5e-4
+        model = models.MLP(input_dim=train.x.shape[1], width=2048, depth=2)
+        lr = 5e-3
+        optimizer_kind = "sgd"
     else:
         raise ValueError(f"unknown regime: {regime}")
 
-    optimizer = torch.optim.Adam((p for p in model.parameters() if p.requires_grad), lr=lr)
+    if regime == "frozen_random":
+        optimizer_kind = "adam"
+
+    trainable_params = [p for p in model.parameters() if p.requires_grad]
+    if optimizer_kind == "adam":
+        optimizer = torch.optim.Adam(trainable_params, lr=lr)
+    elif optimizer_kind == "sgd":
+        optimizer = torch.optim.SGD(trainable_params, lr=lr)
+    else:
+        raise ValueError(f"unknown optimizer: {optimizer_kind}")
     loss_fn = nn.BCEWithLogitsLoss()
     checkpoints = sorted(set([0, 1, 5, 20, 60, epochs]))
 
@@ -166,6 +177,15 @@ def write_result_md(results: list[dict], command: str, out: Path) -> None:
         "",
         "Toy feature-metric dynamics completed for frozen random features, feature",
         "learning, and a lazy-ish wide/small-LR control.",
+        "",
+        "Interpretation checklist:",
+        "",
+        "- Feature learning should reduce tail/mixing on correctable metric-mismatch tasks.",
+        "- Frozen features should keep feature Gram movement at zero.",
+        "- The lazy-ish control now uses a wide MLP with SGD and small learning rate,",
+        "  so it should move the feature Gram much less than the feature-learning run.",
+        "- Synthetic opposite-label collision pairs are an intrinsic-ambiguity control:",
+        "  movement alone should not make them separable.",
         "",
         "| dataset | regime | tail@10% start | tail@10% final | mixing start | mixing final | movement final | train acc | test acc |",
         "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",

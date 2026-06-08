@@ -32,8 +32,9 @@
   - on synthetic opposite-label collision pairs, feature learning moved the
     metric but did not reduce tail/mixing or improve accuracy, supporting the
     intrinsic-ambiguity stress-test direction;
-  - lazy-ish control is not strict enough yet because feature Gram movement is
-    nontrivial.
+- Re-ran `002-feature-metric-dynamics` with a stricter lazy control (wide MLP +
+  SGD small LR): two-moons lazy feature movement dropped to `0.105`, while
+  collision-pair lazy movement is near zero (`0.0002`).
 - Push is not available until a remote is configured.
 
 ## Current Framing
