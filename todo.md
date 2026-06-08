@@ -38,7 +38,7 @@
 
 - [x] `001-spectral-tail-diagnostics`: toy-only quick run.
 - [x] `001-spectral-tail-diagnostics`: MNIST/CIFAR subset fixed-kernel diagnostics.
-- [ ] `001-spectral-tail-diagnostics`: theorem-bound audit for collision lower bounds.
+- [x] `001-spectral-tail-diagnostics`: theorem-bound audit for collision lower bounds.
 - [x] `002-feature-metric-dynamics`: toy quick run tracking feature Gram,
   `T_y^{K_t}(m)`, collisions, alignment, margin.
 - [x] `002-feature-metric-dynamics`: replace lazy-ish control with stricter SGD
@@ -68,6 +68,8 @@
 
 - [ ] Formalize how collision graph statistics lower-bound spectral tail in
   measurable finite-sample settings.
+- [ ] Derive sharper/non-vacuous finite-sample bounds or explain why the current
+  disjoint-pair corollary is only a conservative sufficient obstruction.
 - [ ] Relate spectral tail to kernel gradient-flow time to reach a training loss.
 - [ ] Relate fixed-metric collision/mixing to margin and RKHS norm proxies.
 - [ ] Separate metric mismatch from intrinsic label ambiguity.

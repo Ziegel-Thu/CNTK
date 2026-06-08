@@ -41,6 +41,11 @@
   - combined image-subset corr(`alignment`, `tail@10%`) = `-0.905`;
   - CIFAR `cat vs dog` has the largest tail/mixing under raw-pixel kernels
     (`tail@10%` up to `0.863`, opposite-kNN around `0.47`).
+- Ran `001b` theorem-bound audit:
+  - formal disjoint-collision bound is nonzero in only `4/150` audited rows;
+  - max formal bound / actual tail ratio is `0.182`;
+  - conclusion: current theorem is a conservative sufficient obstruction check,
+    while richer local-mixing diagnostics are better empirical predictors.
 - Push is not available until a remote is configured.
 
 ## Current Framing

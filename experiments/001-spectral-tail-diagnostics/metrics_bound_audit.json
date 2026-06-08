@@ -1,0 +1,2014 @@
+{
+  "results": [
+    {
+      "dataset": "two_moons_noise0.2",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.0,
+          "actual_tail": 0.46142747233497805,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.0,
+          "actual_tail": 0.4489269305762229,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.0,
+          "actual_tail": 0.4278188001610338,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.0,
+          "actual_tail": 0.4135036508551082,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.3776781526334788,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "two_moons_noise0.2",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.029333334464831672,
+          "actual_tail": 0.20825284113522813,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 3.7780610666676556e-05,
+          "actual_tail": 0.11580840862130082,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 8.233689438494547e-10,
+          "actual_tail": 0.06909174771338089,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.0,
+          "actual_tail": 0.060544873192849846,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.04409030692315996,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "two_moons_noise0.2",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.5959129681826048,
+          "actual_tail": 0.123891799412581,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.09731956293230234,
+          "actual_tail": 0.08436619173262694,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.0003567940676064496,
+          "actual_tail": 0.06805314551953223,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 1.3981033955833011e-06,
+          "actual_tail": 0.05569813935986545,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 4.0859958989385015e-11,
+          "actual_tail": 0.036568177654247025,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "two_moons_noise0.2",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.7160058981639565,
+          "actual_tail": 0.11733116702843782,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.5834591511411421,
+          "actual_tail": 0.07429475311715139,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.23670742998980657,
+          "actual_tail": 0.057776474400181854,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.13079849882708125,
+          "actual_tail": 0.04638863181080255,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.06699785530457308,
+          "actual_tail": 0.020411948041539785,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "two_moons_noise0.2",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.020995426094212722,
+          "actual_tail": 0.19761692187029067,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.0685991136374391e-05,
+          "actual_tail": 0.11533403165848688,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.0,
+          "actual_tail": 0.07018797542599009,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.0,
+          "actual_tail": 0.056522096007867395,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.04256852170621184,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "collision_pairs_sep0.03",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.0,
+          "actual_tail": 0.9407956158566718,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.0,
+          "actual_tail": 0.8396135216386661,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.0,
+          "actual_tail": 0.7371715060649826,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.0,
+          "actual_tail": 0.5675524698138205,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.4221225223561438,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "collision_pairs_sep0.03",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.31418358106521843,
+          "actual_tail": 0.9999476876862373,
+          "best_bound": 0.14116078993190173,
+          "bound_ratio": 0.14116817476575338,
+          "best_collision_rate": 0.15,
+          "best_q_rho": 45,
+          "best_rho": 0.020325969812234744,
+          "best_rho_quantile": 0.3
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.0018961241104318179,
+          "actual_tail": 0.9995810100399123,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 7.695767335070131e-08,
+          "actual_tail": 0.9540314043493855,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 1.0202523441683443e-11,
+          "actual_tail": 0.861542824432908,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.6571096830756684,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "collision_pairs_sep0.03",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 3.152855349875069,
+          "actual_tail": 0.9998903850726358,
+          "best_bound": 0.18239990456821348,
+          "bound_ratio": 0.18241990051235793,
+          "best_collision_rate": 0.15,
+          "best_q_rho": 45,
+          "best_rho": 0.04515963608315,
+          "best_rho_quantile": 0.3
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.7262911952118917,
+          "actual_tail": 0.9995716637163761,
+          "best_bound": 0.08783414964742502,
+          "bound_ratio": 0.08787178832267054,
+          "best_collision_rate": 0.15,
+          "best_q_rho": 45,
+          "best_rho": 0.04515963608315,
+          "best_rho_quantile": 0.3
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.003195583040564189,
+          "actual_tail": 0.995094460956222,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 4.9050888766190424e-05,
+          "actual_tail": 0.8955453606515011,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 1.4136290355650059e-09,
+          "actual_tail": 0.7315527179574952,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "collision_pairs_sep0.03",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 2.0902882439737827,
+          "actual_tail": 0.9998531881235496,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.0007376441974116,
+          "actual_tail": 0.9995772195094016,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.36654486614431203,
+          "actual_tail": 0.9991391065429106,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.18463754474071556,
+          "actual_tail": 0.9981516521122813,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0249581165060924,
+          "actual_tail": 0.9861565944992121,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "collision_pairs_sep0.03",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 0.363798895972272,
+          "actual_tail": 0.9999541925105563,
+          "best_bound": 0.1532405410752318,
+          "bound_ratio": 0.1532475609612628,
+          "best_collision_rate": 0.15,
+          "best_q_rho": 45,
+          "best_rho": 0.019869902846666666,
+          "best_rho_quantile": 0.3
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.0004085617498946428,
+          "actual_tail": 0.9993372985286717,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 2.391459185170731e-10,
+          "actual_tail": 0.9367963115416202,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.0,
+          "actual_tail": 0.8639858148069745,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.0,
+          "actual_tail": 0.6526410621286225,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_3vs8_train_n150",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 4.300147222778548,
+          "actual_tail": 0.24456801432323128,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 2.329223819232916,
+          "actual_tail": 0.19095478664368426,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 1.0197812539914148,
+          "actual_tail": 0.16376166567345618,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.5485468485976678,
+          "actual_tail": 0.14012183357110752,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.1822938785108354,
+          "actual_tail": 0.09640158519459685,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_3vs8_train_n150",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.5676718229040736,
+          "actual_tail": 0.24204098059647106,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.9862785981776234,
+          "actual_tail": 0.19945201942439605,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.5612075297097433,
+          "actual_tail": 0.16138165806288862,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.32467546572928063,
+          "actual_tail": 0.1282898638955129,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.14387176502700313,
+          "actual_tail": 0.07656991739626129,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_3vs8_train_n150",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 2.021313285569121,
+          "actual_tail": 0.3530369812019406,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.3510281252420042,
+          "actual_tail": 0.26023852855463725,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 1.0078477822567304,
+          "actual_tail": 0.18482446208414516,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.9521579746464812,
+          "actual_tail": 0.1110021642380229,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.7022882175020057,
+          "actual_tail": 0.060652232846723164,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_3vs8_train_n150",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.4143930123412176,
+          "actual_tail": 0.24504139094588184,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.0182474643122323,
+          "actual_tail": 0.19367979937138124,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.7579459647001987,
+          "actual_tail": 0.15733465693013626,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.6138525432503589,
+          "actual_tail": 0.1151614582212871,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.47482992928443174,
+          "actual_tail": 0.06682001567790186,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_3vs8_train_n150",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.7575435081168165,
+          "actual_tail": 0.2336188206116978,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.0763041172006644,
+          "actual_tail": 0.21235609639797348,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.5538938500675866,
+          "actual_tail": 0.157392684417357,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.3156613414901243,
+          "actual_tail": 0.13762544009350086,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.12623305313235336,
+          "actual_tail": 0.0831099291105627,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_4vs9_train_n150",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 4.749366596757722,
+          "actual_tail": 0.2877477657096904,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 2.169801847509083,
+          "actual_tail": 0.22825798389509377,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.9301578790457188,
+          "actual_tail": 0.17264241313961903,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.5490246002736123,
+          "actual_tail": 0.13810096557197327,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.18293656682424758,
+          "actual_tail": 0.09763787572460803,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_4vs9_train_n150",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.651762265052062,
+          "actual_tail": 0.27452873090664665,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.9886444193533629,
+          "actual_tail": 0.2232141311947914,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.5921861455838988,
+          "actual_tail": 0.17101979401585254,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.3472461081524371,
+          "actual_tail": 0.14611390175176764,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.14221547486242178,
+          "actual_tail": 0.0882749403676868,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_4vs9_train_n150",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 2.241061925466068,
+          "actual_tail": 0.3730652087250418,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.3094410126419846,
+          "actual_tail": 0.3220295734525074,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 1.0033766226965006,
+          "actual_tail": 0.20276251966755832,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.9740223841921856,
+          "actual_tail": 0.1358944505947809,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.706202010050398,
+          "actual_tail": 0.07350652682621828,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_4vs9_train_n150",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.4859541040617779,
+          "actual_tail": 0.2901133863765708,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.9882548919719659,
+          "actual_tail": 0.21814020888732266,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.7758638151925089,
+          "actual_tail": 0.16497328007790857,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.6401114867562313,
+          "actual_tail": 0.1398254263015004,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.4737124582699493,
+          "actual_tail": 0.07725424096379718,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "mnist_4vs9_train_n150",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.8371091432649458,
+          "actual_tail": 0.2794822319132503,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.0680202812713115,
+          "actual_tail": 0.24000348543739536,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.5775254202355402,
+          "actual_tail": 0.18690707039520993,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.32785993446769146,
+          "actual_tail": 0.15787215449626923,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.12584715380447103,
+          "actual_tail": 0.10068245918683616,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_catvsdog_train_n150",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 3.269411724392052,
+          "actual_tail": 0.8323137525288289,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.383494012609999,
+          "actual_tail": 0.7751009049497428,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.5689533327407426,
+          "actual_tail": 0.6834477533515395,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.3159261303124289,
+          "actual_tail": 0.5947432681318612,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.1262348513124387,
+          "actual_tail": 0.40382394635894514,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_catvsdog_train_n150",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.286983355643139,
+          "actual_tail": 0.8254488742595165,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.6416641941905903,
+          "actual_tail": 0.7398034270525798,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.3281784868226259,
+          "actual_tail": 0.6425311050824801,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.21191499749330817,
+          "actual_tail": 0.5644627174296162,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.12204583482234055,
+          "actual_tail": 0.40372278947720464,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_catvsdog_train_n150",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 2.020431517851008,
+          "actual_tail": 0.8101342627610558,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.333404772402472,
+          "actual_tail": 0.702348163382299,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.965732567660803,
+          "actual_tail": 0.6198059106238882,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.8348464791112271,
+          "actual_tail": 0.5449393033717316,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.6607679305993608,
+          "actual_tail": 0.39938410528209045,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_catvsdog_train_n150",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.3682426580390659,
+          "actual_tail": 0.8132786278465056,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.8455128134208124,
+          "actual_tail": 0.7238503260239397,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.6222145298473364,
+          "actual_tail": 0.6320114146632719,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.5389943892634965,
+          "actual_tail": 0.5638766837931222,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.45779132605629846,
+          "actual_tail": 0.38928704050600293,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_catvsdog_train_n150",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.3782981987303198,
+          "actual_tail": 0.8302108273942931,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.6779189405793391,
+          "actual_tail": 0.732132044842608,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.3373693784309372,
+          "actual_tail": 0.6626331634321792,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.21734250972817373,
+          "actual_tail": 0.5745613242281842,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.11001970628924224,
+          "actual_tail": 0.3850623978788683,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_automobilevstruck_train_n150",
+      "kernel": "linear",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 3.480001273437314,
+          "actual_tail": 0.8372569827996732,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.7135466790312701,
+          "actual_tail": 0.7443889744926961,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.7297013753303662,
+          "actual_tail": 0.6060549590522483,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.42389946638087805,
+          "actual_tail": 0.5258093364388983,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.1791766192532129,
+          "actual_tail": 0.3725966849221284,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_automobilevstruck_train_n150",
+      "kernel": "rbf_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.385152772826284,
+          "actual_tail": 0.8452198309980027,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.6638593229069395,
+          "actual_tail": 0.767232089791448,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.36273069846048234,
+          "actual_tail": 0.5801878921778489,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.24522357381672083,
+          "actual_tail": 0.5092429572363439,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.14911521731875327,
+          "actual_tail": 0.38665497066346544,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_automobilevstruck_train_n150",
+      "kernel": "rbf_narrow",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.9297423515051524,
+          "actual_tail": 0.8408898080359397,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 1.2727712154385749,
+          "actual_tail": 0.7494270900451814,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.9872573372442873,
+          "actual_tail": 0.6012538638226266,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.860914805074117,
+          "actual_tail": 0.5068538765904412,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.7078300626769658,
+          "actual_tail": 0.39770327066861944,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_automobilevstruck_train_n150",
+      "kernel": "laplace_median",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.3080087934749034,
+          "actual_tail": 0.8461785141885609,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.8389522577001786,
+          "actual_tail": 0.7802423599206647,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.6419360722586488,
+          "actual_tail": 0.5908337222696727,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.5586035940131879,
+          "actual_tail": 0.5076711976376045,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.4780325740355594,
+          "actual_tail": 0.39450626182200754,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    },
+    {
+      "dataset": "cifar10_automobilevstruck_train_n150",
+      "kernel": "rff_1024",
+      "n": 300,
+      "rows": [
+        {
+          "fraction": 0.05,
+          "m": 15,
+          "lambda_m": 1.4111255829079825,
+          "actual_tail": 0.8423623263717636,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.1,
+          "m": 30,
+          "lambda_m": 0.7089474450869409,
+          "actual_tail": 0.7557385078815729,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.2,
+          "m": 60,
+          "lambda_m": 0.37931199057306675,
+          "actual_tail": 0.5812276523135911,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.3,
+          "m": 90,
+          "lambda_m": 0.2520951700972652,
+          "actual_tail": 0.5112714191990683,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        },
+        {
+          "fraction": 0.5,
+          "m": 150,
+          "lambda_m": 0.1308974758034726,
+          "actual_tail": 0.384719856755821,
+          "best_bound": 0.0,
+          "bound_ratio": 0.0,
+          "best_collision_rate": 0.0,
+          "best_q_rho": 0,
+          "best_rho": 0.0,
+          "best_rho_quantile": null
+        }
+      ]
+    }
+  ]
+}
