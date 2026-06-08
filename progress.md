@@ -53,6 +53,11 @@
   - frozen features keep geometry fixed; strict lazy control has very small
     feature movement (`0.014` and `0.006`);
   - metric adaptation partially transfers to held-out MNIST subsets.
+- Ran `002-feature-metric-dynamics` on CIFAR-10 raw-pixel MLPs:
+  - feature learning collapses train tail but mostly does not improve test tail;
+  - `cat vs dog` test tail remains `0.886 -> 0.881`, indicating memorization;
+  - `automobile vs truck` test tail partially improves `0.785 -> 0.727`;
+  - next CIFAR dynamics should use a small CNN inductive bias.
 - Push is not available until a remote is configured.
 
 ## Current Framing
