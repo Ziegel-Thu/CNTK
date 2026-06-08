@@ -68,6 +68,13 @@
   - corr(test opposite-kNN ratio, test `tail@10%`) = `0.988`;
   - corr(test `tail@10%`, linear-probe test accuracy) = `-0.971`;
   - supports the broader fixed-representation obstruction framing beyond CNTK.
+- Ran `004-intrinsic-collision-stress` on MNIST `3 vs 8`:
+  - clean feature learning reduces clean test tail to `0.085`, test acc `0.947`;
+  - `10%` label flips still partially transfer, test acc `0.933`;
+  - `30%` label flips cause memorization: train tail `0.807 -> 0.008` but clean
+    test tail worsens to `0.288`, test acc `0.670`;
+  - exact opposite-label duplicates cap train acc near `0.833` and prevent full
+    train-tail collapse, but clean test tail improves to `0.114`.
 - Push is not available until a remote is configured.
 
 ## Current Framing
