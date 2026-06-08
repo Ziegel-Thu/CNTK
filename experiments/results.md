@@ -18,6 +18,7 @@ Date: 2026-06-08
 | 005 | `005-multiclass-obstruction-diagnostics/result.md` | Multiclass extension works: corr(test disagreement, multiclass tail) = `0.960`; corr(tail, probe acc) = `-0.925`. |
 | 006 | `006-cifar-multiclass-schedule-sweep/result.md` | Stronger CIFAR schedule lowers multiclass tail and improves probe accuracy across all-10, animals6, and vehicles4. |
 | 007 | `007-margin-tail-audit/result.md` | Existing-metrics audit: corr(test tail, accuracy) = `-0.855`; corr(tail decrease, margin gain) = `0.918`. |
+| 008 | `008-graph-energy-kernel-margin/result.md` | Graph diagnostics and kernel margin: corr(graph Dirichlet, tail) = `0.955`; corr(tail, kernel ridge margin) = `-0.964`. |
 
 ## Current Read
 
@@ -30,3 +31,5 @@ Date: 2026-06-08
   train-only tail collapse is memorization.
 - Margin should be tracked alongside tail/mixing, especially when comparing
   nearby CIFAR representations where tail ranges are compressed.
+- Graph Dirichlet energy is now a first-class local-mixing diagnostic; source
+  norm still needs a controlled same-kernel audit.

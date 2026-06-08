@@ -244,6 +244,28 @@ Expected outcome:
 - margin should add performance-facing information, especially within narrower
   CIFAR-only comparisons and over training deltas.
 
+#### Experiment 008: graph energy and kernel margin
+
+Folder: `experiments/008-graph-energy-kernel-margin/`
+
+Question:
+
+> Can local label mixing be made into a metric-graph diagnostic that predicts
+> both spectral tail and kernel classifier margin?
+
+Diagnostics:
+
+- kNN graph disagreement;
+- signed/multiclass graph Dirichlet energy;
+- closed-form kernel ridge margin;
+- source/RKHS norm proxy.
+
+Expected outcome:
+
+- graph energy should track spectral tail;
+- kernel ridge margin should decrease as tail increases;
+- source-norm proxies need same-kernel audits before being used as a headline.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -258,6 +280,7 @@ Expected outcome:
 10. Run `005` multiclass diagnostics.
 11. Run `006` CIFAR multiclass schedule sweep.
 12. Run `007` margin-tail audit.
+13. Run `008` graph energy/kernel margin diagnostics.
 
 ## Decision Rules
 

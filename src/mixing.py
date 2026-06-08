@@ -17,6 +17,8 @@ class MixingSummary:
     collision_count: int
     collision_rate: float
     rho: float
+    graph_dirichlet: float
+    graph_disagreement: float
 
 
 @dataclass(frozen=True)
@@ -31,6 +33,8 @@ class MulticlassMixingSummary:
     collision_count: int
     collision_rate: float
     rho: float
+    graph_dirichlet: float
+    graph_disagreement: float
 
 
 def _offdiag_inf(d2: np.ndarray) -> np.ndarray:
@@ -64,6 +68,69 @@ def knn_opposite_ratio(d2: np.ndarray, y: np.ndarray, k: int = 10) -> float:
     k = max(1, min(k, len(y) - 1))
     idx = np.argpartition(dist, kth=k - 1, axis=1)[:, :k]
     return float(np.mean(y[idx] != y[:, None]))
+
+
+def knn_adjacency(d2: np.ndarray, k: int = 10, symmetrize: bool = True, weighted: bool = True) -> np.ndarray:
+    """kNN graph adjacency from squared distances."""
+    d2 = np.asarray(d2, dtype=np.float64)
+    n = d2.shape[0]
+    if d2.shape != (n, n):
+        raise ValueError("d2 must be square")
+    k = max(1, min(k, n - 1))
+    dist = _offdiag_inf(d2)
+    idx = np.argpartition(dist, kth=k - 1, axis=1)[:, :k]
+    adj = np.zeros((n, n), dtype=np.float64)
+    if weighted:
+        finite = dist[np.isfinite(dist)]
+        sigma2 = float(np.median(finite[finite > 1e-12])) if np.any(finite > 1e-12) else 1.0
+        weights = np.exp(-d2 / (sigma2 + 1e-12))
+    else:
+        weights = np.ones_like(d2, dtype=np.float64)
+    rows = np.arange(n)[:, None]
+    adj[rows, idx] = weights[rows, idx]
+    if symmetrize:
+        adj = np.maximum(adj, adj.T)
+    np.fill_diagonal(adj, 0.0)
+    return adj
+
+
+def graph_disagreement_ratio(adj: np.ndarray, y: np.ndarray) -> float:
+    """Fraction of graph edge weight crossing different labels."""
+    adj = np.asarray(adj, dtype=np.float64)
+    y = np.asarray(y).reshape(-1)
+    denom = float(np.sum(adj))
+    if denom <= 0:
+        return 0.0
+    cross = adj * (y[:, None] != y[None, :])
+    return float(np.sum(cross) / denom)
+
+
+def graph_dirichlet_energy(adj: np.ndarray, labels: np.ndarray) -> float:
+    """Normalized graph Dirichlet energy for binary or multiclass labels.
+
+    Binary labels use the provided scalar labels. Multiclass labels use centered
+    one-hot vectors, so the energy measures label-subspace roughness on the
+    local metric graph.
+    """
+    adj = np.asarray(adj, dtype=np.float64)
+    labels = np.asarray(labels).reshape(-1)
+    classes = np.unique(labels)
+    if len(classes) <= 2 and np.all(np.isin(labels, [-1, 1, -1.0, 1.0])):
+        values = labels.astype(np.float64)[:, None]
+    else:
+        values = np.zeros((len(labels), len(classes)), dtype=np.float64)
+        for col, cls in enumerate(classes):
+            values[:, col] = labels == cls
+        values = values - values.mean(axis=0, keepdims=True)
+
+    denom = float(np.sum(adj))
+    if denom <= 0:
+        return 0.0
+    diff = values[:, None, :] - values[None, :, :]
+    sq = np.sum(diff * diff, axis=2)
+    raw = 0.5 * float(np.sum(adj * sq))
+    label_scale = float(np.mean(np.sum(values * values, axis=1)))
+    return raw / (denom * max(label_scale, 1e-12))
 
 
 def local_label_entropy(d2: np.ndarray, y: np.ndarray, k: int = 10) -> float:
@@ -134,6 +201,7 @@ def summarize(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantile: float = 
         rho = float(np.quantile(finite_opp, rho_quantile))
     pairs = greedy_disjoint_opposite_pairs(d2, y, rho=rho)
     n = len(np.asarray(y).reshape(-1))
+    adj = knn_adjacency(d2, k=k)
     return MixingSummary(
         opposite_nn_mean=float(np.mean(finite_opp)) if finite_opp.size else float("inf"),
         opposite_nn_median=float(np.median(finite_opp)) if finite_opp.size else float("inf"),
@@ -143,6 +211,8 @@ def summarize(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantile: float = 
         collision_count=len(pairs),
         collision_rate=float(len(pairs) / max(1, n)),
         rho=rho,
+        graph_dirichlet=graph_dirichlet_energy(adj, y),
+        graph_disagreement=graph_disagreement_ratio(adj, y),
     )
 
 
@@ -157,6 +227,7 @@ def summarize_multiclass(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantil
     pairs = greedy_disjoint_opposite_pairs(d2, y, rho=rho)
     n = len(np.asarray(y).reshape(-1))
     disagreement = knn_opposite_ratio(d2, y, k=k)
+    adj = knn_adjacency(d2, k=k)
     return MulticlassMixingSummary(
         nearest_other_mean=float(np.mean(finite_other)) if finite_other.size else float("inf"),
         nearest_other_median=float(np.median(finite_other)) if finite_other.size else float("inf"),
@@ -168,6 +239,8 @@ def summarize_multiclass(d2: np.ndarray, y: np.ndarray, k: int = 10, rho_quantil
         collision_count=len(pairs),
         collision_rate=float(len(pairs) / max(1, n)),
         rho=rho,
+        graph_dirichlet=graph_dirichlet_energy(adj, y),
+        graph_disagreement=graph_disagreement_ratio(adj, y),
     )
 
 
@@ -201,6 +274,8 @@ def to_jsonable(summary: MixingSummary) -> dict[str, float | int]:
         "collision_count": summary.collision_count,
         "collision_rate": summary.collision_rate,
         "rho": summary.rho,
+        "graph_dirichlet": summary.graph_dirichlet,
+        "graph_disagreement": summary.graph_disagreement,
     }
 
 
@@ -216,4 +291,6 @@ def multiclass_to_jsonable(summary: MulticlassMixingSummary) -> dict[str, float 
         "collision_count": summary.collision_count,
         "collision_rate": summary.collision_rate,
         "rho": summary.rho,
+        "graph_dirichlet": summary.graph_dirichlet,
+        "graph_disagreement": summary.graph_disagreement,
     }

@@ -63,6 +63,10 @@
   with more seeds, larger subsets, and longer training.
 - [x] `007-margin-tail-audit`: aggregate existing binary/multiclass metrics to
   test whether margin is complementary to tail.
+- [x] `008-graph-energy-kernel-margin`: add graph Dirichlet/disagreement and
+  closed-form kernel ridge margin diagnostics on MNIST/CIFAR binary tasks.
+- [ ] `008-graph-energy-kernel-margin`: run same-kernel ridge/source-norm sweep
+  before making source norm a headline consequence.
 
 ## P1 - Run Discipline
 
@@ -84,7 +88,9 @@
 - [ ] Derive sharper/non-vacuous finite-sample bounds or explain why the current
   disjoint-pair corollary is only a conservative sufficient obstruction.
 - [ ] Relate spectral tail to kernel gradient-flow time to reach a training loss.
-- [ ] Relate fixed-metric collision/mixing to margin and RKHS norm proxies.
+- [x] Relate fixed-metric collision/mixing to kernel ridge margin empirically.
+- [ ] Relate fixed-metric collision/mixing to RKHS/source norm proxies in a
+  controlled same-kernel sweep.
 - [x] Audit margin against tail/accuracy using existing feature-dynamics and
   schedule metrics.
 - [ ] Promote margin curves to first-class diagnostics in future

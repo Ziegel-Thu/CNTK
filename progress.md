@@ -117,6 +117,17 @@
   - conclusion: margin is complementary rather than a replacement for tail;
     future dynamics results should report tail, mixing, accuracy, and margin
     together.
+- Added graph-energy and kernel-ridge shared diagnostics:
+  - kNN graph adjacency, graph disagreement, and graph Dirichlet energy;
+  - binary/multiclass kernel ridge classifiers with margin and source-norm
+    proxies.
+- Ran `008-graph-energy-kernel-margin` on MNIST/CIFAR binary tasks:
+  - corr(test graph disagreement, test `tail@10%`) = `0.955`;
+  - corr(test graph Dirichlet, test `tail@10%`) = `0.955`;
+  - corr(test `tail@10%`, kernel ridge test margin median) = `-0.964`;
+  - corr(kernel ridge margin median, test accuracy) = `0.958`;
+  - source-norm proxy was weak in the mixed-kernel comparison (`-0.267` with
+    margin), so it needs a controlled same-kernel sweep.
 - Push is not available until a remote is configured.
 
 ## Current Framing

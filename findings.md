@@ -162,6 +162,25 @@ Interpretation:
 - Going forward, tail and local mixing should describe geometry; margin should
   describe whether that geometry is translating into a usable classifier.
 
+## 008 - Graph Energy and Kernel Margin
+
+- Result: `experiments/008-graph-energy-kernel-margin/result.md`
+- corr(test kNN opposite ratio, test `tail@10%`) = `0.961`
+- corr(test graph disagreement, test `tail@10%`) = `0.955`
+- corr(test graph Dirichlet, test `tail@10%`) = `0.955`
+- corr(test `tail@10%`, kernel ridge test margin median) = `-0.964`
+- corr(kernel ridge margin median, test accuracy) = `0.958`
+
+Interpretation:
+
+- The local mixing metric family now includes graph-level disagreement and
+  Dirichlet energy, not only nearest-neighbor ratios.
+- Kernel ridge margin gives a direct classifier consequence for high spectral
+  tail.
+- Source/RKHS norm proxies are not ready as a headline: in the mixed-kernel
+  comparison they were weaker, likely due to feature/kernel scale and
+  regularization differences.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -186,6 +205,10 @@ Interpretation:
 6. Margin/optimization companion:
    tail and mixing describe representation geometry, while margin captures
    confidence and optimization progress inside that geometry.
+
+7. Graph-diagnostic layer:
+   local mixing can be measured as a kNN graph roughness/Dirichlet-energy
+   statistic, giving a bridge from pointwise collisions to spectral tail.
 
 ## Next Best Experiments
 
