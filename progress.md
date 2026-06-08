@@ -63,6 +63,11 @@
   - `cat vs dog` test tail improves slightly `0.861 -> 0.834`, test acc `0.604`;
   - `automobile vs truck` test tail improves `0.751 -> 0.631`, test acc `0.729`;
   - lazy CNN control has near-zero feature movement and no geometry improvement.
+- Ran `003-fixed-representation-sweep` across raw pixels, RFF, random MLP,
+  trained MLP, and CIFAR CNN features:
+  - corr(test opposite-kNN ratio, test `tail@10%`) = `0.988`;
+  - corr(test `tail@10%`, linear-probe test accuracy) = `-0.971`;
+  - supports the broader fixed-representation obstruction framing beyond CNTK.
 - Push is not available until a remote is configured.
 
 ## Current Framing

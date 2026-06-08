@@ -261,3 +261,116 @@ def make_cifar10_binary(
     right = classes[1] if isinstance(classes[1], str) else CIFAR10_LABELS[class_ids[1]]
     name = f"cifar10_{left}vs{right}_{split}_n{n_per_class}"
     return Dataset(name=name, x=standardize(out_x[perm]), y=out_y[perm])
+
+
+def _binary_subset_from_arrays(
+    x: np.ndarray,
+    labels: np.ndarray,
+    class_ids: tuple[int, int],
+    class_names: tuple[str, str],
+    n_per_class: int,
+    seed: int,
+    name: str,
+    mean: np.ndarray | None = None,
+    std: np.ndarray | None = None,
+    image_shape: tuple[int, ...] | None = None,
+) -> tuple[Dataset, np.ndarray, np.ndarray]:
+    rng = np.random.default_rng(seed)
+    xs = []
+    ys = []
+    for sign, cls in [(1.0, class_ids[0]), (-1.0, class_ids[1])]:
+        idx = np.flatnonzero(labels == cls)
+        if len(idx) < n_per_class:
+            raise ValueError(f"not enough samples for class {cls}: {len(idx)}")
+        idx = rng.choice(idx, size=n_per_class, replace=False)
+        xs.append(x[idx])
+        ys.append(np.full(n_per_class, sign))
+    out_x = np.concatenate(xs, axis=0)
+    out_y = np.concatenate(ys, axis=0)
+    perm = rng.permutation(len(out_y))
+    out_x = out_x[perm]
+    out_y = out_y[perm]
+
+    if mean is None:
+        mean = out_x.mean(axis=0, keepdims=True)
+    if std is None:
+        std = out_x.std(axis=0, keepdims=True) + 1e-12
+    out_x = (out_x - mean) / std
+    if image_shape is not None:
+        out_x = out_x.reshape((out_x.shape[0],) + image_shape)
+    return Dataset(name=name, x=out_x, y=out_y), mean, std
+
+
+def make_mnist_binary_train_test(
+    root: str | Path,
+    classes: tuple[int, int] = (3, 8),
+    n_per_class: int = 150,
+    seed: int = 0,
+) -> tuple[Dataset, Dataset]:
+    """MNIST train/test binary subsets using train-subset normalization."""
+    x_train, y_train = load_mnist(root, split="train")
+    x_test, y_test = load_mnist(root, split="test")
+    label = f"{classes[0]}vs{classes[1]}_n{n_per_class}"
+    train, mean, std = _binary_subset_from_arrays(
+        x_train,
+        y_train,
+        class_ids=classes,
+        class_names=(str(classes[0]), str(classes[1])),
+        n_per_class=n_per_class,
+        seed=seed,
+        name=f"mnist_{label}_train",
+    )
+    test, _, _ = _binary_subset_from_arrays(
+        x_test,
+        y_test,
+        class_ids=classes,
+        class_names=(str(classes[0]), str(classes[1])),
+        n_per_class=n_per_class,
+        seed=seed + 100,
+        name=f"mnist_{label}_test",
+        mean=mean,
+        std=std,
+    )
+    return train, test
+
+
+def make_cifar10_binary_train_test(
+    root: str | Path,
+    classes: tuple[str | int, str | int] = ("cat", "dog"),
+    n_per_class: int = 150,
+    seed: int = 0,
+    as_images: bool = False,
+) -> tuple[Dataset, Dataset]:
+    """CIFAR-10 train/test binary subsets using train-subset normalization."""
+    x_train, y_train = load_cifar10(root, split="train")
+    x_test, y_test = load_cifar10(root, split="test")
+    class_ids = (_cifar_class_id(classes[0]), _cifar_class_id(classes[1]))
+    class_names = (
+        classes[0] if isinstance(classes[0], str) else CIFAR10_LABELS[class_ids[0]],
+        classes[1] if isinstance(classes[1], str) else CIFAR10_LABELS[class_ids[1]],
+    )
+    image_shape = (3, 32, 32) if as_images else None
+    label = f"{class_names[0]}vs{class_names[1]}_n{n_per_class}"
+    train, mean, std = _binary_subset_from_arrays(
+        x_train,
+        y_train,
+        class_ids=class_ids,
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed,
+        name=f"cifar10_{label}_train",
+        image_shape=image_shape,
+    )
+    test, _, _ = _binary_subset_from_arrays(
+        x_test,
+        y_test,
+        class_ids=class_ids,
+        class_names=class_names,
+        n_per_class=n_per_class,
+        seed=seed + 100,
+        name=f"cifar10_{label}_test",
+        mean=mean,
+        std=std,
+        image_shape=image_shape,
+    )
+    return train, test

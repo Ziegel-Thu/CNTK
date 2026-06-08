@@ -48,8 +48,10 @@
 - [x] `002-feature-metric-dynamics`: CIFAR raw-pixel MLP run after MNIST dynamics are clean.
 - [x] `002-feature-metric-dynamics`: CIFAR small-CNN run after raw-pixel MLP
   shows mostly memorization.
-- [ ] `003-fixed-representation-sweep`: compare random features, frozen CNN,
-  pretrained features, linear probe, fine-tuned features.
+- [x] `003-fixed-representation-sweep`: quick sweep over raw pixels, RFF,
+  random/trained MLP, and random/trained small CNN features.
+- [ ] `003-fixed-representation-sweep`: add pretrained/self-supervised features
+  and larger fine-tuned backbones.
 - [ ] `004-intrinsic-collision-stress`: label noise / duplicated opposite-label
   samples / adversarial local collisions.
 
