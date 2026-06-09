@@ -17,6 +17,7 @@ Compact result summaries live in `experiments/results.md`.
 | 009 | tail-training-time-consequence | P1 | toy + MNIST/CIFAR static kernels complete | Does spectral tail predict kernel gradient-flow time/source norm? | CPU |
 | 010 | pretrained-fixed-representation-sweep | P1 | CIFAR ImageNet ResNet18 complete | Does the obstruction story hold for real pretrained frozen features? | CPU/GPU |
 | 011 | self-supervised-fixed-representation-sweep | P1 | CIFAR DINO ViT-S/16 complete | Does the obstruction story hold for self-supervised frozen features? | CPU/GPU |
+| 012 | source-norm-controlled-sweep | P1 | controlled same-kernel sweep complete | Do tail/mixing predict RKHS/source-norm proxies when kernel scale is controlled? | CPU |
 
 ## Standard Artifact Contract
 
@@ -54,3 +55,4 @@ Use these names:
 - `cntk-009-tail-time`
 - `cntk-010-pretrained`
 - `cntk-011-selfsup`
+- `cntk-012-source-norm`

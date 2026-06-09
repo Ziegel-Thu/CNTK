@@ -22,6 +22,7 @@ Date: 2026-06-08
 | 009 | `009-tail-training-time-consequence/result.md` | Consequence audit: corr(tail, log training time) = `0.596`; corr(tail, source norm proxy) = `0.514`. |
 | 010 | `010-pretrained-fixed-representation-sweep/result.md` | Frozen ImageNet ResNet18 lowers CIFAR all-10 tail `0.788 -> 0.450` and raises ridge acc `0.310 -> 0.765` vs raw pixels. |
 | 011 | `011-self-supervised-fixed-representation-sweep/result.md` | DINO ViT-S/16 lowers CIFAR all-10 tail `0.799 -> 0.432` and raises ridge acc `0.287 -> 0.807` vs raw pixels. |
+| 012 | `012-source-norm-controlled-sweep/result.md` | Same-kernel source-norm sweep: RBF/Laplace/RFF corr(tail, source norm) = `0.757-0.794`; corr(source norm, ridge margin) = `-0.903` to `-0.947`. |
 
 ## Current Read
 
@@ -35,7 +36,7 @@ Date: 2026-06-08
 - Margin should be tracked alongside tail/mixing, especially when comparing
   nearby CIFAR representations where tail ranges are compressed.
 - Graph Dirichlet energy is now a first-class local-mixing diagnostic; source
-  norm still needs a controlled same-kernel audit.
+  norm is useful when reported within a fixed kernel/regularization context.
 - Spectral tail now connects to exact static-kernel gradient-flow time; local
   mixing is best read as one cause of high tail, not the only one.
 - The fixed-representation claim now includes a real supervised pretrained

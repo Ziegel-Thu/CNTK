@@ -327,6 +327,30 @@ Expected outcome:
 - self-supervised frozen features should fit the same diagnostic pattern:
   lower local mixing/graph energy/tail and higher kernel ridge margin/accuracy.
 
+#### Experiment 012: controlled source-norm sweep
+
+Folder: `experiments/012-source-norm-controlled-sweep/`
+
+Question:
+
+> Does spectral tail/local mixing predict RKHS/source-norm proxies when kernel
+> family, scale, and regularization context are held fixed?
+
+Diagnostics:
+
+- same-kernel correlations between `tail@10%` and source norm proxy;
+- same-kernel correlations between local mixing/graph Dirichlet and source norm;
+- source norm versus kernel-ridge margin;
+- linear-kernel caveat for XOR/global nonlinear misalignment.
+
+Expected outcome:
+
+- source norm should be treated as a consequence diagnostic inside a fixed
+  kernel family, not as a scale-free cross-kernel metric;
+- nonlinear kernels should show source norm increasing with tail/mixing and
+  margin decreasing with source norm;
+- linear XOR cases should preserve the global-misalignment caveat.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -345,6 +369,7 @@ Expected outcome:
 14. Run `009` tail-to-training-time consequence diagnostics.
 15. Run `010` pretrained fixed representation sweep.
 16. Run `011` self-supervised fixed representation sweep.
+17. Run `012` controlled source-norm/RKHS proxy sweep.
 
 ## Decision Rules
 

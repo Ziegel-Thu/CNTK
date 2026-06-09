@@ -1,5 +1,21 @@
 # Progress
 
+## 2026-06-09
+
+- Ran `012-source-norm-controlled-sweep` in tmux to audit RKHS/source-norm
+  proxies under controlled same-kernel comparisons:
+  - Laplace: corr(`tail@10%`, source norm) = `0.794`, corr(source norm, ridge
+    margin) = `-0.947`;
+  - RBF: corr(`tail@10%`, source norm) = `0.769`, corr(source norm, ridge
+    margin) = `-0.918`;
+  - RFF-512: corr(`tail@10%`, source norm) = `0.757`, corr(source norm, ridge
+    margin) = `-0.903`;
+  - linear: tail still tracks margin (`-0.901`) but local mixing does not track
+    source norm, preserving the XOR/global-misalignment caveat.
+- Updated project indexes and TODOs so source norm is now positioned as a
+  conditional consequence diagnostic: useful within a fixed kernel and
+  regularization context, not scale-free across heterogeneous kernels.
+
 ## 2026-06-08
 
 - Formalized the CNTK/fixed-metric obstruction project structure.

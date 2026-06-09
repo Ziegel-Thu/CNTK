@@ -1,6 +1,6 @@
 # Current Findings
 
-Date: 2026-06-08
+Date: 2026-06-09
 
 ## One-Line State
 
@@ -251,6 +251,29 @@ Interpretation:
   diagnostic is representation-family agnostic: good frozen metrics reduce
   local mixing, graph roughness, spectral tail, and improve margin/accuracy.
 
+## 012 - Controlled Source-Norm Sweep
+
+- Result: `experiments/012-source-norm-controlled-sweep/result.md`
+- Laplace: corr(`tail@10%`, source norm) = `0.794`; corr(source norm, ridge
+  margin median) = `-0.947`.
+- RBF: corr(`tail@10%`, source norm) = `0.769`; corr(source norm, ridge margin
+  median) = `-0.918`.
+- RFF-512: corr(`tail@10%`, source norm) = `0.757`; corr(source norm, ridge
+  margin median) = `-0.903`.
+- Linear: corr(`tail@10%`, source norm) = `0.573`, but corr(local mixing,
+  source norm) is approximately zero.
+
+Interpretation:
+
+- Source norm has become usable as a consequence diagnostic, but only with
+  kernel family, normalization, and regularization stated.
+- The nonlinear-kernel rows support the expected chain:
+  local mixing/graph roughness -> high spectral tail -> high source norm ->
+  lower ridge margin.
+- The linear-kernel rows are useful rather than embarrassing: XOR-like global
+  nonlinear misalignment raises tail/source norm without local collisions,
+  keeping the obstruction taxonomy honest.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -283,7 +306,8 @@ Interpretation:
 8. Consequence layer:
    high spectral tail predicts slower static-kernel gradient-flow convergence;
    local mixing matters because it often pushes labels into those slow spectral
-   directions.
+   directions. Source norm is another consequence proxy when evaluated within a
+   fixed kernel context.
 
 9. Fixed-pretrained-representation layer:
    pretrained frozen features can remove much of the obstruction by supplying a
@@ -292,6 +316,10 @@ Interpretation:
 10. Self-supervised-representation layer:
     self-supervised frozen features follow the same obstruction diagnostics,
     confirming that the framework is broader than supervised ImageNet features.
+
+11. Source-norm consequence layer:
+    source/RKHS norm proxies are meaningful within a fixed kernel family and
+    regularization context; they should not be compared naively across kernels.
 
 ## Next Best Experiments
 
