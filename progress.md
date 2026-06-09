@@ -28,6 +28,10 @@
   `scripts/plot_margin_curves.py`, seven margin-over-time figures, and
   `result_margin_curves.md`; final test tail vs final test margin correlation is
   `-0.623`.
+- Added `claims.md` to separate non-trivial claims from supporting engineering:
+  diagnostic chain, graph-to-tail bridge, consequence layer, metric dynamics,
+  and negative controls are the defensible core; benchmarks and kernels are
+  support, not the main claim.
 
 ## 2026-06-08
 

@@ -28,6 +28,12 @@ Key measurable objects:
 - feature metric dynamics `K_t`
 - margin, accuracy, and representation purity
 
+Before writing summaries, plans, or claims, read `claims.md`. Distinguish
+non-trivial contributions from supporting work: benchmarks, kernels, and
+pretrained feature sweeps are evidence, while the defensible core is the
+diagnostic chain, graph-to-tail bridge, consequence layer, metric dynamics, and
+negative controls.
+
 ## Required Directory Structure
 
 - `PLAN.md` - current execution order, experiment queue, decision rules, and
@@ -40,6 +46,8 @@ Key measurable objects:
   session names.
 - `progress.md` - project-wide progress log, newest first.
 - `todo.md` - project-wide TODO list.
+- `claims.md` - non-trivial claims versus supporting experiments and
+  infrastructure.
 - `paper/` - one folder per paper/draft. For arXiv papers, download source via
   `https://arxiv.org/e-print/{id}` and keep TeX/source files when available.
 - `deepresearch/` - one folder per research pass, following `~/LR` style:

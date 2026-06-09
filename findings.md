@@ -14,6 +14,12 @@ local label mixing under a fixed metric
 => but noisy or contradictory labels create train/test gaps or irreducible train obstruction
 ```
 
+Claim discipline:
+
+- See `claims.md` before writing summaries or new experiment plans. The
+  non-trivial part is the diagnostic chain and its controls, not merely running
+  MNIST/CIFAR or showing pretrained features work.
+
 ## 001 - Static Diagnostics
 
 Toy diagnostics:
