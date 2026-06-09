@@ -35,6 +35,11 @@ Interpretation:
 - `figures/tail_over_time.png`
 - `figures/mixing_over_time.png`
 - `figures/kernel_movement_over_time.png`
+- `result_margin_curves.md`
+- `figures/toy_margin_over_time.png`
+- `figures/mnist_test_margin_over_time.png`
+- `figures/cifar_mlp_test_margin_over_time.png`
+- `figures/cifar_cnn_test_margin_over_time.png`
 
 ## Next
 

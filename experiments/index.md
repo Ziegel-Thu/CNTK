@@ -24,10 +24,14 @@ Compact result summaries live in `experiments/results.md`.
 Each experiment should produce:
 
 - `plan.md`
-- `result.md`
+- `result.md` as the canonical human entry point
 - `metrics.json` or `metrics_over_time.json`
 - `figures/*.png`
 - exact command lines in `result.md`
+
+Supplemental phase-specific files such as `result_cifar.md` are allowed when an
+experiment has multiple sub-runs, but they should be linked from the canonical
+entry point or `experiments/results.md`.
 
 ## Standard Result Questions
 

@@ -45,9 +45,14 @@ Theorem-bound audit:
 Toy:
 
 - Result: `experiments/002-feature-metric-dynamics/result.md`
+- Margin supplement:
+  `experiments/002-feature-metric-dynamics/result_margin_curves.md`
 - Two moons: feature learning reduces tail/mixing and improves accuracy.
 - Synthetic opposite-label collision pairs: feature movement alone does not solve
   intrinsic contradictions.
+- Across existing 002 dynamics rows, corr(final test tail, final test margin) =
+  `-0.623` and corr(final test margin, final test accuracy) = `0.559`, so
+  margin is now a first-class dynamics curve rather than only a final audit.
 
 MNIST:
 
@@ -301,7 +306,9 @@ Interpretation:
 
 7. Graph-diagnostic layer:
    local mixing can be measured as a kNN graph roughness/Dirichlet-energy
-   statistic, giving a bridge from pointwise collisions to spectral tail.
+   statistic, giving a bridge from pointwise collisions to spectral tail. The
+   finite-sample bridge is now written in `theory.md` using the measurable
+   quantity `beta_m(G,K) = ||B P_m||_op^2`.
 
 8. Consequence layer:
    high spectral tail predicts slower static-kernel gradient-flow convergence;
@@ -330,5 +337,5 @@ Interpretation:
   separate architecture effects from sample noise.
 - Rerun multiclass CIFAR diagnostics with stronger schedules, multiple seeds,
   and pretrained/self-supervised features.
-- Add margin curves to all dynamics experiments, not only accuracy; 006 suggests
-  margin is especially useful when tail differences are compressed.
+- Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
+  and `012`.

@@ -19,6 +19,7 @@ the label function into lower-complexity directions?
 - `experiments/results.md` - compact index of completed result files.
 - `progress.md` - project-wide progress log.
 - `todo.md` - project-wide TODO list.
+- `theory.md` - finite-sample bridge from graph label roughness to spectral tail.
 - `paper/` - one folder per paper/draft, including downloaded arXiv source when available.
 - `deepresearch/` - deep research prompts/responses, following the style of `~/LR`.
 - `data/` - local data/cache notes; large datasets should not be committed.
@@ -48,6 +49,10 @@ needed.
 
 The project has a local git repository on `main`. No remote is configured yet,
 so push is unavailable.
+
+Large dataset caches stay under `data/` and raw logs under `outputs/`; both are
+ignored except for README policy files. Compact experiment metrics/figures live
+inside each experiment folder when they are needed to understand a result.
 
 Completed experiment families:
 

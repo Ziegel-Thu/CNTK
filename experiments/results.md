@@ -10,11 +10,12 @@ Date: 2026-06-08
 | 001 | `001-spectral-tail-diagnostics/result_image_subsets.md` | MNIST/CIFAR binary corr(opposite-kNN, tail@10%) = `0.991`. |
 | 001 | `001-spectral-tail-diagnostics/result_bound_audit.md` | Formal disjoint-collision bound is conservative; nonzero in only `4/150` audited rows. |
 | 002 | `002-feature-metric-dynamics/result.md` | Toy feature learning helps two moons but not intrinsic collision pairs. |
+| 002 | `002-feature-metric-dynamics/result_margin_curves.md` | Margin curves promoted for dynamics: corr(final test tail, final test margin) = `-0.623`; corr(test margin, test acc) = `0.559`. |
 | 002 | `002-feature-metric-dynamics/result_mnist.md` | MNIST feature learning transfers: `3 vs 8` test tail `0.350 -> 0.085`, `4 vs 9` `0.402 -> 0.142`. |
 | 002 | `002-feature-metric-dynamics/result_cifar.md` | CIFAR raw MLP mostly memorizes: cat/dog test tail `0.886 -> 0.881`. |
 | 002 | `002-feature-metric-dynamics/result_cifar_cnn.md` | CIFAR CNN features transfer better than raw MLP: automobile/truck test tail `0.751 -> 0.631`. |
 | 003 | `003-fixed-representation-sweep/result.md` | Fixed-representation corr(test mix, test tail) = `0.988`; corr(test tail, probe acc) = `-0.971`. |
-| 004 | `004-intrinsic-collision-stress/result_mnist_stress.md` | Label noise separates train-tail collapse from clean transfer; exact contradictory duplicates cap train accuracy. |
+| 004 | `004-intrinsic-collision-stress/result.md` | Label noise separates train-tail collapse from clean transfer; exact contradictory duplicates cap train accuracy. |
 | 005 | `005-multiclass-obstruction-diagnostics/result.md` | Multiclass extension works: corr(test disagreement, multiclass tail) = `0.960`; corr(tail, probe acc) = `-0.925`. |
 | 006 | `006-cifar-multiclass-schedule-sweep/result.md` | Stronger CIFAR schedule lowers multiclass tail and improves probe accuracy across all-10, animals6, and vehicles4. |
 | 007 | `007-margin-tail-audit/result.md` | Existing-metrics audit: corr(test tail, accuracy) = `-0.855`; corr(tail decrease, margin gain) = `0.918`. |

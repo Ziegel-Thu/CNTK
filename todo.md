@@ -9,14 +9,14 @@
 - [x] Add initial deep research survey folder.
 - [x] Initialize git repository if desired.
 - [ ] Add remote and verify push permissions.
-- [ ] Decide whether to move large data/results outside the repo.
+- [x] Decide whether to move large data/results outside the repo.
 
 ## P0 - Prior Art Survey
 
 - [x] Run first-pass web survey for close existing work.
 - [x] Download arXiv TeX/source for priority papers into `paper/`.
-- [ ] For each priority paper, add `README.md` and project-specific notes.
-- [ ] DeepResearch pass: ask for a focused novelty map around fixed metric
+- [x] For each priority paper, add `README.md` and project-specific notes.
+- [x] DeepResearch pass: ask for a focused novelty map around fixed metric
   obstruction, local label mixing, spectral label complexity, and feature
   learning metric dynamics.
 
@@ -84,13 +84,13 @@
 - [x] Add environment setup instructions once dependencies are chosen.
 - [x] Add a small smoke test command that runs without downloading full datasets.
 - [x] Add a result index linking each experiment result.
-- [ ] Standardize artifact names: `metrics.json`, `figures/*.png`, `result.md`.
+- [x] Standardize artifact names: `metrics.json`, `figures/*.png`, `result.md`.
 
 ## P2 - Theory/Measurement Bridge
 
-- [ ] Formalize how collision graph statistics lower-bound spectral tail in
+- [x] Formalize how collision graph statistics lower-bound spectral tail in
   measurable finite-sample settings.
-- [ ] Derive sharper/non-vacuous finite-sample bounds or explain why the current
+- [x] Derive sharper/non-vacuous finite-sample bounds or explain why the current
   disjoint-pair corollary is only a conservative sufficient obstruction.
 - [x] Relate spectral tail to kernel gradient-flow time to reach a training loss.
 - [x] Relate fixed-metric collision/mixing to kernel ridge margin empirically.
@@ -98,10 +98,10 @@
   controlled same-kernel sweep.
 - [x] Audit margin against tail/accuracy using existing feature-dynamics and
   schedule metrics.
-- [ ] Promote margin curves to first-class diagnostics in future
+- [x] Promote margin curves to first-class diagnostics in future
   feature-dynamics plots and result tables.
-- [ ] Separate metric mismatch from intrinsic label ambiguity.
-- [ ] Add fixed-metric obstruction taxonomy: local collision obstruction vs
+- [x] Separate metric mismatch from intrinsic label ambiguity.
+- [x] Add fixed-metric obstruction taxonomy: local collision obstruction vs
   global/nonlinear spectral misalignment obstruction.
 
 ## P2 - Optional Extensions

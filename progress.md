@@ -15,6 +15,19 @@
 - Updated project indexes and TODOs so source norm is now positioned as a
   conditional consequence diagnostic: useful within a fixed kernel and
   regularization context, not scale-free across heterogeneous kernels.
+- Added project-specific notes for priority papers `001` through `008`.
+- Added `deepresearch/002-novelty-map/` with a focused prior-art/novelty map.
+- Added `theory.md` with a finite-sample graph-Dirichlet-to-spectral-tail
+  bridge:
+  `sqrt(T_y(m)) >= max(0, sqrt(D_G(y)) - sqrt(beta_m(G,K))) / rho_G`.
+- Decided to keep local dataset caches and raw outputs inside ignored `data/`
+  and `outputs/` folders; only compact result-facing artifacts are committed.
+- Added `experiments/artifact_audit.md` and a canonical `004/result.md` wrapper
+  so all completed experiments have a standard human entry point.
+- Promoted margin curves in experiment `002` by adding
+  `scripts/plot_margin_curves.py`, seven margin-over-time figures, and
+  `result_margin_curves.md`; final test tail vs final test margin correlation is
+  `-0.623`.
 
 ## 2026-06-08
 
