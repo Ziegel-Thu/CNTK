@@ -285,6 +285,46 @@ Interpretation:
   nonlinear misalignment raises tail/source norm without local collisions,
   keeping the obstruction taxonomy honest.
 
+## 013 - Pretrained Fine-Tune Metric Dynamics
+
+- Result: `experiments/013-pretrained-finetune-metric-dynamics/result.md`
+- Backbone: ImageNet ResNet18.
+- Tasks: CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`.
+- `frozen_head`: mean test movement `0.000`; mean head accuracy delta `+0.407`.
+- `finetune_layer4`: mean test movement `0.431`; mean test tail delta `-0.024`;
+  mean graph Dirichlet delta `-0.072`.
+- `finetune_all`: mean test movement `0.649`; mean test tail delta `+0.121`;
+  mean graph Dirichlet delta `+0.144`.
+
+Interpretation:
+
+- This is the first pretrained feature-learning metric-dynamics run, rather
+  than a frozen-feature sweep.
+- The important result is not "fine-tuning helps" in general. Partial
+  fine-tuning (`layer4`) gives modest held-out metric repair, while full
+  fine-tuning moves the metric more but worsens held-out tail/graph roughness.
+- This supports the project rule that metric movement is not enough; useful
+  feature learning means held-out tail/roughness falls and margin/accuracy stay
+  healthy.
+
+## 014 - Mixing Versus Alignment Controlled Audit
+
+- Result: `experiments/014-mixing-alignment-controlled-audit/result.md`
+- Image fixed-representation rows: corr(`tail`, `mixing`) = `0.770`;
+  partial corr(`tail`, `mixing` | `alignment`) = `0.661`.
+- Image fixed-representation rows: corr(`tail`, graph Dirichlet) = `0.963`;
+  partial corr(`tail`, graph Dirichlet | `alignment`) = `0.906`.
+- Standardized regression on image rows:
+  `tail ~ mixing + alignment` has `R2=0.792`, with coefficients
+  `mixing=0.479`, `alignment=-0.533`.
+
+Interpretation:
+
+- Local mixing and graph roughness are not merely global alignment under another
+  name.
+- The right claim remains bounded: local roughness is one diagnosable source of
+  spectral tail, while XOR/global mismatch remains a separate obstruction.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -297,7 +337,9 @@ Interpretation:
 
 3. Correctable metric mismatch:
    feature learning lowers train and test tail/mixing and improves clean test
-   performance.
+   performance. Experiment `013` refines this: partial fine-tuning can repair
+   held-out geometry, while full fine-tuning may move the metric in a harmful
+   direction.
 
 4. Memorization:
    train tail collapses but test tail/accuracy does not improve.
@@ -314,7 +356,8 @@ Interpretation:
    local mixing can be measured as a kNN graph roughness/Dirichlet-energy
    statistic, giving a bridge from pointwise collisions to spectral tail. The
    finite-sample bridge is now written in `theory.md` using the measurable
-   quantity `beta_m(G,K) = ||B P_m||_op^2`.
+   quantity `beta_m(G,K) = ||B P_m||_op^2`. Experiment `014` confirms that
+   graph roughness retains signal after controlling for global alignment.
 
 8. Consequence layer:
    high spectral tail predicts slower static-kernel gradient-flow convergence;
@@ -345,3 +388,5 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
+- Rerun pretrained fine-tuning dynamics with larger subsets, multiple seeds, and
+  DINO/ViT-style backbones.

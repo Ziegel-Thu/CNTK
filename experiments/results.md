@@ -1,6 +1,6 @@
 # Result Index
 
-Date: 2026-06-08
+Date: 2026-06-10
 
 ## Experiments
 
@@ -24,6 +24,8 @@ Date: 2026-06-08
 | 010 | `010-pretrained-fixed-representation-sweep/result.md` | Frozen ImageNet ResNet18 lowers CIFAR all-10 tail `0.788 -> 0.450` and raises ridge acc `0.310 -> 0.765` vs raw pixels. |
 | 011 | `011-self-supervised-fixed-representation-sweep/result.md` | DINO ViT-S/16 lowers CIFAR all-10 tail `0.799 -> 0.432` and raises ridge acc `0.287 -> 0.807` vs raw pixels. |
 | 012 | `012-source-norm-controlled-sweep/result.md` | Same-kernel source-norm sweep: RBF/Laplace/RFF corr(tail, source norm) = `0.757-0.794`; corr(source norm, ridge margin) = `-0.903` to `-0.947`. |
+| 013 | `013-pretrained-finetune-metric-dynamics/result.md` | ResNet18 dynamics: `finetune_layer4` lowers mean test tail `-0.024` and graph `-0.072`; `finetune_all` moves more but worsens tail `+0.121`. |
+| 014 | `014-mixing-alignment-controlled-audit/result.md` | Local diagnostics are not just alignment: image rows partial corr(tail, mixing \| alignment) = `0.661`; partial corr(tail, graph \| alignment) = `0.906`. |
 
 ## Current Read
 
@@ -42,3 +44,8 @@ Date: 2026-06-08
   mixing is best read as one cause of high tail, not the only one.
 - The fixed-representation claim now includes a real supervised pretrained
   backbone and a self-supervised DINO backbone.
+- Fine-tuning dynamics now distinguish useful metric repair from excessive
+  metric movement: partial ResNet18 fine-tuning helps held-out geometry, while
+  full fine-tuning can worsen it on small subsets.
+- Local mixing/graph roughness retain signal after controlling for global
+  alignment, so they are not merely alignment under another name.

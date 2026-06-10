@@ -54,6 +54,8 @@
   frozen ResNet18 features on CIFAR binary/multiclass tasks.
 - [x] `011-self-supervised-fixed-representation-sweep`: add DINO ViT-S/16
   frozen features on CIFAR binary/multiclass tasks.
+- [x] `013-pretrained-finetune-metric-dynamics`: add pretrained ResNet18
+  frozen-head, layer4 fine-tune, and full fine-tune metric dynamics.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -72,6 +74,8 @@
   before making source norm a headline consequence.
 - [x] `009-tail-training-time-consequence`: exact static-kernel gradient-flow
   residual time and source-norm consequence audit.
+- [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
+  roughness add signal beyond global alignment.
 
 ## P1 - Run Discipline
 

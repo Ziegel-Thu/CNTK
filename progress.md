@@ -1,5 +1,24 @@
 # Progress
 
+## 2026-06-10
+
+- Ran `013-pretrained-finetune-metric-dynamics` in tmux on CIFAR
+  `cat vs dog`, `automobile vs truck`, and `vehicles4` with ImageNet ResNet18:
+  - `frozen_head` control keeps test `K_t` fixed while head accuracy improves
+    by mean `+0.407`;
+  - `finetune_layer4` gives the cleanest metric repair: mean test movement
+    `0.431`, mean test tail delta `-0.024`, mean graph Dirichlet delta
+    `-0.072`;
+  - `finetune_all` is a negative control: larger movement `0.649`, but mean
+    test tail worsens `+0.121` and graph roughness worsens `+0.144`.
+- Ran `014-mixing-alignment-controlled-audit` over existing result metrics:
+  - image fixed-representation rows: partial corr(`tail`, `mixing` |
+    `alignment`) = `0.661`;
+  - image fixed-representation rows: partial corr(`tail`, graph Dirichlet |
+    `alignment`) = `0.906`;
+  - conclusion: local/graph diagnostics are not merely global alignment with a
+    different name.
+
 ## 2026-06-09
 
 - Ran `012-source-norm-controlled-sweep` in tmux to audit RKHS/source-norm

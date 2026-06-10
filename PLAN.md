@@ -351,6 +351,46 @@ Expected outcome:
   margin decreasing with source norm;
 - linear XOR cases should preserve the global-misalignment caveat.
 
+#### Experiment 013: pretrained fine-tune metric dynamics
+
+Folder: `experiments/013-pretrained-finetune-metric-dynamics/`
+
+Question:
+
+> Do pretrained backbone fine-tuning regimes actually repair held-out metric
+> geometry, or do they merely train a better head?
+
+Regimes:
+
+- frozen ImageNet ResNet18 backbone + train head;
+- fine-tune ResNet18 `layer4` + head;
+- fine-tune all ResNet18 layers + head.
+
+Expected outcome:
+
+- frozen-head should improve head margin while leaving `K_t` fixed;
+- successful fine-tuning should lower held-out tail/graph roughness;
+- excessive fine-tuning may move `K_t` more but worsen held-out geometry.
+
+#### Experiment 014: mixing versus alignment controlled audit
+
+Folder: `experiments/014-mixing-alignment-controlled-audit/`
+
+Question:
+
+> Do local mixing and graph roughness add signal beyond global alignment?
+
+Diagnostics:
+
+- partial correlations controlling for alignment;
+- standardized regressions such as `tail ~ mixing + alignment`;
+- image-only and all-with-toy/XOR groups.
+
+Expected outcome:
+
+- local/graph diagnostics should retain signal after controlling for alignment;
+- toy/XOR rows should preserve the global-misalignment caveat.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -370,6 +410,8 @@ Expected outcome:
 15. Run `010` pretrained fixed representation sweep.
 16. Run `011` self-supervised fixed representation sweep.
 17. Run `012` controlled source-norm/RKHS proxy sweep.
+18. Run `013` pretrained fine-tune metric dynamics.
+19. Run `014` local mixing versus alignment controlled audit.
 
 ## Decision Rules
 

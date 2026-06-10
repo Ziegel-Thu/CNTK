@@ -18,6 +18,8 @@ Compact result summaries live in `experiments/results.md`.
 | 010 | pretrained-fixed-representation-sweep | P1 | CIFAR ImageNet ResNet18 complete | Does the obstruction story hold for real pretrained frozen features? | CPU/GPU |
 | 011 | self-supervised-fixed-representation-sweep | P1 | CIFAR DINO ViT-S/16 complete | Does the obstruction story hold for self-supervised frozen features? | CPU/GPU |
 | 012 | source-norm-controlled-sweep | P1 | controlled same-kernel sweep complete | Do tail/mixing predict RKHS/source-norm proxies when kernel scale is controlled? | CPU |
+| 013 | pretrained-finetune-metric-dynamics | P1 | CIFAR ResNet18 fine-tune dynamics complete | Does fine-tuning repair held-out metric geometry or merely train the head? | MPS/GPU preferred |
+| 014 | mixing-alignment-controlled-audit | P1 | existing-results audit complete | Do local mixing/graph roughness add signal beyond global alignment? | CPU |
 
 ## Standard Artifact Contract
 
@@ -60,3 +62,5 @@ Use these names:
 - `cntk-010-pretrained`
 - `cntk-011-selfsup`
 - `cntk-012-source-norm`
+- `cntk-013-finetune-dyn`
+- `cntk-014-mix-align-audit`

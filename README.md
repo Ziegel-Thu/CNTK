@@ -69,3 +69,5 @@ Completed experiment families:
 - `010`: pretrained fixed-representation sweep.
 - `011`: self-supervised fixed-representation sweep.
 - `012`: controlled source-norm/RKHS proxy sweep.
+- `013`: pretrained ResNet18 fine-tune metric dynamics.
+- `014`: local mixing versus alignment controlled audit.

@@ -48,9 +48,12 @@ Non-trivial part:
 
 Evidence:
 
-- `001`, `003`, `005`, `008`, `010`, `011`.
+- `001`, `003`, `005`, `008`, `010`, `011`, `014`.
 - Graph Dirichlet energy tracks tail very strongly in several settings, e.g.
   `008` corr(graph Dirichlet, tail) = `0.955`.
+- In `014`, image fixed-representation rows retain signal after controlling for
+  alignment: partial corr(`tail`, `mixing` | `alignment`) = `0.661`, and partial
+  corr(`tail`, graph Dirichlet | `alignment`) = `0.906`.
 
 What must be said carefully:
 
@@ -123,6 +126,9 @@ Evidence:
 - CIFAR raw MLP shows a negative case: train tail collapses but test tail does
   not, so this is memorization rather than true metric repair.
 - Margin curves in `002` now make margin a first-class dynamics diagnostic.
+- `013` extends dynamics to ImageNet ResNet18 fine-tuning: `finetune_layer4`
+  lowers mean test tail by `-0.024` and graph roughness by `-0.072`, while
+  `finetune_all` moves more but worsens held-out tail by `+0.121`.
 
 What must be said carefully:
 
@@ -177,6 +183,7 @@ Do not claim these as done:
   tail for arbitrary fixed metrics without a measured `beta_m` term;
 - causal proof that reducing local mixing alone improves generalization;
 - large-scale fine-tuning results;
+- multi-seed pretrained fine-tuning results;
 - empirical NTK dynamics for trained networks;
 - GPU-scale multi-seed CIFAR results;
 - a complete novelty proof against all metric-learning literature.
