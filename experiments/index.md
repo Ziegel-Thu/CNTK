@@ -24,6 +24,7 @@ Compact result summaries live in `experiments/results.md`.
 | 016 | resnet18-cloud-single-gpu | P1 | cloud 5-seed single-GPU probe complete | Does the ResNet18 fine-tune dynamics result survive a larger single-GPU cloud rerun? | 1x A40 |
 | 017 | full-finetune-schedule-control | P1 | cloud schedule-control complete | Is full fine-tune over-move caused by regime choice or weak schedule/no augmentation? | 1x A40 |
 | 018 | full-finetune-bn-control | P1 | cloud BatchNorm-control complete | Is full fine-tune over-move driven by BatchNorm/stat-mode dynamics, weight gradients, or both? | 1x A40 |
+| 019 | bn-frozen-robustness | P1 | planned | Does BN-frozen full fine-tuning remain stable on larger subsets and with augmentation? | 1x A40 |
 
 ## Standard Artifact Contract
 
@@ -72,3 +73,4 @@ Use these names:
 - `cntk-016-cloud-single`
 - `cntk-017-schedule-control`
 - `cntk-018-bn-control`
+- `cntk-019-bn-robust`
