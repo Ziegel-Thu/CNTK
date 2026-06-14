@@ -1,9 +1,25 @@
-# Claims and Non-Trivial Parts
+# Claims and Meaningful Findings
 
 Date: 2026-06-14
 
-This file separates routine project support from claims that are genuinely
-non-trivial and need to be defended.
+This file keeps claim discipline: what can be defended, what is only supporting
+evidence, and what should not be overstated. It should not be used as a narrow
+filter that rejects useful engineering discoveries. The project priority is to
+produce meaningful findings, even when their value is practical, diagnostic, or
+mechanistic rather than maximally theoretical.
+
+## Research Priority
+
+Prefer experiments that produce one of the following:
+
+- a stable empirical signal across seeds/tasks;
+- a mechanism distinction that changes interpretation;
+- a negative control that rules out an easy explanation;
+- a diagnostic that predicts or explains downstream behavior;
+- an actionable next experiment or engineering decision.
+
+Non-triviality is useful for writing claims, but it is not the only standard for
+deciding what to run.
 
 ## One-Sentence Discipline
 
@@ -36,7 +52,7 @@ These are useful, but should not be sold as the main contribution by themselves:
 These pieces are infrastructure and evidence. They become important only when
 they support a sharper claim.
 
-## Non-Trivial Contribution Candidates
+## Meaningful Contribution Candidates
 
 ### 1. Local roughness as a diagnostic, not just global alignment
 

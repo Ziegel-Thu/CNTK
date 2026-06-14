@@ -19,7 +19,7 @@ the label function into lower-complexity directions?
 - `experiments/results.md` - compact index of completed result files.
 - `progress.md` - project-wide progress log.
 - `todo.md` - project-wide TODO list.
-- `claims.md` - what is genuinely non-trivial versus supporting work.
+- `claims.md` - claim discipline, meaningful findings, and supporting evidence.
 - `theory.md` - finite-sample bridge from graph label roughness to spectral tail.
 - `paper/` - one folder per paper/draft, including downloaded arXiv source when available.
 - `deepresearch/` - deep research prompts/responses, following the style of `~/LR`.

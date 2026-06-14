@@ -16,9 +16,11 @@ local label mixing under a fixed metric
 
 Claim discipline:
 
-- See `claims.md` before writing summaries or new experiment plans. The
-  non-trivial part is the diagnostic chain and its controls, not merely running
-  MNIST/CIFAR or showing pretrained features work.
+- See `claims.md` before writing summaries or new experiment plans. The goal is
+  meaningful discovery: stable signals, mechanism distinctions, negative
+  controls, and actionable diagnostics. Do not overstate routine evidence, but
+  do not ignore useful empirical findings merely because they are not the most
+  theoretically deep part.
 
 ## 001 - Static Diagnostics
 
@@ -362,7 +364,7 @@ Interpretation:
   fine-tuning repairs held-out geometry in every seed-task row.
 - Full fine-tuning remains valuable as a negative control, because it moves the
   representation more but usually worsens held-out tail/graph roughness.
-- The next non-trivial cloud experiment should change mechanism, not just scale:
+- The next meaningful cloud experiment should change mechanism, not just scale:
   augmentation/schedule controls, DINO/ViT backbones, or explicit cases where
   feature learning should fail.
 

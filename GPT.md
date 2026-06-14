@@ -5,8 +5,8 @@ This file mirrors the GPT/Codex-facing project rules in `AGENTS.md`.
 GPT/Codex agents should read `AGENTS.md` first. The short version:
 
 - Current execution order lives in `PLAN.md`.
-- Claim discipline lives in `claims.md`; distinguish non-trivial contributions
-  from supporting experiments and infrastructure.
+- Claim discipline lives in `claims.md`; prioritize meaningful findings while
+  keeping claim strength separate from supporting evidence.
 - Experiment status and artifact contract live in `experiments/index.md`.
 - Shared code goes in `src/`.
 - Experiments go in `experiments/NNN-expname/`.
