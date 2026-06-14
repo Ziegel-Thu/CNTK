@@ -2,6 +2,18 @@
 
 ## 2026-06-14
 
+- Ran `018-full-finetune-bn-control` on `jiagpu8` with one A40:
+  - `all_bn_train` reproduces default full fine-tune over-move: mean movement
+    `0.684`, mean tail/graph delta `+0.040/+0.075`, repair/overmove
+    `0.11/0.89`;
+  - `all_bn_eval` freezes BN running stats while keeping full weight-gradient
+    adaptation, and becomes the strongest repair variant: mean movement
+    `0.483`, mean tail/graph delta `-0.045/-0.124`, repair/overmove
+    `1.00/0.00`;
+  - `all_layer4_bn_train` is intermediate: mean tail/graph delta
+    `-0.018/-0.057`, repair/overmove `0.67/0.33`;
+  - conclusion: the ResNet18 full-fine-tune failure is strongly tied to
+    BatchNorm running-stat train mode, not full weight adaptation by itself.
 - Ran `017-full-finetune-schedule-control` on `jiagpu8` with one A40:
   - 3 seeds over CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;
   - `layer4_base` remains a clean positive control: mean tail/graph delta

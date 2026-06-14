@@ -462,6 +462,29 @@ Expected outcome:
 - if over-move persists, route the next mechanism control to BatchNorm/stat-mode
   dynamics rather than more ordinary schedule sweeps.
 
+#### Experiment 018: full fine-tune BatchNorm control
+
+Folder: `experiments/018-full-finetune-bn-control/`
+
+Question:
+
+> Is full fine-tuning over-move driven by weight-gradient movement, BatchNorm
+> running-stat dynamics, or both?
+
+Variants:
+
+- `layer4_base`;
+- `all_bn_train`;
+- `all_bn_eval`;
+- `all_layer4_bn_train`.
+
+Expected outcome:
+
+- if `all_bn_eval` repairs held-out tail/graph roughness while `all_bn_train`
+  overmoves, BatchNorm/stat-mode dynamics are a primary culprit;
+- if `all_bn_eval` still overmoves, full weight-gradient movement is the main
+  issue.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -487,7 +510,9 @@ Expected outcome:
 21. Run `016` single-GPU cloud ResNet18 scale-up.
 22. Run `017` full fine-tune schedule/augmentation control.
 23. Run BatchNorm/stat-mode controls for full fine-tuning.
-24. Use further cloud compute for additional backbones and intrinsic-ambiguity
+24. Test whether the BN/stat-mode finding persists under stronger augmentation
+    and larger subsets.
+25. Use further cloud compute for non-BN backbones and intrinsic-ambiguity
     negatives.
 
 ## Decision Rules
@@ -507,6 +532,6 @@ Expected outcome:
   matplotlib, pandas, tqdm, pytest.
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
-- Cloud GPU is now validated on `jiagpu8`. The next use should isolate
-  BatchNorm/stat-mode dynamics in full fine-tuning, then move to DINO/ViT-style
-  backbones, larger subsets, and explicit negative controls.
+- Cloud GPU is now validated on `jiagpu8`. The next use should test whether the
+  BatchNorm/stat-mode finding persists under stronger augmentation/larger
+  subsets, then move to DINO/ViT-style backbones and explicit negative controls.

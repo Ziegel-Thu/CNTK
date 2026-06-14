@@ -75,3 +75,4 @@ Completed experiment families:
 - `015`: simple local multi-seed ResNet18 fine-tune probe.
 - `016`: single-GPU cloud ResNet18 fine-tune probe.
 - `017`: full fine-tune schedule/augmentation control.
+- `018`: full fine-tune BatchNorm/stat-mode control.

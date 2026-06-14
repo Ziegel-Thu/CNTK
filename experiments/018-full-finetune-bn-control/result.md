@@ -26,6 +26,19 @@ Interpretation:
 - `all_layer4_bn_train` tests whether limiting stat updates to layer4
   makes full fine-tuning behave more like the partial fine-tune control.
 
+Direct read:
+
+- Freezing BatchNorm running statistics rescues full fine-tuning in this setup:
+  `all_bn_eval` repairs held-out tail/graph in all `9/9` seed-task rows.
+- `all_bn_eval` has lower movement than default full fine-tuning
+  (`0.483` vs `0.684`) and flips the geometry deltas from harmful
+  (`+0.040/+0.075`) to repair (`-0.045/-0.124`).
+- Updating only layer4 BatchNorm stats is intermediate: repair rate `0.67`,
+  overmove rate `0.33`.
+- The main over-move mechanism in these ResNet18/CIFAR runs is therefore not
+  full weight-gradient adaptation by itself; it is strongly tied to BatchNorm
+  running-stat train mode.
+
 ## Per-Seed Final Rows
 
 | seed | dataset | variant | movement | tail delta | graph delta | repair | overmove | head acc final | ridge acc final |

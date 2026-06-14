@@ -393,6 +393,32 @@ Interpretation:
   learning needs the right metric dynamics, not just more trainable parameters
   or ordinary augmentation.
 
+## 018 - Full Fine-Tune BatchNorm Control
+
+- Result: `experiments/018-full-finetune-bn-control/result.md`
+- Cloud run on `jiagpu8` with one A40, 3 seeds, CIFAR `cat vs dog`,
+  `automobile vs truck`, and `vehicles4`.
+- `layer4_base`: mean movement `0.486`, mean test tail delta `-0.029`, graph
+  delta `-0.093`, repair/overmove `1.00/0.00`.
+- `all_bn_train`: default full fine-tune control, mean movement `0.684`, mean
+  test tail delta `+0.040`, graph delta `+0.075`, repair/overmove `0.11/0.89`.
+- `all_bn_eval`: full weight-gradient fine-tuning with frozen BN running stats,
+  mean movement `0.483`, mean test tail delta `-0.045`, graph delta `-0.124`,
+  repair/overmove `1.00/0.00`.
+- `all_layer4_bn_train`: intermediate result, mean movement `0.481`, mean test
+  tail delta `-0.018`, graph delta `-0.057`, repair/overmove `0.67/0.33`.
+
+Interpretation:
+
+- This is the sharpest mechanism result so far. Full fine-tuning is not
+  intrinsically bad; default full fine-tuning was bad because all BatchNorm
+  running statistics were allowed to drift in train mode.
+- Freezing BN running stats keeps full weight-gradient adaptation and turns it
+  into a clean held-out metric repair.
+- This refines the metric-dynamics claim: feature learning succeeds when the
+  learned metric moves in the right subspace/mode; uncontrolled state dynamics
+  can dominate and produce harmful metric movement.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -410,7 +436,9 @@ Interpretation:
    direction. Experiment `015` shows the same pattern survives a small local
    multi-seed rerun, and experiment `016` strengthens it on a single-GPU cloud
    run. Experiment `017` shows that simple augmentation/lower-LR controls do not
-   rescue full fine-tuning.
+   rescue default full fine-tuning. Experiment `018` refines the diagnosis:
+   full weight-gradient adaptation can repair the metric when BatchNorm running
+   stats are frozen.
 
 4. Memorization:
    train tail collapses but test tail/accuracy does not improve.
@@ -448,6 +476,11 @@ Interpretation:
     source/RKHS norm proxies are meaningful within a fixed kernel family and
     regularization context; they should not be compared naively across kernels.
 
+12. State-dynamics layer:
+    in ResNet18 fine-tuning, BatchNorm running-stat updates can dominate metric
+    movement. Freezing BN stats separates useful full weight adaptation from
+    harmful state/stat drift.
+
 ## Next Best Experiments
 
 - Add a sharper finite-sample bound or explicitly position the current theorem as
@@ -459,6 +492,5 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Run BatchNorm/stat-mode controls for full fine-tuning, then DINO/ViT-style
-  backbones and negative cases where feature learning should not repair
-  intrinsic ambiguity.
+- Test whether the BatchNorm/stat-mode finding persists on larger subsets,
+  with stronger augmentation, and across non-BN backbones such as ViT/DINO.

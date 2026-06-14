@@ -29,6 +29,7 @@ Date: 2026-06-10
 | 015 | `015-resnet18-finetune-multiseed-simple/result.md` | Local 3-seed ResNet18 probe: `finetune_layer4` mean tail/graph delta `-0.020/-0.048`, repair rate `0.67`; `finetune_all` mean `+0.064/+0.131`, overmove rate `0.89`. |
 | 016 | `016-resnet18-cloud-single-gpu/result.md` | Single-A40 5-seed ResNet18 probe: `finetune_layer4` mean tail/graph delta `-0.030/-0.094`, repair rate `1.00`; `finetune_all` mean `+0.041/+0.084`, overmove rate `0.80`. |
 | 017 | `017-full-finetune-schedule-control/result.md` | Schedule control: `layer4_base` repairs `9/9`; `all_aug` does not improve over `all_base` repair/overmove (`0.11/0.89`); low-LR full variants repair `0.00` and overmove `1.00`. |
+| 018 | `018-full-finetune-bn-control/result.md` | BatchNorm control: default `all_bn_train` overmoves (`0.11/0.89` repair/overmove), while `all_bn_eval` repairs `9/9` with mean tail/graph delta `-0.045/-0.124`. |
 
 ## Current Read
 
@@ -60,5 +61,8 @@ Date: 2026-06-10
   augmentation and a lower full-backbone LR fail to reduce held-out
   tail/graph roughness. The next mechanism control should isolate BatchNorm
   statistics from weight-gradient movement.
+- BatchNorm/stat-mode dynamics explain the ResNet18 full-fine-tune failure in
+  these runs: freezing BN running stats turns full fine-tuning from over-move
+  into the strongest metric-repair variant.
 - Local mixing/graph roughness retain signal after controlling for global
   alignment, so they are not merely alignment under another name.

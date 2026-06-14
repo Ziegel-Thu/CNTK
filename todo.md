@@ -62,6 +62,8 @@
   pretrained ResNet18 fine-tune dynamics.
 - [x] `017-full-finetune-schedule-control`: test whether simple augmentation or
   lower full-backbone LR rescues full fine-tuning over-move.
+- [x] `018-full-finetune-bn-control`: isolate BatchNorm/stat-mode dynamics in
+  full ResNet18 fine-tuning.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -82,8 +84,9 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Run BatchNorm/stat-mode controls for full fine-tuning.
-- [ ] Run mechanism-changing cloud controls: larger subsets, DINO/ViT-style
+- [ ] Test whether BN-frozen full fine-tuning remains stable with stronger
+  augmentation and larger subsets.
+- [ ] Run mechanism-changing cloud controls: non-BN backbones, DINO/ViT-style
   backbones, and intrinsic-ambiguity negatives.
 
 ## P1 - Run Discipline
