@@ -485,6 +485,32 @@ Expected outcome:
 - if `all_bn_eval` still overmoves, full weight-gradient movement is the main
   issue.
 
+#### Experiment 019: BN-frozen robustness
+
+Folder: `experiments/019-bn-frozen-robustness/`
+
+Question:
+
+> Does BN-frozen full fine-tuning remain stable on larger CIFAR subsets and with
+> simple augmentation?
+
+Variants:
+
+- `layer4_base`;
+- `all_bn_train`;
+- `all_bn_eval`;
+- `all_bn_train_aug`;
+- `all_bn_eval_aug`.
+
+Expected outcome:
+
+- `all_bn_eval` should keep high repair rate and low overmove rate if the
+  BatchNorm/stat-mode finding is robust;
+- `all_bn_eval_aug` tests whether augmentation is compatible with the BN-frozen
+  repair mechanism;
+- `all_bn_train_aug` tests whether augmentation alone rescues default BN-train
+  full fine-tuning.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -510,8 +536,7 @@ Expected outcome:
 21. Run `016` single-GPU cloud ResNet18 scale-up.
 22. Run `017` full fine-tune schedule/augmentation control.
 23. Run BatchNorm/stat-mode controls for full fine-tuning.
-24. Test whether the BN/stat-mode finding persists under stronger augmentation
-    and larger subsets.
+24. Run `019` BN-frozen robustness on larger subsets and augmentation controls.
 25. Use further cloud compute for non-BN backbones and intrinsic-ambiguity
     negatives.
 
@@ -532,6 +557,6 @@ Expected outcome:
   matplotlib, pandas, tqdm, pytest.
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
-- Cloud GPU is now validated on `jiagpu8`. The next use should test whether the
-  BatchNorm/stat-mode finding persists under stronger augmentation/larger
-  subsets, then move to DINO/ViT-style backbones and explicit negative controls.
+- Cloud GPU is now validated on `jiagpu8`. The next use should move to
+  DINO/ViT-style non-BN backbones, longer schedules, other datasets, and
+  explicit negative controls.

@@ -421,6 +421,31 @@ Interpretation:
   learned metric moves in the right subspace/mode; uncontrolled state dynamics
   can dominate and produce harmful metric movement.
 
+## 019 - BN-Frozen Robustness
+
+- Result: `experiments/019-bn-frozen-robustness/result.md`
+- Cloud run on `jiagpu8` with one A40, 3 seeds, larger CIFAR subsets:
+  240 samples per binary class and 120 samples per vehicles4 class.
+- `layer4_base`: mean movement `0.668`, mean test tail delta `-0.044`, graph
+  delta `-0.143`, repair/overmove `1.00/0.00`.
+- `all_bn_train`: mean movement `0.790`, mean test tail delta `+0.032`, graph
+  delta `+0.026`, repair/overmove `0.00/1.00`.
+- `all_bn_eval`: mean movement `0.738`, mean test tail delta `-0.057`, graph
+  delta `-0.153`, repair/overmove `1.00/0.00`.
+- `all_bn_train_aug`: mean movement `0.791`, mean test tail delta `+0.023`,
+  graph delta `+0.011`, repair/overmove `0.11/0.89`.
+- `all_bn_eval_aug`: mean movement `0.771`, mean test tail delta `-0.065`,
+  graph delta `-0.160`, repair/overmove `1.00/0.00`.
+
+Interpretation:
+
+- The BN-frozen full-fine-tune repair is robust to larger subsets.
+- Crop/flip augmentation is compatible with BN-frozen repair and may strengthen
+  tail/graph improvement.
+- Augmentation alone still does not rescue BN-train full fine-tuning, so the
+  meaningful mechanism remains BN stat-mode control rather than ordinary data
+  augmentation.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -481,7 +506,8 @@ Interpretation:
 12. State-dynamics layer:
     in ResNet18 fine-tuning, BatchNorm running-stat updates can dominate metric
     movement. Freezing BN stats separates useful full weight adaptation from
-    harmful state/stat drift.
+    harmful state/stat drift. Experiment `019` shows this remains true on
+    larger subsets and with simple augmentation.
 
 ## Next Best Experiments
 
@@ -494,5 +520,5 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Test whether the BatchNorm/stat-mode finding persists on larger subsets,
-  with stronger augmentation, and across non-BN backbones such as ViT/DINO.
+- Test whether the BatchNorm/stat-mode finding persists with longer schedules,
+  other datasets, and across non-BN backbones such as ViT/DINO.

@@ -38,6 +38,7 @@ human entry point.
 | 016 | OK | Standard artifact names; single-A40 tmux run completed on `jiagpu8`. |
 | 017 | OK | Standard artifact names; single-A40 schedule-control tmux run completed on `jiagpu8`. |
 | 018 | OK | Standard artifact names; single-A40 BatchNorm-control tmux run completed on `jiagpu8`. |
+| 019 | OK | Standard artifact names; single-A40 BN-frozen robustness tmux run completed on `jiagpu8`. |
 
 ## Policy
 

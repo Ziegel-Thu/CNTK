@@ -76,3 +76,4 @@ Completed experiment families:
 - `016`: single-GPU cloud ResNet18 fine-tune probe.
 - `017`: full fine-tune schedule/augmentation control.
 - `018`: full fine-tune BatchNorm/stat-mode control.
+- `019`: BN-frozen full fine-tune robustness on larger subsets and augmentation.

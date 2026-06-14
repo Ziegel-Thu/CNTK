@@ -2,6 +2,20 @@
 
 ## 2026-06-14
 
+- Ran `019-bn-frozen-robustness` on `jiagpu8` with one A40 and larger CIFAR
+  subsets:
+  - 3 seeds, 240 samples per binary class, and 120 samples per vehicles4 class;
+  - `all_bn_eval` remains a clean repair variant: mean movement `0.738`, mean
+    tail/graph delta `-0.057/-0.153`, repair/overmove `1.00/0.00`;
+  - `all_bn_eval_aug` is also clean and slightly stronger on geometry: mean
+    tail/graph delta `-0.065/-0.160`, repair/overmove `1.00/0.00`;
+  - `all_bn_train` still overmoves: mean tail/graph delta `+0.032/+0.026`,
+    repair/overmove `0.00/1.00`;
+  - `all_bn_train_aug` only weakly improves the default control and still
+    overmoves in most rows: repair/overmove `0.11/0.89`;
+  - conclusion: BN-frozen full fine-tuning is robust to larger subsets and
+    compatible with simple augmentation, while augmentation alone does not fix
+    BN-train full fine-tuning.
 - Ran `018-full-finetune-bn-control` on `jiagpu8` with one A40:
   - `all_bn_train` reproduces default full fine-tune over-move: mean movement
     `0.684`, mean tail/graph delta `+0.040/+0.075`, repair/overmove

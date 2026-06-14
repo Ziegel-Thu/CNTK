@@ -24,8 +24,22 @@ Interpretation:
 - `all_bn_train` is the default full fine-tuning over-move control.
 - `all_bn_eval` isolates full weight-gradient movement while freezing
   BatchNorm running statistics.
-- `all_layer4_bn_train` tests whether limiting stat updates to layer4
-  makes full fine-tuning behave more like the partial fine-tune control.
+- `all_bn_train_aug` tests whether augmentation rescues default BN-train full
+  fine-tuning.
+- `all_bn_eval_aug` tests whether augmentation is compatible with the BN-frozen
+  repair mechanism.
+
+Direct read:
+
+- The BN-frozen repair finding survives the larger subset: `all_bn_eval` repairs
+  held-out tail/graph in all `9/9` seed-task rows.
+- Augmentation is compatible with BN-frozen full fine-tuning: `all_bn_eval_aug`
+  also repairs `9/9` rows and has the strongest mean tail/graph deltas
+  (`-0.065/-0.160`).
+- Default BN-train full fine-tuning remains harmful at this scale:
+  `all_bn_train` has repair/overmove `0.00/1.00`.
+- Augmentation alone does not rescue BN-train full fine-tuning:
+  `all_bn_train_aug` has repair/overmove `0.11/0.89`.
 
 ## Per-Seed Final Rows
 

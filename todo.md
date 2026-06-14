@@ -64,6 +64,8 @@
   lower full-backbone LR rescues full fine-tuning over-move.
 - [x] `018-full-finetune-bn-control`: isolate BatchNorm/stat-mode dynamics in
   full ResNet18 fine-tuning.
+- [x] `019-bn-frozen-robustness`: test BN-frozen full fine-tuning on larger
+  subsets and with augmentation.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -84,8 +86,6 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Test whether BN-frozen full fine-tuning remains stable with stronger
-  augmentation and larger subsets.
 - [ ] Run mechanism-changing cloud controls: non-BN backbones, DINO/ViT-style
   backbones, and intrinsic-ambiguity negatives.
 

@@ -162,6 +162,10 @@ Evidence:
   (`all_bn_train` repair/overmove = `0.11/0.89`), while freezing BN running
   stats turns full fine-tuning into the strongest repair variant
   (`all_bn_eval` tail/graph deltas `-0.045/-0.124`, repair rate `1.00`).
+- `019` shows this mechanism is robust to a larger subset and simple
+  augmentation: `all_bn_eval` repairs `9/9` rows, `all_bn_eval_aug` also repairs
+  `9/9` and has mean tail/graph deltas `-0.065/-0.160`, while BN-train variants
+  still overmove.
 
 What must be said carefully:
 
@@ -218,8 +222,8 @@ Do not claim these as done:
 - large-scale fine-tuning results;
 - pretrained fine-tuning results on larger backbones or stronger augmentation
   schedules;
-- whether the BatchNorm/stat-mode mechanism persists across larger subsets,
-  other backbones, and stronger augmentation schedules;
+- whether the BatchNorm/stat-mode mechanism persists across other backbones,
+  longer schedules, and non-CIFAR tasks;
 - empirical NTK dynamics for trained networks;
 - multi-GPU or large-subset CIFAR fine-tuning results;
 - a complete novelty proof against all metric-learning literature.
