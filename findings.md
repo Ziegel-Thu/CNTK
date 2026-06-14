@@ -366,6 +366,33 @@ Interpretation:
   augmentation/schedule controls, DINO/ViT backbones, or explicit cases where
   feature learning should fail.
 
+## 017 - Full Fine-Tune Schedule Control
+
+- Result: `experiments/017-full-finetune-schedule-control/result.md`
+- Cloud run on `jiagpu8` with one A40, 3 seeds, CIFAR `cat vs dog`,
+  `automobile vs truck`, and `vehicles4`.
+- `layer4_base`: mean movement `0.486`, mean test tail delta `-0.029`, mean
+  graph Dirichlet delta `-0.093`, repair rate `1.00`, overmove rate `0.00`.
+- `all_base`: mean movement `0.684`, mean test tail delta `+0.040`, mean graph
+  delta `+0.074`, repair rate `0.11`, overmove rate `0.89`.
+- `all_aug`: mean movement `0.683`, mean test tail delta `+0.037`, mean graph
+  delta `+0.080`, repair rate `0.11`, overmove rate `0.89`.
+- `all_low_lr`: mean movement `0.697`, mean test tail delta `+0.056`, mean
+  graph delta `+0.123`, repair rate `0.00`, overmove rate `1.00`.
+- `all_aug_low_lr`: mean movement `0.694`, mean test tail delta `+0.054`, mean
+  graph delta `+0.117`, repair rate `0.00`, overmove rate `1.00`.
+
+Interpretation:
+
+- The full fine-tuning over-move result is not rescued by simple crop/flip
+  augmentation or a lower full-backbone LR.
+- Lower LR does not reduce measured metric movement, which suggests the next
+  mechanism control should isolate BatchNorm/stat-mode movement from
+  weight-gradient movement.
+- This strengthens the negative side of the metric-dynamics story: feature
+  learning needs the right metric dynamics, not just more trainable parameters
+  or ordinary augmentation.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -382,7 +409,8 @@ Interpretation:
    held-out geometry, while full fine-tuning may move the metric in a harmful
    direction. Experiment `015` shows the same pattern survives a small local
    multi-seed rerun, and experiment `016` strengthens it on a single-GPU cloud
-   run.
+   run. Experiment `017` shows that simple augmentation/lower-LR controls do not
+   rescue full fine-tuning.
 
 4. Memorization:
    train tail collapses but test tail/accuracy does not improve.
@@ -431,6 +459,6 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Run mechanism-changing cloud controls: stronger augmentation/schedules,
-  DINO/ViT-style backbones, and negative cases where feature learning should not
-  repair intrinsic ambiguity.
+- Run BatchNorm/stat-mode controls for full fine-tuning, then DINO/ViT-style
+  backbones and negative cases where feature learning should not repair
+  intrinsic ambiguity.

@@ -74,3 +74,4 @@ Completed experiment families:
 - `014`: local mixing versus alignment controlled audit.
 - `015`: simple local multi-seed ResNet18 fine-tune probe.
 - `016`: single-GPU cloud ResNet18 fine-tune probe.
+- `017`: full fine-tune schedule/augmentation control.

@@ -60,6 +60,8 @@
   pretrained ResNet18 fine-tune dynamics before using cloud compute.
 - [x] `016-resnet18-cloud-single-gpu`: run single-A40 5-seed cloud probe for
   pretrained ResNet18 fine-tune dynamics.
+- [x] `017-full-finetune-schedule-control`: test whether simple augmentation or
+  lower full-backbone LR rescues full fine-tuning over-move.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -80,8 +82,9 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Run mechanism-changing cloud controls: stronger augmentation/schedules,
-  larger subsets, DINO/ViT-style backbones, and intrinsic-ambiguity negatives.
+- [ ] Run BatchNorm/stat-mode controls for full fine-tuning.
+- [ ] Run mechanism-changing cloud controls: larger subsets, DINO/ViT-style
+  backbones, and intrinsic-ambiguity negatives.
 
 ## P1 - Run Discipline
 

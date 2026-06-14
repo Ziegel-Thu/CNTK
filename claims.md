@@ -137,6 +137,10 @@ Evidence:
   `finetune_layer4` has mean tail/graph deltas `-0.030/-0.094` and repair rate
   `1.00`, while `finetune_all` has mean deltas `+0.041/+0.084` and overmove
   rate `0.80`.
+- `017` adds a mechanism control: simple crop/flip augmentation does not rescue
+  full fine-tuning (`all_aug` repair/overmove = `0.11/0.89`, same as
+  `all_base`), and lower full-backbone LR worsens the repair/overmove profile
+  (`0.00/1.00`).
 
 What must be said carefully:
 
@@ -193,6 +197,8 @@ Do not claim these as done:
 - large-scale fine-tuning results;
 - pretrained fine-tuning results on larger backbones or stronger augmentation
   schedules;
+- whether full-fine-tune over-move is driven mainly by BatchNorm/stat-mode
+  dynamics, weight-gradient dynamics, or both;
 - empirical NTK dynamics for trained networks;
 - multi-GPU or large-subset CIFAR fine-tuning results;
 - a complete novelty proof against all metric-learning literature.

@@ -36,6 +36,7 @@ human entry point.
 | 014 | OK | Standard artifact names; existing-results audit. |
 | 015 | OK | Standard artifact names; local 3-seed tmux run completed. |
 | 016 | OK | Standard artifact names; single-A40 tmux run completed on `jiagpu8`. |
+| 017 | OK | Standard artifact names; single-A40 schedule-control tmux run completed on `jiagpu8`. |
 
 ## Policy
 

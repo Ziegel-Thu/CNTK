@@ -438,6 +438,30 @@ Expected outcome:
 - `finetune_all` should remain an over-move control if it moves more while
   worsening held-out geometry.
 
+#### Experiment 017: full fine-tune schedule control
+
+Folder: `experiments/017-full-finetune-schedule-control/`
+
+Question:
+
+> Is the `finetune_all` over-move effect caused by full backbone adaptation
+> itself, or by a weak no-augmentation schedule?
+
+Variants:
+
+- `layer4_base`;
+- `all_base`;
+- `all_aug`;
+- `all_low_lr`;
+- `all_aug_low_lr`.
+
+Expected outcome:
+
+- if full fine-tuning is merely under-regularized, augmentation or lower
+  full-backbone LR should reduce held-out tail/graph roughness;
+- if over-move persists, route the next mechanism control to BatchNorm/stat-mode
+  dynamics rather than more ordinary schedule sweeps.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -461,8 +485,10 @@ Expected outcome:
 19. Run `014` local mixing versus alignment controlled audit.
 20. Run `015` simple local multi-seed ResNet18 fine-tune probe.
 21. Run `016` single-GPU cloud ResNet18 scale-up.
-22. Use further cloud compute for mechanism-changing controls: stronger
-    augmentation/schedules, larger subsets, and additional backbones.
+22. Run `017` full fine-tune schedule/augmentation control.
+23. Run BatchNorm/stat-mode controls for full fine-tuning.
+24. Use further cloud compute for additional backbones and intrinsic-ambiguity
+    negatives.
 
 ## Decision Rules
 
@@ -481,6 +507,6 @@ Expected outcome:
   matplotlib, pandas, tqdm, pytest.
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
-- Cloud GPU is now validated on `jiagpu8`. The next use should change the
-  mechanism under test: stronger augmentation/schedules, DINO/ViT-style
+- Cloud GPU is now validated on `jiagpu8`. The next use should isolate
+  BatchNorm/stat-mode dynamics in full fine-tuning, then move to DINO/ViT-style
   backbones, larger subsets, and explicit negative controls.

@@ -28,6 +28,18 @@ Interpretation:
   lowering held-out tail/graph roughness, it should not be read as metric
   repair.
 
+Direct read:
+
+- `layer4_base` repairs held-out geometry in all `9/9` seed-task rows.
+- Simple crop/flip augmentation does not rescue full fine-tuning:
+  `all_aug` keeps the same repair rate as `all_base` (`0.11`) and the same
+  overmove rate (`0.89`).
+- Lowering the full-backbone LR to `3e-6` also does not rescue full fine-tuning;
+  both low-LR variants have repair rate `0.00` and overmove rate `1.00`.
+- Because lower LR does not reduce the measured movement, the next mechanism
+  control should isolate BatchNorm/stat-mode dynamics from weight-gradient
+  dynamics.
+
 ## Per-Seed Final Rows
 
 | seed | dataset | variant | movement | tail delta | graph delta | repair | overmove | head acc final | ridge acc final |

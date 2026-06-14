@@ -2,6 +2,18 @@
 
 ## 2026-06-14
 
+- Ran `017-full-finetune-schedule-control` on `jiagpu8` with one A40:
+  - 3 seeds over CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;
+  - `layer4_base` remains a clean positive control: mean tail/graph delta
+    `-0.029/-0.093`, repair rate `1.00`, overmove rate `0.00`;
+  - `all_base` remains an over-move control: mean tail/graph delta
+    `+0.040/+0.074`, repair/overmove `0.11/0.89`;
+  - `all_aug` does not rescue full fine-tuning: mean tail/graph delta
+    `+0.037/+0.080`, repair/overmove `0.11/0.89`;
+  - `all_low_lr` and `all_aug_low_lr` are worse: repair rate `0.00`, overmove
+    rate `1.00`;
+  - next mechanism control should isolate BatchNorm/stat-mode dynamics because
+    lower full-backbone LR did not reduce measured movement.
 - Cloned the repo on `jiagpu8`, created a clean `cntk` conda environment, and
   verified CUDA on a single NVIDIA A40.
 - Added and ran `016-resnet18-cloud-single-gpu` in tmux on one A40:
