@@ -21,6 +21,7 @@ Compact result summaries live in `experiments/results.md`.
 | 013 | pretrained-finetune-metric-dynamics | P1 | CIFAR ResNet18 fine-tune dynamics complete | Does fine-tuning repair held-out metric geometry or merely train the head? | MPS/GPU preferred |
 | 014 | mixing-alignment-controlled-audit | P1 | existing-results audit complete | Do local mixing/graph roughness add signal beyond global alignment? | CPU |
 | 015 | resnet18-finetune-multiseed-simple | P1 | local 3-seed probe complete | Does the ResNet18 fine-tune dynamics result survive a simple local multi-seed rerun? | MPS/GPU |
+| 016 | resnet18-cloud-single-gpu | P1 | cloud 5-seed single-GPU probe complete | Does the ResNet18 fine-tune dynamics result survive a larger single-GPU cloud rerun? | 1x A40 |
 
 ## Standard Artifact Contract
 
@@ -66,3 +67,4 @@ Use these names:
 - `cntk-013-finetune-dyn`
 - `cntk-014-mix-align-audit`
 - `cntk-015-resnet18-ms`
+- `cntk-016-cloud-single`

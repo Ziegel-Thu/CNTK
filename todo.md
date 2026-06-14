@@ -58,6 +58,8 @@
   frozen-head, layer4 fine-tune, and full fine-tune metric dynamics.
 - [x] `015-resnet18-finetune-multiseed-simple`: run local 3-seed MPS probe for
   pretrained ResNet18 fine-tune dynamics before using cloud compute.
+- [x] `016-resnet18-cloud-single-gpu`: run single-A40 5-seed cloud probe for
+  pretrained ResNet18 fine-tune dynamics.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -78,8 +80,8 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Scale pretrained fine-tuning dynamics on cloud: larger subsets, more
-  seeds, longer schedules, stronger augmentation, and DINO/ViT-style backbones.
+- [ ] Run mechanism-changing cloud controls: stronger augmentation/schedules,
+  larger subsets, DINO/ViT-style backbones, and intrinsic-ambiguity negatives.
 
 ## P1 - Run Discipline
 

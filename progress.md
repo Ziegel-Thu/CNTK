@@ -2,6 +2,19 @@
 
 ## 2026-06-14
 
+- Cloned the repo on `jiagpu8`, created a clean `cntk` conda environment, and
+  verified CUDA on a single NVIDIA A40.
+- Added and ran `016-resnet18-cloud-single-gpu` in tmux on one A40:
+  - 5 seeds over CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;
+  - 120 binary samples per class, 60 multiclass samples per class, 6 epochs;
+  - `frozen_head` keeps movement at `0.000` while mean head accuracy delta is
+    `+0.428`;
+  - `finetune_layer4` gives the strongest repair signal so far: mean movement
+    `0.479`, mean test tail delta `-0.030`, mean graph Dirichlet delta
+    `-0.094`, repair rate `1.00`;
+  - `finetune_all` remains an over-move control: mean movement `0.689`, mean
+    test tail delta `+0.041`, mean graph Dirichlet delta `+0.084`, overmove
+    rate `0.80`.
 - Ran `015-resnet18-finetune-multiseed-simple` in tmux as the simple local/MPS
   probe before using cloud compute:
   - 3 seeds over CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;

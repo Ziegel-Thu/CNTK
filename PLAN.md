@@ -414,6 +414,30 @@ Expected outcome:
 - full fine-tuning may over-move the metric on small CIFAR subsets, so movement
   alone should not be counted as success.
 
+#### Experiment 016: ResNet18 cloud single-GPU scale-up
+
+Folder: `experiments/016-resnet18-cloud-single-gpu/`
+
+Question:
+
+> Does the ResNet18 fine-tuning metric-dynamics result survive a larger
+> single-GPU cloud rerun?
+
+Default scale:
+
+- one A40 on `jiagpu8`;
+- 5 seeds;
+- CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;
+- 120 binary samples per class, 60 multiclass samples per class;
+- 6 epochs, batch size 64.
+
+Expected outcome:
+
+- if the `013`/`015` finding is stable, `finetune_layer4` should keep negative
+  held-out tail/graph deltas across most seed-task rows;
+- `finetune_all` should remain an over-move control if it moves more while
+  worsening held-out geometry.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -436,8 +460,9 @@ Expected outcome:
 18. Run `013` pretrained fine-tune metric dynamics.
 19. Run `014` local mixing versus alignment controlled audit.
 20. Run `015` simple local multi-seed ResNet18 fine-tune probe.
-21. If cloud compute is available, scale `015` to larger subsets, more seeds,
-    longer schedules, and additional backbones.
+21. Run `016` single-GPU cloud ResNet18 scale-up.
+22. Use further cloud compute for mechanism-changing controls: stronger
+    augmentation/schedules, larger subsets, and additional backbones.
 
 ## Decision Rules
 
@@ -456,6 +481,6 @@ Expected outcome:
   matplotlib, pandas, tqdm, pytest.
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
-- Cloud GPU is useful for the next fine-tuning scale-up: larger CIFAR subsets,
-  more seeds, longer schedules, DINO/ViT-style backbones, and stronger
-  augmentation.
+- Cloud GPU is now validated on `jiagpu8`. The next use should change the
+  mechanism under test: stronger augmentation/schedules, DINO/ViT-style
+  backbones, larger subsets, and explicit negative controls.

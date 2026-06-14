@@ -133,6 +133,10 @@ Evidence:
   `finetune_layer4` has mean tail/graph deltas `-0.020/-0.048` and repair rate
   `0.67`, while `finetune_all` has mean deltas `+0.064/+0.131` and overmove
   rate `0.89`.
+- `016` scales the same audit to a single A40 cloud run with 5 seeds:
+  `finetune_layer4` has mean tail/graph deltas `-0.030/-0.094` and repair rate
+  `1.00`, while `finetune_all` has mean deltas `+0.041/+0.084` and overmove
+  rate `0.80`.
 
 What must be said carefully:
 
@@ -187,9 +191,10 @@ Do not claim these as done:
   tail for arbitrary fixed metrics without a measured `beta_m` term;
 - causal proof that reducing local mixing alone improves generalization;
 - large-scale fine-tuning results;
-- cloud-scale pretrained fine-tuning results on larger subsets/backbones;
+- pretrained fine-tuning results on larger backbones or stronger augmentation
+  schedules;
 - empirical NTK dynamics for trained networks;
-- GPU-scale multi-seed CIFAR results;
+- multi-GPU or large-subset CIFAR fine-tuning results;
 - a complete novelty proof against all metric-learning literature.
 
 ## Claim Wording Rules

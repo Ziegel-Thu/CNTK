@@ -73,3 +73,4 @@ Completed experiment families:
 - `013`: pretrained ResNet18 fine-tune metric dynamics.
 - `014`: local mixing versus alignment controlled audit.
 - `015`: simple local multi-seed ResNet18 fine-tune probe.
+- `016`: single-GPU cloud ResNet18 fine-tune probe.

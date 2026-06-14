@@ -345,6 +345,27 @@ Interpretation:
   Larger subsets, more seeds, stronger augmentation, and additional backbones
   are the right use of cloud compute.
 
+## 016 - Single-GPU Cloud ResNet18 Fine-Tune Probe
+
+- Result: `experiments/016-resnet18-cloud-single-gpu/result.md`
+- Cloud run on `jiagpu8` with one A40, 5 seeds, CIFAR `cat vs dog`,
+  `automobile vs truck`, and `vehicles4`.
+- `frozen_head`: mean movement `0.000`, mean head accuracy delta `+0.428`.
+- `finetune_layer4`: mean movement `0.479`, mean test tail delta `-0.030`,
+  mean graph Dirichlet delta `-0.094`, metric-repair rate `1.00`.
+- `finetune_all`: mean movement `0.689`, mean test tail delta `+0.041`, mean
+  graph Dirichlet delta `+0.084`, overmove rate `0.80`.
+
+Interpretation:
+
+- This is the strongest fine-tuning dynamics evidence so far: partial
+  fine-tuning repairs held-out geometry in every seed-task row.
+- Full fine-tuning remains valuable as a negative control, because it moves the
+  representation more but usually worsens held-out tail/graph roughness.
+- The next non-trivial cloud experiment should change mechanism, not just scale:
+  augmentation/schedule controls, DINO/ViT backbones, or explicit cases where
+  feature learning should fail.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -360,7 +381,8 @@ Interpretation:
    performance. Experiment `013` refines this: partial fine-tuning can repair
    held-out geometry, while full fine-tuning may move the metric in a harmful
    direction. Experiment `015` shows the same pattern survives a small local
-   multi-seed rerun.
+   multi-seed rerun, and experiment `016` strengthens it on a single-GPU cloud
+   run.
 
 4. Memorization:
    train tail collapses but test tail/accuracy does not improve.
@@ -409,5 +431,6 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Scale pretrained fine-tuning dynamics with larger subsets, more seeds, longer
-  schedules, stronger augmentation, and DINO/ViT-style backbones.
+- Run mechanism-changing cloud controls: stronger augmentation/schedules,
+  DINO/ViT-style backbones, and negative cases where feature learning should not
+  repair intrinsic ambiguity.
