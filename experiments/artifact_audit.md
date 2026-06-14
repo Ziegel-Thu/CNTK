@@ -1,6 +1,6 @@
 # Experiment Artifact Audit
 
-Date: 2026-06-10
+Date: 2026-06-14
 
 ## Standard
 
@@ -34,6 +34,7 @@ human entry point.
 | 012 | OK | Standard artifact names. |
 | 013 | OK | Standard artifact names; tmux run completed. |
 | 014 | OK | Standard artifact names; existing-results audit. |
+| 015 | OK | Standard artifact names; local 3-seed tmux run completed. |
 
 ## Policy
 

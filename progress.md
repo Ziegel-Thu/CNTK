@@ -1,5 +1,22 @@
 # Progress
 
+## 2026-06-14
+
+- Ran `015-resnet18-finetune-multiseed-simple` in tmux as the simple local/MPS
+  probe before using cloud compute:
+  - 3 seeds over CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`;
+  - `frozen_head` keeps movement at `0.000` while mean head accuracy delta is
+    `+0.407`;
+  - `finetune_layer4` gives the more stable repair signal: mean movement
+    `0.422`, mean test tail delta `-0.020`, mean graph Dirichlet delta
+    `-0.048`, repair rate `0.67`;
+  - `finetune_all` is the over-move warning: mean movement `0.663`, mean test
+    tail delta `+0.064`, mean graph Dirichlet delta `+0.131`, overmove rate
+    `0.89`.
+- Updated project indexes, claims, findings, and TODOs so `015` is recorded as
+  a local robustness check for `013`, while cloud-scale fine-tuning remains the
+  next compute-heavy step.
+
 ## 2026-06-10
 
 - Ran `013-pretrained-finetune-metric-dynamics` in tmux on CIFAR

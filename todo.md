@@ -8,7 +8,7 @@
 - [x] Add initial experiment folders and plans.
 - [x] Add initial deep research survey folder.
 - [x] Initialize git repository if desired.
-- [ ] Add remote and verify push permissions.
+- [x] Add remote and verify push permissions.
 - [x] Decide whether to move large data/results outside the repo.
 
 ## P0 - Prior Art Survey
@@ -56,6 +56,8 @@
   frozen features on CIFAR binary/multiclass tasks.
 - [x] `013-pretrained-finetune-metric-dynamics`: add pretrained ResNet18
   frozen-head, layer4 fine-tune, and full fine-tune metric dynamics.
+- [x] `015-resnet18-finetune-multiseed-simple`: run local 3-seed MPS probe for
+  pretrained ResNet18 fine-tune dynamics before using cloud compute.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -76,12 +78,14 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
+- [ ] Scale pretrained fine-tuning dynamics on cloud: larger subsets, more
+  seeds, longer schedules, stronger augmentation, and DINO/ViT-style backbones.
 
 ## P1 - Run Discipline
 
-- [ ] Run substantive experiments in tmux sessions named in `experiments/index.md`.
-- [ ] Record exact commands in each `result.md`.
-- [ ] Commit and push meaningful results once git/remote are configured.
+- [x] Run substantive experiments in tmux sessions named in `experiments/index.md`.
+- [x] Record exact commands in each `result.md`.
+- [x] Commit and push meaningful results once git/remote are configured.
 
 ## P1 - Engineering Hygiene
 

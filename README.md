@@ -48,8 +48,9 @@ needed.
 
 ## Current Status
 
-The project has a local git repository on `main`. No remote is configured yet,
-so push is unavailable.
+The project has a git repository on `main` tracking
+`https://github.com/Ziegel-Thu/CNTK.git`, so meaningful project-state and
+experiment updates should be committed and pushed.
 
 Large dataset caches stay under `data/` and raw logs under `outputs/`; both are
 ignored except for README policy files. Compact experiment metrics/figures live
@@ -71,3 +72,4 @@ Completed experiment families:
 - `012`: controlled source-norm/RKHS proxy sweep.
 - `013`: pretrained ResNet18 fine-tune metric dynamics.
 - `014`: local mixing versus alignment controlled audit.
+- `015`: simple local multi-seed ResNet18 fine-tune probe.

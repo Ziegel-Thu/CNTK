@@ -20,6 +20,7 @@ Compact result summaries live in `experiments/results.md`.
 | 012 | source-norm-controlled-sweep | P1 | controlled same-kernel sweep complete | Do tail/mixing predict RKHS/source-norm proxies when kernel scale is controlled? | CPU |
 | 013 | pretrained-finetune-metric-dynamics | P1 | CIFAR ResNet18 fine-tune dynamics complete | Does fine-tuning repair held-out metric geometry or merely train the head? | MPS/GPU preferred |
 | 014 | mixing-alignment-controlled-audit | P1 | existing-results audit complete | Do local mixing/graph roughness add signal beyond global alignment? | CPU |
+| 015 | resnet18-finetune-multiseed-simple | P1 | local 3-seed probe complete | Does the ResNet18 fine-tune dynamics result survive a simple local multi-seed rerun? | MPS/GPU |
 
 ## Standard Artifact Contract
 
@@ -64,3 +65,4 @@ Use these names:
 - `cntk-012-source-norm`
 - `cntk-013-finetune-dyn`
 - `cntk-014-mix-align-audit`
+- `cntk-015-resnet18-ms`

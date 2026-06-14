@@ -26,6 +26,7 @@ Date: 2026-06-10
 | 012 | `012-source-norm-controlled-sweep/result.md` | Same-kernel source-norm sweep: RBF/Laplace/RFF corr(tail, source norm) = `0.757-0.794`; corr(source norm, ridge margin) = `-0.903` to `-0.947`. |
 | 013 | `013-pretrained-finetune-metric-dynamics/result.md` | ResNet18 dynamics: `finetune_layer4` lowers mean test tail `-0.024` and graph `-0.072`; `finetune_all` moves more but worsens tail `+0.121`. |
 | 014 | `014-mixing-alignment-controlled-audit/result.md` | Local diagnostics are not just alignment: image rows partial corr(tail, mixing \| alignment) = `0.661`; partial corr(tail, graph \| alignment) = `0.906`. |
+| 015 | `015-resnet18-finetune-multiseed-simple/result.md` | Local 3-seed ResNet18 probe: `finetune_layer4` mean tail/graph delta `-0.020/-0.048`, repair rate `0.67`; `finetune_all` mean `+0.064/+0.131`, overmove rate `0.89`. |
 
 ## Current Read
 
@@ -47,5 +48,8 @@ Date: 2026-06-10
 - Fine-tuning dynamics now distinguish useful metric repair from excessive
   metric movement: partial ResNet18 fine-tuning helps held-out geometry, while
   full fine-tuning can worsen it on small subsets.
+- The simple 3-seed local rerun preserves the same qualitative fine-tuning
+  story: partial `layer4` tuning is the stable candidate, while full fine-tuning
+  is an over-move risk.
 - Local mixing/graph roughness retain signal after controlling for global
   alignment, so they are not merely alignment under another name.

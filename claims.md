@@ -1,6 +1,6 @@
 # Claims and Non-Trivial Parts
 
-Date: 2026-06-09
+Date: 2026-06-14
 
 This file separates routine project support from claims that are genuinely
 non-trivial and need to be defended.
@@ -129,6 +129,10 @@ Evidence:
 - `013` extends dynamics to ImageNet ResNet18 fine-tuning: `finetune_layer4`
   lowers mean test tail by `-0.024` and graph roughness by `-0.072`, while
   `finetune_all` moves more but worsens held-out tail by `+0.121`.
+- `015` repeats the ResNet18 fine-tuning dynamics as a small local 3-seed probe:
+  `finetune_layer4` has mean tail/graph deltas `-0.020/-0.048` and repair rate
+  `0.67`, while `finetune_all` has mean deltas `+0.064/+0.131` and overmove
+  rate `0.89`.
 
 What must be said carefully:
 
@@ -183,7 +187,7 @@ Do not claim these as done:
   tail for arbitrary fixed metrics without a measured `beta_m` term;
 - causal proof that reducing local mixing alone improves generalization;
 - large-scale fine-tuning results;
-- multi-seed pretrained fine-tuning results;
+- cloud-scale pretrained fine-tuning results on larger subsets/backbones;
 - empirical NTK dynamics for trained networks;
 - GPU-scale multi-seed CIFAR results;
 - a complete novelty proof against all metric-learning literature.

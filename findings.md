@@ -325,6 +325,26 @@ Interpretation:
 - The right claim remains bounded: local roughness is one diagnosable source of
   spectral tail, while XOR/global mismatch remains a separate obstruction.
 
+## 015 - Simple ResNet18 Fine-Tune Multi-Seed Probe
+
+- Result: `experiments/015-resnet18-finetune-multiseed-simple/result.md`
+- Local MPS run with 3 seeds, CIFAR `cat vs dog`, `automobile vs truck`, and
+  `vehicles4`.
+- `frozen_head`: mean movement `0.000`, mean head accuracy delta `+0.407`.
+- `finetune_layer4`: mean movement `0.422`, mean test tail delta `-0.020`,
+  mean graph Dirichlet delta `-0.048`, metric-repair rate `0.67`.
+- `finetune_all`: mean movement `0.663`, mean test tail delta `+0.064`, mean
+  graph Dirichlet delta `+0.131`, overmove rate `0.89`.
+
+Interpretation:
+
+- This strengthens the qualitative `013` finding: partial fine-tuning is the
+  more reliable metric-repair candidate, while full fine-tuning often moves the
+  metric in a way that worsens held-out geometry on small subsets.
+- The result is still a simple local probe, not a cloud-scale final answer.
+  Larger subsets, more seeds, stronger augmentation, and additional backbones
+  are the right use of cloud compute.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -339,7 +359,8 @@ Interpretation:
    feature learning lowers train and test tail/mixing and improves clean test
    performance. Experiment `013` refines this: partial fine-tuning can repair
    held-out geometry, while full fine-tuning may move the metric in a harmful
-   direction.
+   direction. Experiment `015` shows the same pattern survives a small local
+   multi-seed rerun.
 
 4. Memorization:
    train tail collapses but test tail/accuracy does not improve.
@@ -388,5 +409,5 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Rerun pretrained fine-tuning dynamics with larger subsets, multiple seeds, and
-  DINO/ViT-style backbones.
+- Scale pretrained fine-tuning dynamics with larger subsets, more seeds, longer
+  schedules, stronger augmentation, and DINO/ViT-style backbones.

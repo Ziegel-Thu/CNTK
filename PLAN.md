@@ -391,6 +391,29 @@ Expected outcome:
 - local/graph diagnostics should retain signal after controlling for alignment;
 - toy/XOR rows should preserve the global-misalignment caveat.
 
+#### Experiment 015: simple ResNet18 fine-tune multi-seed probe
+
+Folder: `experiments/015-resnet18-finetune-multiseed-simple/`
+
+Question:
+
+> Does the `013` pretrained ResNet18 fine-tuning metric-dynamics result survive
+> a small local multi-seed rerun before spending cloud compute?
+
+Regimes:
+
+- frozen ImageNet ResNet18 backbone + train head;
+- fine-tune ResNet18 `layer4` + head;
+- fine-tune all ResNet18 layers + head.
+
+Expected outcome:
+
+- frozen-head should remain the no-metric-movement control;
+- `layer4` fine-tuning should show the most stable held-out metric repair if
+  the `013` result is not a single-seed accident;
+- full fine-tuning may over-move the metric on small CIFAR subsets, so movement
+  alone should not be counted as success.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -412,6 +435,9 @@ Expected outcome:
 17. Run `012` controlled source-norm/RKHS proxy sweep.
 18. Run `013` pretrained fine-tune metric dynamics.
 19. Run `014` local mixing versus alignment controlled audit.
+20. Run `015` simple local multi-seed ResNet18 fine-tune probe.
+21. If cloud compute is available, scale `015` to larger subsets, more seeds,
+    longer schedules, and additional backbones.
 
 ## Decision Rules
 
@@ -426,11 +452,10 @@ Expected outcome:
 
 ## Immediate Needs
 
-- A git repo + remote if we want the documented commit/push rule to be active.
 - Python environment with PyTorch, torchvision, numpy, scipy, scikit-learn,
   matplotlib, pandas, tqdm, pytest.
 - Enough disk for MNIST/CIFAR cache.
-- GPU for experiment `002` and later CIFAR runs; toy and static subset
-  eigendecompositions can start on CPU.
-- A user decision on whether pretrained/self-supervised features are in scope for
-  experiment `003`.
+- Local MPS is enough for simple ResNet18 probes such as `015`.
+- Cloud GPU is useful for the next fine-tuning scale-up: larger CIFAR subsets,
+  more seeds, longer schedules, DINO/ViT-style backbones, and stronger
+  augmentation.
