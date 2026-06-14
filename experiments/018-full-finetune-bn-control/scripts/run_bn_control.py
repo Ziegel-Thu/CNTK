@@ -290,6 +290,7 @@ def main() -> None:
     parser.add_argument("--ridge", type=float, default=1e-3)
     parser.add_argument("--k-neighbors", type=int, default=10)
     parser.add_argument("--device", type=str, default="auto")
+    parser.add_argument("--augment", action="store_true")
     parser.add_argument("--quick", action="store_true")
     args = parser.parse_args()
     if args.quick:
