@@ -12,6 +12,14 @@
     repair/overmove 判据；
   - 该实验区分 `020` 的 repair signal 是更一般的 no-BN/self-supervised
     backbone 现象，还是 supervised ImageNet ViT pretraining 特有。
+- 实现 `021` 的 `run_dino_dynamics.py`，复用 `013`/`020` 的 task builder、
+  checkpoint diagnostics、kernel-ridge/margin summaries 和 repair/overmove
+  result writer，只替换为 `torch.hub` DINO ViT-S/16 backbone。
+- 本地运行 quick smoke：
+  `python3 experiments/021-dino-finetune-metric-dynamics/scripts/run_dino_dynamics.py --quick --device auto`
+  在 MPS 上通过，确认 DINO cache、三类 CIFAR task、四个 variant、metric
+  movement/tail/graph diagnostics 和 plot/result writer 都可执行。Quick 生成
+  的 tiny artifacts 已清理，正式 `metrics.json`/`result.md` 等待 cloud tmux run。
 
 ## 2026-06-14
 

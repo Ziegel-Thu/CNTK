@@ -69,8 +69,11 @@
 - [x] `020-vit-finetune-metric-dynamics`: test whether a no-BatchNorm
   ImageNet-pretrained ViT reproduces or avoids the ResNet full-fine-tune
   overmove mode.
-- [ ] `021-dino-finetune-metric-dynamics`: test whether self-supervised DINO
-  ViT-S/16 full fine-tuning also gives useful no-BN metric repair.
+- [x] `021-dino-finetune-metric-dynamics`: add DINO ViT-S/16 dynamics script
+  and pass local quick smoke.
+- [ ] `021-dino-finetune-metric-dynamics`: run the full cloud tmux experiment
+  testing whether self-supervised DINO ViT-S/16 full fine-tuning gives useful
+  no-BN metric repair.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
