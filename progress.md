@@ -1,5 +1,18 @@
 # Progress
 
+## 2026-06-15
+
+- 接手 `/Users/ziegel/CNTK`，确认当前工作路径已不是 iCloud `Documents`
+  路径，git 工作区干净且 `main` tracking `origin/main`。
+- 创建 `021-dino-finetune-metric-dynamics` 计划：
+  - 目标是测试 self-supervised DINO ViT-S/16 是否也表现出 no-BN useful
+    full-finetune metric repair；
+  - 第一轮保持与 `020` 同构：3 seeds、CIFAR `cat vs dog`,
+    `automobile vs truck`, `vehicles4`、4 epochs、同样的 movement/tail/graph
+    repair/overmove 判据；
+  - 该实验区分 `020` 的 repair signal 是更一般的 no-BN/self-supervised
+    backbone 现象，还是 supervised ImageNet ViT pretraining 特有。
+
 ## 2026-06-14
 
 - Ran `020-vit-finetune-metric-dynamics` on `jiagpu8` with one A40:

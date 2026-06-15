@@ -69,6 +69,8 @@
 - [x] `020-vit-finetune-metric-dynamics`: test whether a no-BatchNorm
   ImageNet-pretrained ViT reproduces or avoids the ResNet full-fine-tune
   overmove mode.
+- [ ] `021-dino-finetune-metric-dynamics`: test whether self-supervised DINO
+  ViT-S/16 full fine-tuning also gives useful no-BN metric repair.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -89,8 +91,8 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Run mechanism-changing cloud controls: self-supervised DINO/ViT
-  fine-tuning and intrinsic-ambiguity negatives.
+- [ ] Run mechanism-changing cloud controls: self-supervised DINO fine-tuning
+  and intrinsic-ambiguity negatives.
 
 ## P1 - Run Discipline
 

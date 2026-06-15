@@ -533,6 +533,32 @@ Expected outcome:
   failure mode is more likely BN/stat-state specific;
 - if ViT full fine-tuning overmoves, a broader non-BN control is needed.
 
+#### Experiment 021: DINO fine-tune metric dynamics
+
+Folder: `experiments/021-dino-finetune-metric-dynamics/`
+
+Question:
+
+> Does self-supervised DINO ViT-S/16 full fine-tuning also show useful no-BN
+> metric repair, or was the `020` repair signal tied to supervised ImageNet
+> pretraining?
+
+Variants:
+
+- `frozen_head`;
+- `finetune_lastblock`;
+- `finetune_all`;
+- `finetune_all_aug`.
+
+Expected outcome:
+
+- if DINO full fine-tuning lowers held-out tail/graph roughness with low
+  overmove rate, the no-BN useful-repair signal from `020` extends to
+  self-supervised pretraining;
+- if DINO improves head accuracy without lowering held-out geometry, the next
+  interpretation should separate architecture/no-BN effects from pretraining
+  objective effects.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -560,8 +586,9 @@ Expected outcome:
 23. Run BatchNorm/stat-mode controls for full fine-tuning.
 24. Run `019` BN-frozen robustness on larger subsets and augmentation controls.
 25. Run `020` no-BN ViT fine-tune metric dynamics.
-26. Use further cloud compute for self-supervised ViT/DINO and intrinsic-ambiguity
-    negatives.
+26. Run `021` self-supervised DINO ViT-S/16 fine-tune metric dynamics.
+27. Use further cloud compute for intrinsic-ambiguity negatives, longer
+    schedules, and non-CIFAR checks.
 
 ## Decision Rules
 
@@ -581,5 +608,5 @@ Expected outcome:
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
 - Cloud GPU is now validated on `jiagpu8`. The next use should move to
-  self-supervised ViT/DINO fine-tuning, longer schedules, other datasets, and
+  self-supervised DINO fine-tuning, longer schedules, other datasets, and
   explicit negative controls.
