@@ -171,6 +171,12 @@ Evidence:
   full+augmentation also repairs `9/9`. This supports the interpretation that
   the ResNet18 full-fine-tune failure was a BN/stat-state issue, not full
   fine-tuning per se.
+- `021` repeats the no-BatchNorm audit with a self-supervised DINO ViT-S/16
+  backbone: unaugmented full fine-tuning lowers mean tail/graph by
+  `-0.030/-0.067` with repair/overmove `0.78/0.22`, while full+augmentation is
+  weaker and less stable (`0.56/0.44`). This extends useful no-BN repair beyond
+  supervised ImageNet ViT features, but adds a schedule/pretraining sensitivity
+  caveat.
 
 What must be said carefully:
 
@@ -228,7 +234,7 @@ Do not claim these as done:
 - pretrained fine-tuning results on larger backbones or stronger augmentation
   schedules;
 - whether the BatchNorm/stat-mode mechanism persists across longer schedules,
-  non-CIFAR tasks, and self-supervised ViT/DINO fine-tuning;
+  non-CIFAR tasks, and larger self-supervised ViT/DINO fine-tuning settings;
 - empirical NTK dynamics for trained networks;
 - multi-GPU or large-subset CIFAR fine-tuning results;
 - a complete novelty proof against all metric-learning literature.

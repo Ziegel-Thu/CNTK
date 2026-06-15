@@ -32,6 +32,7 @@ Date: 2026-06-10
 | 018 | `018-full-finetune-bn-control/result.md` | BatchNorm control: default `all_bn_train` overmoves (`0.11/0.89` repair/overmove), while `all_bn_eval` repairs `9/9` with mean tail/graph delta `-0.045/-0.124`. |
 | 019 | `019-bn-frozen-robustness/result.md` | Larger-subset BN-frozen robustness: `all_bn_eval` repairs `9/9`; `all_bn_eval_aug` also repairs `9/9` and has mean tail/graph delta `-0.065/-0.160`; BN-train variants still overmove. |
 | 020 | `020-vit-finetune-metric-dynamics/result.md` | No-BN ViT-B/16 dynamics: full fine-tune repairs `9/9` with mean tail/graph delta `-0.023/-0.043`; full+aug repairs `9/9`; no overmove appears. |
+| 021 | `021-dino-finetune-metric-dynamics/result.md` | Self-supervised DINO ViT-S/16 dynamics: full fine-tune has mean tail/graph delta `-0.030/-0.067` with repair/overmove `0.78/0.22`; full+aug is less stable at `0.56/0.44`. |
 
 ## Current Read
 
@@ -72,5 +73,8 @@ Date: 2026-06-10
 - A no-BN ViT-B/16 backbone does not reproduce the ResNet18 full-fine-tune
   overmove mode: full ViT fine-tuning gives moderate useful movement and repairs
   all seed-task rows.
+- Self-supervised DINO ViT-S/16 also shows useful no-BN full-fine-tune repair,
+  but less cleanly than supervised ViT-B/16: unaugmented full tuning repairs most
+  rows, while full+augmentation introduces more overmove.
 - Local mixing/graph roughness retain signal after controlling for global
   alignment, so they are not merely alignment under another name.

@@ -469,6 +469,31 @@ Interpretation:
   sharper: harmful ResNet18 full fine-tune movement was driven by BN/stat-state
   dynamics, not by full weight adaptation in general.
 
+## 021 - DINO Fine-Tune Metric Dynamics
+
+- Result: `experiments/021-dino-finetune-metric-dynamics/result.md`
+- Cloud run on `jiagpu8` with one A40, self-supervised DINO ViT-S/16, 3 seeds,
+  CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`.
+- `frozen_head`: movement `0.000`, mean head accuracy delta `+0.347`.
+- `finetune_lastblock`: tiny movement `0.030`, mean test tail/graph delta
+  `-0.002/-0.005`, repair/overmove `0.89/0.00`.
+- `finetune_all`: stronger movement `0.326`, mean test tail/graph delta
+  `-0.030/-0.067`, repair/overmove `0.78/0.22`.
+- `finetune_all_aug`: movement `0.380`, mean test tail/graph delta
+  `-0.006/-0.039`, repair/overmove `0.56/0.44`.
+
+Interpretation:
+
+- Self-supervised no-BN full fine-tuning can repair held-out metric geometry,
+  so `020` was not purely a supervised ImageNet ViT-B/16 phenomenon.
+- The repair is less clean than supervised ViT-B/16: unaugmented full DINO
+  fine-tuning repairs most rows but still overmoves in two seed-task rows.
+- Simple crop/flip augmentation is not automatically helpful for DINO
+  fine-tuning; here it weakens the mean tail signal and raises overmove.
+- This refines the state-dynamics layer: no BatchNorm removes the ResNet18
+  BN-stat failure mode, but objective/pretraining/schedule still affect whether
+  metric movement is useful.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -532,7 +557,9 @@ Interpretation:
     harmful state/stat drift. Experiment `019` shows this remains true on
     larger subsets and with simple augmentation. Experiment `020` shows that a
     no-BN ViT backbone avoids this overmove mode and repairs held-out geometry
-    under full fine-tuning.
+    under full fine-tuning. Experiment `021` extends this to self-supervised
+    DINO ViT-S/16, but with a less clean repair/overmove profile and a warning
+    that augmentation can destabilize the metric.
 
 ## Next Best Experiments
 
@@ -545,5 +572,6 @@ Interpretation:
   and pretrained/self-supervised features.
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
-- Test whether the BatchNorm/stat-mode finding persists with longer schedules,
-  other datasets, and self-supervised ViT/DINO fine-tuning.
+- Test whether the BatchNorm/stat-mode finding and no-BN repair profile persist
+  with longer schedules, other datasets, and larger self-supervised ViT/DINO
+  settings.

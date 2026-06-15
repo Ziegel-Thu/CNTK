@@ -20,6 +20,18 @@
   在 MPS 上通过，确认 DINO cache、三类 CIFAR task、四个 variant、metric
   movement/tail/graph diagnostics 和 plot/result writer 都可执行。Quick 生成
   的 tiny artifacts 已清理，正式 `metrics.json`/`result.md` 等待 cloud tmux run。
+- 在 `jiagpu8` 的 `cntk-021-dino-dyn` tmux session 中完成正式 DINO
+  ViT-S/16 fine-tune dynamics run：
+  - 3 seeds，CIFAR `cat vs dog`, `automobile vs truck`, `vehicles4`，4 epochs；
+  - `finetune_lastblock` barely moves the metric: movement `0.030`, tail/graph
+    delta `-0.002/-0.005`；
+  - `finetune_all` gives useful but imperfect metric repair: movement `0.326`,
+    tail/graph delta `-0.030/-0.067`, repair/overmove `0.78/0.22`；
+  - `finetune_all_aug` is less stable: movement `0.380`, tail/graph delta
+    `-0.006/-0.039`, repair/overmove `0.56/0.44`；
+  - conclusion: self-supervised no-BN full fine-tuning can repair held-out
+    metric geometry, but the DINO signal is less clean and more schedule/task
+    sensitive than supervised ViT-B/16 in `020`.
 
 ## 2026-06-14
 

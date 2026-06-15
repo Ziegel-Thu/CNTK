@@ -586,7 +586,7 @@ Expected outcome:
 23. Run BatchNorm/stat-mode controls for full fine-tuning.
 24. Run `019` BN-frozen robustness on larger subsets and augmentation controls.
 25. Run `020` no-BN ViT fine-tune metric dynamics.
-26. Run `021` self-supervised DINO ViT-S/16 fine-tune metric dynamics.
+26. Completed `021` self-supervised DINO ViT-S/16 fine-tune metric dynamics.
 27. Use further cloud compute for intrinsic-ambiguity negatives, longer
     schedules, and non-CIFAR checks.
 
@@ -608,5 +608,5 @@ Expected outcome:
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
 - Cloud GPU is now validated on `jiagpu8`. The next use should move to
-  self-supervised DINO fine-tuning, longer schedules, other datasets, and
-  explicit negative controls.
+  longer schedules, other datasets, and explicit negative controls after the
+  `021` DINO fine-tuning result.

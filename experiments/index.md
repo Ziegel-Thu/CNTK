@@ -26,7 +26,7 @@ Compact result summaries live in `experiments/results.md`.
 | 018 | full-finetune-bn-control | P1 | cloud BatchNorm-control complete | Is full fine-tune over-move driven by BatchNorm/stat-mode dynamics, weight gradients, or both? | 1x A40 |
 | 019 | bn-frozen-robustness | P1 | cloud robustness run complete | Does BN-frozen full fine-tuning remain stable on larger subsets and with augmentation? | 1x A40 |
 | 020 | vit-finetune-metric-dynamics | P1 | cloud ViT dynamics complete | Does a no-BatchNorm ViT backbone reproduce or avoid the ResNet18 BN-stat overmove mode? | 1x A40 |
-| 021 | dino-finetune-metric-dynamics | P1 | script + local quick smoke complete; cloud run pending | Does self-supervised DINO ViT-S/16 full fine-tuning also give useful no-BN metric repair? | 1x A40 |
+| 021 | dino-finetune-metric-dynamics | P1 | cloud DINO dynamics complete | Does self-supervised DINO ViT-S/16 full fine-tuning also give useful no-BN metric repair? | 1x A40 |
 
 ## Standard Artifact Contract
 
