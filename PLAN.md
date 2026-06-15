@@ -511,6 +511,28 @@ Expected outcome:
 - `all_bn_train_aug` tests whether augmentation alone rescues default BN-train
   full fine-tuning.
 
+#### Experiment 020: ViT fine-tune metric dynamics
+
+Folder: `experiments/020-vit-finetune-metric-dynamics/`
+
+Question:
+
+> Does a no-BatchNorm ViT backbone reproduce or avoid the ResNet18
+> BatchNorm/stat-state overmove mode?
+
+Variants:
+
+- `frozen_head`;
+- `finetune_lastblock`;
+- `finetune_all`;
+- `finetune_all_aug`.
+
+Expected outcome:
+
+- if ViT full fine-tuning repairs held-out tail/graph roughness, the ResNet18
+  failure mode is more likely BN/stat-state specific;
+- if ViT full fine-tuning overmoves, a broader non-BN control is needed.
+
 ## Run Queue
 
 1. Implement `src/spectral.py`, `src/mixing.py`, `src/kernels.py`.
@@ -537,7 +559,8 @@ Expected outcome:
 22. Run `017` full fine-tune schedule/augmentation control.
 23. Run BatchNorm/stat-mode controls for full fine-tuning.
 24. Run `019` BN-frozen robustness on larger subsets and augmentation controls.
-25. Use further cloud compute for non-BN backbones and intrinsic-ambiguity
+25. Run `020` no-BN ViT fine-tune metric dynamics.
+26. Use further cloud compute for self-supervised ViT/DINO and intrinsic-ambiguity
     negatives.
 
 ## Decision Rules
@@ -558,5 +581,5 @@ Expected outcome:
 - Enough disk for MNIST/CIFAR cache.
 - Local MPS is enough for simple ResNet18 probes such as `015`.
 - Cloud GPU is now validated on `jiagpu8`. The next use should move to
-  DINO/ViT-style non-BN backbones, longer schedules, other datasets, and
+  self-supervised ViT/DINO fine-tuning, longer schedules, other datasets, and
   explicit negative controls.

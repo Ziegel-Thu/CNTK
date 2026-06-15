@@ -2,6 +2,17 @@
 
 ## 2026-06-14
 
+- Ran `020-vit-finetune-metric-dynamics` on `jiagpu8` with one A40:
+  - ImageNet-pretrained ViT-B/16, 3 seeds, CIFAR `cat vs dog`,
+    `automobile vs truck`, and `vehicles4`;
+  - `finetune_lastblock` barely moves the metric: movement `0.030`, tail/graph
+    delta `-0.001/-0.004`;
+  - `finetune_all` gives moderate useful movement: movement `0.227`, tail/graph
+    delta `-0.023/-0.043`, repair/overmove `1.00/0.00`;
+  - `finetune_all_aug` also repairs all rows: movement `0.225`, tail/graph
+    delta `-0.026/-0.043`, repair/overmove `1.00/0.00`;
+  - conclusion: no-BN ViT does not reproduce the ResNet18 full-fine-tune
+    overmove mode, strengthening the BN/stat-state explanation.
 - Ran `019-bn-frozen-robustness` on `jiagpu8` with one A40 and larger CIFAR
   subsets:
   - 3 seeds, 240 samples per binary class, and 120 samples per vehicles4 class;

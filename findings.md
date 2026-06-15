@@ -446,6 +446,29 @@ Interpretation:
   meaningful mechanism remains BN stat-mode control rather than ordinary data
   augmentation.
 
+## 020 - ViT Fine-Tune Metric Dynamics
+
+- Result: `experiments/020-vit-finetune-metric-dynamics/result.md`
+- Cloud run on `jiagpu8` with one A40, ImageNet-pretrained ViT-B/16, 3 seeds,
+  CIFAR `cat vs dog`, `automobile vs truck`, and `vehicles4`.
+- `frozen_head`: movement `0.000`, mean head accuracy delta `+0.522`.
+- `finetune_lastblock`: tiny movement `0.030`, mean test tail/graph delta
+  `-0.001/-0.004`, repair/overmove `1.00/0.00`.
+- `finetune_all`: moderate movement `0.227`, mean test tail/graph delta
+  `-0.023/-0.043`, repair/overmove `1.00/0.00`.
+- `finetune_all_aug`: movement `0.225`, mean test tail/graph delta
+  `-0.026/-0.043`, repair/overmove `1.00/0.00`.
+
+Interpretation:
+
+- A no-BatchNorm ViT backbone does not reproduce the default ResNet18
+  full-fine-tune overmove mode.
+- Full ViT fine-tuning gives useful, moderate metric movement; last-block
+  tuning barely moves the metric.
+- Together with `018` and `019`, this makes the current best explanation
+  sharper: harmful ResNet18 full fine-tune movement was driven by BN/stat-state
+  dynamics, not by full weight adaptation in general.
+
 ## Current Working Taxonomy
 
 1. Local collision obstruction:
@@ -507,7 +530,9 @@ Interpretation:
     in ResNet18 fine-tuning, BatchNorm running-stat updates can dominate metric
     movement. Freezing BN stats separates useful full weight adaptation from
     harmful state/stat drift. Experiment `019` shows this remains true on
-    larger subsets and with simple augmentation.
+    larger subsets and with simple augmentation. Experiment `020` shows that a
+    no-BN ViT backbone avoids this overmove mode and repairs held-out geometry
+    under full fine-tuning.
 
 ## Next Best Experiments
 
@@ -521,4 +546,4 @@ Interpretation:
 - Add the graph lower-bound audit from `theory.md` to experiments `001`, `008`,
   and `012`.
 - Test whether the BatchNorm/stat-mode finding persists with longer schedules,
-  other datasets, and across non-BN backbones such as ViT/DINO.
+  other datasets, and self-supervised ViT/DINO fine-tuning.

@@ -27,6 +27,19 @@ Interpretation:
 - If ViT full fine-tuning still overmoves, the mechanism is not BN stats
   and needs a new control.
 
+Direct read:
+
+- ViT-B/16 does not reproduce the default ResNet18 full-fine-tune overmove mode.
+- Full ViT fine-tuning repairs held-out geometry in all `9/9` seed-task rows:
+  mean tail/graph delta `-0.023/-0.043`.
+- Full ViT fine-tuning with crop/flip augmentation also repairs `9/9` rows and
+  is slightly stronger on tail: mean tail/graph delta `-0.026/-0.043`.
+- Last-block ViT tuning barely moves the metric (`0.030`) and only gives tiny
+  geometry changes, while full ViT movement is moderate and useful.
+- Together with `018`/`019`, this supports the interpretation that the ResNet18
+  failure mode is tied to BN/stat-state dynamics rather than full fine-tuning
+  itself.
+
 ## Per-Seed Final Rows
 
 | seed | dataset | variant | movement | tail delta | graph delta | repair | overmove | head acc final | ridge acc final |

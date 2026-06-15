@@ -166,6 +166,11 @@ Evidence:
   augmentation: `all_bn_eval` repairs `9/9` rows, `all_bn_eval_aug` also repairs
   `9/9` and has mean tail/graph deltas `-0.065/-0.160`, while BN-train variants
   still overmove.
+- `020` switches to a no-BatchNorm ViT-B/16 backbone: full ViT fine-tuning
+  repairs `9/9` rows with mean tail/graph deltas `-0.023/-0.043`, and
+  full+augmentation also repairs `9/9`. This supports the interpretation that
+  the ResNet18 full-fine-tune failure was a BN/stat-state issue, not full
+  fine-tuning per se.
 
 What must be said carefully:
 
@@ -222,8 +227,8 @@ Do not claim these as done:
 - large-scale fine-tuning results;
 - pretrained fine-tuning results on larger backbones or stronger augmentation
   schedules;
-- whether the BatchNorm/stat-mode mechanism persists across other backbones,
-  longer schedules, and non-CIFAR tasks;
+- whether the BatchNorm/stat-mode mechanism persists across longer schedules,
+  non-CIFAR tasks, and self-supervised ViT/DINO fine-tuning;
 - empirical NTK dynamics for trained networks;
 - multi-GPU or large-subset CIFAR fine-tuning results;
 - a complete novelty proof against all metric-learning literature.

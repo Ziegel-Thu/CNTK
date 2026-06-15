@@ -25,7 +25,7 @@ Compact result summaries live in `experiments/results.md`.
 | 017 | full-finetune-schedule-control | P1 | cloud schedule-control complete | Is full fine-tune over-move caused by regime choice or weak schedule/no augmentation? | 1x A40 |
 | 018 | full-finetune-bn-control | P1 | cloud BatchNorm-control complete | Is full fine-tune over-move driven by BatchNorm/stat-mode dynamics, weight gradients, or both? | 1x A40 |
 | 019 | bn-frozen-robustness | P1 | cloud robustness run complete | Does BN-frozen full fine-tuning remain stable on larger subsets and with augmentation? | 1x A40 |
-| 020 | vit-finetune-metric-dynamics | P1 | planned | Does a no-BatchNorm ViT backbone reproduce or avoid the ResNet18 BN-stat overmove mode? | 1x A40 |
+| 020 | vit-finetune-metric-dynamics | P1 | cloud ViT dynamics complete | Does a no-BatchNorm ViT backbone reproduce or avoid the ResNet18 BN-stat overmove mode? | 1x A40 |
 
 ## Standard Artifact Contract
 

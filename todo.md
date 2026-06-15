@@ -66,6 +66,9 @@
   full ResNet18 fine-tuning.
 - [x] `019-bn-frozen-robustness`: test BN-frozen full fine-tuning on larger
   subsets and with augmentation.
+- [x] `020-vit-finetune-metric-dynamics`: test whether a no-BatchNorm
+  ImageNet-pretrained ViT reproduces or avoids the ResNet full-fine-tune
+  overmove mode.
 - [ ] Add larger fine-tuned backbones.
 - [x] `004-intrinsic-collision-stress`: label noise and duplicated opposite-label
   samples.
@@ -86,8 +89,8 @@
   residual time and source-norm consequence audit.
 - [x] `014-mixing-alignment-controlled-audit`: audit whether local mixing/graph
   roughness add signal beyond global alignment.
-- [ ] Run mechanism-changing cloud controls: non-BN backbones, DINO/ViT-style
-  backbones, and intrinsic-ambiguity negatives.
+- [ ] Run mechanism-changing cloud controls: self-supervised DINO/ViT
+  fine-tuning and intrinsic-ambiguity negatives.
 
 ## P1 - Run Discipline
 
